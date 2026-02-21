@@ -14,6 +14,9 @@
 - 动作映射：`ruleset/config/policy_map.json`
 - 手工补充：`ruleset/manual/categories/*.txt`
 - 手工排除：`ruleset/manual/exclude/*.txt`
+- 冲突豁免：
+  - 分类级：`ignore_conflicts`
+  - 规则级：`ignore_conflicts_by_rule`（精确到 rule + categories）
 
 ## 分类策略（按你的要求）
 
@@ -53,6 +56,8 @@
 - 细分格式：`openclash/non_ip|ip`、`surge/non_ip|ip`、`*/domainset`
 - 兼容路径：`compat/Clash/*`、`compat/List/*`
 - 元数据：`index.json`、`policy_reference.md`、`rule_catalog.md`、`meta/*.json`
+- 冲突报告：`conflicts.json`（含 `cross_action/high/medium/low` 统计）
+- 抓取报告：`fetch_report.json`（含 `fallback_cache_count`）
 - 可直接粘贴模板：
   - `ruleset/examples/openclash-rules.yaml`
   - `ruleset/examples/surge-rules.conf`
@@ -64,6 +69,10 @@
 ```bash
 python3 ruleset/scripts/build_rulesets.py
 python3 ruleset/scripts/validate_rulesets.py
+python3 ruleset/scripts/check_quality_gates.py \
+  --current ruleset/dist/policy_reference.json \
+  --fetch-report ruleset/dist/fetch_report.json \
+  --conflicts ruleset/dist/conflicts.json
 ```
 
 离线（使用缓存）：
@@ -77,7 +86,7 @@ python3 ruleset/scripts/build_rulesets.py --offline
 工作流：`.github/workflows/ruleset-update.yml`
 
 - 每周执行：`17 3 * * 1`（UTC）
-- 仅当 `ruleset/dist` 变化时提交
+- 先执行冲突与质量闸门，再在 `ruleset/dist` 变化时提交
 
 ## 当前主要数据源
 

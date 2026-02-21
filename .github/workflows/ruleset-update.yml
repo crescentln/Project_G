@@ -20,11 +20,44 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Snapshot previous rule counts baseline
+        run: |
+          if [ -f ruleset/dist/policy_reference.json ]; then
+            cp ruleset/dist/policy_reference.json /tmp/policy_reference.before.json
+          fi
+
       - name: Build rulesets
-        run: python3 ruleset/scripts/build_rulesets.py
+        run: python3 ruleset/scripts/build_rulesets.py --fail-on-cross-action-conflicts
 
       - name: Validate output formats
         run: python3 ruleset/scripts/validate_rulesets.py
+
+      - name: Quality gates
+        run: |
+          if [ -f /tmp/policy_reference.before.json ]; then
+            python3 ruleset/scripts/check_quality_gates.py \
+              --current ruleset/dist/policy_reference.json \
+              --baseline /tmp/policy_reference.before.json \
+              --fetch-report ruleset/dist/fetch_report.json \
+              --conflicts ruleset/dist/conflicts.json \
+              --max-change-pct 20 \
+              --min-abs-delta 50 \
+              --min-baseline-rules 100 \
+              --max-fetch-fallbacks 0 \
+              --max-cross-action-conflicts 0 \
+              --max-high-severity-conflicts 0
+          else
+            python3 ruleset/scripts/check_quality_gates.py \
+              --current ruleset/dist/policy_reference.json \
+              --fetch-report ruleset/dist/fetch_report.json \
+              --conflicts ruleset/dist/conflicts.json \
+              --max-change-pct 20 \
+              --min-abs-delta 50 \
+              --min-baseline-rules 100 \
+              --max-fetch-fallbacks 0 \
+              --max-cross-action-conflicts 0 \
+              --max-high-severity-conflicts 0
+          fi
 
       - name: Commit dist changes
         run: |

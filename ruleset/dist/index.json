@@ -1,9 +1,12 @@
 {
-  "generated_at_utc": "2026-02-21T14:20:04.218478+00:00",
+  "generated_at_utc": "2026-02-21T14:40:09.372262+00:00",
   "config_path": "/Users/alpha2128125/Documents/New project/ruleset/config/sources.json",
   "policy_path": "/Users/alpha2128125/Documents/New project/ruleset/config/policy_map.json",
   "category_count": 52,
   "conflict_count": 0,
+  "cross_action_conflict_count": 0,
+  "high_severity_conflict_count": 0,
+  "fetch_report_path": "fetch_report.json",
   "categories": [
     {
       "id": "reject",

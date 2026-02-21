@@ -1420,5 +1420,23 @@
       "reject"
     ]
   ],
+  "ignore_conflicts_by_rule": [
+    {
+      "rule": "DOMAIN-SUFFIX,gitee.com",
+      "categories": [
+        "direct",
+        "github"
+      ],
+      "reason": "Gitee is intentionally treated as domestic-direct in current policy."
+    },
+    {
+      "rule": "DOMAIN-SUFFIX,gitee.io",
+      "categories": [
+        "direct",
+        "github"
+      ],
+      "reason": "Gitee Pages is intentionally treated as domestic-direct in current policy."
+    }
+  ],
   "version": 2
 }
