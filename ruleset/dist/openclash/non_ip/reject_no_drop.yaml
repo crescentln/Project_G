@@ -1,1 +1,7 @@
-payload: []
+payload:
+  - 'DOMAIN,pagead2.googlesyndication.com'
+  - 'DOMAIN-SUFFIX,ads.youtube.com'
+  - 'DOMAIN-SUFFIX,adservice.google.com'
+  - 'DOMAIN-SUFFIX,adservice.google.com.hk'
+  - 'DOMAIN-SUFFIX,adservice.google.com.sg'
+  - 'DOMAIN-SUFFIX,googleadservices.com'

@@ -1,0 +1,41 @@
+{
+  "id": "paypal",
+  "description": "PayPal",
+  "recommended_action": "PROXY",
+  "recommended_priority": 335,
+  "recommended_note": "PayPal 走代理",
+  "rule_count": 233,
+  "paths": {
+    "surge": "surge/paypal.list",
+    "surge_non_ip": "surge/non_ip/paypal.list",
+    "surge_ip": "surge/ip/paypal.list",
+    "surge_domainset": "surge/domainset/paypal.conf",
+    "openclash": "openclash/paypal.yaml",
+    "openclash_non_ip": "openclash/non_ip/paypal.yaml",
+    "openclash_ip": "openclash/ip/paypal.yaml",
+    "openclash_domainset": "openclash/domainset/paypal.txt",
+    "openclash_ipcidr": "openclash/ipcidr/paypal.txt",
+    "compat_clash_non_ip": "compat/Clash/non_ip/paypal.txt",
+    "compat_clash_ip": "compat/Clash/ip/paypal.txt",
+    "compat_clash_domainset": "compat/Clash/domainset/paypal.txt",
+    "compat_list_non_ip": "compat/List/non_ip/paypal.conf",
+    "compat_list_ip": "compat/List/ip/paypal.conf",
+    "compat_list_domainset": "compat/List/domainset/paypal.conf"
+  },
+  "sources": [
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/paypal",
+      "used_cache": true,
+      "rule_count": 233
+    },
+    {
+      "type": "local_domain",
+      "authority": "owner-controlled",
+      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/paypal.txt",
+      "used_cache": false,
+      "rule_count": 2
+    }
+  ]
+}

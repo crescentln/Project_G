@@ -1,0 +1,41 @@
+{
+  "id": "games",
+  "description": "Global game services",
+  "recommended_action": "PROXY",
+  "recommended_priority": 326,
+  "recommended_note": "国际游戏服务走代理",
+  "rule_count": 788,
+  "paths": {
+    "surge": "surge/games.list",
+    "surge_non_ip": "surge/non_ip/games.list",
+    "surge_ip": "surge/ip/games.list",
+    "surge_domainset": "surge/domainset/games.conf",
+    "openclash": "openclash/games.yaml",
+    "openclash_non_ip": "openclash/non_ip/games.yaml",
+    "openclash_ip": "openclash/ip/games.yaml",
+    "openclash_domainset": "openclash/domainset/games.txt",
+    "openclash_ipcidr": "openclash/ipcidr/games.txt",
+    "compat_clash_non_ip": "compat/Clash/non_ip/games.txt",
+    "compat_clash_ip": "compat/Clash/ip/games.txt",
+    "compat_clash_domainset": "compat/Clash/domainset/games.txt",
+    "compat_list_non_ip": "compat/List/non_ip/games.conf",
+    "compat_list_ip": "compat/List/ip/games.conf",
+    "compat_list_domainset": "compat/List/domainset/games.conf"
+  },
+  "sources": [
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-games-!cn",
+      "used_cache": true,
+      "rule_count": 788
+    },
+    {
+      "type": "local_domain",
+      "authority": "owner-controlled",
+      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/games.txt",
+      "used_cache": false,
+      "rule_count": 3
+    }
+  ]
+}

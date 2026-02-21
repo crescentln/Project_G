@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-02-21T13:55:59.986252+00:00",
+  "generated_at_utc": "2026-02-21T14:01:08.039332+00:00",
   "config_path": "/Users/alpha2128125/Documents/New project/ruleset/config/sources.json",
   "policy_path": "/Users/alpha2128125/Documents/New project/ruleset/config/policy_map.json",
   "category_count": 52,
@@ -61,7 +61,7 @@
     {
       "id": "reject_extra",
       "description": "Extra owner-controlled reject rules",
-      "rule_count": 0,
+      "rule_count": 10,
       "surge_path": "surge/reject_extra.list",
       "openclash_path": "openclash/reject_extra.yaml",
       "surge_non_ip_path": "surge/non_ip/reject_extra.list",
@@ -86,14 +86,14 @@
           "authority": "owner-controlled",
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/reject_extra.txt",
           "used_cache": false,
-          "rule_count": 0
+          "rule_count": 10
         }
       ]
     },
     {
       "id": "reject_drop",
       "description": "Owner-controlled silent-drop reject rules",
-      "rule_count": 0,
+      "rule_count": 5,
       "surge_path": "surge/reject_drop.list",
       "openclash_path": "openclash/reject_drop.yaml",
       "surge_non_ip_path": "surge/non_ip/reject_drop.list",
@@ -118,14 +118,14 @@
           "authority": "owner-controlled",
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/reject_drop.txt",
           "used_cache": false,
-          "rule_count": 0
+          "rule_count": 5
         }
       ]
     },
     {
       "id": "reject_no_drop",
       "description": "Owner-controlled explicit reject rules (no drop)",
-      "rule_count": 0,
+      "rule_count": 6,
       "surge_path": "surge/reject_no_drop.list",
       "openclash_path": "openclash/reject_no_drop.yaml",
       "surge_non_ip_path": "surge/non_ip/reject_no_drop.list",
@@ -150,7 +150,7 @@
           "authority": "owner-controlled",
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/reject_no_drop.txt",
           "used_cache": false,
-          "rule_count": 0
+          "rule_count": 6
         }
       ]
     },
@@ -1966,7 +1966,7 @@
     {
       "id": "dmca",
       "description": "DMCA and tracker-related services",
-      "rule_count": 0,
+      "rule_count": 5,
       "surge_path": "surge/dmca.list",
       "openclash_path": "openclash/dmca.yaml",
       "surge_non_ip_path": "surge/non_ip/dmca.list",
@@ -1991,7 +1991,7 @@
           "authority": "owner-controlled",
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/dmca.txt",
           "used_cache": false,
-          "rule_count": 0
+          "rule_count": 5
         }
       ]
     },
@@ -2186,7 +2186,7 @@
     {
       "id": "direct",
       "description": "Merged direct rules for simplified deployment",
-      "rule_count": 18883,
+      "rule_count": 18888,
       "surge_path": "surge/direct.list",
       "openclash_path": "openclash/direct.yaml",
       "surge_non_ip_path": "surge/non_ip/direct.list",
@@ -2330,7 +2330,7 @@
           "authority": "owner-controlled",
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/dmca.txt",
           "used_cache": false,
-          "rule_count": 0
+          "rule_count": 5
         },
         {
           "type": "local_domain",

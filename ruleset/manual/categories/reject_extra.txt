@@ -1,5 +1,12 @@
-# reject_extra category rules
-# Supported formats:
-# - DOMAIN-SUFFIX,example.com
-# - DOMAIN,exact.example.com
-# - IP-CIDR,1.2.3.0/24,no-resolve
+# reject_extra: optional stricter ad/tracker blocking (REJECT)
+
+DOMAIN-SUFFIX,adjust.com
+DOMAIN-SUFFIX,app-measurement.com
+DOMAIN-SUFFIX,appsflyer.com
+DOMAIN-SUFFIX,branch.io
+DOMAIN-SUFFIX,criteo.com
+DOMAIN-SUFFIX,doubleclick.net
+DOMAIN-SUFFIX,googletagmanager.com
+DOMAIN-SUFFIX,outbrain.com
+DOMAIN-SUFFIX,scorecardresearch.com
+DOMAIN-SUFFIX,taboola.com

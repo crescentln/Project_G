@@ -1,0 +1,41 @@
+{
+  "id": "cncidr",
+  "description": "Mainland China IPv4/IPv6 only",
+  "recommended_action": "DIRECT",
+  "recommended_priority": 220,
+  "recommended_note": "中国大陆 IP 段直连",
+  "rule_count": 10828,
+  "paths": {
+    "surge": "surge/cncidr.list",
+    "surge_non_ip": "surge/non_ip/cncidr.list",
+    "surge_ip": "surge/ip/cncidr.list",
+    "surge_domainset": "surge/domainset/cncidr.conf",
+    "openclash": "openclash/cncidr.yaml",
+    "openclash_non_ip": "openclash/non_ip/cncidr.yaml",
+    "openclash_ip": "openclash/ip/cncidr.yaml",
+    "openclash_domainset": "openclash/domainset/cncidr.txt",
+    "openclash_ipcidr": "openclash/ipcidr/cncidr.txt",
+    "compat_clash_non_ip": "compat/Clash/non_ip/cncidr.txt",
+    "compat_clash_ip": "compat/Clash/ip/cncidr.txt",
+    "compat_clash_domainset": "compat/Clash/domainset/cncidr.txt",
+    "compat_list_non_ip": "compat/List/non_ip/cncidr.conf",
+    "compat_list_ip": "compat/List/ip/cncidr.conf",
+    "compat_list_domainset": "compat/List/domainset/cncidr.conf"
+  },
+  "sources": [
+    {
+      "type": "apnic_country_cidr",
+      "authority": "official",
+      "ref": "https://ftp.apnic.net/stats/apnic/delegated-apnic-latest",
+      "used_cache": true,
+      "rule_count": 10828
+    },
+    {
+      "type": "local_domain",
+      "authority": "owner-controlled",
+      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/cncidr.txt",
+      "used_cache": false,
+      "rule_count": 0
+    }
+  ]
+}

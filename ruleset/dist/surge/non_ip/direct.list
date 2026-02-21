@@ -35,6 +35,7 @@ DOMAIN,p6-novel.byteimg.com
 DOMAIN,p7-juejin.byteimg.com
 DOMAIN,p8-juejin.byteimg.com
 DOMAIN,p9-juejin.byteimg.com
+DOMAIN,reportcontent.google.com
 DOMAIN,roovza-launches.appsflyersdk.com
 DOMAIN,roovza.inapps.appsflyersdk.com
 DOMAIN,roovza.launches.appsflyersdk.com
@@ -45,6 +46,7 @@ DOMAIN,time.amazonaws.cn
 DOMAIN,time.izatcloud.net
 DOMAIN,time.xtracloud.net
 DOMAIN,upos-hz-mirrorakam.akamaized.net
+DOMAIN,webforms.copyright.google.com
 DOMAIN,wetv.qq.com
 DOMAIN-SUFFIX,0033.cn
 DOMAIN-SUFFIX,00cdn.com
@@ -1743,6 +1745,7 @@ DOMAIN-SUFFIX,coolapkmarket.net
 DOMAIN-SUFFIX,coolbuy.com
 DOMAIN-SUFFIX,cooldock.com
 DOMAIN-SUFFIX,coolsite.vip
+DOMAIN-SUFFIX,copyright.gov
 DOMAIN-SUFFIX,cosbj.myqcloud.com
 DOMAIN-SUFFIX,cosca.myqcloud.com
 DOMAIN-SUFFIX,coscd.myqcloud.com
@@ -2057,6 +2060,7 @@ DOMAIN-SUFFIX,dlnel.com
 DOMAIN-SUFFIX,dlnel.org
 DOMAIN-SUFFIX,dmall.com
 DOMAIN-SUFFIX,dmallcdn.com
+DOMAIN-SUFFIX,dmca.com
 DOMAIN-SUFFIX,dmzj.com
 DOMAIN-SUFFIX,dns.pub
 DOMAIN-SUFFIX,dnsapi.cn
@@ -4003,6 +4007,7 @@ DOMAIN-SUFFIX,ludoworld.net
 DOMAIN-SUFFIX,lufax.com
 DOMAIN-SUFFIX,lufaxcdn.com
 DOMAIN-SUFFIX,lufunds.com
+DOMAIN-SUFFIX,lumendatabase.org
 DOMAIN-SUFFIX,lunwengo.net
 DOMAIN-SUFFIX,luogu.com.cn
 DOMAIN-SUFFIX,luojilab.com

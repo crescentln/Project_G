@@ -21,6 +21,12 @@
 - `reject_extra` / `reject_drop` / `reject_no_drop` 独立维护（可选挂载）
 - 保持颗粒度：其余所有分类（如 `github`、`ai`、`vowifi`、`socialmedia`、`ecommerce`、`stream_global`、`youtube`、`spotify`、`twitch`、`gfw`、`global`、`tld_proxy` 等）
 
+`reject_*` 当前默认基线：
+
+- `reject_extra`：更严格的广告/追踪补充
+- `reject_drop`：高风险回连域名，静默丢弃
+- `reject_no_drop`：广告域名显式拒绝（减少超时等待）
+
 ## 直连分类（重点标记）
 
 除 `direct` 之外，以下分类也固定建议 `DIRECT`：

@@ -1,0 +1,41 @@
+{
+  "id": "microsoft",
+  "description": "Microsoft services",
+  "recommended_action": "PROXY",
+  "recommended_priority": 324,
+  "recommended_note": "微软国际服务走代理",
+  "rule_count": 422,
+  "paths": {
+    "surge": "surge/microsoft.list",
+    "surge_non_ip": "surge/non_ip/microsoft.list",
+    "surge_ip": "surge/ip/microsoft.list",
+    "surge_domainset": "surge/domainset/microsoft.conf",
+    "openclash": "openclash/microsoft.yaml",
+    "openclash_non_ip": "openclash/non_ip/microsoft.yaml",
+    "openclash_ip": "openclash/ip/microsoft.yaml",
+    "openclash_domainset": "openclash/domainset/microsoft.txt",
+    "openclash_ipcidr": "openclash/ipcidr/microsoft.txt",
+    "compat_clash_non_ip": "compat/Clash/non_ip/microsoft.txt",
+    "compat_clash_ip": "compat/Clash/ip/microsoft.txt",
+    "compat_clash_domainset": "compat/Clash/domainset/microsoft.txt",
+    "compat_list_non_ip": "compat/List/non_ip/microsoft.conf",
+    "compat_list_ip": "compat/List/ip/microsoft.conf",
+    "compat_list_domainset": "compat/List/domainset/microsoft.conf"
+  },
+  "sources": [
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/microsoft",
+      "used_cache": true,
+      "rule_count": 422
+    },
+    {
+      "type": "local_domain",
+      "authority": "owner-controlled",
+      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/microsoft.txt",
+      "used_cache": false,
+      "rule_count": 5
+    }
+  ]
+}

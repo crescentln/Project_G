@@ -1,6 +1,8 @@
-# dmca category rules
-# Supported formats:
-# - DOMAIN-SUFFIX,example.com
-# - DOMAIN,exact.example.com
-# - IP-CIDR,1.2.3.0/24,no-resolve
-# - plain domain token: example.com
+# DMCA / copyright notice related portals
+# Action is DIRECT in policy_map (kept as your preference).
+
+DOMAIN-SUFFIX,dmca.com
+DOMAIN-SUFFIX,lumendatabase.org
+DOMAIN-SUFFIX,copyright.gov
+DOMAIN,reportcontent.google.com
+DOMAIN,webforms.copyright.google.com

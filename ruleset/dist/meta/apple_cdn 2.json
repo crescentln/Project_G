@@ -1,0 +1,48 @@
+{
+  "id": "apple_cdn",
+  "description": "Apple CDN direct",
+  "recommended_action": "DIRECT",
+  "recommended_priority": 231,
+  "recommended_note": "Apple 更新与 CDN 域名直连",
+  "rule_count": 31,
+  "paths": {
+    "surge": "surge/apple_cdn.list",
+    "surge_non_ip": "surge/non_ip/apple_cdn.list",
+    "surge_ip": "surge/ip/apple_cdn.list",
+    "surge_domainset": "surge/domainset/apple_cdn.conf",
+    "openclash": "openclash/apple_cdn.yaml",
+    "openclash_non_ip": "openclash/non_ip/apple_cdn.yaml",
+    "openclash_ip": "openclash/ip/apple_cdn.yaml",
+    "openclash_domainset": "openclash/domainset/apple_cdn.txt",
+    "openclash_ipcidr": "openclash/ipcidr/apple_cdn.txt",
+    "compat_clash_non_ip": "compat/Clash/non_ip/apple_cdn.txt",
+    "compat_clash_ip": "compat/Clash/ip/apple_cdn.txt",
+    "compat_clash_domainset": "compat/Clash/domainset/apple_cdn.txt",
+    "compat_list_non_ip": "compat/List/non_ip/apple_cdn.conf",
+    "compat_list_ip": "compat/List/ip/apple_cdn.conf",
+    "compat_list_domainset": "compat/List/domainset/apple_cdn.conf"
+  },
+  "sources": [
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple-update",
+      "used_cache": true,
+      "rule_count": 21
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple-pki",
+      "used_cache": true,
+      "rule_count": 10
+    },
+    {
+      "type": "local_domain",
+      "authority": "owner-controlled",
+      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/apple_cdn.txt",
+      "used_cache": false,
+      "rule_count": 0
+    }
+  ]
+}

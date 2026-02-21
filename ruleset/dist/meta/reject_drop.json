@@ -4,7 +4,7 @@
   "recommended_action": "REJECT-DROP",
   "recommended_priority": 120,
   "recommended_note": "静默丢弃拦截规则",
-  "rule_count": 0,
+  "rule_count": 5,
   "paths": {
     "surge": "surge/reject_drop.list",
     "surge_non_ip": "surge/non_ip/reject_drop.list",
@@ -28,7 +28,7 @@
       "authority": "owner-controlled",
       "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/reject_drop.txt",
       "used_cache": false,
-      "rule_count": 0
+      "rule_count": 5
     }
   ]
 }

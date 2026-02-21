@@ -4,7 +4,7 @@
   "recommended_action": "DIRECT",
   "recommended_priority": 243,
   "recommended_note": "按你当前 Surge 配置作为直连类",
-  "rule_count": 0,
+  "rule_count": 5,
   "paths": {
     "surge": "surge/dmca.list",
     "surge_non_ip": "surge/non_ip/dmca.list",
@@ -28,7 +28,7 @@
       "authority": "owner-controlled",
       "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/dmca.txt",
       "used_cache": false,
-      "rule_count": 0
+      "rule_count": 5
     }
   ]
 }

@@ -1,1 +1,6 @@
-payload: []
+payload:
+  - 'DOMAIN-SUFFIX,burpcollaborator.net'
+  - 'DOMAIN-SUFFIX,ceye.io'
+  - 'DOMAIN-SUFFIX,dnslog.cn'
+  - 'DOMAIN-SUFFIX,interact.sh'
+  - 'DOMAIN-SUFFIX,oastify.com'

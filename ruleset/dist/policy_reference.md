@@ -5,12 +5,12 @@ This file defines the recommended action per category.
 | Category | Action | Priority | Rules | Note |
 |---|---:|---:|---:|---|
 | `reject` | `REJECT` | 100 | 175203 | 广告、追踪、恶意基础拦截规则 |
-| `reject_extra` | `REJECT` | 110 | 0 | 额外补充拦截规则（标准拒绝） |
-| `reject_drop` | `REJECT-DROP` | 120 | 0 | 静默丢弃拦截规则 |
-| `reject_no_drop` | `REJECT-NO-DROP` | 130 | 0 | 显式拒绝规则（不静默丢弃） |
+| `reject_extra` | `REJECT` | 110 | 10 | 额外补充拦截规则（标准拒绝） |
+| `reject_drop` | `REJECT-DROP` | 120 | 5 | 静默丢弃拦截规则 |
+| `reject_no_drop` | `REJECT-NO-DROP` | 130 | 6 | 显式拒绝规则（不静默丢弃） |
 | `httpdns` | `REJECT` | 150 | 49 | HTTPDNS 相关域名建议拦截 |
 | `lan` | `DIRECT` | 200 | 33 | 局域网与特殊保留地址直连 |
-| `direct` | `DIRECT` | 205 | 18883 | 合并直连集合（简化部署） |
+| `direct` | `DIRECT` | 205 | 18888 | 合并直连集合（简化部署） |
 | `domestic` | `DIRECT` | 210 | 10828 | 中国大陆业务优先直连 |
 | `cncidr` | `DIRECT` | 220 | 10828 | 中国大陆 IP 段直连 |
 | `apple_cn` | `DIRECT` | 230 | 285 | Apple 中国区服务直连 |
@@ -19,7 +19,7 @@ This file defines the recommended action per category.
 | `socialmedia_cn` | `DIRECT` | 240 | 4 | 国内社交平台直连 |
 | `games_cn` | `DIRECT` | 241 | 228 | 国内游戏服务直连 |
 | `douyin` | `DIRECT` | 242 | 65 | 抖音国内流量直连 |
-| `dmca` | `DIRECT` | 243 | 0 | 按你当前 Surge 配置作为直连类 |
+| `dmca` | `DIRECT` | 243 | 5 | 按你当前 Surge 配置作为直连类 |
 | `cdn` | `DIRECT` | 250 | 1285 | CDN 回源与就近访问优先直连 |
 | `download` | `DIRECT` | 251 | 5 | 下载流量默认直连以降低代理负载 |
 | `telegram` | `PROXY` | 300 | 34 | Telegram 走代理 |

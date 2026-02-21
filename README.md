@@ -150,6 +150,12 @@
 - `reject_drop`（REJECT-DROP）：`ruleset/manual/categories/reject_drop.txt`
 - `reject_no_drop`（REJECT-NO-DROP）：`ruleset/manual/categories/reject_no_drop.txt`
 
+当前基线说明：
+
+- `reject_extra`：更严格的广告/追踪域（adjust、appsflyer、doubleclick、taboola 等）
+- `reject_drop`：高风险 OOB 回连域（dnslog/ceye/interact/oast 等）静默丢弃
+- `reject_no_drop`：广告主域走显式拒绝（adservice/googleadservices/pagead2 等）
+
 ### `direct`（DIRECT）
 
 - IANA IPv4/IPv6 Special Registry

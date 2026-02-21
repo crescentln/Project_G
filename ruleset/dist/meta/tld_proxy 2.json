@@ -1,0 +1,41 @@
+{
+  "id": "tld_proxy",
+  "description": "Proxy-specific TLD set",
+  "recommended_action": "PROXY",
+  "recommended_priority": 345,
+  "recommended_note": "需要强制代理的 TLD 集",
+  "rule_count": 1433,
+  "paths": {
+    "surge": "surge/tld_proxy.list",
+    "surge_non_ip": "surge/non_ip/tld_proxy.list",
+    "surge_ip": "surge/ip/tld_proxy.list",
+    "surge_domainset": "surge/domainset/tld_proxy.conf",
+    "openclash": "openclash/tld_proxy.yaml",
+    "openclash_non_ip": "openclash/non_ip/tld_proxy.yaml",
+    "openclash_ip": "openclash/ip/tld_proxy.yaml",
+    "openclash_domainset": "openclash/domainset/tld_proxy.txt",
+    "openclash_ipcidr": "openclash/ipcidr/tld_proxy.txt",
+    "compat_clash_non_ip": "compat/Clash/non_ip/tld_proxy.txt",
+    "compat_clash_ip": "compat/Clash/ip/tld_proxy.txt",
+    "compat_clash_domainset": "compat/Clash/domainset/tld_proxy.txt",
+    "compat_list_non_ip": "compat/List/non_ip/tld_proxy.conf",
+    "compat_list_ip": "compat/List/ip/tld_proxy.conf",
+    "compat_list_domainset": "compat/List/domainset/tld_proxy.conf"
+  },
+  "sources": [
+    {
+      "type": "iana_tld_list",
+      "authority": "official",
+      "ref": "https://data.iana.org/TLD/tlds-alpha-by-domain.txt",
+      "used_cache": true,
+      "rule_count": 1433
+    },
+    {
+      "type": "local_domain",
+      "authority": "owner-controlled",
+      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/tld_proxy.txt",
+      "used_cache": false,
+      "rule_count": 0
+    }
+  ]
+}
