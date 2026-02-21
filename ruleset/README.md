@@ -32,6 +32,8 @@
 - 可直接粘贴模板：
   - `ruleset/examples/openclash-rules.yaml`
   - `ruleset/examples/surge-rules.conf`
+  - `ruleset/examples/openclash-rules-granular.yaml`
+  - `ruleset/examples/surge-rules-granular.conf`
 
 ## 构建与校验
 

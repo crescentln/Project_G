@@ -32,11 +32,18 @@
 - Surge 模板（`[Rule]`）：
   - `ruleset/examples/surge-rules.conf`
   - `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/examples/surge-rules.conf`
+- OpenClash 细颗粒度模板（每个代理分类独立策略组）：
+  - `ruleset/examples/openclash-rules-granular.yaml`
+  - `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/examples/openclash-rules-granular.yaml`
+- Surge 细颗粒度模板（每个代理分类独立策略组）：
+  - `ruleset/examples/surge-rules-granular.conf`
+  - `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/examples/surge-rules-granular.conf`
 
 说明：
 
 - 这两份模板已按当前 `policy_map` 生成，包含全部分类 URL。
 - 如果你的策略组名称不是 `PROXY`，把模板里结尾策略 `PROXY` 改成你的组名。
+- 细颗粒度模板里使用内容分类名策略组：如 `PROXY_AI`、`PROXY_APPLE_SERVICES`、`PROXY_MICROSOFT`、`PROXY_YOUTUBE`。
 
 ## 高覆盖补充（保持颗粒度）
 
