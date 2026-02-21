@@ -97,7 +97,7 @@
 - `socialmedia`: v2fly `facebook`、`instagram`、`twitter`、`discord`、`reddit`、`quora`、`medium`
 - `ecommerce`: v2fly `category-ecommerce`
 - `spotify` / `youtube` / `twitch`: v2fly 对应官方维护集合
-- `vowifi`: 3GPP `pub.3gppnetwork.org` 命名体系 + 你可控的运营商 ePDG 增补
+- `vowifi`: 3GPP `pub.3gppnetwork.org` 命名体系 + 美国运营商优先（MCC 310~316）+ 你可控的 ePDG 增补
 
 ## 直接可用配置模板
 

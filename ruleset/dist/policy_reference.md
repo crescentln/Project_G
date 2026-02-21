@@ -52,7 +52,7 @@ This file defines the recommended action per category.
 | `tiktok` | `PROXY` | 341 | 35 | TikTok 国际站走代理 |
 | `apns` | `PROXY` | 342 | 2 | APNS 按你当前策略走代理 |
 | `talkatone` | `PROXY` | 343 | 1 | Talkatone 走代理 |
-| `vowifi` | `PROXY` | 344 | 19 | VoWiFi/IMS/ePDG 相关域名走代理 |
+| `vowifi` | `PROXY` | 344 | 11 | VoWiFi/IMS/ePDG 相关域名走代理 |
 | `tld_proxy` | `PROXY` | 345 | 1433 | 需要强制代理的 TLD 集 |
 | `gfw` | `PROXY` | 346 | 109 | GFW 列表走代理 |
 | `global` | `PROXY` | 900 | 23648 | 兜底代理集合（应放在较后顺序） |
