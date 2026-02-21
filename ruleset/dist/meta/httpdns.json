@@ -3,7 +3,7 @@
   "description": "HTTPDNS and related endpoints",
   "recommended_action": "REJECT",
   "recommended_priority": 150,
-  "recommended_note": "HTTPDNS 相关域名建议拦截",
+  "recommended_note": "HTTPDNS 常用于绕过本地 DNS 分流，默认建议拦截",
   "rule_count": 49,
   "paths": {
     "surge": "surge/httpdns.list",

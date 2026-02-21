@@ -1,2 +1,7 @@
-+.courier.push.apple.com
+api.development.push.apple.com
+api.push.apple.com
+api.sandbox.push.apple.com
+courier.push.apple.com
+feedback.push.apple.com
+gateway.push.apple.com
 +.push.apple.com

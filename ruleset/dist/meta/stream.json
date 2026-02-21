@@ -1,0 +1,181 @@
+{
+  "id": "stream",
+  "description": "Unified streaming services (all regions, high coverage)",
+  "recommended_action": "PROXY",
+  "recommended_priority": 309,
+  "recommended_note": "整合流媒体集合（跨地区统一）",
+  "rule_count": 434,
+  "paths": {
+    "surge": "surge/stream.list",
+    "surge_non_ip": "surge/non_ip/stream.list",
+    "surge_ip": "surge/ip/stream.list",
+    "surge_domainset": "surge/domainset/stream.conf",
+    "openclash": "openclash/stream.yaml",
+    "openclash_non_ip": "openclash/non_ip/stream.yaml",
+    "openclash_ip": "openclash/ip/stream.yaml",
+    "openclash_domainset": "openclash/domainset/stream.txt",
+    "openclash_ipcidr": "openclash/ipcidr/stream.txt",
+    "compat_clash_non_ip": "compat/Clash/non_ip/stream.txt",
+    "compat_clash_ip": "compat/Clash/ip/stream.txt",
+    "compat_clash_domainset": "compat/Clash/domainset/stream.txt",
+    "compat_list_non_ip": "compat/List/non_ip/stream.conf",
+    "compat_list_ip": "compat/List/ip/stream.conf",
+    "compat_list_domainset": "compat/List/domainset/stream.conf"
+  },
+  "sources": [
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/netflix",
+      "used_cache": true,
+      "rule_count": 28
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/hulu",
+      "used_cache": true,
+      "rule_count": 48
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/disney",
+      "used_cache": true,
+      "rule_count": 160
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/hbo",
+      "used_cache": true,
+      "rule_count": 63
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/discoveryplus",
+      "used_cache": true,
+      "rule_count": 3
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/plutotv",
+      "used_cache": true,
+      "rule_count": 2
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/roku",
+      "used_cache": true,
+      "rule_count": 6
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/tubi",
+      "used_cache": true,
+      "rule_count": 4
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/sling",
+      "used_cache": true,
+      "rule_count": 5
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/showtimeanytime",
+      "used_cache": true,
+      "rule_count": 2
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/nbcuniversal",
+      "used_cache": true,
+      "rule_count": 17
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/abema",
+      "used_cache": true,
+      "rule_count": 21
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple-tvplus",
+      "used_cache": true,
+      "rule_count": 8
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/primevideo",
+      "used_cache": true,
+      "rule_count": 23
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/mytvsuper",
+      "used_cache": true,
+      "rule_count": 2
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/viu",
+      "used_cache": true,
+      "rule_count": 7
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/now",
+      "used_cache": true,
+      "rule_count": 6
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/bahamut",
+      "used_cache": true,
+      "rule_count": 5
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/hamivideo",
+      "used_cache": true,
+      "rule_count": 8
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/catchplay",
+      "used_cache": true,
+      "rule_count": 2
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/litv",
+      "used_cache": true,
+      "rule_count": 11
+    },
+    {
+      "type": "local_domain",
+      "authority": "owner-controlled",
+      "ref": "manual/categories/stream.txt",
+      "used_cache": false,
+      "rule_count": 4
+    }
+  ]
+}

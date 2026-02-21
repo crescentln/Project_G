@@ -1,0 +1,7 @@
+# Unified streaming supplement (owner-controlled)
+# Keep this file for services not yet covered by upstream lists.
+
+DOMAIN-SUFFIX,paramountplus.com
+DOMAIN-SUFFIX,max.com
+DOMAIN-SUFFIX,fubo.tv
+DOMAIN-SUFFIX,crunchyroll.com

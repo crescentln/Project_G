@@ -183,8 +183,259 @@
       "id": "download",
       "sources": [
         {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-android-app-download"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/steam"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/epicgames"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/blizzard"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/origin"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/nintendo"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/xbox"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/playstation"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/ubisoft"
+        },
+        {
           "authority": "owner-controlled",
           "path": "manual/categories/download.txt",
+          "type": "local_domain"
+        }
+      ]
+    },
+    {
+      "description": "Unified streaming services (all regions, high coverage)",
+      "id": "stream",
+      "sources": [
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/netflix"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/hulu"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/disney"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/hbo"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/discoveryplus"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/plutotv"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/roku"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/tubi"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/sling"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/showtimeanytime"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/nbcuniversal"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/abema"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple-tvplus"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/primevideo"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/mytvsuper"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/viu"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/now"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/bahamut"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/hamivideo"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/catchplay"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/litv"
+        },
+        {
+          "authority": "owner-controlled",
+          "path": "manual/categories/stream.txt",
           "type": "local_domain"
         }
       ]
@@ -559,6 +810,15 @@
       "description": "Apple proxy routing",
       "id": "apple_proxy",
       "sources": [
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@cn",
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/icloud"
+        },
         {
           "authority": "community-curated",
           "exclude_attrs": [
@@ -1046,6 +1306,30 @@
       "id": "socialmedia_cn",
       "sources": [
         {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-social-media-cn"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/sina"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/zhihu"
+        },
+        {
           "authority": "owner-controlled",
           "path": "manual/categories/socialmedia_cn.txt",
           "type": "local_domain"
@@ -1402,6 +1686,10 @@
       "games"
     ],
     [
+      "download",
+      "global"
+    ],
+    [
       "ecommerce",
       "stream_jp"
     ],
@@ -1412,6 +1700,26 @@
     [
       "stream_us",
       "stream_jp"
+    ],
+    [
+      "stream",
+      "stream_us"
+    ],
+    [
+      "stream",
+      "stream_jp"
+    ],
+    [
+      "stream",
+      "stream_hk"
+    ],
+    [
+      "stream",
+      "stream_tw"
+    ],
+    [
+      "stream",
+      "stream_global"
     ],
     [
       "stream_global",

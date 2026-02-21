@@ -3,7 +3,7 @@
   "description": "Global streaming services (high coverage)",
   "recommended_action": "PROXY",
   "recommended_priority": 314,
-  "recommended_note": "国外流媒体高覆盖集合走代理",
+  "recommended_note": "国外流媒体高覆盖集合走代理（可选细分）",
   "rule_count": 288,
   "paths": {
     "surge": "surge/stream_global.list",

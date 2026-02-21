@@ -3,7 +3,7 @@
   "description": "Streaming services for Hong Kong",
   "recommended_action": "PROXY",
   "recommended_priority": 312,
-  "recommended_note": "香港流媒体走代理",
+  "recommended_note": "香港流媒体走代理（可选细分）",
   "rule_count": 15,
   "paths": {
     "surge": "surge/stream_hk.list",

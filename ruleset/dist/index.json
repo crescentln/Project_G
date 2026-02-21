@@ -1,8 +1,8 @@
 {
-  "generated_at_utc": "2026-02-21T15:32:09.940751+00:00",
+  "generated_at_utc": "2026-02-21T16:00:21.275380+00:00",
   "config_path": "config/sources.json",
   "policy_path": "config/policy_map.json",
-  "category_count": 52,
+  "category_count": 53,
   "conflict_count": 0,
   "cross_action_conflict_count": 0,
   "high_severity_conflict_count": 0,
@@ -390,7 +390,7 @@
     {
       "id": "download",
       "description": "Download services",
-      "rule_count": 5,
+      "rule_count": 328,
       "surge_path": "surge/download.list",
       "openclash_path": "openclash/download.yaml",
       "surge_non_ip_path": "surge/non_ip/download.list",
@@ -408,14 +408,256 @@
       "compat_list_domainset_path": "compat/List/domainset/download.conf",
       "recommended_action": "DIRECT",
       "recommended_priority": 251,
-      "recommended_note": "下载流量默认直连以降低代理负载",
+      "recommended_note": "下载分流高覆盖集合（安卓应用+游戏平台），默认直连以降低代理负载",
       "sources": [
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-android-app-download",
+          "used_cache": true,
+          "rule_count": 8
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/steam",
+          "used_cache": true,
+          "rule_count": 54
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/epicgames",
+          "used_cache": true,
+          "rule_count": 31
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/blizzard",
+          "used_cache": true,
+          "rule_count": 23
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/origin",
+          "used_cache": true,
+          "rule_count": 9
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/nintendo",
+          "used_cache": true,
+          "rule_count": 124
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/xbox",
+          "used_cache": true,
+          "rule_count": 44
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/playstation",
+          "used_cache": true,
+          "rule_count": 3
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/ubisoft",
+          "used_cache": true,
+          "rule_count": 32
+        },
         {
           "type": "local_domain",
           "authority": "owner-controlled",
           "ref": "manual/categories/download.txt",
           "used_cache": false,
           "rule_count": 5
+        }
+      ]
+    },
+    {
+      "id": "stream",
+      "description": "Unified streaming services (all regions, high coverage)",
+      "rule_count": 434,
+      "surge_path": "surge/stream.list",
+      "openclash_path": "openclash/stream.yaml",
+      "surge_non_ip_path": "surge/non_ip/stream.list",
+      "surge_ip_path": "surge/ip/stream.list",
+      "surge_domainset_path": "surge/domainset/stream.conf",
+      "openclash_non_ip_path": "openclash/non_ip/stream.yaml",
+      "openclash_ip_path": "openclash/ip/stream.yaml",
+      "openclash_domainset_path": "openclash/domainset/stream.txt",
+      "openclash_ipcidr_path": "openclash/ipcidr/stream.txt",
+      "compat_clash_non_ip_path": "compat/Clash/non_ip/stream.txt",
+      "compat_clash_ip_path": "compat/Clash/ip/stream.txt",
+      "compat_clash_domainset_path": "compat/Clash/domainset/stream.txt",
+      "compat_list_non_ip_path": "compat/List/non_ip/stream.conf",
+      "compat_list_ip_path": "compat/List/ip/stream.conf",
+      "compat_list_domainset_path": "compat/List/domainset/stream.conf",
+      "recommended_action": "PROXY",
+      "recommended_priority": 309,
+      "recommended_note": "整合流媒体集合（跨地区统一）",
+      "sources": [
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/netflix",
+          "used_cache": true,
+          "rule_count": 28
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/hulu",
+          "used_cache": true,
+          "rule_count": 48
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/disney",
+          "used_cache": true,
+          "rule_count": 160
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/hbo",
+          "used_cache": true,
+          "rule_count": 63
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/discoveryplus",
+          "used_cache": true,
+          "rule_count": 3
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/plutotv",
+          "used_cache": true,
+          "rule_count": 2
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/roku",
+          "used_cache": true,
+          "rule_count": 6
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/tubi",
+          "used_cache": true,
+          "rule_count": 4
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/sling",
+          "used_cache": true,
+          "rule_count": 5
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/showtimeanytime",
+          "used_cache": true,
+          "rule_count": 2
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/nbcuniversal",
+          "used_cache": true,
+          "rule_count": 17
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/abema",
+          "used_cache": true,
+          "rule_count": 21
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple-tvplus",
+          "used_cache": true,
+          "rule_count": 8
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/primevideo",
+          "used_cache": true,
+          "rule_count": 23
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/mytvsuper",
+          "used_cache": true,
+          "rule_count": 2
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/viu",
+          "used_cache": true,
+          "rule_count": 7
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/now",
+          "used_cache": true,
+          "rule_count": 6
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/bahamut",
+          "used_cache": true,
+          "rule_count": 5
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/hamivideo",
+          "used_cache": true,
+          "rule_count": 8
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/catchplay",
+          "used_cache": true,
+          "rule_count": 2
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/litv",
+          "used_cache": true,
+          "rule_count": 11
+        },
+        {
+          "type": "local_domain",
+          "authority": "owner-controlled",
+          "ref": "manual/categories/stream.txt",
+          "used_cache": false,
+          "rule_count": 4
         }
       ]
     },
@@ -440,7 +682,7 @@
       "compat_list_domainset_path": "compat/List/domainset/stream_us.conf",
       "recommended_action": "PROXY",
       "recommended_priority": 310,
-      "recommended_note": "北美流媒体走代理",
+      "recommended_note": "北美流媒体走代理（可选细分）",
       "sources": [
         {
           "type": "v2fly_dlc",
@@ -549,7 +791,7 @@
       "compat_list_domainset_path": "compat/List/domainset/stream_jp.conf",
       "recommended_action": "PROXY",
       "recommended_priority": 311,
-      "recommended_note": "日本流媒体走代理",
+      "recommended_note": "日本流媒体走代理（可选细分）",
       "sources": [
         {
           "type": "v2fly_dlc",
@@ -588,7 +830,7 @@
       "compat_list_domainset_path": "compat/List/domainset/stream_hk.conf",
       "recommended_action": "PROXY",
       "recommended_priority": 312,
-      "recommended_note": "香港流媒体走代理",
+      "recommended_note": "香港流媒体走代理（可选细分）",
       "sources": [
         {
           "type": "v2fly_dlc",
@@ -641,7 +883,7 @@
       "compat_list_domainset_path": "compat/List/domainset/stream_tw.conf",
       "recommended_action": "PROXY",
       "recommended_priority": 313,
-      "recommended_note": "台湾流媒体走代理",
+      "recommended_note": "台湾流媒体走代理（可选细分）",
       "sources": [
         {
           "type": "v2fly_dlc",
@@ -701,7 +943,7 @@
       "compat_list_domainset_path": "compat/List/domainset/stream_global.conf",
       "recommended_action": "PROXY",
       "recommended_priority": 314,
-      "recommended_note": "国外流媒体高覆盖集合走代理",
+      "recommended_note": "国外流媒体高覆盖集合走代理（可选细分）",
       "sources": [
         {
           "type": "v2fly_dlc",
@@ -916,7 +1158,7 @@
     {
       "id": "apple_proxy",
       "description": "Apple proxy routing",
-      "rule_count": 6,
+      "rule_count": 50,
       "surge_path": "surge/apple_proxy.list",
       "openclash_path": "openclash/apple_proxy.yaml",
       "surge_non_ip_path": "surge/non_ip/apple_proxy.list",
@@ -936,6 +1178,13 @@
       "recommended_priority": 321,
       "recommended_note": "Apple 国际域名走代理（中国区见 apple_cn/apple_cdn 直连）",
       "sources": [
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/icloud",
+          "used_cache": true,
+          "rule_count": 48
+        },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
@@ -1182,7 +1431,7 @@
       "compat_list_domainset_path": "compat/List/domainset/httpdns.conf",
       "recommended_action": "REJECT",
       "recommended_priority": 150,
-      "recommended_note": "HTTPDNS 相关域名建议拦截",
+      "recommended_note": "HTTPDNS 常用于绕过本地 DNS 分流，默认建议拦截",
       "sources": [
         {
           "type": "v2fly_dlc",
@@ -1816,7 +2065,7 @@
     {
       "id": "socialmedia_cn",
       "description": "Domestic social media",
-      "rule_count": 4,
+      "rule_count": 74,
       "surge_path": "surge/socialmedia_cn.list",
       "openclash_path": "openclash/socialmedia_cn.yaml",
       "surge_non_ip_path": "surge/non_ip/socialmedia_cn.list",
@@ -1836,6 +2085,27 @@
       "recommended_priority": 240,
       "recommended_note": "国内社交平台直连",
       "sources": [
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-social-media-cn",
+          "used_cache": true,
+          "rule_count": 74
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/sina",
+          "used_cache": true,
+          "rule_count": 29
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/zhihu",
+          "used_cache": true,
+          "rule_count": 2
+        },
         {
           "type": "local_domain",
           "authority": "owner-controlled",
@@ -2014,7 +2284,7 @@
     {
       "id": "apns",
       "description": "Apple Push Notification service",
-      "rule_count": 2,
+      "rule_count": 7,
       "surge_path": "surge/apns.list",
       "openclash_path": "openclash/apns.yaml",
       "surge_non_ip_path": "surge/non_ip/apns.list",
@@ -2032,14 +2302,14 @@
       "compat_list_domainset_path": "compat/List/domainset/apns.conf",
       "recommended_action": "PROXY",
       "recommended_priority": 342,
-      "recommended_note": "APNS 按你当前策略走代理（如推送异常可单独改为 DIRECT）",
+      "recommended_note": "APNS 连接域名（关键端点集合，按你当前策略走代理）",
       "sources": [
         {
           "type": "local_domain",
           "authority": "owner-controlled",
           "ref": "manual/categories/apns.txt",
           "used_cache": false,
-          "rule_count": 2
+          "rule_count": 7
         }
       ]
     },
@@ -2096,7 +2366,7 @@
       "compat_list_domainset_path": "compat/List/domainset/talkatone.conf",
       "recommended_action": "PROXY",
       "recommended_priority": 343,
-      "recommended_note": "Talkatone 走代理",
+      "recommended_note": "Talkatone 专项域名（单 suffix 覆盖全部子域，集合小属正常）",
       "sources": [
         {
           "type": "local_domain",

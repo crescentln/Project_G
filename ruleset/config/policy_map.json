@@ -79,37 +79,42 @@
     "download": {
       "action": "DIRECT",
       "priority": 251,
-      "note": "下载流量默认直连以降低代理负载"
+      "note": "下载分流高覆盖集合（安卓应用+游戏平台），默认直连以降低代理负载"
     },
     "telegram": {
       "action": "PROXY",
       "priority": 300,
       "note": "Telegram 走代理"
     },
+    "stream": {
+      "action": "PROXY",
+      "priority": 309,
+      "note": "整合流媒体集合（跨地区统一）"
+    },
     "stream_us": {
       "action": "PROXY",
       "priority": 310,
-      "note": "北美流媒体走代理"
+      "note": "北美流媒体走代理（可选细分）"
     },
     "stream_jp": {
       "action": "PROXY",
       "priority": 311,
-      "note": "日本流媒体走代理"
+      "note": "日本流媒体走代理（可选细分）"
     },
     "stream_hk": {
       "action": "PROXY",
       "priority": 312,
-      "note": "香港流媒体走代理"
+      "note": "香港流媒体走代理（可选细分）"
     },
     "stream_tw": {
       "action": "PROXY",
       "priority": 313,
-      "note": "台湾流媒体走代理"
+      "note": "台湾流媒体走代理（可选细分）"
     },
     "stream_global": {
       "action": "PROXY",
       "priority": 314,
-      "note": "国外流媒体高覆盖集合走代理"
+      "note": "国外流媒体高覆盖集合走代理（可选细分）"
     },
     "ai": {
       "action": "PROXY",
@@ -224,12 +229,12 @@
     "apns": {
       "action": "PROXY",
       "priority": 342,
-      "note": "APNS 按你当前策略走代理（如推送异常可单独改为 DIRECT）"
+      "note": "APNS 连接域名（关键端点集合，按你当前策略走代理）"
     },
     "talkatone": {
       "action": "PROXY",
       "priority": 343,
-      "note": "Talkatone 走代理"
+      "note": "Talkatone 专项域名（单 suffix 覆盖全部子域，集合小属正常）"
     },
     "vowifi": {
       "action": "PROXY",
@@ -254,7 +259,7 @@
     "httpdns": {
       "action": "REJECT",
       "priority": 150,
-      "note": "HTTPDNS 相关域名建议拦截"
+      "note": "HTTPDNS 常用于绕过本地 DNS 分流，默认建议拦截"
     },
     "direct": {
       "action": "DIRECT",

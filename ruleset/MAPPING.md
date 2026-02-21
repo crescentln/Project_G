@@ -2,7 +2,7 @@
 
 Base URL:
 
-`https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist`
+`https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist`
 
 ## 当前主策略
 
@@ -43,7 +43,7 @@ Base URL:
 下面这些继续独立维护和独立引用：
 
 - `github` `ai` `telegram` `vowifi`
-- `stream_us` `stream_jp` `stream_hk` `stream_tw` `stream_global`
+- `stream`（推荐整合）`stream_us` `stream_jp` `stream_hk` `stream_tw` `stream_global`
 - `google` `googlefcm` `microsoft`
 - `youtube` `abema` `apple_tv` `primevideo` `spotify` `twitch`
 - `paypal` `crypto` `ecommerce` `onedrive` `forum` `socialmedia` `tiktok`
@@ -54,6 +54,7 @@ Base URL:
 - `gfw`：`.../openclash/gfw.yaml` / `.../surge/gfw.list`
 - `global`：`.../openclash/global.yaml` / `.../surge/global.list`
 - `tld_proxy`：`.../openclash/tld_proxy.yaml` / `.../surge/tld_proxy.list`
+- `stream`：`.../openclash/stream.yaml` / `.../surge/stream.list`
 - `stream_global`：`.../openclash/stream_global.yaml` / `.../surge/stream_global.list`
 
 ## 兼容旧风格路径（可选）

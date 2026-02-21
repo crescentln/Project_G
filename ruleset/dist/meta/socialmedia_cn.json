@@ -4,7 +4,7 @@
   "recommended_action": "DIRECT",
   "recommended_priority": 240,
   "recommended_note": "国内社交平台直连",
-  "rule_count": 4,
+  "rule_count": 74,
   "paths": {
     "surge": "surge/socialmedia_cn.list",
     "surge_non_ip": "surge/non_ip/socialmedia_cn.list",
@@ -23,6 +23,27 @@
     "compat_list_domainset": "compat/List/domainset/socialmedia_cn.conf"
   },
   "sources": [
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-social-media-cn",
+      "used_cache": true,
+      "rule_count": 74
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/sina",
+      "used_cache": true,
+      "rule_count": 29
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/zhihu",
+      "used_cache": true,
+      "rule_count": 2
+    },
     {
       "type": "local_domain",
       "authority": "owner-controlled",

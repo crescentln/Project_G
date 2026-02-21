@@ -1,2 +1,10 @@
+# APNS endpoints (official Apple Push domains)
+# Provider API endpoints are from Apple Developer APNs docs.
+
 DOMAIN-SUFFIX,push.apple.com
-DOMAIN-SUFFIX,courier.push.apple.com
+DOMAIN,courier.push.apple.com
+DOMAIN,api.push.apple.com
+DOMAIN,api.sandbox.push.apple.com
+DOMAIN,api.development.push.apple.com
+DOMAIN,gateway.push.apple.com
+DOMAIN,feedback.push.apple.com

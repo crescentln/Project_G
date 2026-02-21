@@ -3,7 +3,7 @@
   "description": "Talkatone",
   "recommended_action": "PROXY",
   "recommended_priority": 343,
-  "recommended_note": "Talkatone 走代理",
+  "recommended_note": "Talkatone 专项域名（单 suffix 覆盖全部子域，集合小属正常）",
   "rule_count": 1,
   "paths": {
     "surge": "surge/talkatone.list",

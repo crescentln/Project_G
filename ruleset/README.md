@@ -24,7 +24,7 @@
 
 - 分别合并：`reject`（REJECT）与 `direct`（DIRECT），两者互不合并
 - `reject_extra` / `reject_drop` / `reject_no_drop` 独立维护（可选挂载）
-- 保持颗粒度：其余所有分类（如 `github`、`ai`、`vowifi`、`socialmedia`、`ecommerce`、`stream_global`、`youtube`、`spotify`、`twitch`、`gfw`、`global`、`tld_proxy` 等）
+- 保持颗粒度：其余所有分类（如 `github`、`ai`、`vowifi`、`socialmedia`、`ecommerce`、`stream`、`stream_global`、`youtube`、`spotify`、`twitch`、`gfw`、`global`、`tld_proxy` 等）
 
 `reject_*` 当前默认基线：
 
@@ -106,4 +106,4 @@ python3 ruleset/scripts/build_rulesets.py --offline
 
 - 官方：IANA、APNIC、Cloudflare、AWS、GCP、IANA TLD
 - 社区高质量：v2fly/domain-list-community
-- 本地可控：`ruleset/manual/categories/*.txt`（包含 `github`、`vowifi`、`stream_global` 与自定义 reject/direct 增补）
+- 本地可控：`ruleset/manual/categories/*.txt`（包含 `github`、`vowifi`、`stream` 与自定义 reject/direct 增补）

@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-02-21T15:32:09.941217+00:00",
+  "generated_at_utc": "2026-02-21T16:00:21.275914+00:00",
   "policy_path": "config/policy_map.json",
   "categories": [
     {
@@ -69,42 +69,49 @@
       "id": "download",
       "recommended_action": "DIRECT",
       "recommended_priority": 251,
-      "recommended_note": "下载流量默认直连以降低代理负载",
-      "rule_count": 5
+      "recommended_note": "下载分流高覆盖集合（安卓应用+游戏平台），默认直连以降低代理负载",
+      "rule_count": 328
+    },
+    {
+      "id": "stream",
+      "recommended_action": "PROXY",
+      "recommended_priority": 309,
+      "recommended_note": "整合流媒体集合（跨地区统一）",
+      "rule_count": 434
     },
     {
       "id": "stream_us",
       "recommended_action": "PROXY",
       "recommended_priority": 310,
-      "recommended_note": "北美流媒体走代理",
+      "recommended_note": "北美流媒体走代理（可选细分）",
       "rule_count": 340
     },
     {
       "id": "stream_jp",
       "recommended_action": "PROXY",
       "recommended_priority": 311,
-      "recommended_note": "日本流媒体走代理",
+      "recommended_note": "日本流媒体走代理（可选细分）",
       "rule_count": 25
     },
     {
       "id": "stream_hk",
       "recommended_action": "PROXY",
       "recommended_priority": 312,
-      "recommended_note": "香港流媒体走代理",
+      "recommended_note": "香港流媒体走代理（可选细分）",
       "rule_count": 15
     },
     {
       "id": "stream_tw",
       "recommended_action": "PROXY",
       "recommended_priority": 313,
-      "recommended_note": "台湾流媒体走代理",
+      "recommended_note": "台湾流媒体走代理（可选细分）",
       "rule_count": 28
     },
     {
       "id": "stream_global",
       "recommended_action": "PROXY",
       "recommended_priority": 314,
-      "recommended_note": "国外流媒体高覆盖集合走代理",
+      "recommended_note": "国外流媒体高覆盖集合走代理（可选细分）",
       "rule_count": 288
     },
     {
@@ -133,7 +140,7 @@
       "recommended_action": "PROXY",
       "recommended_priority": 321,
       "recommended_note": "Apple 国际域名走代理（中国区见 apple_cn/apple_cdn 直连）",
-      "rule_count": 6
+      "rule_count": 50
     },
     {
       "id": "apple_services",
@@ -174,7 +181,7 @@
       "id": "httpdns",
       "recommended_action": "REJECT",
       "recommended_priority": 150,
-      "recommended_note": "HTTPDNS 相关域名建议拦截",
+      "recommended_note": "HTTPDNS 常用于绕过本地 DNS 分流，默认建议拦截",
       "rule_count": 49
     },
     {
@@ -287,7 +294,7 @@
       "recommended_action": "DIRECT",
       "recommended_priority": 240,
       "recommended_note": "国内社交平台直连",
-      "rule_count": 4
+      "rule_count": 74
     },
     {
       "id": "socialmedia",
@@ -314,8 +321,8 @@
       "id": "apns",
       "recommended_action": "PROXY",
       "recommended_priority": 342,
-      "recommended_note": "APNS 按你当前策略走代理（如推送异常可单独改为 DIRECT）",
-      "rule_count": 2
+      "recommended_note": "APNS 连接域名（关键端点集合，按你当前策略走代理）",
+      "rule_count": 7
     },
     {
       "id": "dmca",
@@ -328,7 +335,7 @@
       "id": "talkatone",
       "recommended_action": "PROXY",
       "recommended_priority": 343,
-      "recommended_note": "Talkatone 走代理",
+      "recommended_note": "Talkatone 专项域名（单 suffix 覆盖全部子域，集合小属正常）",
       "rule_count": 1
     },
     {

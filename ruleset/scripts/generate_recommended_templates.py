@@ -7,6 +7,9 @@ import pathlib
 from typing import Any
 
 
+STREAM_SPLIT_IDS = {"stream_us", "stream_jp", "stream_hk", "stream_tw", "stream_global"}
+
+
 def load_categories(policy_reference_path: pathlib.Path) -> list[dict[str, Any]]:
     payload = json.loads(policy_reference_path.read_text(encoding="utf-8"))
     categories = payload.get("categories", [])
@@ -31,6 +34,13 @@ def load_categories(policy_reference_path: pathlib.Path) -> list[dict[str, Any]]
         )
 
     rows.sort(key=lambda item: (int(item["priority"]), str(item["id"])))
+
+    # If unified stream is available, prefer it in recommended templates and hide
+    # the optional split stream categories to keep one-click config concise.
+    category_ids = {str(item["id"]) for item in rows}
+    if "stream" in category_ids:
+        rows = [item for item in rows if str(item["id"]) not in STREAM_SPLIT_IDS]
+
     return rows
 
 
@@ -123,7 +133,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--raw-base-url",
         type=str,
-        default="https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist",
+        default="https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist",
         help="Raw base URL for generated template links",
     )
     parser.add_argument(

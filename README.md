@@ -4,8 +4,8 @@
 
 ## 仓库与基础地址
 
-- 仓库: [https://github.com/crescentln/new-project](https://github.com/crescentln/new-project)
-- Raw Base: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist`
+- 仓库: [https://github.com/crescentln/Project_G](https://github.com/crescentln/Project_G)
+- Raw Base: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist`
 
 ## 你的当前策略（已按你要求）
 
@@ -34,58 +34,61 @@
 
 ### OpenClash
 
-- 合并拦截 `reject`（REJECT）：`https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/reject.yaml`
-- 合并直连 `direct`（DIRECT）：`https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/direct.yaml`
+- 合并拦截 `reject`（REJECT）：`https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/reject.yaml`
+- 合并直连 `direct`（DIRECT）：`https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/direct.yaml`
 
 ### Surge
 
-- 合并拦截 `reject`（REJECT）：`https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/surge/reject.list`
-- 合并直连 `direct`（DIRECT）：`https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/surge/direct.list`
+- 合并拦截 `reject`（REJECT）：`https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/reject.list`
+- 合并直连 `direct`（DIRECT）：`https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/direct.list`
 
 ## 你点名要的独立规则 URL（OpenClash + Surge）
 
 - `github`
-  - OpenClash: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/github.yaml`
-  - Surge: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/surge/github.list`
+  - OpenClash: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/github.yaml`
+  - Surge: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/github.list`
 - `ai`
-  - OpenClash: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/ai.yaml`
-  - Surge: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/surge/ai.list`
+  - OpenClash: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/ai.yaml`
+  - Surge: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/ai.list`
 - `vowifi`
-  - OpenClash: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/vowifi.yaml`
-  - Surge: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/surge/vowifi.list`
+  - OpenClash: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/vowifi.yaml`
+  - Surge: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/vowifi.list`
 - `socialmedia`（国外社交媒体）
-  - OpenClash: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/socialmedia.yaml`
-  - Surge: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/surge/socialmedia.list`
+  - OpenClash: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/socialmedia.yaml`
+  - Surge: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/socialmedia.list`
 - `ecommerce`（国外购物）
-  - OpenClash: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/ecommerce.yaml`
-  - Surge: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/surge/ecommerce.list`
+  - OpenClash: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/ecommerce.yaml`
+  - Surge: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/ecommerce.list`
+- `stream`（整合流媒体，推荐）
+  - OpenClash: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/stream.yaml`
+  - Surge: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/stream.list`
 - `stream_global`（国外流媒体高覆盖）
-  - OpenClash: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/stream_global.yaml`
-  - Surge: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/surge/stream_global.list`
+  - OpenClash: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/stream_global.yaml`
+  - Surge: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/stream_global.list`
 - `spotify`
-  - OpenClash: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/spotify.yaml`
-  - Surge: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/surge/spotify.list`
+  - OpenClash: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/spotify.yaml`
+  - Surge: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/spotify.list`
 - `youtube`
-  - OpenClash: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/youtube.yaml`
-  - Surge: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/surge/youtube.list`
+  - OpenClash: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/youtube.yaml`
+  - Surge: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/youtube.list`
 - `twitch`
-  - OpenClash: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/twitch.yaml`
-  - Surge: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/surge/twitch.list`
+  - OpenClash: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/twitch.yaml`
+  - Surge: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/twitch.list`
 - `reject`（主拦截）
-  - OpenClash: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/reject.yaml`
-  - Surge: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/surge/reject.list`
+  - OpenClash: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/reject.yaml`
+  - Surge: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/reject.list`
 - `direct`（主直连）
-  - OpenClash: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/direct.yaml`
-  - Surge: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/surge/direct.list`
+  - OpenClash: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/direct.yaml`
+  - Surge: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/direct.list`
 - `reject_extra`（可选补充拦截）
-  - OpenClash: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/reject_extra.yaml`
-  - Surge: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/surge/reject_extra.list`
+  - OpenClash: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/reject_extra.yaml`
+  - Surge: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/reject_extra.list`
 - `reject_drop`（可选静默丢弃）
-  - OpenClash: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/reject_drop.yaml`
-  - Surge: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/surge/reject_drop.list`
+  - OpenClash: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/reject_drop.yaml`
+  - Surge: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/reject_drop.list`
 - `reject_no_drop`（可选显式拒绝）
-  - OpenClash: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/reject_no_drop.yaml`
-  - Surge: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/surge/reject_no_drop.list`
+  - OpenClash: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/reject_no_drop.yaml`
+  - Surge: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/reject_no_drop.list`
 
 说明：`reject_extra` / `reject_drop` / `reject_no_drop` 默认是“你可控的自定义空位”，只有你在 `ruleset/manual/categories/*.txt` 填了内容才会生效。
 若出现误杀，可在 `ruleset/manual/allow/reject*.txt` 放行域名（构建时会从对应 reject 集合移除）。
@@ -94,35 +97,38 @@
 
 - `github`: v2fly `github` + `gitlab` + `gitee`，外加本地可控补充
 - `ai`: v2fly `category-ai-!cn` + `openai`、`anthropic`、`perplexity`、`google-gemini`、`github-copilot`
-- `stream_us`: v2fly `netflix`、`hulu`、`disney` + `hbo`、`discoveryplus`、`plutotv`、`roku`、`tubi`、`sling`、`showtimeanytime`、`nbcuniversal`
+- `stream`（整合流媒体）: v2fly `netflix`、`hulu`、`disney`、`hbo`、`discoveryplus`、`plutotv`、`roku`、`tubi`、`sling`、`showtimeanytime`、`nbcuniversal`、`abema`、`apple-tvplus`、`primevideo`、`mytvsuper`、`viu`、`now`、`bahamut`、`hamivideo`、`catchplay`、`litv`
+- `stream_us`: v2fly `netflix`、`hulu`、`disney` + `hbo`、`discoveryplus`、`plutotv`、`roku`、`tubi`、`sling`、`showtimeanytime`、`nbcuniversal`（可选细分）
 - `stream_global`: v2fly `netflix`、`hulu`、`disney`、`abema`、`apple-tvplus`、`primevideo`
 - `socialmedia`: v2fly `category-social-media-!cn` + `facebook`、`instagram`、`twitter`、`discord`、`reddit`、`quora`、`medium`
+- `socialmedia_cn`: v2fly `category-social-media-cn` + `sina` + `zhihu` + 本地可控补充
 - `ecommerce`: v2fly `category-ecommerce`
 - `spotify` / `youtube` / `twitch`: v2fly 对应官方维护集合
-- `apple_proxy`: v2fly `icloudprivaterelay` + 本地可控补充
+- `apple_proxy`: v2fly `icloud`（排除 `@cn`）+ `icloudprivaterelay` + 本地可控补充
+- `download`: v2fly `category-android-app-download` + `steam`、`epicgames`、`blizzard`、`origin`、`nintendo`、`xbox`、`playstation`、`ubisoft` + 本地可控补充
 - `vowifi`: 3GPP `pub.3gppnetwork.org` 命名体系 + 美国运营商优先（MCC 310~316）+ 你可控的 ePDG 增补
 
 ## 直接可用配置模板
 
 - OpenClash 模板（`rule-providers + rules`）：
   - `ruleset/examples/openclash-rules.yaml`
-  - `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/examples/openclash-rules.yaml`
+  - `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/examples/openclash-rules.yaml`
 - Surge 模板（`[Rule]`）：
   - `ruleset/examples/surge-rules.conf`
-  - `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/examples/surge-rules.conf`
+  - `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/examples/surge-rules.conf`
 - OpenClash 细颗粒度模板（每个代理分类独立策略组）：
   - `ruleset/examples/openclash-rules-granular.yaml`
-  - `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/examples/openclash-rules-granular.yaml`
+  - `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/examples/openclash-rules-granular.yaml`
 - Surge 细颗粒度模板（每个代理分类独立策略组）：
   - `ruleset/examples/surge-rules-granular.conf`
-  - `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/examples/surge-rules-granular.conf`
+  - `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/examples/surge-rules-granular.conf`
 - 自动生成推荐顺序模板（每次构建更新）：
-  - OpenClash: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/recommended_openclash.yaml`
-  - Surge: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/recommended_surge.conf`
+  - OpenClash: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/recommended_openclash.yaml`
+  - Surge: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/recommended_surge.conf`
 - 自动生成全量 URL 清单（每个分类 OpenClash + Surge 单入口）：
-  - `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/url_catalog.md`
+  - `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/url_catalog.md`
 - 自动生成来源权威矩阵（official/community/owner）：
-  - `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/source_authority.md`
+  - `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/source_authority.md`
 
 说明：
 
@@ -144,6 +150,9 @@
 - `stream_global`
   - OpenClash: `.../openclash/stream_global.yaml`
   - Surge: `.../surge/stream_global.list`
+- `stream`（推荐整合）
+  - OpenClash: `.../openclash/stream.yaml`
+  - Surge: `.../surge/stream.list`
 
 ## 两个合并规则的来源
 
