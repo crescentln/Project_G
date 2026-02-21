@@ -3,8 +3,8 @@
   "description": "Microsoft CDN direct",
   "recommended_action": "DIRECT",
   "recommended_priority": 232,
-  "recommended_note": "微软 CDN 与更新域名直连",
-  "rule_count": 3,
+  "recommended_note": "微软中国区与更新/CDN 域名直连",
+  "rule_count": 171,
   "paths": {
     "surge": "surge/microsoft_cdn.list",
     "surge_non_ip": "surge/non_ip/microsoft_cdn.list",
@@ -23,6 +23,13 @@
     "compat_list_domainset": "compat/List/domainset/microsoft_cdn.conf"
   },
   "sources": [
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/microsoft",
+      "used_cache": true,
+      "rule_count": 168
+    },
     {
       "type": "local_domain",
       "authority": "owner-controlled",

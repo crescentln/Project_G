@@ -3,8 +3,8 @@
   "description": "Apple CDN direct",
   "recommended_action": "DIRECT",
   "recommended_priority": 231,
-  "recommended_note": "Apple CDN 直连",
-  "rule_count": 0,
+  "recommended_note": "Apple 更新与 CDN 域名直连",
+  "rule_count": 31,
   "paths": {
     "surge": "surge/apple_cdn.list",
     "surge_non_ip": "surge/non_ip/apple_cdn.list",
@@ -23,6 +23,20 @@
     "compat_list_domainset": "compat/List/domainset/apple_cdn.conf"
   },
   "sources": [
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple-update",
+      "used_cache": true,
+      "rule_count": 21
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple-pki",
+      "used_cache": true,
+      "rule_count": 10
+    },
     {
       "type": "local_domain",
       "authority": "owner-controlled",

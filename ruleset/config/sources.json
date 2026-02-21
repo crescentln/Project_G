@@ -244,6 +244,30 @@
       "id": "stream_hk",
       "sources": [
         {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/mytvsuper"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/viu"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/now"
+        },
+        {
           "authority": "owner-controlled",
           "path": "manual/categories/stream_hk.txt",
           "type": "local_domain"
@@ -254,6 +278,38 @@
       "description": "Streaming services for Taiwan",
       "id": "stream_tw",
       "sources": [
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/bahamut"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/hamivideo"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/catchplay"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/litv"
+        },
         {
           "authority": "owner-controlled",
           "path": "manual/categories/stream_tw.txt",
@@ -398,6 +454,25 @@
       "id": "apple_cdn",
       "sources": [
         {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple-update"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "include_attrs": [
+            "@cn"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple-pki"
+        },
+        {
           "authority": "owner-controlled",
           "path": "manual/categories/apple_cdn.txt",
           "type": "local_domain"
@@ -424,6 +499,10 @@
           "exclude_attrs": [
             "@cn",
             "@ads"
+          ],
+          "exclude_includes": [
+            "apple-update",
+            "apple-pki"
           ],
           "type": "v2fly_dlc",
           "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple"
@@ -483,6 +562,17 @@
       "description": "Microsoft CDN direct",
       "id": "microsoft_cdn",
       "sources": [
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "include_attrs": [
+            "@cn"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/microsoft"
+        },
         {
           "authority": "owner-controlled",
           "path": "manual/categories/microsoft_cdn.txt",

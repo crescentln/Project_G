@@ -84,7 +84,6 @@ www-cdn.icloud.com.akadns.net
 +.appl.com
 +.appl4e.com
 +.appla.com
-+.appldnld.apple.com
 +.apple-cloudkit.com
 +.apple-darwin.com
 +.apple-darwin.net
@@ -784,7 +783,6 @@ www-cdn.icloud.com.akadns.net
 +.ciattackers.com
 +.cmhalq.com
 +.cnshopin.com
-+.configuration.apple.com
 +.cooliphonecasesstore.com
 +.coolmonster.net
 +.coreml.net
@@ -910,7 +908,6 @@ www-cdn.icloud.com.akadns.net
 +.faceidglobal.com
 +.facetime.net
 +.famosascalvas.com
-+.fcs-keys-pub-prod.cdn-apple.com
 +.finalcutpro.com
 +.find-apple.com
 +.findmybeats.com
@@ -926,17 +923,12 @@ www-cdn.icloud.com.akadns.net
 +.frishoes.com
 +.fundaiphone5s.com
 +.gamebeforethegame.com
-+.gdmf-ados.apple.com
-+.gdmf.apple.com
 +.geoport.com
 +.getdrebeatssale.com
-+.gg.apple.com
 +.gmnetworks.net
 +.gobeatsye.com
 +.gobuyonlinestore.net
 +.goodsdunk.net
-+.gs.apple.com
-+.gsra.apple.com
 +.headphonepubs.com
 +.headphones-cool.com
 +.headphones-dre.com
@@ -1016,7 +1008,6 @@ www-cdn.icloud.com.akadns.net
 +.icloudsetup.com
 +.ids-apple.com
 +.idvd.eu
-+.ig.apple.com
 +.igoshopping.net
 +.ikids.com
 +.ilecture.co.nz
@@ -1263,7 +1254,6 @@ www-cdn.icloud.com.akadns.net
 +.mbeats-tech.com
 +.mbheadphone.com
 +.me.com
-+.mesu.apple.com
 +.micstl.com
 +.mmonsterheadphones.net
 +.mobileme.dk
@@ -1371,8 +1361,6 @@ www-cdn.icloud.com.akadns.net
 +.onlyiphone5case.com
 +.onsalekey.com
 +.onsaletrend.com
-+.oscdn.apple.com
-+.osrecovery.apple.com
 +.outletbeatsshop.com
 +.overapple.com
 +.pascherbeatsmonster.com
@@ -1429,7 +1417,6 @@ www-cdn.icloud.com.akadns.net
 +.shoppinguheadphones.com
 +.simplyipod.com
 +.siri.com
-+.skl.apple.com
 +.sneaker666.com
 +.sneakerpage.net
 +.sneakerskick.com
@@ -1446,11 +1433,7 @@ www-cdn.icloud.com.akadns.net
 +.supplybestjerseys.com
 +.sustainthesound.com
 +.sverigebeatsbydrdre.com
-+.swcdn.apple.com
-+.swdist.apple.com
-+.swdownload.apple.com
 +.swift.org
-+.swscan.apple.com
 +.szcheapmonsterheadphones.com
 +.szwinnertechnology.com
 +.takegoto.com
@@ -1477,8 +1460,6 @@ www-cdn.icloud.com.akadns.net
 +.ubnw.net
 +.ukipad.com
 +.unstyle.us
-+.updates-http.cdn-apple.com
-+.updates.cdn-apple.com
 +.usa-beatsbydreheadphonesonsale.net
 +.v-has.com
 +.vip-beats.com
@@ -1497,7 +1478,6 @@ www-cdn.icloud.com.akadns.net
 +.wholesalediscountpurses.com
 +.wholesalefine.com
 +.wholesaleonlinemart.com
-+.wkms-public.apple.com
 +.worldcoinpay.com
 +.wpewebkit.org
 +.wuxiapple.com
@@ -1518,5 +1498,4 @@ www-cdn.icloud.com.akadns.net
 +.xn--hxtr4rozx.xn--czr694b
 +.xn--kput3imi374g.xn--hxt814e
 +.xn--ruq8a011kt6y.xn--hxt814e
-+.xp.apple.com
 +.yourmonsterbeats.com

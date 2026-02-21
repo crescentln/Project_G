@@ -84,7 +84,6 @@ DOMAIN-SUFFIX,appl-e.com
 DOMAIN-SUFFIX,appl.com
 DOMAIN-SUFFIX,appl4e.com
 DOMAIN-SUFFIX,appla.com
-DOMAIN-SUFFIX,appldnld.apple.com
 DOMAIN-SUFFIX,apple-cloudkit.com
 DOMAIN-SUFFIX,apple-darwin.com
 DOMAIN-SUFFIX,apple-darwin.net
@@ -784,7 +783,6 @@ DOMAIN-SUFFIX,chomp.com
 DOMAIN-SUFFIX,ciattackers.com
 DOMAIN-SUFFIX,cmhalq.com
 DOMAIN-SUFFIX,cnshopin.com
-DOMAIN-SUFFIX,configuration.apple.com
 DOMAIN-SUFFIX,cooliphonecasesstore.com
 DOMAIN-SUFFIX,coolmonster.net
 DOMAIN-SUFFIX,coreml.net
@@ -910,7 +908,6 @@ DOMAIN-SUFFIX,faceid99.net
 DOMAIN-SUFFIX,faceidglobal.com
 DOMAIN-SUFFIX,facetime.net
 DOMAIN-SUFFIX,famosascalvas.com
-DOMAIN-SUFFIX,fcs-keys-pub-prod.cdn-apple.com
 DOMAIN-SUFFIX,finalcutpro.com
 DOMAIN-SUFFIX,find-apple.com
 DOMAIN-SUFFIX,findmybeats.com
@@ -926,17 +923,12 @@ DOMAIN-SUFFIX,free-sns.com
 DOMAIN-SUFFIX,frishoes.com
 DOMAIN-SUFFIX,fundaiphone5s.com
 DOMAIN-SUFFIX,gamebeforethegame.com
-DOMAIN-SUFFIX,gdmf-ados.apple.com
-DOMAIN-SUFFIX,gdmf.apple.com
 DOMAIN-SUFFIX,geoport.com
 DOMAIN-SUFFIX,getdrebeatssale.com
-DOMAIN-SUFFIX,gg.apple.com
 DOMAIN-SUFFIX,gmnetworks.net
 DOMAIN-SUFFIX,gobeatsye.com
 DOMAIN-SUFFIX,gobuyonlinestore.net
 DOMAIN-SUFFIX,goodsdunk.net
-DOMAIN-SUFFIX,gs.apple.com
-DOMAIN-SUFFIX,gsra.apple.com
 DOMAIN-SUFFIX,headphonepubs.com
 DOMAIN-SUFFIX,headphones-cool.com
 DOMAIN-SUFFIX,headphones-dre.com
@@ -1016,7 +1008,6 @@ DOMAIN-SUFFIX,icloudsecure.net
 DOMAIN-SUFFIX,icloudsetup.com
 DOMAIN-SUFFIX,ids-apple.com
 DOMAIN-SUFFIX,idvd.eu
-DOMAIN-SUFFIX,ig.apple.com
 DOMAIN-SUFFIX,igoshopping.net
 DOMAIN-SUFFIX,ikids.com
 DOMAIN-SUFFIX,ilecture.co.nz
@@ -1263,7 +1254,6 @@ DOMAIN-SUFFIX,mask.icloud.com
 DOMAIN-SUFFIX,mbeats-tech.com
 DOMAIN-SUFFIX,mbheadphone.com
 DOMAIN-SUFFIX,me.com
-DOMAIN-SUFFIX,mesu.apple.com
 DOMAIN-SUFFIX,micstl.com
 DOMAIN-SUFFIX,mmonsterheadphones.net
 DOMAIN-SUFFIX,mobileme.dk
@@ -1371,8 +1361,6 @@ DOMAIN-SUFFIX,onlinemonsterbeatsonsale.com
 DOMAIN-SUFFIX,onlyiphone5case.com
 DOMAIN-SUFFIX,onsalekey.com
 DOMAIN-SUFFIX,onsaletrend.com
-DOMAIN-SUFFIX,oscdn.apple.com
-DOMAIN-SUFFIX,osrecovery.apple.com
 DOMAIN-SUFFIX,outletbeatsshop.com
 DOMAIN-SUFFIX,overapple.com
 DOMAIN-SUFFIX,pascherbeatsmonster.com
@@ -1429,7 +1417,6 @@ DOMAIN-SUFFIX,shopping-days.net
 DOMAIN-SUFFIX,shoppinguheadphones.com
 DOMAIN-SUFFIX,simplyipod.com
 DOMAIN-SUFFIX,siri.com
-DOMAIN-SUFFIX,skl.apple.com
 DOMAIN-SUFFIX,sneaker666.com
 DOMAIN-SUFFIX,sneakerpage.net
 DOMAIN-SUFFIX,sneakerskick.com
@@ -1446,11 +1433,7 @@ DOMAIN-SUFFIX,superearsenjoy.com
 DOMAIN-SUFFIX,supplybestjerseys.com
 DOMAIN-SUFFIX,sustainthesound.com
 DOMAIN-SUFFIX,sverigebeatsbydrdre.com
-DOMAIN-SUFFIX,swcdn.apple.com
-DOMAIN-SUFFIX,swdist.apple.com
-DOMAIN-SUFFIX,swdownload.apple.com
 DOMAIN-SUFFIX,swift.org
-DOMAIN-SUFFIX,swscan.apple.com
 DOMAIN-SUFFIX,szcheapmonsterheadphones.com
 DOMAIN-SUFFIX,szwinnertechnology.com
 DOMAIN-SUFFIX,takegoto.com
@@ -1477,8 +1460,6 @@ DOMAIN-SUFFIX,tvappstore.net
 DOMAIN-SUFFIX,ubnw.net
 DOMAIN-SUFFIX,ukipad.com
 DOMAIN-SUFFIX,unstyle.us
-DOMAIN-SUFFIX,updates-http.cdn-apple.com
-DOMAIN-SUFFIX,updates.cdn-apple.com
 DOMAIN-SUFFIX,usa-beatsbydreheadphonesonsale.net
 DOMAIN-SUFFIX,v-has.com
 DOMAIN-SUFFIX,vip-beats.com
@@ -1497,7 +1478,6 @@ DOMAIN-SUFFIX,wholesale-exporter1.com
 DOMAIN-SUFFIX,wholesalediscountpurses.com
 DOMAIN-SUFFIX,wholesalefine.com
 DOMAIN-SUFFIX,wholesaleonlinemart.com
-DOMAIN-SUFFIX,wkms-public.apple.com
 DOMAIN-SUFFIX,worldcoinpay.com
 DOMAIN-SUFFIX,wpewebkit.org
 DOMAIN-SUFFIX,wuxiapple.com
@@ -1518,5 +1498,4 @@ DOMAIN-SUFFIX,xn--gtvz22d.xn--hxt814e
 DOMAIN-SUFFIX,xn--hxtr4rozx.xn--czr694b
 DOMAIN-SUFFIX,xn--kput3imi374g.xn--hxt814e
 DOMAIN-SUFFIX,xn--ruq8a011kt6y.xn--hxt814e
-DOMAIN-SUFFIX,xp.apple.com
 DOMAIN-SUFFIX,yourmonsterbeats.com

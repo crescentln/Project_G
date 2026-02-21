@@ -4,7 +4,7 @@
   "recommended_action": "PROXY",
   "recommended_priority": 313,
   "recommended_note": "台湾流媒体走代理",
-  "rule_count": 4,
+  "rule_count": 28,
   "paths": {
     "surge": "surge/stream_tw.list",
     "surge_non_ip": "surge/non_ip/stream_tw.list",
@@ -23,6 +23,34 @@
     "compat_list_domainset": "compat/List/domainset/stream_tw.conf"
   },
   "sources": [
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/bahamut",
+      "used_cache": true,
+      "rule_count": 5
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/hamivideo",
+      "used_cache": true,
+      "rule_count": 8
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/catchplay",
+      "used_cache": true,
+      "rule_count": 2
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/litv",
+      "used_cache": true,
+      "rule_count": 11
+    },
     {
       "type": "local_domain",
       "authority": "owner-controlled",

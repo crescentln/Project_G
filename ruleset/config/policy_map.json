@@ -44,12 +44,12 @@
     "apple_cdn": {
       "action": "DIRECT",
       "priority": 231,
-      "note": "Apple CDN 直连"
+      "note": "Apple 更新与 CDN 域名直连"
     },
     "microsoft_cdn": {
       "action": "DIRECT",
       "priority": 232,
-      "note": "微软 CDN 与更新域名直连"
+      "note": "微软中国区与更新/CDN 域名直连"
     },
     "socialmedia_cn": {
       "action": "DIRECT",

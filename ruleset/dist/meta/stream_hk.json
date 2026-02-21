@@ -4,7 +4,7 @@
   "recommended_action": "PROXY",
   "recommended_priority": 312,
   "recommended_note": "香港流媒体走代理",
-  "rule_count": 4,
+  "rule_count": 15,
   "paths": {
     "surge": "surge/stream_hk.list",
     "surge_non_ip": "surge/non_ip/stream_hk.list",
@@ -23,6 +23,27 @@
     "compat_list_domainset": "compat/List/domainset/stream_hk.conf"
   },
   "sources": [
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/mytvsuper",
+      "used_cache": true,
+      "rule_count": 2
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/viu",
+      "used_cache": true,
+      "rule_count": 7
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/now",
+      "used_cache": true,
+      "rule_count": 6
+    },
     {
       "type": "local_domain",
       "authority": "owner-controlled",

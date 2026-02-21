@@ -14,8 +14,8 @@ This file defines the recommended action per category.
 | `domestic` | `DIRECT` | 210 | 10828 | 中国大陆业务优先直连 |
 | `cncidr` | `DIRECT` | 220 | 10828 | 中国大陆 IP 段直连 |
 | `apple_cn` | `DIRECT` | 230 | 285 | Apple 中国区服务直连 |
-| `apple_cdn` | `DIRECT` | 231 | 0 | Apple CDN 直连 |
-| `microsoft_cdn` | `DIRECT` | 232 | 3 | 微软 CDN 与更新域名直连 |
+| `apple_cdn` | `DIRECT` | 231 | 31 | Apple 更新与 CDN 域名直连 |
+| `microsoft_cdn` | `DIRECT` | 232 | 171 | 微软中国区与更新/CDN 域名直连 |
 | `socialmedia_cn` | `DIRECT` | 240 | 4 | 国内社交平台直连 |
 | `games_cn` | `DIRECT` | 241 | 228 | 国内游戏服务直连 |
 | `douyin` | `DIRECT` | 242 | 65 | 抖音国内流量直连 |
@@ -25,12 +25,12 @@ This file defines the recommended action per category.
 | `telegram` | `PROXY` | 300 | 34 | Telegram 走代理 |
 | `stream_us` | `PROXY` | 310 | 238 | 北美流媒体走代理 |
 | `stream_jp` | `PROXY` | 311 | 25 | 日本流媒体走代理 |
-| `stream_hk` | `PROXY` | 312 | 4 | 香港流媒体走代理 |
-| `stream_tw` | `PROXY` | 313 | 4 | 台湾流媒体走代理 |
+| `stream_hk` | `PROXY` | 312 | 15 | 香港流媒体走代理 |
+| `stream_tw` | `PROXY` | 313 | 28 | 台湾流媒体走代理 |
 | `stream_global` | `PROXY` | 314 | 288 | 国外流媒体高覆盖集合走代理 |
 | `ai` | `PROXY` | 320 | 66 | AI 服务走代理 |
 | `apple_proxy` | `PROXY` | 321 | 3 | Apple 国际域名走代理 |
-| `apple_services` | `PROXY` | 322 | 1522 | Apple 服务组走代理 |
+| `apple_services` | `PROXY` | 322 | 1501 | Apple 服务组走代理 |
 | `apple_intelligence` | `PROXY` | 323 | 5 | Apple Intelligence 走代理 |
 | `microsoft` | `PROXY` | 324 | 422 | 微软国际服务走代理 |
 | `github` | `PROXY` | 325 | 41 | GitHub/GitLab/Gitee 等代码托管平台走代理 |

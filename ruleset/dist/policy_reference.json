@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-02-21T04:01:35.160271+00:00",
+  "generated_at_utc": "2026-02-21T13:50:21.124746+00:00",
   "policy_path": "/Users/alpha2128125/Documents/New project/ruleset/config/policy_map.json",
   "categories": [
     {
@@ -91,14 +91,14 @@
       "recommended_action": "PROXY",
       "recommended_priority": 312,
       "recommended_note": "香港流媒体走代理",
-      "rule_count": 4
+      "rule_count": 15
     },
     {
       "id": "stream_tw",
       "recommended_action": "PROXY",
       "recommended_priority": 313,
       "recommended_note": "台湾流媒体走代理",
-      "rule_count": 4
+      "rule_count": 28
     },
     {
       "id": "stream_global",
@@ -125,8 +125,8 @@
       "id": "apple_cdn",
       "recommended_action": "DIRECT",
       "recommended_priority": 231,
-      "recommended_note": "Apple CDN 直连",
-      "rule_count": 0
+      "recommended_note": "Apple 更新与 CDN 域名直连",
+      "rule_count": 31
     },
     {
       "id": "apple_proxy",
@@ -140,7 +140,7 @@
       "recommended_action": "PROXY",
       "recommended_priority": 322,
       "recommended_note": "Apple 服务组走代理",
-      "rule_count": 1522
+      "rule_count": 1501
     },
     {
       "id": "apple_intelligence",
@@ -160,8 +160,8 @@
       "id": "microsoft_cdn",
       "recommended_action": "DIRECT",
       "recommended_priority": 232,
-      "recommended_note": "微软 CDN 与更新域名直连",
-      "rule_count": 3
+      "recommended_note": "微软中国区与更新/CDN 域名直连",
+      "rule_count": 171
     },
     {
       "id": "github",

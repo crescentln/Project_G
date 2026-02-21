@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-02-21T04:01:35.159804+00:00",
+  "generated_at_utc": "2026-02-21T13:50:21.124285+00:00",
   "config_path": "/Users/alpha2128125/Documents/New project/ruleset/config/sources.json",
   "policy_path": "/Users/alpha2128125/Documents/New project/ruleset/config/policy_map.json",
   "category_count": 52,
@@ -511,7 +511,7 @@
     {
       "id": "stream_hk",
       "description": "Streaming services for Hong Kong",
-      "rule_count": 4,
+      "rule_count": 15,
       "surge_path": "surge/stream_hk.list",
       "openclash_path": "openclash/stream_hk.yaml",
       "surge_non_ip_path": "surge/non_ip/stream_hk.list",
@@ -532,6 +532,27 @@
       "recommended_note": "香港流媒体走代理",
       "sources": [
         {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/mytvsuper",
+          "used_cache": true,
+          "rule_count": 2
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/viu",
+          "used_cache": true,
+          "rule_count": 7
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/now",
+          "used_cache": true,
+          "rule_count": 6
+        },
+        {
           "type": "local_domain",
           "authority": "owner-controlled",
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/stream_hk.txt",
@@ -543,7 +564,7 @@
     {
       "id": "stream_tw",
       "description": "Streaming services for Taiwan",
-      "rule_count": 4,
+      "rule_count": 28,
       "surge_path": "surge/stream_tw.list",
       "openclash_path": "openclash/stream_tw.yaml",
       "surge_non_ip_path": "surge/non_ip/stream_tw.list",
@@ -563,6 +584,34 @@
       "recommended_priority": 313,
       "recommended_note": "台湾流媒体走代理",
       "sources": [
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/bahamut",
+          "used_cache": true,
+          "rule_count": 5
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/hamivideo",
+          "used_cache": true,
+          "rule_count": 8
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/catchplay",
+          "used_cache": true,
+          "rule_count": 2
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/litv",
+          "used_cache": true,
+          "rule_count": 11
+        },
         {
           "type": "local_domain",
           "authority": "owner-controlled",
@@ -755,7 +804,7 @@
     {
       "id": "apple_cdn",
       "description": "Apple CDN direct",
-      "rule_count": 0,
+      "rule_count": 31,
       "surge_path": "surge/apple_cdn.list",
       "openclash_path": "openclash/apple_cdn.yaml",
       "surge_non_ip_path": "surge/non_ip/apple_cdn.list",
@@ -773,8 +822,22 @@
       "compat_list_domainset_path": "compat/List/domainset/apple_cdn.conf",
       "recommended_action": "DIRECT",
       "recommended_priority": 231,
-      "recommended_note": "Apple CDN 直连",
+      "recommended_note": "Apple 更新与 CDN 域名直连",
       "sources": [
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple-update",
+          "used_cache": true,
+          "rule_count": 21
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple-pki",
+          "used_cache": true,
+          "rule_count": 10
+        },
         {
           "type": "local_domain",
           "authority": "owner-controlled",
@@ -819,7 +882,7 @@
     {
       "id": "apple_services",
       "description": "Apple services routing",
-      "rule_count": 1522,
+      "rule_count": 1501,
       "surge_path": "surge/apple_services.list",
       "openclash_path": "openclash/apple_services.yaml",
       "surge_non_ip_path": "surge/non_ip/apple_services.list",
@@ -844,7 +907,7 @@
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple",
           "used_cache": true,
-          "rule_count": 1519
+          "rule_count": 1498
         },
         {
           "type": "local_domain",
@@ -936,7 +999,7 @@
     {
       "id": "microsoft_cdn",
       "description": "Microsoft CDN direct",
-      "rule_count": 3,
+      "rule_count": 171,
       "surge_path": "surge/microsoft_cdn.list",
       "openclash_path": "openclash/microsoft_cdn.yaml",
       "surge_non_ip_path": "surge/non_ip/microsoft_cdn.list",
@@ -954,8 +1017,15 @@
       "compat_list_domainset_path": "compat/List/domainset/microsoft_cdn.conf",
       "recommended_action": "DIRECT",
       "recommended_priority": 232,
-      "recommended_note": "微软 CDN 与更新域名直连",
+      "recommended_note": "微软中国区与更新/CDN 域名直连",
       "sources": [
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/microsoft",
+          "used_cache": true,
+          "rule_count": 168
+        },
         {
           "type": "local_domain",
           "authority": "owner-controlled",
