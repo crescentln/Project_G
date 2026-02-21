@@ -1,0 +1,34 @@
+{
+  "id": "forum",
+  "description": "Forums",
+  "recommended_action": "PROXY",
+  "recommended_priority": 339,
+  "recommended_note": "国际论坛走代理",
+  "rule_count": 2,
+  "paths": {
+    "surge": "surge/forum.list",
+    "surge_non_ip": "surge/non_ip/forum.list",
+    "surge_ip": "surge/ip/forum.list",
+    "surge_domainset": "surge/domainset/forum.conf",
+    "openclash": "openclash/forum.yaml",
+    "openclash_non_ip": "openclash/non_ip/forum.yaml",
+    "openclash_ip": "openclash/ip/forum.yaml",
+    "openclash_domainset": "openclash/domainset/forum.txt",
+    "openclash_ipcidr": "openclash/ipcidr/forum.txt",
+    "compat_clash_non_ip": "compat/Clash/non_ip/forum.txt",
+    "compat_clash_ip": "compat/Clash/ip/forum.txt",
+    "compat_clash_domainset": "compat/Clash/domainset/forum.txt",
+    "compat_list_non_ip": "compat/List/non_ip/forum.conf",
+    "compat_list_ip": "compat/List/ip/forum.conf",
+    "compat_list_domainset": "compat/List/domainset/forum.conf"
+  },
+  "sources": [
+    {
+      "type": "local_domain",
+      "authority": "owner-controlled",
+      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/forum.txt",
+      "used_cache": false,
+      "rule_count": 2
+    }
+  ]
+}

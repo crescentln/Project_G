@@ -1,0 +1,34 @@
+{
+  "id": "spotify",
+  "description": "Spotify",
+  "recommended_action": "PROXY",
+  "recommended_priority": 331,
+  "recommended_note": "Spotify 走代理",
+  "rule_count": 2,
+  "paths": {
+    "surge": "surge/spotify.list",
+    "surge_non_ip": "surge/non_ip/spotify.list",
+    "surge_ip": "surge/ip/spotify.list",
+    "surge_domainset": "surge/domainset/spotify.conf",
+    "openclash": "openclash/spotify.yaml",
+    "openclash_non_ip": "openclash/non_ip/spotify.yaml",
+    "openclash_ip": "openclash/ip/spotify.yaml",
+    "openclash_domainset": "openclash/domainset/spotify.txt",
+    "openclash_ipcidr": "openclash/ipcidr/spotify.txt",
+    "compat_clash_non_ip": "compat/Clash/non_ip/spotify.txt",
+    "compat_clash_ip": "compat/Clash/ip/spotify.txt",
+    "compat_clash_domainset": "compat/Clash/domainset/spotify.txt",
+    "compat_list_non_ip": "compat/List/non_ip/spotify.conf",
+    "compat_list_ip": "compat/List/ip/spotify.conf",
+    "compat_list_domainset": "compat/List/domainset/spotify.conf"
+  },
+  "sources": [
+    {
+      "type": "local_domain",
+      "authority": "owner-controlled",
+      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/spotify.txt",
+      "used_cache": false,
+      "rule_count": 2
+    }
+  ]
+}

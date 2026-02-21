@@ -1,0 +1,34 @@
+{
+  "id": "httpdns",
+  "description": "HTTPDNS and related endpoints",
+  "recommended_action": "REJECT",
+  "recommended_priority": 150,
+  "recommended_note": "HTTPDNS 相关域名建议拦截",
+  "rule_count": 2,
+  "paths": {
+    "surge": "surge/httpdns.list",
+    "surge_non_ip": "surge/non_ip/httpdns.list",
+    "surge_ip": "surge/ip/httpdns.list",
+    "surge_domainset": "surge/domainset/httpdns.conf",
+    "openclash": "openclash/httpdns.yaml",
+    "openclash_non_ip": "openclash/non_ip/httpdns.yaml",
+    "openclash_ip": "openclash/ip/httpdns.yaml",
+    "openclash_domainset": "openclash/domainset/httpdns.txt",
+    "openclash_ipcidr": "openclash/ipcidr/httpdns.txt",
+    "compat_clash_non_ip": "compat/Clash/non_ip/httpdns.txt",
+    "compat_clash_ip": "compat/Clash/ip/httpdns.txt",
+    "compat_clash_domainset": "compat/Clash/domainset/httpdns.txt",
+    "compat_list_non_ip": "compat/List/non_ip/httpdns.conf",
+    "compat_list_ip": "compat/List/ip/httpdns.conf",
+    "compat_list_domainset": "compat/List/domainset/httpdns.conf"
+  },
+  "sources": [
+    {
+      "type": "local_domain",
+      "authority": "owner-controlled",
+      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/httpdns.txt",
+      "used_cache": false,
+      "rule_count": 2
+    }
+  ]
+}

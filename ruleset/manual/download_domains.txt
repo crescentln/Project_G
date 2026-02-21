@@ -1,0 +1,6 @@
+# Owner-controlled download routing domains.
+steamcontent.com
+steampowered.com
+epicgames.com
+blizzard.com
+origin.com

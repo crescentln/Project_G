@@ -1,0 +1,5 @@
+# Owner-controlled Hong Kong stream domains.
+mytvsuper.com
+viu.tv
+viu.com
+nowe.com

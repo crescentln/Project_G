@@ -1,0 +1,34 @@
+{
+  "id": "download",
+  "description": "Download services",
+  "recommended_action": "DIRECT",
+  "recommended_priority": 251,
+  "recommended_note": "下载流量默认直连以降低代理负载",
+  "rule_count": 5,
+  "paths": {
+    "surge": "surge/download.list",
+    "surge_non_ip": "surge/non_ip/download.list",
+    "surge_ip": "surge/ip/download.list",
+    "surge_domainset": "surge/domainset/download.conf",
+    "openclash": "openclash/download.yaml",
+    "openclash_non_ip": "openclash/non_ip/download.yaml",
+    "openclash_ip": "openclash/ip/download.yaml",
+    "openclash_domainset": "openclash/domainset/download.txt",
+    "openclash_ipcidr": "openclash/ipcidr/download.txt",
+    "compat_clash_non_ip": "compat/Clash/non_ip/download.txt",
+    "compat_clash_ip": "compat/Clash/ip/download.txt",
+    "compat_clash_domainset": "compat/Clash/domainset/download.txt",
+    "compat_list_non_ip": "compat/List/non_ip/download.conf",
+    "compat_list_ip": "compat/List/ip/download.conf",
+    "compat_list_domainset": "compat/List/domainset/download.conf"
+  },
+  "sources": [
+    {
+      "type": "local_domain",
+      "authority": "owner-controlled",
+      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/download.txt",
+      "used_cache": false,
+      "rule_count": 5
+    }
+  ]
+}

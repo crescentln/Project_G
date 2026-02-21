@@ -1,0 +1,2 @@
+DOMAIN-SUFFIX,reddit.com
+DOMAIN-SUFFIX,quora.com

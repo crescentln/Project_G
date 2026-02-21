@@ -1,0 +1,5 @@
+# reject_drop category rules
+# Supported formats:
+# - DOMAIN-SUFFIX,example.com
+# - DOMAIN,exact.example.com
+# - IP-CIDR,1.2.3.0/24,no-resolve

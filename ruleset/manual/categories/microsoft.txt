@@ -1,0 +1,5 @@
+DOMAIN-SUFFIX,microsoft.com
+DOMAIN-SUFFIX,office.com
+DOMAIN-SUFFIX,live.com
+DOMAIN-SUFFIX,outlook.com
+DOMAIN-SUFFIX,skype.com

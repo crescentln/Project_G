@@ -1,0 +1,41 @@
+{
+  "id": "telegram",
+  "description": "Telegram domains and official CIDRs",
+  "recommended_action": "PROXY",
+  "recommended_priority": 300,
+  "recommended_note": "Telegram 走代理",
+  "rule_count": 18,
+  "paths": {
+    "surge": "surge/telegram.list",
+    "surge_non_ip": "surge/non_ip/telegram.list",
+    "surge_ip": "surge/ip/telegram.list",
+    "surge_domainset": "surge/domainset/telegram.conf",
+    "openclash": "openclash/telegram.yaml",
+    "openclash_non_ip": "openclash/non_ip/telegram.yaml",
+    "openclash_ip": "openclash/ip/telegram.yaml",
+    "openclash_domainset": "openclash/domainset/telegram.txt",
+    "openclash_ipcidr": "openclash/ipcidr/telegram.txt",
+    "compat_clash_non_ip": "compat/Clash/non_ip/telegram.txt",
+    "compat_clash_ip": "compat/Clash/ip/telegram.txt",
+    "compat_clash_domainset": "compat/Clash/domainset/telegram.txt",
+    "compat_list_non_ip": "compat/List/non_ip/telegram.conf",
+    "compat_list_ip": "compat/List/ip/telegram.conf",
+    "compat_list_domainset": "compat/List/domainset/telegram.conf"
+  },
+  "sources": [
+    {
+      "type": "telegram_cidr",
+      "authority": "official",
+      "ref": "https://core.telegram.org/resources/cidr.txt",
+      "used_cache": false,
+      "rule_count": 14
+    },
+    {
+      "type": "local_domain",
+      "authority": "owner-controlled",
+      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/telegram.txt",
+      "used_cache": false,
+      "rule_count": 4
+    }
+  ]
+}

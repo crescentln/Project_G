@@ -1,0 +1,3 @@
+# Add rules to remove from the final reject category.
+# Example:
+# DOMAIN-SUFFIX,example.com

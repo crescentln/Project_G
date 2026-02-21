@@ -1,0 +1,34 @@
+{
+  "id": "apple_proxy",
+  "description": "Apple proxy routing",
+  "recommended_action": "PROXY",
+  "recommended_priority": 321,
+  "recommended_note": "Apple 国际域名走代理",
+  "rule_count": 3,
+  "paths": {
+    "surge": "surge/apple_proxy.list",
+    "surge_non_ip": "surge/non_ip/apple_proxy.list",
+    "surge_ip": "surge/ip/apple_proxy.list",
+    "surge_domainset": "surge/domainset/apple_proxy.conf",
+    "openclash": "openclash/apple_proxy.yaml",
+    "openclash_non_ip": "openclash/non_ip/apple_proxy.yaml",
+    "openclash_ip": "openclash/ip/apple_proxy.yaml",
+    "openclash_domainset": "openclash/domainset/apple_proxy.txt",
+    "openclash_ipcidr": "openclash/ipcidr/apple_proxy.txt",
+    "compat_clash_non_ip": "compat/Clash/non_ip/apple_proxy.txt",
+    "compat_clash_ip": "compat/Clash/ip/apple_proxy.txt",
+    "compat_clash_domainset": "compat/Clash/domainset/apple_proxy.txt",
+    "compat_list_non_ip": "compat/List/non_ip/apple_proxy.conf",
+    "compat_list_ip": "compat/List/ip/apple_proxy.conf",
+    "compat_list_domainset": "compat/List/domainset/apple_proxy.conf"
+  },
+  "sources": [
+    {
+      "type": "local_domain",
+      "authority": "owner-controlled",
+      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/apple_proxy.txt",
+      "used_cache": false,
+      "rule_count": 3
+    }
+  ]
+}

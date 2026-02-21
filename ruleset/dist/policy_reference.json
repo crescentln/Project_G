@@ -1,0 +1,349 @@
+{
+  "generated_at_utc": "2026-02-21T00:09:45.680770+00:00",
+  "policy_path": "/Users/alpha2128125/Documents/New project/ruleset/config/policy_map.json",
+  "categories": [
+    {
+      "id": "reject",
+      "recommended_action": "REJECT",
+      "recommended_priority": 100,
+      "recommended_note": "广告、追踪与恶意域名拦截",
+      "rule_count": 175186
+    },
+    {
+      "id": "reject_extra",
+      "recommended_action": "REJECT",
+      "recommended_priority": 110,
+      "recommended_note": "额外补充拦截",
+      "rule_count": 0
+    },
+    {
+      "id": "reject_drop",
+      "recommended_action": "REJECT-DROP",
+      "recommended_priority": 120,
+      "recommended_note": "需要静默丢弃的拦截",
+      "rule_count": 0
+    },
+    {
+      "id": "reject_no_drop",
+      "recommended_action": "REJECT-NO-DROP",
+      "recommended_priority": 130,
+      "recommended_note": "拒绝但不使用 drop",
+      "rule_count": 0
+    },
+    {
+      "id": "lan",
+      "recommended_action": "DIRECT",
+      "recommended_priority": 200,
+      "recommended_note": "局域网与特殊保留地址直连",
+      "rule_count": 33
+    },
+    {
+      "id": "domestic",
+      "recommended_action": "DIRECT",
+      "recommended_priority": 210,
+      "recommended_note": "中国大陆业务优先直连",
+      "rule_count": 10828
+    },
+    {
+      "id": "cncidr",
+      "recommended_action": "DIRECT",
+      "recommended_priority": 220,
+      "recommended_note": "中国大陆 IP 段直连",
+      "rule_count": 10828
+    },
+    {
+      "id": "telegram",
+      "recommended_action": "PROXY",
+      "recommended_priority": 300,
+      "recommended_note": "Telegram 走代理",
+      "rule_count": 18
+    },
+    {
+      "id": "cdn",
+      "recommended_action": "DIRECT",
+      "recommended_priority": 250,
+      "recommended_note": "CDN 回源与就近访问优先直连",
+      "rule_count": 1285
+    },
+    {
+      "id": "download",
+      "recommended_action": "DIRECT",
+      "recommended_priority": 251,
+      "recommended_note": "下载流量默认直连以降低代理负载",
+      "rule_count": 5
+    },
+    {
+      "id": "stream_us",
+      "recommended_action": "PROXY",
+      "recommended_priority": 310,
+      "recommended_note": "北美流媒体走代理",
+      "rule_count": 6
+    },
+    {
+      "id": "stream_jp",
+      "recommended_action": "PROXY",
+      "recommended_priority": 311,
+      "recommended_note": "日本流媒体走代理",
+      "rule_count": 5
+    },
+    {
+      "id": "stream_hk",
+      "recommended_action": "PROXY",
+      "recommended_priority": 312,
+      "recommended_note": "香港流媒体走代理",
+      "rule_count": 4
+    },
+    {
+      "id": "stream_tw",
+      "recommended_action": "PROXY",
+      "recommended_priority": 313,
+      "recommended_note": "台湾流媒体走代理",
+      "rule_count": 4
+    },
+    {
+      "id": "ai",
+      "recommended_action": "PROXY",
+      "recommended_priority": 320,
+      "recommended_note": "AI 服务走代理",
+      "rule_count": 6
+    },
+    {
+      "id": "apple_cn",
+      "recommended_action": "DIRECT",
+      "recommended_priority": 230,
+      "recommended_note": "Apple 中国区服务直连",
+      "rule_count": 2
+    },
+    {
+      "id": "apple_cdn",
+      "recommended_action": "DIRECT",
+      "recommended_priority": 231,
+      "recommended_note": "Apple CDN 直连",
+      "rule_count": 0
+    },
+    {
+      "id": "apple_proxy",
+      "recommended_action": "PROXY",
+      "recommended_priority": 321,
+      "recommended_note": "Apple 国际域名走代理",
+      "rule_count": 3
+    },
+    {
+      "id": "apple_services",
+      "recommended_action": "PROXY",
+      "recommended_priority": 322,
+      "recommended_note": "Apple 服务组走代理",
+      "rule_count": 4
+    },
+    {
+      "id": "apple_intelligence",
+      "recommended_action": "PROXY",
+      "recommended_priority": 323,
+      "recommended_note": "Apple Intelligence 走代理",
+      "rule_count": 0
+    },
+    {
+      "id": "microsoft",
+      "recommended_action": "PROXY",
+      "recommended_priority": 324,
+      "recommended_note": "微软国际服务走代理",
+      "rule_count": 5
+    },
+    {
+      "id": "microsoft_cdn",
+      "recommended_action": "DIRECT",
+      "recommended_priority": 232,
+      "recommended_note": "微软 CDN 与更新域名直连",
+      "rule_count": 3
+    },
+    {
+      "id": "gits",
+      "recommended_action": "PROXY",
+      "recommended_priority": 325,
+      "recommended_note": "Git 托管平台走代理",
+      "rule_count": 6
+    },
+    {
+      "id": "httpdns",
+      "recommended_action": "REJECT",
+      "recommended_priority": 150,
+      "recommended_note": "HTTPDNS 相关域名建议拦截",
+      "rule_count": 2
+    },
+    {
+      "id": "games_cn",
+      "recommended_action": "DIRECT",
+      "recommended_priority": 241,
+      "recommended_note": "国内游戏服务直连",
+      "rule_count": 3
+    },
+    {
+      "id": "games",
+      "recommended_action": "PROXY",
+      "recommended_priority": 326,
+      "recommended_note": "国际游戏服务走代理",
+      "rule_count": 3
+    },
+    {
+      "id": "youtube",
+      "recommended_action": "PROXY",
+      "recommended_priority": 327,
+      "recommended_note": "YouTube 走代理",
+      "rule_count": 4
+    },
+    {
+      "id": "abema",
+      "recommended_action": "PROXY",
+      "recommended_priority": 328,
+      "recommended_note": "Abema 走代理",
+      "rule_count": 1
+    },
+    {
+      "id": "apple_tv",
+      "recommended_action": "PROXY",
+      "recommended_priority": 329,
+      "recommended_note": "Apple TV+ 走代理",
+      "rule_count": 1
+    },
+    {
+      "id": "primevideo",
+      "recommended_action": "PROXY",
+      "recommended_priority": 330,
+      "recommended_note": "Prime Video 走代理",
+      "rule_count": 2
+    },
+    {
+      "id": "spotify",
+      "recommended_action": "PROXY",
+      "recommended_priority": 331,
+      "recommended_note": "Spotify 走代理",
+      "rule_count": 2
+    },
+    {
+      "id": "twitch",
+      "recommended_action": "PROXY",
+      "recommended_priority": 332,
+      "recommended_note": "Twitch 走代理",
+      "rule_count": 3
+    },
+    {
+      "id": "google",
+      "recommended_action": "PROXY",
+      "recommended_priority": 333,
+      "recommended_note": "Google 主服务走代理",
+      "rule_count": 5
+    },
+    {
+      "id": "googlefcm",
+      "recommended_action": "PROXY",
+      "recommended_priority": 334,
+      "recommended_note": "Google FCM 推送走代理",
+      "rule_count": 3
+    },
+    {
+      "id": "paypal",
+      "recommended_action": "PROXY",
+      "recommended_priority": 335,
+      "recommended_note": "PayPal 走代理",
+      "rule_count": 2
+    },
+    {
+      "id": "crypto",
+      "recommended_action": "PROXY",
+      "recommended_priority": 336,
+      "recommended_note": "加密交易站点走代理",
+      "rule_count": 4
+    },
+    {
+      "id": "ecommerce",
+      "recommended_action": "PROXY",
+      "recommended_priority": 337,
+      "recommended_note": "跨境电商走代理",
+      "rule_count": 4
+    },
+    {
+      "id": "onedrive",
+      "recommended_action": "PROXY",
+      "recommended_priority": 338,
+      "recommended_note": "OneDrive 走代理",
+      "rule_count": 2
+    },
+    {
+      "id": "forum",
+      "recommended_action": "PROXY",
+      "recommended_priority": 339,
+      "recommended_note": "国际论坛走代理",
+      "rule_count": 2
+    },
+    {
+      "id": "socialmedia_cn",
+      "recommended_action": "DIRECT",
+      "recommended_priority": 240,
+      "recommended_note": "国内社交平台直连",
+      "rule_count": 4
+    },
+    {
+      "id": "socialmedia",
+      "recommended_action": "PROXY",
+      "recommended_priority": 340,
+      "recommended_note": "国际社交网络走代理",
+      "rule_count": 5
+    },
+    {
+      "id": "tiktok",
+      "recommended_action": "PROXY",
+      "recommended_priority": 341,
+      "recommended_note": "TikTok 国际站走代理",
+      "rule_count": 3
+    },
+    {
+      "id": "douyin",
+      "recommended_action": "DIRECT",
+      "recommended_priority": 242,
+      "recommended_note": "抖音国内流量直连",
+      "rule_count": 2
+    },
+    {
+      "id": "apns",
+      "recommended_action": "PROXY",
+      "recommended_priority": 342,
+      "recommended_note": "APNS 按你当前策略走代理",
+      "rule_count": 2
+    },
+    {
+      "id": "dmca",
+      "recommended_action": "DIRECT",
+      "recommended_priority": 243,
+      "recommended_note": "按你当前 Surge 配置作为直连类",
+      "rule_count": 0
+    },
+    {
+      "id": "talkatone",
+      "recommended_action": "PROXY",
+      "recommended_priority": 343,
+      "recommended_note": "Talkatone 走代理",
+      "rule_count": 1
+    },
+    {
+      "id": "tld_proxy",
+      "recommended_action": "PROXY",
+      "recommended_priority": 344,
+      "recommended_note": "需要强制代理的 TLD 集",
+      "rule_count": 0
+    },
+    {
+      "id": "gfw",
+      "recommended_action": "PROXY",
+      "recommended_priority": 345,
+      "recommended_note": "GFW 列表走代理",
+      "rule_count": 0
+    },
+    {
+      "id": "global",
+      "recommended_action": "PROXY",
+      "recommended_priority": 900,
+      "recommended_note": "兜底代理集合（应放在较后顺序）",
+      "rule_count": 0
+    }
+  ]
+}

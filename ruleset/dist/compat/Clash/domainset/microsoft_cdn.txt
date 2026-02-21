@@ -1,0 +1,3 @@
++.download.microsoft.com
++.msftconnecttest.com
++.windowsupdate.com

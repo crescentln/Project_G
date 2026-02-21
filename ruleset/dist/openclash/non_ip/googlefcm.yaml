@@ -1,0 +1,4 @@
+payload:
+  - 'DOMAIN,fcm.googleapis.com'
+  - 'DOMAIN-SUFFIX,firebaseio.com'
+  - 'DOMAIN-SUFFIX,googleapis.com'

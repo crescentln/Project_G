@@ -1,0 +1,41 @@
+{
+  "id": "domestic",
+  "description": "Mainland China domains and IP ranges",
+  "recommended_action": "DIRECT",
+  "recommended_priority": 210,
+  "recommended_note": "中国大陆业务优先直连",
+  "rule_count": 10828,
+  "paths": {
+    "surge": "surge/domestic.list",
+    "surge_non_ip": "surge/non_ip/domestic.list",
+    "surge_ip": "surge/ip/domestic.list",
+    "surge_domainset": "surge/domainset/domestic.conf",
+    "openclash": "openclash/domestic.yaml",
+    "openclash_non_ip": "openclash/non_ip/domestic.yaml",
+    "openclash_ip": "openclash/ip/domestic.yaml",
+    "openclash_domainset": "openclash/domainset/domestic.txt",
+    "openclash_ipcidr": "openclash/ipcidr/domestic.txt",
+    "compat_clash_non_ip": "compat/Clash/non_ip/domestic.txt",
+    "compat_clash_ip": "compat/Clash/ip/domestic.txt",
+    "compat_clash_domainset": "compat/Clash/domainset/domestic.txt",
+    "compat_list_non_ip": "compat/List/non_ip/domestic.conf",
+    "compat_list_ip": "compat/List/ip/domestic.conf",
+    "compat_list_domainset": "compat/List/domainset/domestic.conf"
+  },
+  "sources": [
+    {
+      "type": "apnic_country_cidr",
+      "authority": "official",
+      "ref": "https://ftp.apnic.net/stats/apnic/delegated-apnic-latest",
+      "used_cache": false,
+      "rule_count": 10828
+    },
+    {
+      "type": "local_domain",
+      "authority": "owner-controlled",
+      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/domestic.txt",
+      "used_cache": false,
+      "rule_count": 0
+    }
+  ]
+}

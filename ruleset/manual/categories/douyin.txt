@@ -1,0 +1,2 @@
+DOMAIN-SUFFIX,douyin.com
+DOMAIN-SUFFIX,amemv.com

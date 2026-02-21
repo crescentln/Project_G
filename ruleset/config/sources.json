@@ -1,0 +1,611 @@
+{
+  "version": 2,
+  "categories": [
+    {
+      "id": "reject",
+      "description": "Ads, trackers, and malware",
+      "sources": [
+        {
+          "type": "adblock",
+          "url": "https://easylist.to/easylist/easylist.txt",
+          "authority": "curated-upstream"
+        },
+        {
+          "type": "adblock",
+          "url": "https://easylist.to/easylist/easyprivacy.txt",
+          "authority": "curated-upstream"
+        },
+        {
+          "type": "adblock",
+          "url": "https://filters.adtidy.org/dns/filter_1.txt",
+          "authority": "curated-upstream"
+        },
+        {
+          "type": "local_domain",
+          "path": "manual/categories/reject.txt",
+          "authority": "owner-controlled"
+        }
+      ],
+      "exclude_rules_path": "manual/exclude/reject.txt"
+    },
+    {
+      "id": "reject_extra",
+      "description": "Extra reject entries",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/reject_extra.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "reject_drop",
+      "description": "Reject drop rules",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/reject_drop.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "reject_no_drop",
+      "description": "Reject no-drop rules",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/reject_no_drop.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "lan",
+      "description": "LAN and non-globally-reachable special-use networks",
+      "sources": [
+        {
+          "type": "iana_special_csv",
+          "url": "https://www.iana.org/assignments/iana-ipv4-special-registry/iana-ipv4-special-registry-1.csv",
+          "authority": "official"
+        },
+        {
+          "type": "iana_special_csv",
+          "url": "https://www.iana.org/assignments/iana-ipv6-special-registry/iana-ipv6-special-registry-1.csv",
+          "authority": "official"
+        },
+        {
+          "type": "local_domain",
+          "path": "manual/categories/lan.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "domestic",
+      "description": "Mainland China domains and IP ranges",
+      "sources": [
+        {
+          "type": "apnic_country_cidr",
+          "url": "https://ftp.apnic.net/stats/apnic/delegated-apnic-latest",
+          "country": "CN",
+          "authority": "official"
+        },
+        {
+          "type": "local_domain",
+          "path": "manual/categories/domestic.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "cncidr",
+      "description": "Mainland China IPv4/IPv6 only",
+      "sources": [
+        {
+          "type": "apnic_country_cidr",
+          "url": "https://ftp.apnic.net/stats/apnic/delegated-apnic-latest",
+          "country": "CN",
+          "authority": "official"
+        },
+        {
+          "type": "local_domain",
+          "path": "manual/categories/cncidr.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "telegram",
+      "description": "Telegram domains and official CIDRs",
+      "sources": [
+        {
+          "type": "telegram_cidr",
+          "url": "https://core.telegram.org/resources/cidr.txt",
+          "authority": "official"
+        },
+        {
+          "type": "local_domain",
+          "path": "manual/categories/telegram.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "cdn",
+      "description": "CDN domains and edge prefixes",
+      "sources": [
+        {
+          "type": "plain_cidr",
+          "url": "https://www.cloudflare.com/ips-v4",
+          "authority": "official"
+        },
+        {
+          "type": "plain_cidr",
+          "url": "https://www.cloudflare.com/ips-v6",
+          "authority": "official"
+        },
+        {
+          "type": "aws_ip_ranges",
+          "url": "https://ip-ranges.amazonaws.com/ip-ranges.json",
+          "services": [
+            "CLOUDFRONT",
+            "GLOBALACCELERATOR"
+          ],
+          "authority": "official"
+        },
+        {
+          "type": "gcp_ip_ranges",
+          "url": "https://www.gstatic.com/ipranges/cloud.json",
+          "authority": "official"
+        },
+        {
+          "type": "local_domain",
+          "path": "manual/categories/cdn.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "download",
+      "description": "Download services",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/download.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "stream_us",
+      "description": "Streaming services for North America",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/stream_us.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "stream_jp",
+      "description": "Streaming services for Japan",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/stream_jp.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "stream_hk",
+      "description": "Streaming services for Hong Kong",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/stream_hk.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "stream_tw",
+      "description": "Streaming services for Taiwan",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/stream_tw.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "ai",
+      "description": "AI services",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/ai.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "apple_cn",
+      "description": "Apple China direct",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/apple_cn.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "apple_cdn",
+      "description": "Apple CDN direct",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/apple_cdn.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "apple_proxy",
+      "description": "Apple proxy routing",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/apple_proxy.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "apple_services",
+      "description": "Apple services routing",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/apple_services.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "apple_intelligence",
+      "description": "Apple intelligence routing",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/apple_intelligence.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "microsoft",
+      "description": "Microsoft services",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/microsoft.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "microsoft_cdn",
+      "description": "Microsoft CDN direct",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/microsoft_cdn.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "gits",
+      "description": "Git hosting and source platforms",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/gits.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "httpdns",
+      "description": "HTTPDNS and related endpoints",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/httpdns.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "games_cn",
+      "description": "China game services",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/games_cn.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "games",
+      "description": "Global game services",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/games.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "youtube",
+      "description": "YouTube",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/youtube.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "abema",
+      "description": "Abema",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/abema.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "apple_tv",
+      "description": "Apple TV",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/apple_tv.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "primevideo",
+      "description": "Prime Video",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/primevideo.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "spotify",
+      "description": "Spotify",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/spotify.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "twitch",
+      "description": "Twitch",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/twitch.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "google",
+      "description": "Google services",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/google.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "googlefcm",
+      "description": "Google FCM",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/googlefcm.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "paypal",
+      "description": "PayPal",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/paypal.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "crypto",
+      "description": "Crypto services",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/crypto.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "ecommerce",
+      "description": "E-commerce services",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/ecommerce.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "onedrive",
+      "description": "OneDrive",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/onedrive.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "forum",
+      "description": "Forums",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/forum.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "socialmedia_cn",
+      "description": "Domestic social media",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/socialmedia_cn.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "socialmedia",
+      "description": "Global social media",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/socialmedia.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "tiktok",
+      "description": "TikTok",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/tiktok.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "douyin",
+      "description": "Douyin",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/douyin.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "apns",
+      "description": "Apple Push Notification service",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/apns.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "dmca",
+      "description": "DMCA and tracker-related services",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/dmca.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "talkatone",
+      "description": "Talkatone",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/talkatone.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "tld_proxy",
+      "description": "Proxy-specific TLD set",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/tld_proxy.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "gfw",
+      "description": "GFW-related domains",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/gfw.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "global",
+      "description": "Global fallback domain list",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/global.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+# Owner-controlled AI routing domains.
+openai.com
+chatgpt.com
+claude.ai
+anthropic.com
+poe.com
+perplexity.ai

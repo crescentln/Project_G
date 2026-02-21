@@ -1,0 +1,4 @@
+payload:
+  - 'DOMAIN-SUFFIX,download.microsoft.com'
+  - 'DOMAIN-SUFFIX,msftconnecttest.com'
+  - 'DOMAIN-SUFFIX,windowsupdate.com'

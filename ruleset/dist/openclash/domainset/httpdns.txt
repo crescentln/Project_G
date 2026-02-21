@@ -1,0 +1,2 @@
++.httpdns.alicdn.com
++.httpdns.baidubce.com

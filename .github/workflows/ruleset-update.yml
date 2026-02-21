@@ -1,0 +1,40 @@
+name: Ruleset Auto Update
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 */6 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Build rulesets
+        run: python3 ruleset/scripts/build_rulesets.py
+
+      - name: Validate output formats
+        run: python3 ruleset/scripts/validate_rulesets.py
+
+      - name: Commit dist changes
+        run: |
+          if [ -z "$(git status --porcelain ruleset/dist)" ]; then
+            echo "No ruleset changes."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add ruleset/dist
+          git commit -m "chore(ruleset): auto update $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+          git push

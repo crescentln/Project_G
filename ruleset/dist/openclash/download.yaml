@@ -1,0 +1,6 @@
+payload:
+  - 'DOMAIN-SUFFIX,blizzard.com'
+  - 'DOMAIN-SUFFIX,epicgames.com'
+  - 'DOMAIN-SUFFIX,origin.com'
+  - 'DOMAIN-SUFFIX,steamcontent.com'
+  - 'DOMAIN-SUFFIX,steampowered.com'

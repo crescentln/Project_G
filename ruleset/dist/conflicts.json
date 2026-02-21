@@ -1,0 +1,50 @@
+{
+  "generated_at_utc": "2026-02-21T00:09:45.679997+00:00",
+  "conflict_count": 6,
+  "conflicts": [
+    {
+      "rule": "DOMAIN-SUFFIX,epicgames.com",
+      "categories": [
+        "download",
+        "games",
+        "reject"
+      ]
+    },
+    {
+      "rule": "DOMAIN-SUFFIX,googleapis.com",
+      "categories": [
+        "google",
+        "googlefcm",
+        "reject"
+      ]
+    },
+    {
+      "rule": "DOMAIN-SUFFIX,abema.tv",
+      "categories": [
+        "abema",
+        "stream_jp"
+      ]
+    },
+    {
+      "rule": "DOMAIN-SUFFIX,icloud.com",
+      "categories": [
+        "apple_proxy",
+        "apple_services"
+      ]
+    },
+    {
+      "rule": "DOMAIN-SUFFIX,push.apple.com",
+      "categories": [
+        "apns",
+        "apple_services"
+      ]
+    },
+    {
+      "rule": "DOMAIN-SUFFIX,steampowered.com",
+      "categories": [
+        "download",
+        "games"
+      ]
+    }
+  ]
+}

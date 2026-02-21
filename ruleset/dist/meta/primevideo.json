@@ -1,0 +1,34 @@
+{
+  "id": "primevideo",
+  "description": "Prime Video",
+  "recommended_action": "PROXY",
+  "recommended_priority": 330,
+  "recommended_note": "Prime Video 走代理",
+  "rule_count": 2,
+  "paths": {
+    "surge": "surge/primevideo.list",
+    "surge_non_ip": "surge/non_ip/primevideo.list",
+    "surge_ip": "surge/ip/primevideo.list",
+    "surge_domainset": "surge/domainset/primevideo.conf",
+    "openclash": "openclash/primevideo.yaml",
+    "openclash_non_ip": "openclash/non_ip/primevideo.yaml",
+    "openclash_ip": "openclash/ip/primevideo.yaml",
+    "openclash_domainset": "openclash/domainset/primevideo.txt",
+    "openclash_ipcidr": "openclash/ipcidr/primevideo.txt",
+    "compat_clash_non_ip": "compat/Clash/non_ip/primevideo.txt",
+    "compat_clash_ip": "compat/Clash/ip/primevideo.txt",
+    "compat_clash_domainset": "compat/Clash/domainset/primevideo.txt",
+    "compat_list_non_ip": "compat/List/non_ip/primevideo.conf",
+    "compat_list_ip": "compat/List/ip/primevideo.conf",
+    "compat_list_domainset": "compat/List/domainset/primevideo.conf"
+  },
+  "sources": [
+    {
+      "type": "local_domain",
+      "authority": "owner-controlled",
+      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/primevideo.txt",
+      "used_cache": false,
+      "rule_count": 2
+    }
+  ]
+}

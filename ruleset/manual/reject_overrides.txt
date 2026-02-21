@@ -1,0 +1,5 @@
+# Add your custom reject entries here.
+# Supported formats:
+# - DOMAIN-SUFFIX,example.com
+# - DOMAIN,exact.example.com
+# - plain domains: example.com

@@ -1,0 +1,34 @@
+{
+  "id": "crypto",
+  "description": "Crypto services",
+  "recommended_action": "PROXY",
+  "recommended_priority": 336,
+  "recommended_note": "加密交易站点走代理",
+  "rule_count": 4,
+  "paths": {
+    "surge": "surge/crypto.list",
+    "surge_non_ip": "surge/non_ip/crypto.list",
+    "surge_ip": "surge/ip/crypto.list",
+    "surge_domainset": "surge/domainset/crypto.conf",
+    "openclash": "openclash/crypto.yaml",
+    "openclash_non_ip": "openclash/non_ip/crypto.yaml",
+    "openclash_ip": "openclash/ip/crypto.yaml",
+    "openclash_domainset": "openclash/domainset/crypto.txt",
+    "openclash_ipcidr": "openclash/ipcidr/crypto.txt",
+    "compat_clash_non_ip": "compat/Clash/non_ip/crypto.txt",
+    "compat_clash_ip": "compat/Clash/ip/crypto.txt",
+    "compat_clash_domainset": "compat/Clash/domainset/crypto.txt",
+    "compat_list_non_ip": "compat/List/non_ip/crypto.conf",
+    "compat_list_ip": "compat/List/ip/crypto.conf",
+    "compat_list_domainset": "compat/List/domainset/crypto.conf"
+  },
+  "sources": [
+    {
+      "type": "local_domain",
+      "authority": "owner-controlled",
+      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/crypto.txt",
+      "used_cache": false,
+      "rule_count": 4
+    }
+  ]
+}

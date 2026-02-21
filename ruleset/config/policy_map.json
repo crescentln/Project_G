@@ -1,0 +1,250 @@
+{
+  "version": 1,
+  "categories": {
+    "reject": {
+      "action": "REJECT",
+      "priority": 100,
+      "note": "广告、追踪与恶意域名拦截"
+    },
+    "reject_extra": {
+      "action": "REJECT",
+      "priority": 110,
+      "note": "额外补充拦截"
+    },
+    "reject_drop": {
+      "action": "REJECT-DROP",
+      "priority": 120,
+      "note": "需要静默丢弃的拦截"
+    },
+    "reject_no_drop": {
+      "action": "REJECT-NO-DROP",
+      "priority": 130,
+      "note": "拒绝但不使用 drop"
+    },
+    "lan": {
+      "action": "DIRECT",
+      "priority": 200,
+      "note": "局域网与特殊保留地址直连"
+    },
+    "domestic": {
+      "action": "DIRECT",
+      "priority": 210,
+      "note": "中国大陆业务优先直连"
+    },
+    "cncidr": {
+      "action": "DIRECT",
+      "priority": 220,
+      "note": "中国大陆 IP 段直连"
+    },
+    "apple_cn": {
+      "action": "DIRECT",
+      "priority": 230,
+      "note": "Apple 中国区服务直连"
+    },
+    "apple_cdn": {
+      "action": "DIRECT",
+      "priority": 231,
+      "note": "Apple CDN 直连"
+    },
+    "microsoft_cdn": {
+      "action": "DIRECT",
+      "priority": 232,
+      "note": "微软 CDN 与更新域名直连"
+    },
+    "socialmedia_cn": {
+      "action": "DIRECT",
+      "priority": 240,
+      "note": "国内社交平台直连"
+    },
+    "games_cn": {
+      "action": "DIRECT",
+      "priority": 241,
+      "note": "国内游戏服务直连"
+    },
+    "douyin": {
+      "action": "DIRECT",
+      "priority": 242,
+      "note": "抖音国内流量直连"
+    },
+    "dmca": {
+      "action": "DIRECT",
+      "priority": 243,
+      "note": "按你当前 Surge 配置作为直连类"
+    },
+    "cdn": {
+      "action": "DIRECT",
+      "priority": 250,
+      "note": "CDN 回源与就近访问优先直连"
+    },
+    "download": {
+      "action": "DIRECT",
+      "priority": 251,
+      "note": "下载流量默认直连以降低代理负载"
+    },
+    "telegram": {
+      "action": "PROXY",
+      "priority": 300,
+      "note": "Telegram 走代理"
+    },
+    "stream_us": {
+      "action": "PROXY",
+      "priority": 310,
+      "note": "北美流媒体走代理"
+    },
+    "stream_jp": {
+      "action": "PROXY",
+      "priority": 311,
+      "note": "日本流媒体走代理"
+    },
+    "stream_hk": {
+      "action": "PROXY",
+      "priority": 312,
+      "note": "香港流媒体走代理"
+    },
+    "stream_tw": {
+      "action": "PROXY",
+      "priority": 313,
+      "note": "台湾流媒体走代理"
+    },
+    "ai": {
+      "action": "PROXY",
+      "priority": 320,
+      "note": "AI 服务走代理"
+    },
+    "apple_proxy": {
+      "action": "PROXY",
+      "priority": 321,
+      "note": "Apple 国际域名走代理"
+    },
+    "apple_services": {
+      "action": "PROXY",
+      "priority": 322,
+      "note": "Apple 服务组走代理"
+    },
+    "apple_intelligence": {
+      "action": "PROXY",
+      "priority": 323,
+      "note": "Apple Intelligence 走代理"
+    },
+    "microsoft": {
+      "action": "PROXY",
+      "priority": 324,
+      "note": "微软国际服务走代理"
+    },
+    "gits": {
+      "action": "PROXY",
+      "priority": 325,
+      "note": "Git 托管平台走代理"
+    },
+    "games": {
+      "action": "PROXY",
+      "priority": 326,
+      "note": "国际游戏服务走代理"
+    },
+    "youtube": {
+      "action": "PROXY",
+      "priority": 327,
+      "note": "YouTube 走代理"
+    },
+    "abema": {
+      "action": "PROXY",
+      "priority": 328,
+      "note": "Abema 走代理"
+    },
+    "apple_tv": {
+      "action": "PROXY",
+      "priority": 329,
+      "note": "Apple TV+ 走代理"
+    },
+    "primevideo": {
+      "action": "PROXY",
+      "priority": 330,
+      "note": "Prime Video 走代理"
+    },
+    "spotify": {
+      "action": "PROXY",
+      "priority": 331,
+      "note": "Spotify 走代理"
+    },
+    "twitch": {
+      "action": "PROXY",
+      "priority": 332,
+      "note": "Twitch 走代理"
+    },
+    "google": {
+      "action": "PROXY",
+      "priority": 333,
+      "note": "Google 主服务走代理"
+    },
+    "googlefcm": {
+      "action": "PROXY",
+      "priority": 334,
+      "note": "Google FCM 推送走代理"
+    },
+    "paypal": {
+      "action": "PROXY",
+      "priority": 335,
+      "note": "PayPal 走代理"
+    },
+    "crypto": {
+      "action": "PROXY",
+      "priority": 336,
+      "note": "加密交易站点走代理"
+    },
+    "ecommerce": {
+      "action": "PROXY",
+      "priority": 337,
+      "note": "跨境电商走代理"
+    },
+    "onedrive": {
+      "action": "PROXY",
+      "priority": 338,
+      "note": "OneDrive 走代理"
+    },
+    "forum": {
+      "action": "PROXY",
+      "priority": 339,
+      "note": "国际论坛走代理"
+    },
+    "socialmedia": {
+      "action": "PROXY",
+      "priority": 340,
+      "note": "国际社交网络走代理"
+    },
+    "tiktok": {
+      "action": "PROXY",
+      "priority": 341,
+      "note": "TikTok 国际站走代理"
+    },
+    "apns": {
+      "action": "PROXY",
+      "priority": 342,
+      "note": "APNS 按你当前策略走代理"
+    },
+    "talkatone": {
+      "action": "PROXY",
+      "priority": 343,
+      "note": "Talkatone 走代理"
+    },
+    "tld_proxy": {
+      "action": "PROXY",
+      "priority": 344,
+      "note": "需要强制代理的 TLD 集"
+    },
+    "gfw": {
+      "action": "PROXY",
+      "priority": 345,
+      "note": "GFW 列表走代理"
+    },
+    "global": {
+      "action": "PROXY",
+      "priority": 900,
+      "note": "兜底代理集合（应放在较后顺序）"
+    },
+    "httpdns": {
+      "action": "REJECT",
+      "priority": 150,
+      "note": "HTTPDNS 相关域名建议拦截"
+    }
+  }
+}

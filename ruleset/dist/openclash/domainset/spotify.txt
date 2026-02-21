@@ -1,0 +1,2 @@
++.scdn.co
++.spotify.com

@@ -1,0 +1,34 @@
+{
+  "id": "apple_intelligence",
+  "description": "Apple intelligence routing",
+  "recommended_action": "PROXY",
+  "recommended_priority": 323,
+  "recommended_note": "Apple Intelligence 走代理",
+  "rule_count": 0,
+  "paths": {
+    "surge": "surge/apple_intelligence.list",
+    "surge_non_ip": "surge/non_ip/apple_intelligence.list",
+    "surge_ip": "surge/ip/apple_intelligence.list",
+    "surge_domainset": "surge/domainset/apple_intelligence.conf",
+    "openclash": "openclash/apple_intelligence.yaml",
+    "openclash_non_ip": "openclash/non_ip/apple_intelligence.yaml",
+    "openclash_ip": "openclash/ip/apple_intelligence.yaml",
+    "openclash_domainset": "openclash/domainset/apple_intelligence.txt",
+    "openclash_ipcidr": "openclash/ipcidr/apple_intelligence.txt",
+    "compat_clash_non_ip": "compat/Clash/non_ip/apple_intelligence.txt",
+    "compat_clash_ip": "compat/Clash/ip/apple_intelligence.txt",
+    "compat_clash_domainset": "compat/Clash/domainset/apple_intelligence.txt",
+    "compat_list_non_ip": "compat/List/non_ip/apple_intelligence.conf",
+    "compat_list_ip": "compat/List/ip/apple_intelligence.conf",
+    "compat_list_domainset": "compat/List/domainset/apple_intelligence.conf"
+  },
+  "sources": [
+    {
+      "type": "local_domain",
+      "authority": "owner-controlled",
+      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/apple_intelligence.txt",
+      "used_cache": false,
+      "rule_count": 0
+    }
+  ]
+}
