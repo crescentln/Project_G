@@ -79,7 +79,7 @@
     "download": {
       "action": "DIRECT",
       "priority": 251,
-      "note": "下载分流高覆盖集合（安卓应用+游戏平台），默认直连以降低代理负载"
+      "note": "安卓应用下载集合默认直连（游戏平台流量归 games）"
     },
     "telegram": {
       "action": "PROXY",
@@ -239,7 +239,7 @@
     "vowifi": {
       "action": "PROXY",
       "priority": 344,
-      "note": "VoWiFi/IMS/ePDG 相关域名走代理（美国运营商优先）"
+      "note": "VoWiFi/IMS/ePDG 相关域名走代理（3GPP 命名 + 美国运营商样例）"
     },
     "tld_proxy": {
       "action": "PROXY",

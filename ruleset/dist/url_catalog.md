@@ -1,6 +1,6 @@
 # Ruleset URL Catalog
 
-Generated at (UTC): `2026-02-21T16:01:23.641750+00:00`
+Generated at (UTC): `2026-02-21T23:47:08.515159+00:00`
 
 Raw Base: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist`
 
@@ -23,7 +23,7 @@ Raw Base: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/d
 | `douyin` | `DIRECT` | 242 | 65 | [openclash/douyin.yaml](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/douyin.yaml) | [surge/douyin.list](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/douyin.list) | 抖音国内流量直连 |
 | `dmca` | `DIRECT` | 243 | 5 | [openclash/dmca.yaml](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/dmca.yaml) | [surge/dmca.list](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/dmca.list) | 按你当前 Surge 配置作为直连类 |
 | `cdn` | `DIRECT` | 250 | 1285 | [openclash/cdn.yaml](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/cdn.yaml) | [surge/cdn.list](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/cdn.list) | CDN 回源与就近访问优先直连 |
-| `download` | `DIRECT` | 251 | 328 | [openclash/download.yaml](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/download.yaml) | [surge/download.list](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/download.list) | 下载分流高覆盖集合（安卓应用+游戏平台），默认直连以降低代理负载 |
+| `download` | `DIRECT` | 251 | 10 | [openclash/download.yaml](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/download.yaml) | [surge/download.list](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/download.list) | 安卓应用下载集合默认直连（游戏平台流量归 games） |
 | `telegram` | `PROXY` | 300 | 34 | [openclash/telegram.yaml](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/telegram.yaml) | [surge/telegram.list](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/telegram.list) | Telegram 走代理 |
 | `stream` | `PROXY` | 309 | 434 | [openclash/stream.yaml](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/stream.yaml) | [surge/stream.list](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/stream.list) | 整合流媒体集合（跨地区统一） |
 | `stream_us` | `PROXY` | 310 | 340 | [openclash/stream_us.yaml](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/stream_us.yaml) | [surge/stream_us.list](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/stream_us.list) | 北美流媒体走代理（可选细分） |
@@ -55,7 +55,7 @@ Raw Base: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/d
 | `tiktok` | `PROXY` | 341 | 35 | [openclash/tiktok.yaml](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/tiktok.yaml) | [surge/tiktok.list](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/tiktok.list) | TikTok 国际站走代理 |
 | `apns` | `PROXY` | 342 | 7 | [openclash/apns.yaml](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/apns.yaml) | [surge/apns.list](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/apns.list) | APNS 连接域名（关键端点集合，按你当前策略走代理） |
 | `talkatone` | `PROXY` | 343 | 1 | [openclash/talkatone.yaml](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/talkatone.yaml) | [surge/talkatone.list](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/talkatone.list) | Talkatone 专项域名（单 suffix 覆盖全部子域，集合小属正常） |
-| `vowifi` | `PROXY` | 344 | 13 | [openclash/vowifi.yaml](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/vowifi.yaml) | [surge/vowifi.list](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/vowifi.list) | VoWiFi/IMS/ePDG 相关域名走代理（美国运营商优先） |
+| `vowifi` | `PROXY` | 344 | 26 | [openclash/vowifi.yaml](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/vowifi.yaml) | [surge/vowifi.list](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/vowifi.list) | VoWiFi/IMS/ePDG 相关域名走代理（3GPP 命名 + 美国运营商样例） |
 | `tld_proxy` | `PROXY` | 345 | 1433 | [openclash/tld_proxy.yaml](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/tld_proxy.yaml) | [surge/tld_proxy.list](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/tld_proxy.list) | 需要强制代理的 TLD 集 |
 | `gfw` | `PROXY` | 346 | 109 | [openclash/gfw.yaml](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/gfw.yaml) | [surge/gfw.list](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/gfw.list) | GFW 列表走代理 |
 | `global` | `PROXY` | 900 | 23648 | [openclash/global.yaml](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/global.yaml) | [surge/global.list](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/global.list) | 兜底代理集合（应放在较后顺序） |

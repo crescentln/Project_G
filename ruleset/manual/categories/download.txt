@@ -1,6 +1,8 @@
-# Owner-controlled download routing domains.
-steamcontent.com
-steampowered.com
-epicgames.com
-blizzard.com
-origin.com
+# Owner-controlled download routing domains (non-game).
+# Game platform domains should be maintained in games.* categories.
+
+DOMAIN-SUFFIX,apkcombo.com
+DOMAIN-SUFFIX,apkmirror.com
+DOMAIN-SUFFIX,apkpure.com
+DOMAIN-SUFFIX,f-droid.org
+DOMAIN-SUFFIX,fdroidrepo.com

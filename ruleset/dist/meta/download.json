@@ -3,8 +3,8 @@
   "description": "Download services",
   "recommended_action": "DIRECT",
   "recommended_priority": 251,
-  "recommended_note": "下载分流高覆盖集合（安卓应用+游戏平台），默认直连以降低代理负载",
-  "rule_count": 328,
+  "recommended_note": "安卓应用下载集合默认直连（游戏平台流量归 games）",
+  "rule_count": 10,
   "paths": {
     "surge": "surge/download.list",
     "surge_non_ip": "surge/non_ip/download.list",
@@ -29,62 +29,6 @@
       "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-android-app-download",
       "used_cache": true,
       "rule_count": 8
-    },
-    {
-      "type": "v2fly_dlc",
-      "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/steam",
-      "used_cache": true,
-      "rule_count": 54
-    },
-    {
-      "type": "v2fly_dlc",
-      "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/epicgames",
-      "used_cache": true,
-      "rule_count": 31
-    },
-    {
-      "type": "v2fly_dlc",
-      "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/blizzard",
-      "used_cache": true,
-      "rule_count": 23
-    },
-    {
-      "type": "v2fly_dlc",
-      "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/origin",
-      "used_cache": true,
-      "rule_count": 9
-    },
-    {
-      "type": "v2fly_dlc",
-      "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/nintendo",
-      "used_cache": true,
-      "rule_count": 124
-    },
-    {
-      "type": "v2fly_dlc",
-      "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/xbox",
-      "used_cache": true,
-      "rule_count": 44
-    },
-    {
-      "type": "v2fly_dlc",
-      "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/playstation",
-      "used_cache": true,
-      "rule_count": 3
-    },
-    {
-      "type": "v2fly_dlc",
-      "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/ubisoft",
-      "used_cache": true,
-      "rule_count": 32
     },
     {
       "type": "local_domain",

@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-02-21T16:00:21.275914+00:00",
+  "generated_at_utc": "2026-02-21T23:47:08.371503+00:00",
   "policy_path": "config/policy_map.json",
   "categories": [
     {
@@ -69,8 +69,8 @@
       "id": "download",
       "recommended_action": "DIRECT",
       "recommended_priority": 251,
-      "recommended_note": "下载分流高覆盖集合（安卓应用+游戏平台），默认直连以降低代理负载",
-      "rule_count": 328
+      "recommended_note": "安卓应用下载集合默认直连（游戏平台流量归 games）",
+      "rule_count": 10
     },
     {
       "id": "stream",
@@ -342,8 +342,8 @@
       "id": "vowifi",
       "recommended_action": "PROXY",
       "recommended_priority": 344,
-      "recommended_note": "VoWiFi/IMS/ePDG 相关域名走代理（美国运营商优先）",
-      "rule_count": 13
+      "recommended_note": "VoWiFi/IMS/ePDG 相关域名走代理（3GPP 命名 + 美国运营商样例）",
+      "rule_count": 26
     },
     {
       "id": "tld_proxy",

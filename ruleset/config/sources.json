@@ -191,70 +191,6 @@
           "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-android-app-download"
         },
         {
-          "authority": "community-curated",
-          "exclude_attrs": [
-            "@ads"
-          ],
-          "type": "v2fly_dlc",
-          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/steam"
-        },
-        {
-          "authority": "community-curated",
-          "exclude_attrs": [
-            "@ads"
-          ],
-          "type": "v2fly_dlc",
-          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/epicgames"
-        },
-        {
-          "authority": "community-curated",
-          "exclude_attrs": [
-            "@ads"
-          ],
-          "type": "v2fly_dlc",
-          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/blizzard"
-        },
-        {
-          "authority": "community-curated",
-          "exclude_attrs": [
-            "@ads"
-          ],
-          "type": "v2fly_dlc",
-          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/origin"
-        },
-        {
-          "authority": "community-curated",
-          "exclude_attrs": [
-            "@ads"
-          ],
-          "type": "v2fly_dlc",
-          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/nintendo"
-        },
-        {
-          "authority": "community-curated",
-          "exclude_attrs": [
-            "@ads"
-          ],
-          "type": "v2fly_dlc",
-          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/xbox"
-        },
-        {
-          "authority": "community-curated",
-          "exclude_attrs": [
-            "@ads"
-          ],
-          "type": "v2fly_dlc",
-          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/playstation"
-        },
-        {
-          "authority": "community-curated",
-          "exclude_attrs": [
-            "@ads"
-          ],
-          "type": "v2fly_dlc",
-          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/ubisoft"
-        },
-        {
           "authority": "owner-controlled",
           "path": "manual/categories/download.txt",
           "type": "local_domain"
@@ -1010,6 +946,70 @@
           "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-games-!cn"
         },
         {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/steam"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/epicgames"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/blizzard"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/origin"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/nintendo"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/xbox"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/playstation"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/ubisoft"
+        },
+        {
           "authority": "owner-controlled",
           "path": "manual/categories/games.txt",
           "type": "local_domain"
@@ -1681,14 +1681,6 @@
     }
   ],
   "ignore_conflicts": [
-    [
-      "download",
-      "games"
-    ],
-    [
-      "download",
-      "global"
-    ],
     [
       "ecommerce",
       "stream_jp"

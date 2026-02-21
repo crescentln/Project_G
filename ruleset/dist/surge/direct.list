@@ -735,6 +735,9 @@ DOMAIN-SUFFIX,apipost.cn
 DOMAIN-SUFFIX,apipost.net
 DOMAIN-SUFFIX,apk3.com
 DOMAIN-SUFFIX,apk8.com
+DOMAIN-SUFFIX,apkcombo.com
+DOMAIN-SUFFIX,apkmirror.com
+DOMAIN-SUFFIX,apkpure.com
 DOMAIN-SUFFIX,aplaybox.com
 DOMAIN-SUFFIX,apollo.auto
 DOMAIN-SUFFIX,appchina.com
@@ -1005,7 +1008,6 @@ DOMAIN-SUFFIX,bkapps.com
 DOMAIN-SUFFIX,bkclouds.cc
 DOMAIN-SUFFIX,bktencent.com
 DOMAIN-SUFFIX,blackdragon.com
-DOMAIN-SUFFIX,blizzard.com
 DOMAIN-SUFFIX,blmpb.com
 DOMAIN-SUFFIX,blogjava.net
 DOMAIN-SUFFIX,bluepoch.com
@@ -2286,7 +2288,6 @@ DOMAIN-SUFFIX,enterdesk.com
 DOMAIN-SUFFIX,eoeandroid.com
 DOMAIN-SUFFIX,eoffcn.com
 DOMAIN-SUFFIX,eolink.com
-DOMAIN-SUFFIX,epicgames.com
 DOMAIN-SUFFIX,er07.com
 DOMAIN-SUFFIX,erji.net
 DOMAIN-SUFFIX,erp.cn
@@ -2335,6 +2336,7 @@ DOMAIN-SUFFIX,extfans.com
 DOMAIN-SUFFIX,eziot.com
 DOMAIN-SUFFIX,ezpro.pro
 DOMAIN-SUFFIX,ezviz.com
+DOMAIN-SUFFIX,f-droid.org
 DOMAIN-SUFFIX,f.cx
 DOMAIN-SUFFIX,fa-part.com
 DOMAIN-SUFFIX,faasapp.cn
@@ -2371,6 +2373,7 @@ DOMAIN-SUFFIX,fcbox.com
 DOMAIN-SUFFIX,fcboxmall.com
 DOMAIN-SUFFIX,fcsc.cn
 DOMAIN-SUFFIX,fdcyun.com
+DOMAIN-SUFFIX,fdroidrepo.com
 DOMAIN-SUFFIX,fedlearner.net
 DOMAIN-SUFFIX,feelgood.cn
 DOMAIN-SUFFIX,fei-shu.cn
@@ -4501,7 +4504,6 @@ DOMAIN-SUFFIX,oray.net
 DOMAIN-SUFFIX,orayer.com
 DOMAIN-SUFFIX,orayimg.com
 DOMAIN-SUFFIX,orient-fund.com
-DOMAIN-SUFFIX,origin.com
 DOMAIN-SUFFIX,originalimg.com
 DOMAIN-SUFFIX,originalstatic.com
 DOMAIN-SUFFIX,originalvod.com
@@ -5176,8 +5178,6 @@ DOMAIN-SUFFIX,statusfeishu.cn
 DOMAIN-SUFFIX,statuslarkoffice.com
 DOMAIN-SUFFIX,stcn.com
 DOMAIN-SUFFIX,steam302.xyz
-DOMAIN-SUFFIX,steamcontent.com
-DOMAIN-SUFFIX,steampowered.com
 DOMAIN-SUFFIX,steampp.net
 DOMAIN-SUFFIX,sto-express.cn
 DOMAIN-SUFFIX,sto-express.com

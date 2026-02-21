@@ -21,7 +21,7 @@ This file defines the recommended action per category.
 | `douyin` | `DIRECT` | 242 | 65 | 抖音国内流量直连 |
 | `dmca` | `DIRECT` | 243 | 5 | 按你当前 Surge 配置作为直连类 |
 | `cdn` | `DIRECT` | 250 | 1285 | CDN 回源与就近访问优先直连 |
-| `download` | `DIRECT` | 251 | 328 | 下载分流高覆盖集合（安卓应用+游戏平台），默认直连以降低代理负载 |
+| `download` | `DIRECT` | 251 | 10 | 安卓应用下载集合默认直连（游戏平台流量归 games） |
 | `telegram` | `PROXY` | 300 | 34 | Telegram 走代理 |
 | `stream` | `PROXY` | 309 | 434 | 整合流媒体集合（跨地区统一） |
 | `stream_us` | `PROXY` | 310 | 340 | 北美流媒体走代理（可选细分） |
@@ -53,7 +53,7 @@ This file defines the recommended action per category.
 | `tiktok` | `PROXY` | 341 | 35 | TikTok 国际站走代理 |
 | `apns` | `PROXY` | 342 | 7 | APNS 连接域名（关键端点集合，按你当前策略走代理） |
 | `talkatone` | `PROXY` | 343 | 1 | Talkatone 专项域名（单 suffix 覆盖全部子域，集合小属正常） |
-| `vowifi` | `PROXY` | 344 | 13 | VoWiFi/IMS/ePDG 相关域名走代理（美国运营商优先） |
+| `vowifi` | `PROXY` | 344 | 26 | VoWiFi/IMS/ePDG 相关域名走代理（3GPP 命名 + 美国运营商样例） |
 | `tld_proxy` | `PROXY` | 345 | 1433 | 需要强制代理的 TLD 集 |
 | `gfw` | `PROXY` | 346 | 109 | GFW 列表走代理 |
 | `global` | `PROXY` | 900 | 23648 | 兜底代理集合（应放在较后顺序） |

@@ -7,7 +7,7 @@
 - 仓库: [https://github.com/crescentln/Project_G](https://github.com/crescentln/Project_G)
 - Raw Base: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist`
 
-## 你的当前策略（已按你要求）
+## 当前策略
 
 - `reject` 和 `direct` 分别各自合并，互不合并
 - `reject_extra` / `reject_drop` / `reject_no_drop` 保持独立可选
@@ -42,7 +42,7 @@
 - 合并拦截 `reject`（REJECT）：`https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/reject.list`
 - 合并直连 `direct`（DIRECT）：`https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/direct.list`
 
-## 你点名要的独立规则 URL（OpenClash + Surge）
+## 常用独立规则 URL（OpenClash + Surge）
 
 - `github`
   - OpenClash: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/github.yaml`
@@ -59,6 +59,9 @@
 - `ecommerce`（国外购物）
   - OpenClash: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/ecommerce.yaml`
   - Surge: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/ecommerce.list`
+- `games`（国际游戏平台）
+  - OpenClash: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/games.yaml`
+  - Surge: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/games.list`
 - `stream`（整合流媒体，推荐）
   - OpenClash: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/stream.yaml`
   - Surge: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/stream.list`
@@ -90,10 +93,10 @@
   - OpenClash: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/reject_no_drop.yaml`
   - Surge: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/reject_no_drop.list`
 
-说明：`reject_extra` / `reject_drop` / `reject_no_drop` 默认是“你可控的自定义空位”，只有你在 `ruleset/manual/categories/*.txt` 填了内容才会生效。
+说明：`reject_extra` / `reject_drop` / `reject_no_drop` 默认是“仓库可控的自定义空位”，仅在 `ruleset/manual/categories/*.txt` 添加内容时生效。
 若出现误杀，可在 `ruleset/manual/allow/reject*.txt` 放行域名（构建时会从对应 reject 集合移除）。
 
-## 你点名分类的数据来源（权威/主流）
+## 主要分类的数据来源（权威/主流）
 
 - `github`: v2fly `github` + `gitlab` + `gitee`，外加本地可控补充
 - `ai`: v2fly `category-ai-!cn` + `openai`、`anthropic`、`perplexity`、`google-gemini`、`github-copilot`
@@ -105,8 +108,9 @@
 - `ecommerce`: v2fly `category-ecommerce`
 - `spotify` / `youtube` / `twitch`: v2fly 对应官方维护集合
 - `apple_proxy`: v2fly `icloud`（排除 `@cn`）+ `icloudprivaterelay` + 本地可控补充
-- `download`: v2fly `category-android-app-download` + `steam`、`epicgames`、`blizzard`、`origin`、`nintendo`、`xbox`、`playstation`、`ubisoft` + 本地可控补充
-- `vowifi`: 3GPP `pub.3gppnetwork.org` 命名体系 + 美国运营商优先（MCC 310~316）+ 你可控的 ePDG 增补
+- `download`: v2fly `category-android-app-download` + 本地可控补充（非游戏平台）
+- `games`: v2fly `category-games-!cn` + `steam`、`epicgames`、`blizzard`、`origin`、`nintendo`、`xbox`、`playstation`、`ubisoft` + 本地可控补充
+- `vowifi`: 3GPP `pub.3gppnetwork.org` 命名体系 + 美国运营商优先（MCC 310~316）+ 仓库可控的 ePDG/IMS 增补
 
 ## 直接可用配置模板
 
@@ -133,7 +137,7 @@
 说明：
 
 - 这两份模板已按当前 `policy_map` 生成，包含全部分类 URL。
-- 如果你的策略组名称不是 `PROXY`，把模板里结尾策略 `PROXY` 改成你的组名。
+- 如果策略组名称不是 `PROXY`，将模板里的 `PROXY` 替换为实际策略组名称。
 - 细颗粒度模板里使用内容分类名策略组：如 `PROXY_AI`、`PROXY_APPLE_SERVICES`、`PROXY_MICROSOFT`、`PROXY_YOUTUBE`。
 
 ## 高覆盖补充（保持颗粒度）
@@ -195,7 +199,7 @@
 
 ## `ip / non_ip / domainset` 说明
 
-- 你想要“单 URL”时，优先用：`openclash/<cat>.yaml`、`surge/<cat>.list`
+- 需要“单 URL”时，优先用：`openclash/<cat>.yaml`、`surge/<cat>.list`
 - `non_ip`：仅域名规则
 - `ip`：仅 CIDR/IP 规则
 - `domainset`：纯域名集合
@@ -208,6 +212,14 @@
 - 先执行冲突/质量闸门（冲突、抓取回退、规则数量突变、关键分类最小条目阈值）
 - 有变化时自动写入 `ruleset/dist/CHANGELOG.md` 并提交
 - 同时打回滚标签：`ruleset-YYYYMMDDTHHMMSSZ`
+- 有变化时自动创建 GitHub Release（tag 与快照标签一致）
+- Release 说明由脚本自动生成（基于 `CHANGELOG` + 冲突/抓取统计）
+
+## 误杀处理流程
+
+- 使用 GitHub Issue 模板 `Ruleset false positive` 提交误杀证据。
+- 在 `ruleset/manual/allow/reject*.txt` 添加放行规则。
+- CI 会自动校验放行规则是否已从对应 `reject*` 输出移除。
 
 ## 其他文档
 

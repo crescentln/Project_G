@@ -48,6 +48,12 @@ jobs:
       - name: Validate output formats
         run: python3 ruleset/scripts/validate_rulesets.py
 
+      - name: Smoke probes
+        run: python3 ruleset/scripts/check_smoke_probes.py
+
+      - name: Allowlist effectiveness
+        run: python3 ruleset/scripts/check_allowlist_effective.py
+
       - name: Quality gates
         run: |
           if [ -f /tmp/policy_reference.before.json ]; then
@@ -116,8 +122,41 @@ jobs:
           echo "committed=true" >> "$GITHUB_OUTPUT"
 
       - name: Tag snapshot for rollback
+        id: tag_snapshot
         if: steps.commit_dist.outputs.committed == 'true'
         run: |
           TAG="ruleset-$(date -u +'%Y%m%dT%H%M%SZ')"
           git tag -a "$TAG" -m "ruleset snapshot $TAG"
           git push origin "$TAG"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+
+      - name: Generate release notes
+        if: steps.commit_dist.outputs.committed == 'true'
+        run: |
+          python3 ruleset/scripts/generate_release_notes.py \
+            --repo "${{ github.repository }}" \
+            --tag "${{ steps.tag_snapshot.outputs.tag }}" \
+            --changelog ruleset/dist/CHANGELOG.md \
+            --index ruleset/dist/index.json \
+            --conflicts ruleset/dist/conflicts.json \
+            --fetch-report ruleset/dist/fetch_report.json \
+            --output /tmp/ruleset-release-notes.md
+
+      - name: Publish GitHub release
+        if: steps.commit_dist.outputs.committed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${{ steps.tag_snapshot.outputs.tag }}"
+          TITLE="Ruleset Snapshot ${TAG}"
+          if gh release view "$TAG" --repo "${{ github.repository }}" >/dev/null 2>&1; then
+            gh release edit "$TAG" \
+              --repo "${{ github.repository }}" \
+              --title "$TITLE" \
+              --notes-file /tmp/ruleset-release-notes.md
+          else
+            gh release create "$TAG" \
+              --repo "${{ github.repository }}" \
+              --title "$TITLE" \
+              --notes-file /tmp/ruleset-release-notes.md
+          fi

@@ -1,0 +1,40 @@
+{
+  "require_non_empty": [
+    "reject",
+    "direct",
+    "github",
+    "ai",
+    "stream",
+    "vowifi",
+    "apns",
+    "socialmedia",
+    "socialmedia_cn"
+  ],
+  "expect_rules": {
+    "github": [
+      "DOMAIN-SUFFIX,github.com"
+    ],
+    "ai": [
+      "DOMAIN-SUFFIX,openai.com"
+    ],
+    "youtube": [
+      "DOMAIN-SUFFIX,youtube.com"
+    ],
+    "spotify": [
+      "DOMAIN-SUFFIX,spotify.com"
+    ],
+    "twitch": [
+      "DOMAIN-SUFFIX,twitch.tv"
+    ],
+    "vowifi": [
+      "DOMAIN-SUFFIX,pub.3gppnetwork.org",
+      "DOMAIN-REGEX,^epdg(\\\\.epc)?\\\\.mnc[0-9]{3}\\\\.mcc31[0-6]\\\\.pub\\\\.3gppnetwork\\\\.org$"
+    ],
+    "apns": [
+      "DOMAIN-SUFFIX,push.apple.com"
+    ],
+    "talkatone": [
+      "DOMAIN-SUFFIX,talkatone.com"
+    ]
+  }
+}

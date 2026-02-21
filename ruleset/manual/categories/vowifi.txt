@@ -1,29 +1,39 @@
-# VoWiFi / IMS / ePDG (US-first profile)
-# Owner-controlled baseline set, editable by you.
+# VoWiFi / IMS / ePDG baseline
+# Scope: 3GPP naming + US carriers (MCC 310~316).
 # Recommended action: PROXY
 
-# Generic 3GPP ePDG naming anchors
+# 3GPP anchor
 DOMAIN-SUFFIX,pub.3gppnetwork.org
-DOMAIN-KEYWORD,epdg
-DOMAIN-KEYWORD,vowifi
-DOMAIN-KEYWORD,ims
 
-# Canonical ePDG patterns (global fallback)
+# Core ePDG patterns (global fallback)
 DOMAIN-REGEX,^epdg\\.epc\\.mnc[0-9]{3}\\.mcc[0-9]{3}\\.pub\\.3gppnetwork\\.org$
 DOMAIN-REGEX,^epdg\\.mnc[0-9]{3}\\.mcc[0-9]{3}\\.pub\\.3gppnetwork\\.org$
+DOMAIN-REGEX,^ss\\.epdg\\.epc\\.mnc[0-9]{3}\\.mcc[0-9]{3}\\.pub\\.3gppnetwork\\.org$
+DOMAIN-REGEX,^sos\\.epdg\\.epc\\.mnc[0-9]{3}\\.mcc[0-9]{3}\\.pub\\.3gppnetwork\\.org$
 
-# US-focused coverage (MCC 310~316)
+# US-focused ePDG patterns (MCC 310~316)
 DOMAIN-REGEX,^epdg(\\.epc)?\\.mnc[0-9]{3}\\.mcc31[0-6]\\.pub\\.3gppnetwork\\.org$
 DOMAIN-REGEX,^ss\\.epdg\\.epc\\.mnc[0-9]{3}\\.mcc31[0-6]\\.pub\\.3gppnetwork\\.org$
+DOMAIN-REGEX,^sos\\.epdg\\.epc\\.mnc[0-9]{3}\\.mcc31[0-6]\\.pub\\.3gppnetwork\\.org$
+
+# IMS service patterns (US-focused)
 DOMAIN-REGEX,^ims\\.mnc[0-9]{3}\\.mcc31[0-6]\\.3gppnetwork\\.org$
 DOMAIN-REGEX,^sip\\.mnc[0-9]{3}\\.mcc31[0-6]\\.3gppnetwork\\.org$
+DOMAIN-REGEX,^pcscf\\.mnc[0-9]{3}\\.mcc31[0-6]\\.3gppnetwork\\.org$
+DOMAIN-REGEX,^mmtel\\.mnc[0-9]{3}\\.mcc31[0-6]\\.3gppnetwork\\.org$
+DOMAIN-REGEX,^xcap\\.mnc[0-9]{3}\\.mcc31[0-6]\\.3gppnetwork\\.org$
+DOMAIN-REGEX,^bsf\\.mnc[0-9]{3}\\.mcc31[0-6]\\.3gppnetwork\\.org$
 
-# Major US carrier ePDG samples
+# Major US carrier examples (explicit FQDN samples)
 DOMAIN,epdg.epc.mnc260.mcc310.pub.3gppnetwork.org
+DOMAIN,ss.epdg.epc.mnc260.mcc310.pub.3gppnetwork.org
 DOMAIN,epdg.epc.mnc410.mcc310.pub.3gppnetwork.org
+DOMAIN,ss.epdg.epc.mnc410.mcc310.pub.3gppnetwork.org
 DOMAIN,epdg.epc.mnc480.mcc311.pub.3gppnetwork.org
-
-# Optional US variants / MVNOs (uncomment if needed)
-# DOMAIN,epdg.epc.mnc120.mcc310.pub.3gppnetwork.org
-# DOMAIN,epdg.epc.mnc160.mcc310.pub.3gppnetwork.org
-# DOMAIN,epdg.epc.mnc240.mcc310.pub.3gppnetwork.org
+DOMAIN,ss.epdg.epc.mnc480.mcc311.pub.3gppnetwork.org
+DOMAIN,epdg.epc.mnc490.mcc310.pub.3gppnetwork.org
+DOMAIN,epdg.epc.mnc120.mcc310.pub.3gppnetwork.org
+DOMAIN,epdg.epc.mnc160.mcc310.pub.3gppnetwork.org
+DOMAIN,epdg.epc.mnc240.mcc310.pub.3gppnetwork.org
+DOMAIN,epdg.epc.mnc220.mcc311.pub.3gppnetwork.org
+DOMAIN,epdg.epc.mnc580.mcc311.pub.3gppnetwork.org

@@ -1,0 +1,59 @@
+name: Ruleset false positive
+about: Report a domain/service that should be allowed but is blocked by current rules.
+title: "[False Positive] <domain-or-service>"
+labels:
+  - false-positive
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Provide reproducible details so the allowlist can be updated safely.
+
+  - type: input
+    id: service
+    attributes:
+      label: Service / App
+      description: Which service is affected?
+      placeholder: e.g. Apple Push, GitHub, YouTube
+    validations:
+      required: true
+
+  - type: input
+    id: domain
+    attributes:
+      label: Domain / Host
+      description: Exact domain/host observed in logs.
+      placeholder: e.g. api.push.apple.com
+    validations:
+      required: true
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Suspected ruleset category
+      options:
+        - reject
+        - reject_extra
+        - reject_drop
+        - reject_no_drop
+        - unknown
+    validations:
+      required: true
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Paste rule hit logs / screenshots / curl output.
+      placeholder: Include exact hit rule and timestamp.
+    validations:
+      required: true
+
+  - type: textarea
+    id: client
+    attributes:
+      label: Client Environment
+      description: OpenClash/Surge version and platform.
+      placeholder: e.g. OpenClash Meta, iOS Surge 5.x, router model
+    validations:
+      required: true

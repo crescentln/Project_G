@@ -20,7 +20,7 @@
   - 分类级：`ignore_conflicts`
   - 规则级：`ignore_conflicts_by_rule`（精确到 rule + categories）
 
-## 分类策略（按你的要求）
+## 分类策略
 
 - 分别合并：`reject`（REJECT）与 `direct`（DIRECT），两者互不合并
 - `reject_extra` / `reject_drop` / `reject_no_drop` 独立维护（可选挂载）
@@ -81,6 +81,8 @@ python3 ruleset/scripts/generate_reference_indexes.py \
   --urls-out ruleset/dist/url_catalog.md \
   --sources-out ruleset/dist/source_authority.md
 python3 ruleset/scripts/validate_rulesets.py
+python3 ruleset/scripts/check_smoke_probes.py
+python3 ruleset/scripts/check_allowlist_effective.py
 python3 ruleset/scripts/check_quality_gates.py \
   --current ruleset/dist/policy_reference.json \
   --fetch-report ruleset/dist/fetch_report.json \
@@ -101,6 +103,7 @@ python3 ruleset/scripts/build_rulesets.py --offline
 - 每周执行：`17 3 * * 1`（UTC）
 - 先执行冲突与质量闸门（含关键分类最小条目阈值），再在 `ruleset/dist` 变化时提交
 - 自动写入 `ruleset/dist/CHANGELOG.md`，并打 `ruleset-YYYYMMDDTHHMMSSZ` 回滚标签
+- 有变化时自动创建 GitHub Release，说明由脚本生成（`CHANGELOG` + 质量指标）
 
 ## 当前主要数据源
 

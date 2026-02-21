@@ -10,7 +10,7 @@ Base URL:
 - 保留独立：`reject_extra`、`reject_drop`、`reject_no_drop`
 - 其余分类保持颗粒度，不做统一大合并
 
-## 合并规则（你现在固定可用）
+## 合并规则（当前固定可用）
 
 ### OpenClash
 

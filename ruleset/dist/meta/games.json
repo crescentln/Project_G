@@ -31,11 +31,67 @@
       "rule_count": 788
     },
     {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/steam",
+      "used_cache": true,
+      "rule_count": 54
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/epicgames",
+      "used_cache": true,
+      "rule_count": 31
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/blizzard",
+      "used_cache": true,
+      "rule_count": 23
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/origin",
+      "used_cache": true,
+      "rule_count": 9
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/nintendo",
+      "used_cache": true,
+      "rule_count": 124
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/xbox",
+      "used_cache": true,
+      "rule_count": 44
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/playstation",
+      "used_cache": true,
+      "rule_count": 3
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/ubisoft",
+      "used_cache": true,
+      "rule_count": 32
+    },
+    {
       "type": "local_domain",
       "authority": "owner-controlled",
       "ref": "manual/categories/games.txt",
       "used_cache": false,
-      "rule_count": 3
+      "rule_count": 10
     }
   ]
 }

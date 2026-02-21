@@ -2,7 +2,7 @@
 
 Auto-generated summary for `ruleset/dist` updates.
 
-## 2026-02-21T16:01:23+00:00
+## 2026-02-21T23:47:10+00:00
 
 - Category Count: 53
 - Conflict Summary: total=0, cross_action=0, high=0
