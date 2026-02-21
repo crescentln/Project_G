@@ -9,7 +9,7 @@
 
 ## 你的当前策略（已按你要求）
 
-- 只合并两类：`reject`、`direct`
+- `reject` 和 `direct` 分别各自合并，互不合并
 - 其余分类保持颗粒度（`ai/telegram/stream_*/google/...` 等继续独立）
 
 ## 最常用可复制 URL

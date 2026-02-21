@@ -17,7 +17,7 @@
 
 ## 分类策略（按你的要求）
 
-- 合并：`reject`（REJECT）、`direct`（DIRECT）
+- 分别合并：`reject`（REJECT）与 `direct`（DIRECT），两者互不合并
 - 保持颗粒度：其余所有分类（如 `ai`、`telegram`、`stream_*`、`google`、`gfw`、`global`、`tld_proxy` 等）
 
 ## 输出结构
