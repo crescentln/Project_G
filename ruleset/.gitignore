@@ -1,3 +1,4 @@
 .cache/
 __pycache__/
 *.pyc
+dist/openclash/* [0-9].yaml
