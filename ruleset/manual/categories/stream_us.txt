@@ -5,3 +5,7 @@ hulu.com
 disneyplus.com
 max.com
 paramountplus.com
+peacocktv.com
+nbc.com
+hbomax.com
+crunchyroll.com

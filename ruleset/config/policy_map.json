@@ -119,12 +119,12 @@
     "apple_proxy": {
       "action": "PROXY",
       "priority": 321,
-      "note": "Apple 国际域名走代理"
+      "note": "Apple 国际域名走代理（中国区见 apple_cn/apple_cdn 直连）"
     },
     "apple_services": {
       "action": "PROXY",
       "priority": 322,
-      "note": "Apple 服务组走代理"
+      "note": "Apple 国际服务走代理（中国区与更新流量优先直连）"
     },
     "apple_intelligence": {
       "action": "PROXY",
@@ -134,7 +134,7 @@
     "microsoft": {
       "action": "PROXY",
       "priority": 324,
-      "note": "微软国际服务走代理"
+      "note": "微软国际服务走代理（中国区与更新/CDN 见 microsoft_cdn 直连）"
     },
     "github": {
       "action": "PROXY",
@@ -224,7 +224,7 @@
     "apns": {
       "action": "PROXY",
       "priority": 342,
-      "note": "APNS 按你当前策略走代理"
+      "note": "APNS 按你当前策略走代理（如推送异常可单独改为 DIRECT）"
     },
     "talkatone": {
       "action": "PROXY",
@@ -234,7 +234,7 @@
     "vowifi": {
       "action": "PROXY",
       "priority": 344,
-      "note": "VoWiFi/IMS/ePDG 相关域名走代理"
+      "note": "VoWiFi/IMS/ePDG 相关域名走代理（美国运营商优先）"
     },
     "tld_proxy": {
       "action": "PROXY",

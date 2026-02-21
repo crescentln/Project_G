@@ -1,0 +1,2 @@
+# Allowlist for reject_drop category.
+# Use with care: reject_drop is for high-risk domains.

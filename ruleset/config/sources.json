@@ -1,6 +1,7 @@
 {
   "categories": [
     {
+      "allow_rules_path": "manual/allow/reject.txt",
       "description": "Ads, trackers, and malware",
       "exclude_rules_path": "manual/exclude/reject.txt",
       "id": "reject",
@@ -28,6 +29,7 @@
       ]
     },
     {
+      "allow_rules_path": "manual/allow/reject_extra.txt",
       "description": "Extra owner-controlled reject rules",
       "id": "reject_extra",
       "sources": [
@@ -39,6 +41,7 @@
       ]
     },
     {
+      "allow_rules_path": "manual/allow/reject_drop.txt",
       "description": "Owner-controlled silent-drop reject rules",
       "id": "reject_drop",
       "sources": [
@@ -50,6 +53,7 @@
       ]
     },
     {
+      "allow_rules_path": "manual/allow/reject_no_drop.txt",
       "description": "Owner-controlled explicit reject rules (no drop)",
       "id": "reject_no_drop",
       "sources": [
@@ -212,6 +216,70 @@
           ],
           "type": "v2fly_dlc",
           "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/disney"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/hbo"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/discoveryplus"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/plutotv"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/roku"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/tubi"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/sling"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/showtimeanytime"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/nbcuniversal"
         },
         {
           "authority": "owner-controlled",
@@ -421,6 +489,14 @@
           "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/github-copilot"
         },
         {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-ai-!cn"
+        },
+        {
           "authority": "owner-controlled",
           "path": "manual/categories/ai.txt",
           "type": "local_domain"
@@ -483,6 +559,14 @@
       "description": "Apple proxy routing",
       "id": "apple_proxy",
       "sources": [
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/icloudprivaterelay"
+        },
         {
           "authority": "owner-controlled",
           "path": "manual/categories/apple_proxy.txt",
@@ -972,6 +1056,14 @@
       "description": "Global social media",
       "id": "socialmedia",
       "sources": [
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-social-media-!cn"
+        },
         {
           "authority": "community-curated",
           "exclude_attrs": [

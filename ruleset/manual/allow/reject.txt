@@ -1,0 +1,23 @@
+# Allowlist for reject category.
+# Any rule here will be removed from reject output.
+# Supported formats:
+# - DOMAIN-SUFFIX,example.com
+# - DOMAIN,exact.example.com
+# - plain domain: example.com
+
+# Core service false-positive guardrails
+DOMAIN-SUFFIX,googleapis.com
+DOMAIN-SUFFIX,apple.com
+DOMAIN-SUFFIX,microsoft.com
+DOMAIN-SUFFIX,icloud.com
+DOMAIN-SUFFIX,reddit.com
+DOMAIN-SUFFIX,redditmedia.com
+DOMAIN-SUFFIX,redditstatic.com
+DOMAIN-SUFFIX,quora.com
+DOMAIN-SUFFIX,epicgames.com
+DOMAIN-SUFFIX,dmm.com
+DOMAIN-SUFFIX,claude.ai
+DOMAIN-SUFFIX,perplexity.ai
+DOMAIN-SUFFIX,abema-tv.com
+DOMAIN-SUFFIX,ameba.jp
+DOMAIN-SUFFIX,ameblo.jp

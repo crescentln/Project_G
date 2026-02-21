@@ -2,3 +2,8 @@ DOMAIN-SUFFIX,amazon.com
 DOMAIN-SUFFIX,ebay.com
 DOMAIN-SUFFIX,shopee.com
 DOMAIN-SUFFIX,shopify.com
+DOMAIN-SUFFIX,walmart.com
+DOMAIN-SUFFIX,target.com
+DOMAIN-SUFFIX,bestbuy.com
+DOMAIN-SUFFIX,costco.com
+DOMAIN-SUFFIX,etsy.com

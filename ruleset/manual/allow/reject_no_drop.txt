@@ -1,0 +1,2 @@
+# Allowlist for reject_no_drop category.
+# Put domains here when you need explicit unblocking for this layer.

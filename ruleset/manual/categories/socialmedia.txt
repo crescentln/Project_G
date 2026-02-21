@@ -3,3 +3,6 @@ DOMAIN-SUFFIX,twitter.com
 DOMAIN-SUFFIX,facebook.com
 DOMAIN-SUFFIX,instagram.com
 DOMAIN-SUFFIX,discord.com
+DOMAIN-SUFFIX,threads.net
+DOMAIN-SUFFIX,whatsapp.com
+DOMAIN-SUFFIX,snapchat.com

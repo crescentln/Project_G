@@ -11,6 +11,7 @@ import pathlib
 import re
 import shutil
 import sys
+import tempfile
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -687,11 +688,12 @@ def load_source(
         raise BuildError("source missing 'type'")
 
     if source_type == "local_domain":
-        path = root_dir / str(source["path"])
+        source_path = pathlib.Path(str(source["path"]))
+        path = root_dir / source_path
         if not path.exists():
             raise BuildError(f"local file not found: {path}")
         text = path.read_text(encoding="utf-8")
-        return SourceBuildResult(parse_local_domain_text(text), False, str(path))
+        return SourceBuildResult(parse_local_domain_text(text), False, source_path.as_posix())
 
     url = str(source.get("url", "")).strip()
     if not url:
@@ -802,6 +804,15 @@ def write_plain_lines(path: pathlib.Path, lines: list[str]) -> None:
 
 def read_json(path: pathlib.Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def format_repo_path(path: pathlib.Path | None) -> str | None:
+    if path is None:
+        return None
+    try:
+        return path.relative_to(ROOT_DIR).as_posix()
+    except ValueError:
+        return str(path)
 
 
 def load_policy_map(policy_path: pathlib.Path | None) -> dict[str, dict[str, Any]]:
@@ -999,6 +1010,17 @@ def build_category(
             removed = before_count - len(rules)
             if removed > 0:
                 log(f"{category_id}: removed {removed} rules from exclusion file")
+
+    allow_path = category.get("allow_rules_path")
+    if allow_path:
+        allow_file = root_dir / str(allow_path)
+        if allow_file.exists():
+            allow_rules = parse_local_domain_text(allow_file.read_text(encoding="utf-8"))
+            before_count = len(rules)
+            rules.difference_update(allow_rules)
+            removed = before_count - len(rules)
+            if removed > 0:
+                log(f"{category_id}: removed {removed} rules from allowlist file")
 
     sorted_rules = sorted(rules, key=rule_sort_key)
     return sorted_rules, source_meta
@@ -1287,8 +1309,8 @@ def build_all(
 
     manifest = {
         "generated_at_utc": dt.datetime.now(dt.timezone.utc).isoformat(),
-        "config_path": str(config_path),
-        "policy_path": str(policy_path) if policy_path else None,
+        "config_path": format_repo_path(config_path),
+        "policy_path": format_repo_path(policy_path),
         "category_count": len(metadata_categories),
         "conflict_count": len(conflicts),
         "cross_action_conflict_count": cross_action_conflict_count,
@@ -1307,7 +1329,7 @@ def build_all(
         json.dumps(
             {
                 "generated_at_utc": dt.datetime.now(dt.timezone.utc).isoformat(),
-                "policy_path": str(policy_path) if policy_path else None,
+                "policy_path": format_repo_path(policy_path),
                 "categories": [
                     {
                         "id": c["id"],
@@ -1359,6 +1381,51 @@ def build_all(
     return 0
 
 
+def build_all_staged(
+    config_path: pathlib.Path,
+    policy_path: pathlib.Path | None,
+    dist_dir: pathlib.Path,
+    cache_dir: pathlib.Path,
+    offline: bool,
+    fail_on_conflicts: bool,
+    fail_on_cross_action_conflicts: bool,
+) -> int:
+    """
+    Build into a fresh staging directory and atomically replace dist_dir.
+
+    This avoids sync-conflict duplicate artifacts (e.g. '* 2.list') in
+    cloud-synced folders by preventing in-place multi-file rewrites.
+    """
+    dist_parent = dist_dir.parent
+    dist_parent.mkdir(parents=True, exist_ok=True)
+    staging_dir = pathlib.Path(
+        tempfile.mkdtemp(prefix=f".{dist_dir.name}.staging.", dir=str(dist_parent))
+    )
+    try:
+        code = build_all(
+            config_path=config_path,
+            policy_path=policy_path,
+            dist_dir=staging_dir,
+            cache_dir=cache_dir,
+            offline=offline,
+            fail_on_conflicts=fail_on_conflicts,
+            fail_on_cross_action_conflicts=fail_on_cross_action_conflicts,
+        )
+
+        # A final duplicate sweep in staging prevents sync-generated conflict copies.
+        removed_duplicates = purge_duplicate_artifacts(staging_dir)
+        if removed_duplicates > 0:
+            log(f"staging cleanup removed {removed_duplicates} duplicate artifacts")
+
+        if dist_dir.exists():
+            shutil.rmtree(dist_dir)
+        staging_dir.replace(dist_dir)
+        return code
+    finally:
+        if staging_dir.exists():
+            shutil.rmtree(staging_dir, ignore_errors=True)
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Build self-owned rulesets for OpenClash and Surge from authoritative sources."
@@ -1408,7 +1475,7 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
     try:
-        return build_all(
+        return build_all_staged(
             config_path=args.config,
             policy_path=args.policy,
             dist_dir=args.dist_dir,

@@ -2,17 +2,6 @@
 # Example:
 # DOMAIN-SUFFIX,example.com
 
-# Avoid false-positive adblock hits for core services.
-DOMAIN-SUFFIX,googleapis.com
-DOMAIN-SUFFIX,epicgames.com
-DOMAIN-SUFFIX,claude.ai
-DOMAIN-SUFFIX,perplexity.ai
-DOMAIN-SUFFIX,abema-tv.com
-DOMAIN-SUFFIX,ameba.jp
-DOMAIN-SUFFIX,ameblo.jp
-DOMAIN-SUFFIX,apple.com
-DOMAIN-SUFFIX,dmm.com
-DOMAIN-SUFFIX,quora.com
-DOMAIN-SUFFIX,reddit.com
-DOMAIN-SUFFIX,redditmedia.com
-DOMAIN-SUFFIX,redditstatic.com
+# Keep this file for one-off emergency excludes.
+# Regular false-positive maintenance should go to:
+# - manual/allow/reject.txt

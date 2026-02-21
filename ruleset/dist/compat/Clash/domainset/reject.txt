@@ -93052,7 +93052,6 @@ x.o2.pl
 +.microsite.pbs.org
 +.microsite.standardandpoors.com
 +.microsite2.dylansnoddon.com
-+.microsoft.com
 +.microsoft.eventionapp.com
 +.microware.actonservice.com
 +.mictests.com

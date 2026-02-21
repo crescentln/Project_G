@@ -1,0 +1,369 @@
+# Generated file: recommended OpenClash template (rule-providers + rules)
+# If your proxy policy group name is not PROXY, replace it in rules below.
+rule-providers:
+  reject:
+    type: http
+    behavior: classical
+    path: ./rule_provider/reject.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/reject.yaml
+    interval: 86400
+  reject_extra:
+    type: http
+    behavior: classical
+    path: ./rule_provider/reject_extra.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/reject_extra.yaml
+    interval: 86400
+  reject_drop:
+    type: http
+    behavior: classical
+    path: ./rule_provider/reject_drop.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/reject_drop.yaml
+    interval: 86400
+  reject_no_drop:
+    type: http
+    behavior: classical
+    path: ./rule_provider/reject_no_drop.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/reject_no_drop.yaml
+    interval: 86400
+  httpdns:
+    type: http
+    behavior: classical
+    path: ./rule_provider/httpdns.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/httpdns.yaml
+    interval: 86400
+  lan:
+    type: http
+    behavior: classical
+    path: ./rule_provider/lan.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/lan.yaml
+    interval: 86400
+  direct:
+    type: http
+    behavior: classical
+    path: ./rule_provider/direct.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/direct.yaml
+    interval: 86400
+  domestic:
+    type: http
+    behavior: classical
+    path: ./rule_provider/domestic.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/domestic.yaml
+    interval: 86400
+  cncidr:
+    type: http
+    behavior: classical
+    path: ./rule_provider/cncidr.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/cncidr.yaml
+    interval: 86400
+  apple_cn:
+    type: http
+    behavior: classical
+    path: ./rule_provider/apple_cn.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/apple_cn.yaml
+    interval: 86400
+  apple_cdn:
+    type: http
+    behavior: classical
+    path: ./rule_provider/apple_cdn.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/apple_cdn.yaml
+    interval: 86400
+  microsoft_cdn:
+    type: http
+    behavior: classical
+    path: ./rule_provider/microsoft_cdn.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/microsoft_cdn.yaml
+    interval: 86400
+  socialmedia_cn:
+    type: http
+    behavior: classical
+    path: ./rule_provider/socialmedia_cn.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/socialmedia_cn.yaml
+    interval: 86400
+  games_cn:
+    type: http
+    behavior: classical
+    path: ./rule_provider/games_cn.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/games_cn.yaml
+    interval: 86400
+  douyin:
+    type: http
+    behavior: classical
+    path: ./rule_provider/douyin.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/douyin.yaml
+    interval: 86400
+  dmca:
+    type: http
+    behavior: classical
+    path: ./rule_provider/dmca.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/dmca.yaml
+    interval: 86400
+  cdn:
+    type: http
+    behavior: classical
+    path: ./rule_provider/cdn.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/cdn.yaml
+    interval: 86400
+  download:
+    type: http
+    behavior: classical
+    path: ./rule_provider/download.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/download.yaml
+    interval: 86400
+  telegram:
+    type: http
+    behavior: classical
+    path: ./rule_provider/telegram.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/telegram.yaml
+    interval: 86400
+  stream_us:
+    type: http
+    behavior: classical
+    path: ./rule_provider/stream_us.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/stream_us.yaml
+    interval: 86400
+  stream_jp:
+    type: http
+    behavior: classical
+    path: ./rule_provider/stream_jp.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/stream_jp.yaml
+    interval: 86400
+  stream_hk:
+    type: http
+    behavior: classical
+    path: ./rule_provider/stream_hk.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/stream_hk.yaml
+    interval: 86400
+  stream_tw:
+    type: http
+    behavior: classical
+    path: ./rule_provider/stream_tw.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/stream_tw.yaml
+    interval: 86400
+  stream_global:
+    type: http
+    behavior: classical
+    path: ./rule_provider/stream_global.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/stream_global.yaml
+    interval: 86400
+  ai:
+    type: http
+    behavior: classical
+    path: ./rule_provider/ai.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/ai.yaml
+    interval: 86400
+  apple_proxy:
+    type: http
+    behavior: classical
+    path: ./rule_provider/apple_proxy.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/apple_proxy.yaml
+    interval: 86400
+  apple_services:
+    type: http
+    behavior: classical
+    path: ./rule_provider/apple_services.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/apple_services.yaml
+    interval: 86400
+  apple_intelligence:
+    type: http
+    behavior: classical
+    path: ./rule_provider/apple_intelligence.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/apple_intelligence.yaml
+    interval: 86400
+  microsoft:
+    type: http
+    behavior: classical
+    path: ./rule_provider/microsoft.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/microsoft.yaml
+    interval: 86400
+  github:
+    type: http
+    behavior: classical
+    path: ./rule_provider/github.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/github.yaml
+    interval: 86400
+  games:
+    type: http
+    behavior: classical
+    path: ./rule_provider/games.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/games.yaml
+    interval: 86400
+  youtube:
+    type: http
+    behavior: classical
+    path: ./rule_provider/youtube.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/youtube.yaml
+    interval: 86400
+  abema:
+    type: http
+    behavior: classical
+    path: ./rule_provider/abema.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/abema.yaml
+    interval: 86400
+  apple_tv:
+    type: http
+    behavior: classical
+    path: ./rule_provider/apple_tv.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/apple_tv.yaml
+    interval: 86400
+  primevideo:
+    type: http
+    behavior: classical
+    path: ./rule_provider/primevideo.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/primevideo.yaml
+    interval: 86400
+  spotify:
+    type: http
+    behavior: classical
+    path: ./rule_provider/spotify.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/spotify.yaml
+    interval: 86400
+  twitch:
+    type: http
+    behavior: classical
+    path: ./rule_provider/twitch.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/twitch.yaml
+    interval: 86400
+  google:
+    type: http
+    behavior: classical
+    path: ./rule_provider/google.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/google.yaml
+    interval: 86400
+  googlefcm:
+    type: http
+    behavior: classical
+    path: ./rule_provider/googlefcm.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/googlefcm.yaml
+    interval: 86400
+  paypal:
+    type: http
+    behavior: classical
+    path: ./rule_provider/paypal.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/paypal.yaml
+    interval: 86400
+  crypto:
+    type: http
+    behavior: classical
+    path: ./rule_provider/crypto.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/crypto.yaml
+    interval: 86400
+  ecommerce:
+    type: http
+    behavior: classical
+    path: ./rule_provider/ecommerce.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/ecommerce.yaml
+    interval: 86400
+  onedrive:
+    type: http
+    behavior: classical
+    path: ./rule_provider/onedrive.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/onedrive.yaml
+    interval: 86400
+  forum:
+    type: http
+    behavior: classical
+    path: ./rule_provider/forum.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/forum.yaml
+    interval: 86400
+  socialmedia:
+    type: http
+    behavior: classical
+    path: ./rule_provider/socialmedia.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/socialmedia.yaml
+    interval: 86400
+  tiktok:
+    type: http
+    behavior: classical
+    path: ./rule_provider/tiktok.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/tiktok.yaml
+    interval: 86400
+  apns:
+    type: http
+    behavior: classical
+    path: ./rule_provider/apns.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/apns.yaml
+    interval: 86400
+  talkatone:
+    type: http
+    behavior: classical
+    path: ./rule_provider/talkatone.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/talkatone.yaml
+    interval: 86400
+  vowifi:
+    type: http
+    behavior: classical
+    path: ./rule_provider/vowifi.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/vowifi.yaml
+    interval: 86400
+  tld_proxy:
+    type: http
+    behavior: classical
+    path: ./rule_provider/tld_proxy.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/tld_proxy.yaml
+    interval: 86400
+  gfw:
+    type: http
+    behavior: classical
+    path: ./rule_provider/gfw.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/gfw.yaml
+    interval: 86400
+  global:
+    type: http
+    behavior: classical
+    path: ./rule_provider/global.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/global.yaml
+    interval: 86400
+rules:
+  - RULE-SET,reject,REJECT
+  - RULE-SET,reject_extra,REJECT
+  - RULE-SET,reject_drop,REJECT-DROP
+  - RULE-SET,reject_no_drop,REJECT-NO-DROP
+  - RULE-SET,httpdns,REJECT
+  - RULE-SET,lan,DIRECT
+  - RULE-SET,direct,DIRECT
+  - RULE-SET,domestic,DIRECT
+  - RULE-SET,cncidr,DIRECT
+  - RULE-SET,apple_cn,DIRECT
+  - RULE-SET,apple_cdn,DIRECT
+  - RULE-SET,microsoft_cdn,DIRECT
+  - RULE-SET,socialmedia_cn,DIRECT
+  - RULE-SET,games_cn,DIRECT
+  - RULE-SET,douyin,DIRECT
+  - RULE-SET,dmca,DIRECT
+  - RULE-SET,cdn,DIRECT
+  - RULE-SET,download,DIRECT
+  - RULE-SET,telegram,PROXY
+  - RULE-SET,stream_us,PROXY
+  - RULE-SET,stream_jp,PROXY
+  - RULE-SET,stream_hk,PROXY
+  - RULE-SET,stream_tw,PROXY
+  - RULE-SET,stream_global,PROXY
+  - RULE-SET,ai,PROXY
+  - RULE-SET,apple_proxy,PROXY
+  - RULE-SET,apple_services,PROXY
+  - RULE-SET,apple_intelligence,PROXY
+  - RULE-SET,microsoft,PROXY
+  - RULE-SET,github,PROXY
+  - RULE-SET,games,PROXY
+  - RULE-SET,youtube,PROXY
+  - RULE-SET,abema,PROXY
+  - RULE-SET,apple_tv,PROXY
+  - RULE-SET,primevideo,PROXY
+  - RULE-SET,spotify,PROXY
+  - RULE-SET,twitch,PROXY
+  - RULE-SET,google,PROXY
+  - RULE-SET,googlefcm,PROXY
+  - RULE-SET,paypal,PROXY
+  - RULE-SET,crypto,PROXY
+  - RULE-SET,ecommerce,PROXY
+  - RULE-SET,onedrive,PROXY
+  - RULE-SET,forum,PROXY
+  - RULE-SET,socialmedia,PROXY
+  - RULE-SET,tiktok,PROXY
+  - RULE-SET,apns,PROXY
+  - RULE-SET,talkatone,PROXY
+  - RULE-SET,vowifi,PROXY
+  - RULE-SET,tld_proxy,PROXY
+  - RULE-SET,gfw,PROXY
+  - RULE-SET,global,PROXY
+  - MATCH,PROXY

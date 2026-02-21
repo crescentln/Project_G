@@ -1,0 +1,2 @@
+# Allowlist for reject_extra category.
+# Keep this focused to domains you explicitly do not want to block.

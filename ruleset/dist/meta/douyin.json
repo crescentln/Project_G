@@ -33,7 +33,7 @@
     {
       "type": "local_domain",
       "authority": "owner-controlled",
-      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/douyin.txt",
+      "ref": "manual/categories/douyin.txt",
       "used_cache": false,
       "rule_count": 2
     }

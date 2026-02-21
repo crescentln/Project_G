@@ -4,7 +4,7 @@ This file defines the recommended action per category.
 
 | Category | Action | Priority | Rules | Note |
 |---|---:|---:|---:|---|
-| `reject` | `REJECT` | 100 | 175203 | 广告、追踪、恶意基础拦截规则 |
+| `reject` | `REJECT` | 100 | 175202 | 广告、追踪、恶意基础拦截规则 |
 | `reject_extra` | `REJECT` | 110 | 10 | 额外补充拦截规则（标准拒绝） |
 | `reject_drop` | `REJECT-DROP` | 120 | 5 | 静默丢弃拦截规则 |
 | `reject_no_drop` | `REJECT-NO-DROP` | 130 | 6 | 显式拒绝规则（不静默丢弃） |
@@ -23,16 +23,16 @@ This file defines the recommended action per category.
 | `cdn` | `DIRECT` | 250 | 1285 | CDN 回源与就近访问优先直连 |
 | `download` | `DIRECT` | 251 | 5 | 下载流量默认直连以降低代理负载 |
 | `telegram` | `PROXY` | 300 | 34 | Telegram 走代理 |
-| `stream_us` | `PROXY` | 310 | 238 | 北美流媒体走代理 |
+| `stream_us` | `PROXY` | 310 | 340 | 北美流媒体走代理 |
 | `stream_jp` | `PROXY` | 311 | 25 | 日本流媒体走代理 |
 | `stream_hk` | `PROXY` | 312 | 15 | 香港流媒体走代理 |
 | `stream_tw` | `PROXY` | 313 | 28 | 台湾流媒体走代理 |
 | `stream_global` | `PROXY` | 314 | 288 | 国外流媒体高覆盖集合走代理 |
-| `ai` | `PROXY` | 320 | 66 | AI 服务走代理 |
-| `apple_proxy` | `PROXY` | 321 | 3 | Apple 国际域名走代理 |
-| `apple_services` | `PROXY` | 322 | 1501 | Apple 服务组走代理 |
+| `ai` | `PROXY` | 320 | 120 | AI 服务走代理 |
+| `apple_proxy` | `PROXY` | 321 | 6 | Apple 国际域名走代理（中国区见 apple_cn/apple_cdn 直连） |
+| `apple_services` | `PROXY` | 322 | 1501 | Apple 国际服务走代理（中国区与更新流量优先直连） |
 | `apple_intelligence` | `PROXY` | 323 | 5 | Apple Intelligence 走代理 |
-| `microsoft` | `PROXY` | 324 | 422 | 微软国际服务走代理 |
+| `microsoft` | `PROXY` | 324 | 422 | 微软国际服务走代理（中国区与更新/CDN 见 microsoft_cdn 直连） |
 | `github` | `PROXY` | 325 | 41 | GitHub/GitLab/Gitee 等代码托管平台走代理 |
 | `games` | `PROXY` | 326 | 788 | 国际游戏服务走代理 |
 | `youtube` | `PROXY` | 327 | 176 | YouTube 走代理 |
@@ -45,14 +45,14 @@ This file defines the recommended action per category.
 | `googlefcm` | `PROXY` | 334 | 15 | Google FCM 推送走代理 |
 | `paypal` | `PROXY` | 335 | 233 | PayPal 走代理 |
 | `crypto` | `PROXY` | 336 | 74 | 加密交易站点走代理 |
-| `ecommerce` | `PROXY` | 337 | 1093 | 跨境电商走代理 |
+| `ecommerce` | `PROXY` | 337 | 1094 | 跨境电商走代理 |
 | `onedrive` | `PROXY` | 338 | 11 | OneDrive 走代理 |
 | `forum` | `PROXY` | 339 | 97 | 国际论坛走代理 |
-| `socialmedia` | `PROXY` | 340 | 536 | 国际社交网络走代理 |
+| `socialmedia` | `PROXY` | 340 | 631 | 国际社交网络走代理 |
 | `tiktok` | `PROXY` | 341 | 35 | TikTok 国际站走代理 |
-| `apns` | `PROXY` | 342 | 2 | APNS 按你当前策略走代理 |
+| `apns` | `PROXY` | 342 | 2 | APNS 按你当前策略走代理（如推送异常可单独改为 DIRECT） |
 | `talkatone` | `PROXY` | 343 | 1 | Talkatone 走代理 |
-| `vowifi` | `PROXY` | 344 | 11 | VoWiFi/IMS/ePDG 相关域名走代理 |
+| `vowifi` | `PROXY` | 344 | 13 | VoWiFi/IMS/ePDG 相关域名走代理（美国运营商优先） |
 | `tld_proxy` | `PROXY` | 345 | 1433 | 需要强制代理的 TLD 集 |
 | `gfw` | `PROXY` | 346 | 109 | GFW 列表走代理 |
 | `global` | `PROXY` | 900 | 23648 | 兜底代理集合（应放在较后顺序） |

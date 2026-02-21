@@ -68,7 +68,7 @@
     {
       "type": "local_domain",
       "authority": "owner-controlled",
-      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/stream_global.txt",
+      "ref": "manual/categories/stream_global.txt",
       "used_cache": false,
       "rule_count": 0
     }

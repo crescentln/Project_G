@@ -61,7 +61,7 @@
     {
       "type": "local_domain",
       "authority": "owner-controlled",
-      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/crypto.txt",
+      "ref": "manual/categories/crypto.txt",
       "used_cache": false,
       "rule_count": 4
     }

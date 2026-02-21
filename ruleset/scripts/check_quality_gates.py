@@ -25,6 +25,32 @@ def read_json(path: pathlib.Path) -> dict[str, Any]:
         raise GateError(f"invalid json: {path}: {exc}") from exc
 
 
+def read_minimum_counts(path: pathlib.Path) -> dict[str, int]:
+    payload = read_json(path)
+    raw: Any
+    if isinstance(payload.get("minimum_rule_counts"), dict):
+        raw = payload.get("minimum_rule_counts", {})
+    else:
+        raw = payload
+
+    if not isinstance(raw, dict):
+        raise GateError(f"{path}: minimum counts must be an object")
+
+    out: dict[str, int] = {}
+    for key, value in raw.items():
+        category_id = str(key).strip()
+        if not category_id:
+            continue
+        try:
+            min_count = int(value)
+        except (TypeError, ValueError) as exc:
+            raise GateError(f"{path}: invalid minimum count for '{category_id}'") from exc
+        if min_count < 0:
+            raise GateError(f"{path}: minimum count for '{category_id}' must be >= 0")
+        out[category_id] = min_count
+    return out
+
+
 def parse_rule_counts(payload: dict[str, Any], source_path: pathlib.Path) -> dict[str, int]:
     categories = payload.get("categories")
     if not isinstance(categories, list):
@@ -185,6 +211,12 @@ def parse_args() -> argparse.Namespace:
         default=0,
         help="Maximum allowed high severity conflicts (default: 0).",
     )
+    parser.add_argument(
+        "--minimums",
+        type=pathlib.Path,
+        default=None,
+        help="JSON file defining minimum rule counts per category.",
+    )
     return parser.parse_args()
 
 
@@ -195,6 +227,17 @@ def main() -> int:
     current_payload = read_json(args.current)
     current_counts = parse_rule_counts(current_payload, args.current)
     log(f"current categories: {len(current_counts)}")
+
+    if args.minimums is not None:
+        minimum_counts = read_minimum_counts(args.minimums)
+        log(f"minimum-count checks: {len(minimum_counts)} categories")
+        for category_id in sorted(minimum_counts):
+            minimum = minimum_counts[category_id]
+            current = current_counts.get(category_id, 0)
+            if current < minimum:
+                violations.append(
+                    f"minimum rule count not met: {category_id} current={current} required>={minimum}"
+                )
 
     if args.baseline is None:
         log("baseline not provided, skip rule-count drift gate")

@@ -3,7 +3,7 @@
   "description": "Apple Push Notification service",
   "recommended_action": "PROXY",
   "recommended_priority": 342,
-  "recommended_note": "APNS 按你当前策略走代理",
+  "recommended_note": "APNS 按你当前策略走代理（如推送异常可单独改为 DIRECT）",
   "rule_count": 2,
   "paths": {
     "surge": "surge/apns.list",
@@ -26,7 +26,7 @@
     {
       "type": "local_domain",
       "authority": "owner-controlled",
-      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/apns.txt",
+      "ref": "manual/categories/apns.txt",
       "used_cache": false,
       "rule_count": 2
     }

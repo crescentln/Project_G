@@ -82,91 +82,91 @@
     {
       "type": "local_domain",
       "authority": "owner-controlled",
-      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/lan.txt",
+      "ref": "manual/categories/lan.txt",
       "used_cache": false,
       "rule_count": 0
     },
     {
       "type": "local_domain",
       "authority": "owner-controlled",
-      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/domestic.txt",
+      "ref": "manual/categories/domestic.txt",
       "used_cache": false,
       "rule_count": 0
     },
     {
       "type": "local_domain",
       "authority": "owner-controlled",
-      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/cncidr.txt",
+      "ref": "manual/categories/cncidr.txt",
       "used_cache": false,
       "rule_count": 0
     },
     {
       "type": "local_domain",
       "authority": "owner-controlled",
-      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/apple_cn.txt",
+      "ref": "manual/categories/apple_cn.txt",
       "used_cache": false,
       "rule_count": 2
     },
     {
       "type": "local_domain",
       "authority": "owner-controlled",
-      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/apple_cdn.txt",
+      "ref": "manual/categories/apple_cdn.txt",
       "used_cache": false,
       "rule_count": 0
     },
     {
       "type": "local_domain",
       "authority": "owner-controlled",
-      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/microsoft_cdn.txt",
+      "ref": "manual/categories/microsoft_cdn.txt",
       "used_cache": false,
       "rule_count": 3
     },
     {
       "type": "local_domain",
       "authority": "owner-controlled",
-      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/socialmedia_cn.txt",
+      "ref": "manual/categories/socialmedia_cn.txt",
       "used_cache": false,
       "rule_count": 4
     },
     {
       "type": "local_domain",
       "authority": "owner-controlled",
-      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/games_cn.txt",
+      "ref": "manual/categories/games_cn.txt",
       "used_cache": false,
       "rule_count": 3
     },
     {
       "type": "local_domain",
       "authority": "owner-controlled",
-      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/douyin.txt",
+      "ref": "manual/categories/douyin.txt",
       "used_cache": false,
       "rule_count": 2
     },
     {
       "type": "local_domain",
       "authority": "owner-controlled",
-      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/dmca.txt",
+      "ref": "manual/categories/dmca.txt",
       "used_cache": false,
       "rule_count": 5
     },
     {
       "type": "local_domain",
       "authority": "owner-controlled",
-      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/cdn.txt",
+      "ref": "manual/categories/cdn.txt",
       "used_cache": false,
       "rule_count": 0
     },
     {
       "type": "local_domain",
       "authority": "owner-controlled",
-      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/download.txt",
+      "ref": "manual/categories/download.txt",
       "used_cache": false,
       "rule_count": 5
     },
     {
       "type": "local_domain",
       "authority": "owner-controlled",
-      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/direct.txt",
+      "ref": "manual/categories/direct.txt",
       "used_cache": false,
       "rule_count": 0
     }

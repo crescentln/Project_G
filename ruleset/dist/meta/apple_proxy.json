@@ -3,8 +3,8 @@
   "description": "Apple proxy routing",
   "recommended_action": "PROXY",
   "recommended_priority": 321,
-  "recommended_note": "Apple 国际域名走代理",
-  "rule_count": 3,
+  "recommended_note": "Apple 国际域名走代理（中国区见 apple_cn/apple_cdn 直连）",
+  "rule_count": 6,
   "paths": {
     "surge": "surge/apple_proxy.list",
     "surge_non_ip": "surge/non_ip/apple_proxy.list",
@@ -24,9 +24,16 @@
   },
   "sources": [
     {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/icloudprivaterelay",
+      "used_cache": true,
+      "rule_count": 3
+    },
+    {
       "type": "local_domain",
       "authority": "owner-controlled",
-      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/apple_proxy.txt",
+      "ref": "manual/categories/apple_proxy.txt",
       "used_cache": false,
       "rule_count": 3
     }

@@ -47,7 +47,7 @@
     {
       "type": "local_domain",
       "authority": "owner-controlled",
-      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/stream_hk.txt",
+      "ref": "manual/categories/stream_hk.txt",
       "used_cache": false,
       "rule_count": 4
     }
