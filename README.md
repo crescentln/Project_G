@@ -13,6 +13,23 @@
 - `reject_extra` / `reject_drop` / `reject_no_drop` 保持独立可选
 - 其余分类保持颗粒度（`ai/telegram/stream_*/google/...` 等继续独立）
 
+## 直连规则标记（DIRECT）
+
+下面这些是“应直连”的分类（除了 `direct` 本身）：
+
+- `lan`
+- `domestic`
+- `cncidr`
+- `apple_cn`
+- `apple_cdn`
+- `microsoft_cdn`
+- `socialmedia_cn`
+- `games_cn`
+- `douyin`
+- `dmca`
+- `cdn`
+- `download`
+
 ## 最常用可复制 URL
 
 ### OpenClash

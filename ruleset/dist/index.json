@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-02-21T13:50:21.124285+00:00",
+  "generated_at_utc": "2026-02-21T13:55:59.986252+00:00",
   "config_path": "/Users/alpha2128125/Documents/New project/ruleset/config/sources.json",
   "policy_path": "/Users/alpha2128125/Documents/New project/ruleset/config/policy_map.json",
   "category_count": 52,
@@ -1091,7 +1091,7 @@
     {
       "id": "httpdns",
       "description": "HTTPDNS and related endpoints",
-      "rule_count": 2,
+      "rule_count": 49,
       "surge_path": "surge/httpdns.list",
       "openclash_path": "openclash/httpdns.yaml",
       "surge_non_ip_path": "surge/non_ip/httpdns.list",
@@ -1111,6 +1111,13 @@
       "recommended_priority": 150,
       "recommended_note": "HTTPDNS 相关域名建议拦截",
       "sources": [
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-httpdns-cn",
+          "used_cache": true,
+          "rule_count": 49
+        },
         {
           "type": "local_domain",
           "authority": "owner-controlled",
@@ -2023,7 +2030,7 @@
     {
       "id": "vowifi",
       "description": "VoWiFi / IMS / ePDG domains",
-      "rule_count": 6,
+      "rule_count": 19,
       "surge_path": "surge/vowifi.list",
       "openclash_path": "openclash/vowifi.yaml",
       "surge_non_ip_path": "surge/non_ip/vowifi.list",
@@ -2048,7 +2055,7 @@
           "authority": "owner-controlled",
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/vowifi.txt",
           "used_cache": false,
-          "rule_count": 6
+          "rule_count": 19
         }
       ]
     },

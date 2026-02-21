@@ -620,6 +620,14 @@
       "id": "httpdns",
       "sources": [
         {
+          "authority": "community-curated",
+          "include_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-httpdns-cn"
+        },
+        {
           "authority": "owner-controlled",
           "path": "manual/categories/httpdns.txt",
           "type": "local_domain"
@@ -1406,6 +1414,10 @@
     [
       "direct",
       "cncidr"
+    ],
+    [
+      "httpdns",
+      "reject"
     ]
   ],
   "version": 2

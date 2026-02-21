@@ -21,6 +21,23 @@
 - `reject_extra` / `reject_drop` / `reject_no_drop` 独立维护（可选挂载）
 - 保持颗粒度：其余所有分类（如 `github`、`ai`、`vowifi`、`socialmedia`、`ecommerce`、`stream_global`、`youtube`、`spotify`、`twitch`、`gfw`、`global`、`tld_proxy` 等）
 
+## 直连分类（重点标记）
+
+除 `direct` 之外，以下分类也固定建议 `DIRECT`：
+
+- `lan`
+- `domestic`
+- `cncidr`
+- `apple_cn`
+- `apple_cdn`
+- `microsoft_cdn`
+- `socialmedia_cn`
+- `games_cn`
+- `douyin`
+- `dmca`
+- `cdn`
+- `download`
+
 ## 输出结构
 
 产物目录：`ruleset/dist/`

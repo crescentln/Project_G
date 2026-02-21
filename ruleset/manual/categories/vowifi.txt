@@ -1,10 +1,29 @@
 # VoWiFi / IMS / ePDG related endpoints
 # Owner-controlled baseline set, editable by you.
+
+# Generic 3GPP ePDG naming patterns
 DOMAIN-SUFFIX,pub.3gppnetwork.org
 DOMAIN-KEYWORD,epdg
+DOMAIN-KEYWORD,vowifi
+DOMAIN-KEYWORD,ims
+DOMAIN-REGEX,^epdg\\.epc\\.mnc[0-9]{3}\\.mcc[0-9]{3}\\.pub\\.3gppnetwork\\.org$
+DOMAIN-REGEX,^epdg\\.mnc[0-9]{3}\\.mcc[0-9]{3}\\.pub\\.3gppnetwork\\.org$
 
-# Common carrier ePDG samples
+# US carrier ePDG samples
 DOMAIN,epdg.epc.mnc260.mcc310.pub.3gppnetwork.org
 DOMAIN,epdg.epc.mnc410.mcc310.pub.3gppnetwork.org
 DOMAIN,epdg.epc.mnc480.mcc311.pub.3gppnetwork.org
+
+# CN carrier ePDG samples
+DOMAIN,epdg.epc.mnc000.mcc460.pub.3gppnetwork.org
+DOMAIN,epdg.epc.mnc002.mcc460.pub.3gppnetwork.org
+DOMAIN,epdg.epc.mnc007.mcc460.pub.3gppnetwork.org
+DOMAIN,epdg.epc.mnc001.mcc460.pub.3gppnetwork.org
+DOMAIN,epdg.epc.mnc006.mcc460.pub.3gppnetwork.org
+DOMAIN,epdg.epc.mnc009.mcc460.pub.3gppnetwork.org
+DOMAIN,epdg.epc.mnc003.mcc460.pub.3gppnetwork.org
+DOMAIN,epdg.epc.mnc011.mcc460.pub.3gppnetwork.org
+
+# HK/JP samples
 DOMAIN,epdg.epc.mnc440.mcc440.pub.3gppnetwork.org
+DOMAIN,epdg.epc.mnc012.mcc454.pub.3gppnetwork.org

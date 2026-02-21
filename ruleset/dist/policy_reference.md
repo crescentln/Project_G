@@ -8,7 +8,7 @@ This file defines the recommended action per category.
 | `reject_extra` | `REJECT` | 110 | 0 | 额外补充拦截规则（标准拒绝） |
 | `reject_drop` | `REJECT-DROP` | 120 | 0 | 静默丢弃拦截规则 |
 | `reject_no_drop` | `REJECT-NO-DROP` | 130 | 0 | 显式拒绝规则（不静默丢弃） |
-| `httpdns` | `REJECT` | 150 | 2 | HTTPDNS 相关域名建议拦截 |
+| `httpdns` | `REJECT` | 150 | 49 | HTTPDNS 相关域名建议拦截 |
 | `lan` | `DIRECT` | 200 | 33 | 局域网与特殊保留地址直连 |
 | `direct` | `DIRECT` | 205 | 18883 | 合并直连集合（简化部署） |
 | `domestic` | `DIRECT` | 210 | 10828 | 中国大陆业务优先直连 |
@@ -52,7 +52,7 @@ This file defines the recommended action per category.
 | `tiktok` | `PROXY` | 341 | 35 | TikTok 国际站走代理 |
 | `apns` | `PROXY` | 342 | 2 | APNS 按你当前策略走代理 |
 | `talkatone` | `PROXY` | 343 | 1 | Talkatone 走代理 |
-| `vowifi` | `PROXY` | 344 | 6 | VoWiFi/IMS/ePDG 相关域名走代理 |
+| `vowifi` | `PROXY` | 344 | 19 | VoWiFi/IMS/ePDG 相关域名走代理 |
 | `tld_proxy` | `PROXY` | 345 | 1433 | 需要强制代理的 TLD 集 |
 | `gfw` | `PROXY` | 346 | 109 | GFW 列表走代理 |
 | `global` | `PROXY` | 900 | 23648 | 兜底代理集合（应放在较后顺序） |
