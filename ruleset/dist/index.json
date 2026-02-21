@@ -1,14 +1,14 @@
 {
-  "generated_at_utc": "2026-02-21T00:09:45.680320+00:00",
+  "generated_at_utc": "2026-02-21T00:20:34.518128+00:00",
   "config_path": "/Users/alpha2128125/Documents/New project/ruleset/config/sources.json",
   "policy_path": "/Users/alpha2128125/Documents/New project/ruleset/config/policy_map.json",
-  "category_count": 49,
-  "conflict_count": 6,
+  "category_count": 54,
+  "conflict_count": 0,
   "categories": [
     {
       "id": "reject",
       "description": "Ads, trackers, and malware",
-      "rule_count": 175186,
+      "rule_count": 175182,
       "surge_path": "surge/reject.list",
       "openclash_path": "openclash/reject.yaml",
       "surge_non_ip_path": "surge/non_ip/reject.list",
@@ -32,21 +32,21 @@
           "type": "adblock",
           "authority": "curated-upstream",
           "ref": "https://easylist.to/easylist/easylist.txt",
-          "used_cache": false,
+          "used_cache": true,
           "rule_count": 58800
         },
         {
           "type": "adblock",
           "authority": "curated-upstream",
           "ref": "https://easylist.to/easylist/easyprivacy.txt",
-          "used_cache": false,
+          "used_cache": true,
           "rule_count": 49863
         },
         {
           "type": "adblock",
           "authority": "curated-upstream",
           "ref": "https://filters.adtidy.org/dns/filter_1.txt",
-          "used_cache": false,
+          "used_cache": true,
           "rule_count": 147859
         },
         {
@@ -181,14 +181,14 @@
           "type": "iana_special_csv",
           "authority": "official",
           "ref": "https://www.iana.org/assignments/iana-ipv4-special-registry/iana-ipv4-special-registry-1.csv",
-          "used_cache": false,
+          "used_cache": true,
           "rule_count": 20
         },
         {
           "type": "iana_special_csv",
           "authority": "official",
           "ref": "https://www.iana.org/assignments/iana-ipv6-special-registry/iana-ipv6-special-registry-1.csv",
-          "used_cache": false,
+          "used_cache": true,
           "rule_count": 13
         },
         {
@@ -227,7 +227,7 @@
           "type": "apnic_country_cidr",
           "authority": "official",
           "ref": "https://ftp.apnic.net/stats/apnic/delegated-apnic-latest",
-          "used_cache": false,
+          "used_cache": true,
           "rule_count": 10828
         },
         {
@@ -266,7 +266,7 @@
           "type": "apnic_country_cidr",
           "authority": "official",
           "ref": "https://ftp.apnic.net/stats/apnic/delegated-apnic-latest",
-          "used_cache": false,
+          "used_cache": true,
           "rule_count": 10828
         },
         {
@@ -305,7 +305,7 @@
           "type": "telegram_cidr",
           "authority": "official",
           "ref": "https://core.telegram.org/resources/cidr.txt",
-          "used_cache": false,
+          "used_cache": true,
           "rule_count": 14
         },
         {
@@ -344,28 +344,28 @@
           "type": "plain_cidr",
           "authority": "official",
           "ref": "https://www.cloudflare.com/ips-v4",
-          "used_cache": false,
+          "used_cache": true,
           "rule_count": 15
         },
         {
           "type": "plain_cidr",
           "authority": "official",
           "ref": "https://www.cloudflare.com/ips-v6",
-          "used_cache": false,
+          "used_cache": true,
           "rule_count": 7
         },
         {
           "type": "aws_ip_ranges",
           "authority": "official",
           "ref": "https://ip-ranges.amazonaws.com/ip-ranges.json",
-          "used_cache": false,
+          "used_cache": true,
           "rule_count": 379
         },
         {
           "type": "gcp_ip_ranges",
           "authority": "official",
           "ref": "https://www.gstatic.com/ipranges/cloud.json",
-          "used_cache": false,
+          "used_cache": true,
           "rule_count": 884
         },
         {
@@ -540,7 +540,7 @@
     {
       "id": "ai",
       "description": "AI services",
-      "rule_count": 6,
+      "rule_count": 9,
       "surge_path": "surge/ai.list",
       "openclash_path": "openclash/ai.yaml",
       "surge_non_ip_path": "surge/non_ip/ai.list",
@@ -565,7 +565,167 @@
           "authority": "owner-controlled",
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/ai.txt",
           "used_cache": false,
-          "rule_count": 6
+          "rule_count": 9
+        }
+      ]
+    },
+    {
+      "id": "ai_openai",
+      "description": "OpenAI ecosystem",
+      "rule_count": 4,
+      "surge_path": "surge/ai_openai.list",
+      "openclash_path": "openclash/ai_openai.yaml",
+      "surge_non_ip_path": "surge/non_ip/ai_openai.list",
+      "surge_ip_path": "surge/ip/ai_openai.list",
+      "surge_domainset_path": "surge/domainset/ai_openai.conf",
+      "openclash_non_ip_path": "openclash/non_ip/ai_openai.yaml",
+      "openclash_ip_path": "openclash/ip/ai_openai.yaml",
+      "openclash_domainset_path": "openclash/domainset/ai_openai.txt",
+      "openclash_ipcidr_path": "openclash/ipcidr/ai_openai.txt",
+      "compat_clash_non_ip_path": "compat/Clash/non_ip/ai_openai.txt",
+      "compat_clash_ip_path": "compat/Clash/ip/ai_openai.txt",
+      "compat_clash_domainset_path": "compat/Clash/domainset/ai_openai.txt",
+      "compat_list_non_ip_path": "compat/List/non_ip/ai_openai.conf",
+      "compat_list_ip_path": "compat/List/ip/ai_openai.conf",
+      "compat_list_domainset_path": "compat/List/domainset/ai_openai.conf",
+      "recommended_action": "PROXY",
+      "recommended_priority": 314,
+      "recommended_note": "OpenAI 相关服务走代理",
+      "sources": [
+        {
+          "type": "local_domain",
+          "authority": "owner-controlled",
+          "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/ai_openai.txt",
+          "used_cache": false,
+          "rule_count": 4
+        }
+      ]
+    },
+    {
+      "id": "ai_anthropic",
+      "description": "Anthropic and Claude ecosystem",
+      "rule_count": 3,
+      "surge_path": "surge/ai_anthropic.list",
+      "openclash_path": "openclash/ai_anthropic.yaml",
+      "surge_non_ip_path": "surge/non_ip/ai_anthropic.list",
+      "surge_ip_path": "surge/ip/ai_anthropic.list",
+      "surge_domainset_path": "surge/domainset/ai_anthropic.conf",
+      "openclash_non_ip_path": "openclash/non_ip/ai_anthropic.yaml",
+      "openclash_ip_path": "openclash/ip/ai_anthropic.yaml",
+      "openclash_domainset_path": "openclash/domainset/ai_anthropic.txt",
+      "openclash_ipcidr_path": "openclash/ipcidr/ai_anthropic.txt",
+      "compat_clash_non_ip_path": "compat/Clash/non_ip/ai_anthropic.txt",
+      "compat_clash_ip_path": "compat/Clash/ip/ai_anthropic.txt",
+      "compat_clash_domainset_path": "compat/Clash/domainset/ai_anthropic.txt",
+      "compat_list_non_ip_path": "compat/List/non_ip/ai_anthropic.conf",
+      "compat_list_ip_path": "compat/List/ip/ai_anthropic.conf",
+      "compat_list_domainset_path": "compat/List/domainset/ai_anthropic.conf",
+      "recommended_action": "PROXY",
+      "recommended_priority": 315,
+      "recommended_note": "Anthropic / Claude 走代理",
+      "sources": [
+        {
+          "type": "local_domain",
+          "authority": "owner-controlled",
+          "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/ai_anthropic.txt",
+          "used_cache": false,
+          "rule_count": 3
+        }
+      ]
+    },
+    {
+      "id": "ai_googleai",
+      "description": "Google AI ecosystem",
+      "rule_count": 4,
+      "surge_path": "surge/ai_googleai.list",
+      "openclash_path": "openclash/ai_googleai.yaml",
+      "surge_non_ip_path": "surge/non_ip/ai_googleai.list",
+      "surge_ip_path": "surge/ip/ai_googleai.list",
+      "surge_domainset_path": "surge/domainset/ai_googleai.conf",
+      "openclash_non_ip_path": "openclash/non_ip/ai_googleai.yaml",
+      "openclash_ip_path": "openclash/ip/ai_googleai.yaml",
+      "openclash_domainset_path": "openclash/domainset/ai_googleai.txt",
+      "openclash_ipcidr_path": "openclash/ipcidr/ai_googleai.txt",
+      "compat_clash_non_ip_path": "compat/Clash/non_ip/ai_googleai.txt",
+      "compat_clash_ip_path": "compat/Clash/ip/ai_googleai.txt",
+      "compat_clash_domainset_path": "compat/Clash/domainset/ai_googleai.txt",
+      "compat_list_non_ip_path": "compat/List/non_ip/ai_googleai.conf",
+      "compat_list_ip_path": "compat/List/ip/ai_googleai.conf",
+      "compat_list_domainset_path": "compat/List/domainset/ai_googleai.conf",
+      "recommended_action": "PROXY",
+      "recommended_priority": 316,
+      "recommended_note": "Google AI 服务走代理",
+      "sources": [
+        {
+          "type": "local_domain",
+          "authority": "owner-controlled",
+          "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/ai_googleai.txt",
+          "used_cache": false,
+          "rule_count": 4
+        }
+      ]
+    },
+    {
+      "id": "ai_copilot",
+      "description": "Copilot ecosystem",
+      "rule_count": 3,
+      "surge_path": "surge/ai_copilot.list",
+      "openclash_path": "openclash/ai_copilot.yaml",
+      "surge_non_ip_path": "surge/non_ip/ai_copilot.list",
+      "surge_ip_path": "surge/ip/ai_copilot.list",
+      "surge_domainset_path": "surge/domainset/ai_copilot.conf",
+      "openclash_non_ip_path": "openclash/non_ip/ai_copilot.yaml",
+      "openclash_ip_path": "openclash/ip/ai_copilot.yaml",
+      "openclash_domainset_path": "openclash/domainset/ai_copilot.txt",
+      "openclash_ipcidr_path": "openclash/ipcidr/ai_copilot.txt",
+      "compat_clash_non_ip_path": "compat/Clash/non_ip/ai_copilot.txt",
+      "compat_clash_ip_path": "compat/Clash/ip/ai_copilot.txt",
+      "compat_clash_domainset_path": "compat/Clash/domainset/ai_copilot.txt",
+      "compat_list_non_ip_path": "compat/List/non_ip/ai_copilot.conf",
+      "compat_list_ip_path": "compat/List/ip/ai_copilot.conf",
+      "compat_list_domainset_path": "compat/List/domainset/ai_copilot.conf",
+      "recommended_action": "PROXY",
+      "recommended_priority": 317,
+      "recommended_note": "Copilot 相关服务走代理",
+      "sources": [
+        {
+          "type": "local_domain",
+          "authority": "owner-controlled",
+          "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/ai_copilot.txt",
+          "used_cache": false,
+          "rule_count": 3
+        }
+      ]
+    },
+    {
+      "id": "ai_perplexity",
+      "description": "Perplexity ecosystem",
+      "rule_count": 2,
+      "surge_path": "surge/ai_perplexity.list",
+      "openclash_path": "openclash/ai_perplexity.yaml",
+      "surge_non_ip_path": "surge/non_ip/ai_perplexity.list",
+      "surge_ip_path": "surge/ip/ai_perplexity.list",
+      "surge_domainset_path": "surge/domainset/ai_perplexity.conf",
+      "openclash_non_ip_path": "openclash/non_ip/ai_perplexity.yaml",
+      "openclash_ip_path": "openclash/ip/ai_perplexity.yaml",
+      "openclash_domainset_path": "openclash/domainset/ai_perplexity.txt",
+      "openclash_ipcidr_path": "openclash/ipcidr/ai_perplexity.txt",
+      "compat_clash_non_ip_path": "compat/Clash/non_ip/ai_perplexity.txt",
+      "compat_clash_ip_path": "compat/Clash/ip/ai_perplexity.txt",
+      "compat_clash_domainset_path": "compat/Clash/domainset/ai_perplexity.txt",
+      "compat_list_non_ip_path": "compat/List/non_ip/ai_perplexity.conf",
+      "compat_list_ip_path": "compat/List/ip/ai_perplexity.conf",
+      "compat_list_domainset_path": "compat/List/domainset/ai_perplexity.conf",
+      "recommended_action": "PROXY",
+      "recommended_priority": 318,
+      "recommended_note": "Perplexity 相关服务走代理",
+      "sources": [
+        {
+          "type": "local_domain",
+          "authority": "owner-controlled",
+          "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/ai_perplexity.txt",
+          "used_cache": false,
+          "rule_count": 2
         }
       ]
     },

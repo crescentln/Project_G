@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-02-21T00:09:45.680770+00:00",
+  "generated_at_utc": "2026-02-21T00:20:34.518505+00:00",
   "policy_path": "/Users/alpha2128125/Documents/New project/ruleset/config/policy_map.json",
   "categories": [
     {
@@ -7,7 +7,7 @@
       "recommended_action": "REJECT",
       "recommended_priority": 100,
       "recommended_note": "广告、追踪与恶意域名拦截",
-      "rule_count": 175186
+      "rule_count": 175182
     },
     {
       "id": "reject_extra",
@@ -105,7 +105,42 @@
       "recommended_action": "PROXY",
       "recommended_priority": 320,
       "recommended_note": "AI 服务走代理",
-      "rule_count": 6
+      "rule_count": 9
+    },
+    {
+      "id": "ai_openai",
+      "recommended_action": "PROXY",
+      "recommended_priority": 314,
+      "recommended_note": "OpenAI 相关服务走代理",
+      "rule_count": 4
+    },
+    {
+      "id": "ai_anthropic",
+      "recommended_action": "PROXY",
+      "recommended_priority": 315,
+      "recommended_note": "Anthropic / Claude 走代理",
+      "rule_count": 3
+    },
+    {
+      "id": "ai_googleai",
+      "recommended_action": "PROXY",
+      "recommended_priority": 316,
+      "recommended_note": "Google AI 服务走代理",
+      "rule_count": 4
+    },
+    {
+      "id": "ai_copilot",
+      "recommended_action": "PROXY",
+      "recommended_priority": 317,
+      "recommended_note": "Copilot 相关服务走代理",
+      "rule_count": 3
+    },
+    {
+      "id": "ai_perplexity",
+      "recommended_action": "PROXY",
+      "recommended_priority": 318,
+      "recommended_note": "Perplexity 相关服务走代理",
+      "rule_count": 2
     },
     {
       "id": "apple_cn",

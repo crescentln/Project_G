@@ -106,6 +106,31 @@
       "priority": 313,
       "note": "台湾流媒体走代理"
     },
+    "ai_openai": {
+      "action": "PROXY",
+      "priority": 314,
+      "note": "OpenAI 相关服务走代理"
+    },
+    "ai_anthropic": {
+      "action": "PROXY",
+      "priority": 315,
+      "note": "Anthropic / Claude 走代理"
+    },
+    "ai_googleai": {
+      "action": "PROXY",
+      "priority": 316,
+      "note": "Google AI 服务走代理"
+    },
+    "ai_copilot": {
+      "action": "PROXY",
+      "priority": 317,
+      "note": "Copilot 相关服务走代理"
+    },
+    "ai_perplexity": {
+      "action": "PROXY",
+      "priority": 318,
+      "note": "Perplexity 相关服务走代理"
+    },
     "ai": {
       "action": "PROXY",
       "priority": 320,

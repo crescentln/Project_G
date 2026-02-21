@@ -4,7 +4,7 @@ This file defines the recommended action per category.
 
 | Category | Action | Priority | Rules | Note |
 |---|---:|---:|---:|---|
-| `reject` | `REJECT` | 100 | 175186 | 广告、追踪与恶意域名拦截 |
+| `reject` | `REJECT` | 100 | 175182 | 广告、追踪与恶意域名拦截 |
 | `reject_extra` | `REJECT` | 110 | 0 | 额外补充拦截 |
 | `reject_drop` | `REJECT-DROP` | 120 | 0 | 需要静默丢弃的拦截 |
 | `reject_no_drop` | `REJECT-NO-DROP` | 130 | 0 | 拒绝但不使用 drop |
@@ -26,7 +26,12 @@ This file defines the recommended action per category.
 | `stream_jp` | `PROXY` | 311 | 5 | 日本流媒体走代理 |
 | `stream_hk` | `PROXY` | 312 | 4 | 香港流媒体走代理 |
 | `stream_tw` | `PROXY` | 313 | 4 | 台湾流媒体走代理 |
-| `ai` | `PROXY` | 320 | 6 | AI 服务走代理 |
+| `ai_openai` | `PROXY` | 314 | 4 | OpenAI 相关服务走代理 |
+| `ai_anthropic` | `PROXY` | 315 | 3 | Anthropic / Claude 走代理 |
+| `ai_googleai` | `PROXY` | 316 | 4 | Google AI 服务走代理 |
+| `ai_copilot` | `PROXY` | 317 | 3 | Copilot 相关服务走代理 |
+| `ai_perplexity` | `PROXY` | 318 | 2 | Perplexity 相关服务走代理 |
+| `ai` | `PROXY` | 320 | 9 | AI 服务走代理 |
 | `apple_proxy` | `PROXY` | 321 | 3 | Apple 国际域名走代理 |
 | `apple_services` | `PROXY` | 322 | 4 | Apple 服务组走代理 |
 | `apple_intelligence` | `PROXY` | 323 | 0 | Apple Intelligence 走代理 |

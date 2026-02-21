@@ -1,7 +1,10 @@
-# Owner-controlled AI routing domains.
+# Aggregate AI category (legacy compatibility for skk_ai_non_ip).
 openai.com
 chatgpt.com
 claude.ai
 anthropic.com
 poe.com
 perplexity.ai
+gemini.google.com
+copilot.microsoft.com
+githubcopilot.com

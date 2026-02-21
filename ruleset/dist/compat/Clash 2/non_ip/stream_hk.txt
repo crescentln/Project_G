@@ -1,0 +1,4 @@
+DOMAIN-SUFFIX,mytvsuper.com
+DOMAIN-SUFFIX,nowe.com
+DOMAIN-SUFFIX,viu.com
+DOMAIN-SUFFIX,viu.tv

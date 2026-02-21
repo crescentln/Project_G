@@ -1,6 +1,9 @@
 DOMAIN-SUFFIX,anthropic.com
 DOMAIN-SUFFIX,chatgpt.com
 DOMAIN-SUFFIX,claude.ai
+DOMAIN-SUFFIX,copilot.microsoft.com
+DOMAIN-SUFFIX,gemini.google.com
+DOMAIN-SUFFIX,githubcopilot.com
 DOMAIN-SUFFIX,openai.com
 DOMAIN-SUFFIX,perplexity.ai
 DOMAIN-SUFFIX,poe.com

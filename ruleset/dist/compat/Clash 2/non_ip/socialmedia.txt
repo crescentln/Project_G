@@ -1,0 +1,5 @@
+DOMAIN-SUFFIX,discord.com
+DOMAIN-SUFFIX,facebook.com
+DOMAIN-SUFFIX,instagram.com
+DOMAIN-SUFFIX,twitter.com
+DOMAIN-SUFFIX,x.com

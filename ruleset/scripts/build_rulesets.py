@@ -573,6 +573,25 @@ def load_policy_map(policy_path: pathlib.Path | None) -> dict[str, dict[str, Any
     return out
 
 
+def load_ignored_conflict_sets(config: dict[str, Any]) -> set[frozenset[str]]:
+    # Keep defaults for compatibility even if config omits this section.
+    ignored: set[frozenset[str]] = {frozenset({"domestic", "cncidr"})}
+    raw = config.get("ignore_conflicts", [])
+    if raw is None:
+        return ignored
+    if not isinstance(raw, list):
+        raise BuildError("config: 'ignore_conflicts' must be a list of category arrays")
+
+    for idx, item in enumerate(raw):
+        if not isinstance(item, list):
+            raise BuildError(f"config: ignore_conflicts[{idx}] must be an array")
+        categories = {str(x).strip() for x in item if str(x).strip()}
+        if len(categories) < 2:
+            continue
+        ignored.add(frozenset(categories))
+    return ignored
+
+
 def render_policy_reference_markdown(categories: list[dict[str, Any]]) -> str:
     lines = [
         "# Ruleset Policy Reference",
@@ -593,6 +612,56 @@ def render_policy_reference_markdown(categories: list[dict[str, Any]]) -> str:
         rules = int(row.get("rule_count", 0))
         note = str(row.get("recommended_note", "")).replace("|", "\\|")
         lines.append(f"| `{category_id}` | `{action}` | {priority} | {rules} | {note} |")
+    lines.append("")
+    lines.append("Action definitions:")
+    lines.append("- `DIRECT`: bypass proxy.")
+    lines.append("- `PROXY`: route via proxy policy group.")
+    lines.append("- `REJECT`: deny with standard reject.")
+    lines.append("- `REJECT-DROP`: silently drop packets.")
+    lines.append("- `REJECT-NO-DROP`: explicit reject without drop.")
+    lines.append("")
+    return "\n".join(lines)
+
+
+def render_rule_catalog_markdown(categories: list[dict[str, Any]]) -> str:
+    lines = [
+        "# Ruleset Catalog",
+        "",
+        "Use with base URL:",
+        "`https://raw.githubusercontent.com/<owner>/<repo>/main/ruleset/dist`",
+        "",
+        "| Category | Action | Priority | Rules | OpenClash | Surge | Note |",
+        "|---|---|---:|---:|---|---|---|",
+    ]
+    sorted_rows = sorted(
+        categories,
+        key=lambda c: (int(c.get("recommended_priority", 9999)), str(c.get("id", ""))),
+    )
+    for row in sorted_rows:
+        category_id = str(row.get("id", ""))
+        action = str(row.get("recommended_action", "UNSPECIFIED"))
+        priority = int(row.get("recommended_priority", 9999))
+        rules = int(row.get("rule_count", 0))
+        note = str(row.get("recommended_note", "")).replace("|", "\\|")
+
+        openclash_paths = "<br>".join(
+            [
+                f"`compat/Clash/non_ip/{category_id}.txt`",
+                f"`compat/Clash/ip/{category_id}.txt`",
+                f"`compat/Clash/domainset/{category_id}.txt`",
+            ]
+        )
+        surge_paths = "<br>".join(
+            [
+                f"`compat/List/non_ip/{category_id}.conf`",
+                f"`compat/List/ip/{category_id}.conf`",
+                f"`compat/List/domainset/{category_id}.conf`",
+            ]
+        )
+        lines.append(
+            f"| `{category_id}` | `{action}` | {priority} | {rules} | {openclash_paths} | {surge_paths} | {note} |"
+        )
+
     lines.append("")
     lines.append("Action definitions:")
     lines.append("- `DIRECT`: bypass proxy.")
@@ -659,6 +728,7 @@ def build_all(
 ) -> int:
     config = read_json(config_path)
     policy_map = load_policy_map(policy_path)
+    ignored_conflict_sets = load_ignored_conflict_sets(config)
     categories = config.get("categories", [])
     if not isinstance(categories, list) or not categories:
         raise BuildError("config has no categories")
@@ -788,9 +858,6 @@ def build_all(
         for rule in rules:
             rule_index[rule].append(category_id)
 
-    ignored_conflict_sets = {
-        frozenset({"domestic", "cncidr"})
-    }
     reject_like = {"reject", "reject_extra", "reject_drop", "reject_no_drop"}
 
     conflicts = []
@@ -861,6 +928,12 @@ def build_all(
     policy_reference_md = dist_dir / "policy_reference.md"
     policy_reference_md.write_text(
         render_policy_reference_markdown(metadata_categories),
+        encoding="utf-8",
+    )
+
+    rule_catalog_md = dist_dir / "rule_catalog.md"
+    rule_catalog_md.write_text(
+        render_rule_catalog_markdown(metadata_categories),
         encoding="utf-8",
     )
 

@@ -1,0 +1,6 @@
++.anthropic.com
++.chatgpt.com
++.claude.ai
++.openai.com
++.perplexity.ai
++.poe.com

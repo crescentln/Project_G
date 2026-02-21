@@ -1,3 +1,9 @@
 # Add rules to remove from the final reject category.
 # Example:
 # DOMAIN-SUFFIX,example.com
+
+# Avoid false-positive adblock hits for core services.
+DOMAIN-SUFFIX,googleapis.com
+DOMAIN-SUFFIX,epicgames.com
+DOMAIN-SUFFIX,claude.ai
+DOMAIN-SUFFIX,perplexity.ai

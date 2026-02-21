@@ -1,0 +1,34 @@
+{
+  "id": "ai_perplexity",
+  "description": "Perplexity ecosystem",
+  "recommended_action": "PROXY",
+  "recommended_priority": 318,
+  "recommended_note": "Perplexity 相关服务走代理",
+  "rule_count": 2,
+  "paths": {
+    "surge": "surge/ai_perplexity.list",
+    "surge_non_ip": "surge/non_ip/ai_perplexity.list",
+    "surge_ip": "surge/ip/ai_perplexity.list",
+    "surge_domainset": "surge/domainset/ai_perplexity.conf",
+    "openclash": "openclash/ai_perplexity.yaml",
+    "openclash_non_ip": "openclash/non_ip/ai_perplexity.yaml",
+    "openclash_ip": "openclash/ip/ai_perplexity.yaml",
+    "openclash_domainset": "openclash/domainset/ai_perplexity.txt",
+    "openclash_ipcidr": "openclash/ipcidr/ai_perplexity.txt",
+    "compat_clash_non_ip": "compat/Clash/non_ip/ai_perplexity.txt",
+    "compat_clash_ip": "compat/Clash/ip/ai_perplexity.txt",
+    "compat_clash_domainset": "compat/Clash/domainset/ai_perplexity.txt",
+    "compat_list_non_ip": "compat/List/non_ip/ai_perplexity.conf",
+    "compat_list_ip": "compat/List/ip/ai_perplexity.conf",
+    "compat_list_domainset": "compat/List/domainset/ai_perplexity.conf"
+  },
+  "sources": [
+    {
+      "type": "local_domain",
+      "authority": "owner-controlled",
+      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/ai_perplexity.txt",
+      "used_cache": false,
+      "rule_count": 2
+    }
+  ]
+}

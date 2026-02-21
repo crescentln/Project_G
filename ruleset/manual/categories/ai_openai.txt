@@ -1,0 +1,5 @@
+# OpenAI ecosystem.
+openai.com
+chatgpt.com
+oaistatic.com
+oaiusercontent.com

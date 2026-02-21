@@ -1,0 +1,5 @@
++.blizzard.com
++.epicgames.com
++.origin.com
++.steamcontent.com
++.steampowered.com

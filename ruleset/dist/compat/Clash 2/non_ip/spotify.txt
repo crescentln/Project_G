@@ -1,0 +1,2 @@
+DOMAIN-SUFFIX,scdn.co
+DOMAIN-SUFFIX,spotify.com

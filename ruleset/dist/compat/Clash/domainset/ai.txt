@@ -1,6 +1,9 @@
 +.anthropic.com
 +.chatgpt.com
 +.claude.ai
++.copilot.microsoft.com
++.gemini.google.com
++.githubcopilot.com
 +.openai.com
 +.perplexity.ai
 +.poe.com

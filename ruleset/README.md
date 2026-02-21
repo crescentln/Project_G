@@ -47,7 +47,19 @@ Generated under `ruleset/dist/`:
 - `conflicts.json` (cross-category overlaps)
 - `policy_reference.json` (machine-readable policy map)
 - `policy_reference.md` (human-readable policy reference)
+- `rule_catalog.md` (all categories with action + OpenClash/Surge paths)
 - `meta/<category>.json` (per-category action/paths/source detail)
+
+## Current Public Base URL
+
+For this repo:
+
+`https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist`
+
+Useful documents:
+
+- `.../ruleset/dist/policy_reference.md`
+- `.../ruleset/dist/rule_catalog.md`
 
 ## Build
 
@@ -89,3 +101,11 @@ Behavior:
 Your existing OpenClash/Surge names are mapped in:
 
 - `ruleset/MAPPING.md`
+
+Additional granular AI categories are also available:
+
+- `ai_openai`
+- `ai_anthropic`
+- `ai_googleai`
+- `ai_copilot`
+- `ai_perplexity`

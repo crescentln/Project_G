@@ -1,0 +1,5 @@
++.live.com
++.microsoft.com
++.office.com
++.outlook.com
++.skype.com

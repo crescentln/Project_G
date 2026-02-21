@@ -1,5 +1,47 @@
 {
   "version": 2,
+  "ignore_conflicts": [
+    [
+      "download",
+      "games"
+    ],
+    [
+      "abema",
+      "stream_jp"
+    ],
+    [
+      "apple_proxy",
+      "apple_services"
+    ],
+    [
+      "apns",
+      "apple_services"
+    ],
+    [
+      "google",
+      "googlefcm"
+    ],
+    [
+      "ai",
+      "ai_openai"
+    ],
+    [
+      "ai",
+      "ai_anthropic"
+    ],
+    [
+      "ai",
+      "ai_googleai"
+    ],
+    [
+      "ai",
+      "ai_copilot"
+    ],
+    [
+      "ai",
+      "ai_perplexity"
+    ]
+  ],
   "categories": [
     {
       "id": "reject",
@@ -229,6 +271,61 @@
         {
           "type": "local_domain",
           "path": "manual/categories/ai.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "ai_openai",
+      "description": "OpenAI ecosystem",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/ai_openai.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "ai_anthropic",
+      "description": "Anthropic and Claude ecosystem",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/ai_anthropic.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "ai_googleai",
+      "description": "Google AI ecosystem",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/ai_googleai.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "ai_copilot",
+      "description": "Copilot ecosystem",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/ai_copilot.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "ai_perplexity",
+      "description": "Perplexity ecosystem",
+      "sources": [
+        {
+          "type": "local_domain",
+          "path": "manual/categories/ai_perplexity.txt",
           "authority": "owner-controlled"
         }
       ]
