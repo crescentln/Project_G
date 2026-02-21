@@ -1,13 +1,34 @@
 {
-  "generated_at_utc": "2026-02-21T02:53:03.000058+00:00",
+  "generated_at_utc": "2026-02-21T03:58:06.621309+00:00",
   "policy_path": "/Users/alpha2128125/Documents/New project/ruleset/config/policy_map.json",
   "categories": [
     {
       "id": "reject",
       "recommended_action": "REJECT",
       "recommended_priority": 100,
-      "recommended_note": "广告、追踪、恶意与补充拒绝规则（已合并）",
+      "recommended_note": "广告、追踪、恶意基础拦截规则",
       "rule_count": 175203
+    },
+    {
+      "id": "reject_extra",
+      "recommended_action": "REJECT",
+      "recommended_priority": 110,
+      "recommended_note": "额外补充拦截规则（标准拒绝）",
+      "rule_count": 0
+    },
+    {
+      "id": "reject_drop",
+      "recommended_action": "REJECT-DROP",
+      "recommended_priority": 120,
+      "recommended_note": "静默丢弃拦截规则",
+      "rule_count": 0
+    },
+    {
+      "id": "reject_no_drop",
+      "recommended_action": "REJECT-NO-DROP",
+      "recommended_priority": 130,
+      "recommended_note": "显式拒绝规则（不静默丢弃）",
+      "rule_count": 0
     },
     {
       "id": "lan",
@@ -80,6 +101,13 @@
       "rule_count": 4
     },
     {
+      "id": "stream_global",
+      "recommended_action": "PROXY",
+      "recommended_priority": 314,
+      "recommended_note": "国外流媒体高覆盖集合走代理",
+      "rule_count": 288
+    },
+    {
       "id": "ai",
       "recommended_action": "PROXY",
       "recommended_priority": 320,
@@ -136,11 +164,11 @@
       "rule_count": 3
     },
     {
-      "id": "gits",
+      "id": "github",
       "recommended_action": "PROXY",
       "recommended_priority": 325,
-      "recommended_note": "Git 托管平台走代理",
-      "rule_count": 40
+      "recommended_note": "GitHub/GitLab/Gitee 等代码托管平台走代理",
+      "rule_count": 41
     },
     {
       "id": "httpdns",
@@ -304,16 +332,23 @@
       "rule_count": 1
     },
     {
-      "id": "tld_proxy",
+      "id": "vowifi",
       "recommended_action": "PROXY",
       "recommended_priority": 344,
+      "recommended_note": "VoWiFi/IMS/ePDG 相关域名走代理",
+      "rule_count": 6
+    },
+    {
+      "id": "tld_proxy",
+      "recommended_action": "PROXY",
+      "recommended_priority": 345,
       "recommended_note": "需要强制代理的 TLD 集",
       "rule_count": 1433
     },
     {
       "id": "gfw",
       "recommended_action": "PROXY",
-      "recommended_priority": 345,
+      "recommended_priority": 346,
       "recommended_note": "GFW 列表走代理",
       "rule_count": 109
     },

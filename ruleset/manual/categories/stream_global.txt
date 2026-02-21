@@ -1,0 +1,3 @@
+# Global streaming owner overrides
+# Example:
+# DOMAIN-SUFFIX,example-stream.com

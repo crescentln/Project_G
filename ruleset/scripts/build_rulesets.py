@@ -911,9 +911,18 @@ def build_all(
         raise BuildError("config has no categories")
 
     dist_dir.mkdir(parents=True, exist_ok=True)
-    for stale in (dist_dir / "surge", dist_dir / "openclash", dist_dir / "compat"):
+    for stale in (dist_dir / "surge", dist_dir / "openclash", dist_dir / "compat", dist_dir / "meta"):
         if stale.exists():
             shutil.rmtree(stale)
+    for stale_file in (
+        dist_dir / "index.json",
+        dist_dir / "conflicts.json",
+        dist_dir / "policy_reference.json",
+        dist_dir / "policy_reference.md",
+        dist_dir / "rule_catalog.md",
+    ):
+        if stale_file.exists():
+            stale_file.unlink()
 
     surge_dir = dist_dir / "surge"
     openclash_dir = dist_dir / "openclash"

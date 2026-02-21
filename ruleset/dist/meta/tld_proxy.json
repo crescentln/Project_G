@@ -2,7 +2,7 @@
   "id": "tld_proxy",
   "description": "Proxy-specific TLD set",
   "recommended_action": "PROXY",
-  "recommended_priority": 344,
+  "recommended_priority": 345,
   "recommended_note": "需要强制代理的 TLD 集",
   "rule_count": 1433,
   "paths": {

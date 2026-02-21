@@ -10,6 +10,7 @@
 ## 你的当前策略（已按你要求）
 
 - `reject` 和 `direct` 分别各自合并，互不合并
+- `reject_extra` / `reject_drop` / `reject_no_drop` 保持独立可选
 - 其余分类保持颗粒度（`ai/telegram/stream_*/google/...` 等继续独立）
 
 ## 最常用可复制 URL
@@ -23,6 +24,63 @@
 
 - 合并拦截 `reject`（REJECT）：`https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/surge/reject.list`
 - 合并直连 `direct`（DIRECT）：`https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/surge/direct.list`
+
+## 你点名要的独立规则 URL（OpenClash + Surge）
+
+- `github`
+  - OpenClash: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/github.yaml`
+  - Surge: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/surge/github.list`
+- `ai`
+  - OpenClash: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/ai.yaml`
+  - Surge: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/surge/ai.list`
+- `vowifi`
+  - OpenClash: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/vowifi.yaml`
+  - Surge: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/surge/vowifi.list`
+- `socialmedia`（国外社交媒体）
+  - OpenClash: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/socialmedia.yaml`
+  - Surge: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/surge/socialmedia.list`
+- `ecommerce`（国外购物）
+  - OpenClash: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/ecommerce.yaml`
+  - Surge: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/surge/ecommerce.list`
+- `stream_global`（国外流媒体高覆盖）
+  - OpenClash: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/stream_global.yaml`
+  - Surge: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/surge/stream_global.list`
+- `spotify`
+  - OpenClash: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/spotify.yaml`
+  - Surge: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/surge/spotify.list`
+- `youtube`
+  - OpenClash: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/youtube.yaml`
+  - Surge: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/surge/youtube.list`
+- `twitch`
+  - OpenClash: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/twitch.yaml`
+  - Surge: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/surge/twitch.list`
+- `reject`（主拦截）
+  - OpenClash: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/reject.yaml`
+  - Surge: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/surge/reject.list`
+- `direct`（主直连）
+  - OpenClash: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/direct.yaml`
+  - Surge: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/surge/direct.list`
+- `reject_extra`（可选补充拦截）
+  - OpenClash: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/reject_extra.yaml`
+  - Surge: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/surge/reject_extra.list`
+- `reject_drop`（可选静默丢弃）
+  - OpenClash: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/reject_drop.yaml`
+  - Surge: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/surge/reject_drop.list`
+- `reject_no_drop`（可选显式拒绝）
+  - OpenClash: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/reject_no_drop.yaml`
+  - Surge: `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/surge/reject_no_drop.list`
+
+说明：`reject_extra` / `reject_drop` / `reject_no_drop` 默认是“你可控的自定义空位”，只有你在 `ruleset/manual/categories/*.txt` 填了内容才会生效。
+
+## 你点名分类的数据来源（权威/主流）
+
+- `github`: v2fly `github` + `gitlab` + `gitee`，外加本地可控补充
+- `ai`: v2fly `openai`、`anthropic`、`perplexity`、`google-gemini`、`github-copilot`
+- `stream_global`: v2fly `netflix`、`hulu`、`disney`、`abema`、`apple-tvplus`、`primevideo`
+- `socialmedia`: v2fly `facebook`、`instagram`、`twitter`、`discord`、`reddit`、`quora`、`medium`
+- `ecommerce`: v2fly `category-ecommerce`
+- `spotify` / `youtube` / `twitch`: v2fly 对应官方维护集合
+- `vowifi`: 3GPP `pub.3gppnetwork.org` 命名体系 + 你可控的运营商 ePDG 增补
 
 ## 直接可用配置模板
 
@@ -56,6 +114,9 @@
 - `tld_proxy`
   - OpenClash: `.../openclash/tld_proxy.yaml`
   - Surge: `.../surge/tld_proxy.list`
+- `stream_global`
+  - OpenClash: `.../openclash/stream_global.yaml`
+  - Surge: `.../surge/stream_global.list`
 
 ## 两个合并规则的来源
 
@@ -64,11 +125,13 @@
 - EasyList
 - EasyPrivacy
 - AdGuard DNS Filter
-- 本地可控补充：
-  - `ruleset/manual/categories/reject.txt`
-  - `ruleset/manual/categories/reject_extra.txt`
-  - `ruleset/manual/categories/reject_drop.txt`
-  - `ruleset/manual/categories/reject_no_drop.txt`
+- 本地可控补充：`ruleset/manual/categories/reject.txt`
+
+### 独立可选拦截集合
+
+- `reject_extra`（REJECT）：`ruleset/manual/categories/reject_extra.txt`
+- `reject_drop`（REJECT-DROP）：`ruleset/manual/categories/reject_drop.txt`
+- `reject_no_drop`（REJECT-NO-DROP）：`ruleset/manual/categories/reject_no_drop.txt`
 
 ### `direct`（DIRECT）
 

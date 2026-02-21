@@ -4,7 +4,22 @@
     "reject": {
       "action": "REJECT",
       "priority": 100,
-      "note": "广告、追踪、恶意与补充拒绝规则（已合并）"
+      "note": "广告、追踪、恶意基础拦截规则"
+    },
+    "reject_extra": {
+      "action": "REJECT",
+      "priority": 110,
+      "note": "额外补充拦截规则（标准拒绝）"
+    },
+    "reject_drop": {
+      "action": "REJECT-DROP",
+      "priority": 120,
+      "note": "静默丢弃拦截规则"
+    },
+    "reject_no_drop": {
+      "action": "REJECT-NO-DROP",
+      "priority": 130,
+      "note": "显式拒绝规则（不静默丢弃）"
     },
     "lan": {
       "action": "DIRECT",
@@ -91,6 +106,11 @@
       "priority": 313,
       "note": "台湾流媒体走代理"
     },
+    "stream_global": {
+      "action": "PROXY",
+      "priority": 314,
+      "note": "国外流媒体高覆盖集合走代理"
+    },
     "ai": {
       "action": "PROXY",
       "priority": 320,
@@ -116,10 +136,10 @@
       "priority": 324,
       "note": "微软国际服务走代理"
     },
-    "gits": {
+    "github": {
       "action": "PROXY",
       "priority": 325,
-      "note": "Git 托管平台走代理"
+      "note": "GitHub/GitLab/Gitee 等代码托管平台走代理"
     },
     "games": {
       "action": "PROXY",
@@ -211,14 +231,19 @@
       "priority": 343,
       "note": "Talkatone 走代理"
     },
-    "tld_proxy": {
+    "vowifi": {
       "action": "PROXY",
       "priority": 344,
+      "note": "VoWiFi/IMS/ePDG 相关域名走代理"
+    },
+    "tld_proxy": {
+      "action": "PROXY",
+      "priority": 345,
       "note": "需要强制代理的 TLD 集"
     },
     "gfw": {
       "action": "PROXY",
-      "priority": 345,
+      "priority": 346,
       "note": "GFW 列表走代理"
     },
     "global": {

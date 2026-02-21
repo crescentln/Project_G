@@ -9,6 +9,24 @@ rule-providers:
     path: ./rule_provider/reject.yaml
     url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/reject.yaml
     interval: 86400
+  reject_extra:
+    type: http
+    behavior: classical
+    path: ./rule_provider/reject_extra.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/reject_extra.yaml
+    interval: 86400
+  reject_drop:
+    type: http
+    behavior: classical
+    path: ./rule_provider/reject_drop.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/reject_drop.yaml
+    interval: 86400
+  reject_no_drop:
+    type: http
+    behavior: classical
+    path: ./rule_provider/reject_no_drop.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/reject_no_drop.yaml
+    interval: 86400
   httpdns:
     type: http
     behavior: classical
@@ -123,6 +141,12 @@ rule-providers:
     path: ./rule_provider/stream_tw.yaml
     url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/stream_tw.yaml
     interval: 86400
+  stream_global:
+    type: http
+    behavior: classical
+    path: ./rule_provider/stream_global.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/stream_global.yaml
+    interval: 86400
   ai:
     type: http
     behavior: classical
@@ -153,11 +177,11 @@ rule-providers:
     path: ./rule_provider/microsoft.yaml
     url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/microsoft.yaml
     interval: 86400
-  gits:
+  github:
     type: http
     behavior: classical
-    path: ./rule_provider/gits.yaml
-    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/gits.yaml
+    path: ./rule_provider/github.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/github.yaml
     interval: 86400
   games:
     type: http
@@ -267,6 +291,12 @@ rule-providers:
     path: ./rule_provider/talkatone.yaml
     url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/talkatone.yaml
     interval: 86400
+  vowifi:
+    type: http
+    behavior: classical
+    path: ./rule_provider/vowifi.yaml
+    url: https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/openclash/vowifi.yaml
+    interval: 86400
   tld_proxy:
     type: http
     behavior: classical
@@ -288,6 +318,9 @@ rule-providers:
 
 rules:
   - RULE-SET,reject,REJECT
+  - RULE-SET,reject_extra,REJECT
+  - RULE-SET,reject_drop,REJECT-DROP
+  - RULE-SET,reject_no_drop,REJECT-NO-DROP
   - RULE-SET,httpdns,REJECT
   - RULE-SET,lan,DIRECT
   - RULE-SET,direct,DIRECT
@@ -307,12 +340,13 @@ rules:
   - RULE-SET,stream_jp,PROXY_STREAM_JP
   - RULE-SET,stream_hk,PROXY_STREAM_HK
   - RULE-SET,stream_tw,PROXY_STREAM_TW
+  - RULE-SET,stream_global,PROXY_STREAM_GLOBAL
   - RULE-SET,ai,PROXY_AI
   - RULE-SET,apple_proxy,PROXY_APPLE_PROXY
   - RULE-SET,apple_services,PROXY_APPLE_SERVICES
   - RULE-SET,apple_intelligence,PROXY_APPLE_INTELLIGENCE
   - RULE-SET,microsoft,PROXY_MICROSOFT
-  - RULE-SET,gits,PROXY_GITS
+  - RULE-SET,github,PROXY_GITHUB
   - RULE-SET,games,PROXY_GAMES
   - RULE-SET,youtube,PROXY_YOUTUBE
   - RULE-SET,abema,PROXY_ABEMA
@@ -331,6 +365,7 @@ rules:
   - RULE-SET,tiktok,PROXY_TIKTOK
   - RULE-SET,apns,PROXY_APNS
   - RULE-SET,talkatone,PROXY_TALKATONE
+  - RULE-SET,vowifi,PROXY_VOWIFI
   - RULE-SET,tld_proxy,PROXY_TLD_PROXY
   - RULE-SET,gfw,PROXY_GFW
   - RULE-SET,global,PROXY_GLOBAL

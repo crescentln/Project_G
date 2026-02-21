@@ -4,7 +4,10 @@ This file defines the recommended action per category.
 
 | Category | Action | Priority | Rules | Note |
 |---|---:|---:|---:|---|
-| `reject` | `REJECT` | 100 | 175203 | 广告、追踪、恶意与补充拒绝规则（已合并） |
+| `reject` | `REJECT` | 100 | 175203 | 广告、追踪、恶意基础拦截规则 |
+| `reject_extra` | `REJECT` | 110 | 0 | 额外补充拦截规则（标准拒绝） |
+| `reject_drop` | `REJECT-DROP` | 120 | 0 | 静默丢弃拦截规则 |
+| `reject_no_drop` | `REJECT-NO-DROP` | 130 | 0 | 显式拒绝规则（不静默丢弃） |
 | `httpdns` | `REJECT` | 150 | 2 | HTTPDNS 相关域名建议拦截 |
 | `lan` | `DIRECT` | 200 | 33 | 局域网与特殊保留地址直连 |
 | `direct` | `DIRECT` | 205 | 18883 | 合并直连集合（简化部署） |
@@ -24,12 +27,13 @@ This file defines the recommended action per category.
 | `stream_jp` | `PROXY` | 311 | 25 | 日本流媒体走代理 |
 | `stream_hk` | `PROXY` | 312 | 4 | 香港流媒体走代理 |
 | `stream_tw` | `PROXY` | 313 | 4 | 台湾流媒体走代理 |
+| `stream_global` | `PROXY` | 314 | 288 | 国外流媒体高覆盖集合走代理 |
 | `ai` | `PROXY` | 320 | 66 | AI 服务走代理 |
 | `apple_proxy` | `PROXY` | 321 | 3 | Apple 国际域名走代理 |
 | `apple_services` | `PROXY` | 322 | 1522 | Apple 服务组走代理 |
 | `apple_intelligence` | `PROXY` | 323 | 5 | Apple Intelligence 走代理 |
 | `microsoft` | `PROXY` | 324 | 422 | 微软国际服务走代理 |
-| `gits` | `PROXY` | 325 | 40 | Git 托管平台走代理 |
+| `github` | `PROXY` | 325 | 41 | GitHub/GitLab/Gitee 等代码托管平台走代理 |
 | `games` | `PROXY` | 326 | 788 | 国际游戏服务走代理 |
 | `youtube` | `PROXY` | 327 | 176 | YouTube 走代理 |
 | `abema` | `PROXY` | 328 | 21 | Abema 走代理 |
@@ -48,8 +52,9 @@ This file defines the recommended action per category.
 | `tiktok` | `PROXY` | 341 | 35 | TikTok 国际站走代理 |
 | `apns` | `PROXY` | 342 | 2 | APNS 按你当前策略走代理 |
 | `talkatone` | `PROXY` | 343 | 1 | Talkatone 走代理 |
-| `tld_proxy` | `PROXY` | 344 | 1433 | 需要强制代理的 TLD 集 |
-| `gfw` | `PROXY` | 345 | 109 | GFW 列表走代理 |
+| `vowifi` | `PROXY` | 344 | 6 | VoWiFi/IMS/ePDG 相关域名走代理 |
+| `tld_proxy` | `PROXY` | 345 | 1433 | 需要强制代理的 TLD 集 |
+| `gfw` | `PROXY` | 346 | 109 | GFW 列表走代理 |
 | `global` | `PROXY` | 900 | 23648 | 兜底代理集合（应放在较后顺序） |
 
 Action definitions:

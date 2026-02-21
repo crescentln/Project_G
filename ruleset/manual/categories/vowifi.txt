@@ -1,0 +1,10 @@
+# VoWiFi / IMS / ePDG related endpoints
+# Owner-controlled baseline set, editable by you.
+DOMAIN-SUFFIX,pub.3gppnetwork.org
+DOMAIN-KEYWORD,epdg
+
+# Common carrier ePDG samples
+DOMAIN,epdg.epc.mnc260.mcc310.pub.3gppnetwork.org
+DOMAIN,epdg.epc.mnc410.mcc310.pub.3gppnetwork.org
+DOMAIN,epdg.epc.mnc480.mcc311.pub.3gppnetwork.org
+DOMAIN,epdg.epc.mnc440.mcc440.pub.3gppnetwork.org

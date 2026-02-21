@@ -1,8 +1,8 @@
 {
-  "generated_at_utc": "2026-02-21T02:53:02.999643+00:00",
+  "generated_at_utc": "2026-02-21T03:58:06.620831+00:00",
   "config_path": "/Users/alpha2128125/Documents/New project/ruleset/config/sources.json",
   "policy_path": "/Users/alpha2128125/Documents/New project/ruleset/config/policy_map.json",
-  "category_count": 47,
+  "category_count": 52,
   "conflict_count": 0,
   "categories": [
     {
@@ -26,7 +26,7 @@
       "compat_list_domainset_path": "compat/List/domainset/reject.conf",
       "recommended_action": "REJECT",
       "recommended_priority": 100,
-      "recommended_note": "广告、追踪、恶意与补充拒绝规则（已合并）",
+      "recommended_note": "广告、追踪、恶意基础拦截规则",
       "sources": [
         {
           "type": "adblock",
@@ -55,21 +55,96 @@
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/reject.txt",
           "used_cache": false,
           "rule_count": 0
-        },
+        }
+      ]
+    },
+    {
+      "id": "reject_extra",
+      "description": "Extra owner-controlled reject rules",
+      "rule_count": 0,
+      "surge_path": "surge/reject_extra.list",
+      "openclash_path": "openclash/reject_extra.yaml",
+      "surge_non_ip_path": "surge/non_ip/reject_extra.list",
+      "surge_ip_path": "surge/ip/reject_extra.list",
+      "surge_domainset_path": "surge/domainset/reject_extra.conf",
+      "openclash_non_ip_path": "openclash/non_ip/reject_extra.yaml",
+      "openclash_ip_path": "openclash/ip/reject_extra.yaml",
+      "openclash_domainset_path": "openclash/domainset/reject_extra.txt",
+      "openclash_ipcidr_path": "openclash/ipcidr/reject_extra.txt",
+      "compat_clash_non_ip_path": "compat/Clash/non_ip/reject_extra.txt",
+      "compat_clash_ip_path": "compat/Clash/ip/reject_extra.txt",
+      "compat_clash_domainset_path": "compat/Clash/domainset/reject_extra.txt",
+      "compat_list_non_ip_path": "compat/List/non_ip/reject_extra.conf",
+      "compat_list_ip_path": "compat/List/ip/reject_extra.conf",
+      "compat_list_domainset_path": "compat/List/domainset/reject_extra.conf",
+      "recommended_action": "REJECT",
+      "recommended_priority": 110,
+      "recommended_note": "额外补充拦截规则（标准拒绝）",
+      "sources": [
         {
           "type": "local_domain",
           "authority": "owner-controlled",
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/reject_extra.txt",
           "used_cache": false,
           "rule_count": 0
-        },
+        }
+      ]
+    },
+    {
+      "id": "reject_drop",
+      "description": "Owner-controlled silent-drop reject rules",
+      "rule_count": 0,
+      "surge_path": "surge/reject_drop.list",
+      "openclash_path": "openclash/reject_drop.yaml",
+      "surge_non_ip_path": "surge/non_ip/reject_drop.list",
+      "surge_ip_path": "surge/ip/reject_drop.list",
+      "surge_domainset_path": "surge/domainset/reject_drop.conf",
+      "openclash_non_ip_path": "openclash/non_ip/reject_drop.yaml",
+      "openclash_ip_path": "openclash/ip/reject_drop.yaml",
+      "openclash_domainset_path": "openclash/domainset/reject_drop.txt",
+      "openclash_ipcidr_path": "openclash/ipcidr/reject_drop.txt",
+      "compat_clash_non_ip_path": "compat/Clash/non_ip/reject_drop.txt",
+      "compat_clash_ip_path": "compat/Clash/ip/reject_drop.txt",
+      "compat_clash_domainset_path": "compat/Clash/domainset/reject_drop.txt",
+      "compat_list_non_ip_path": "compat/List/non_ip/reject_drop.conf",
+      "compat_list_ip_path": "compat/List/ip/reject_drop.conf",
+      "compat_list_domainset_path": "compat/List/domainset/reject_drop.conf",
+      "recommended_action": "REJECT-DROP",
+      "recommended_priority": 120,
+      "recommended_note": "静默丢弃拦截规则",
+      "sources": [
         {
           "type": "local_domain",
           "authority": "owner-controlled",
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/reject_drop.txt",
           "used_cache": false,
           "rule_count": 0
-        },
+        }
+      ]
+    },
+    {
+      "id": "reject_no_drop",
+      "description": "Owner-controlled explicit reject rules (no drop)",
+      "rule_count": 0,
+      "surge_path": "surge/reject_no_drop.list",
+      "openclash_path": "openclash/reject_no_drop.yaml",
+      "surge_non_ip_path": "surge/non_ip/reject_no_drop.list",
+      "surge_ip_path": "surge/ip/reject_no_drop.list",
+      "surge_domainset_path": "surge/domainset/reject_no_drop.conf",
+      "openclash_non_ip_path": "openclash/non_ip/reject_no_drop.yaml",
+      "openclash_ip_path": "openclash/ip/reject_no_drop.yaml",
+      "openclash_domainset_path": "openclash/domainset/reject_no_drop.txt",
+      "openclash_ipcidr_path": "openclash/ipcidr/reject_no_drop.txt",
+      "compat_clash_non_ip_path": "compat/Clash/non_ip/reject_no_drop.txt",
+      "compat_clash_ip_path": "compat/Clash/ip/reject_no_drop.txt",
+      "compat_clash_domainset_path": "compat/Clash/domainset/reject_no_drop.txt",
+      "compat_list_non_ip_path": "compat/List/non_ip/reject_no_drop.conf",
+      "compat_list_ip_path": "compat/List/ip/reject_no_drop.conf",
+      "compat_list_domainset_path": "compat/List/domainset/reject_no_drop.conf",
+      "recommended_action": "REJECT-NO-DROP",
+      "recommended_priority": 130,
+      "recommended_note": "显式拒绝规则（不静默丢弃）",
+      "sources": [
         {
           "type": "local_domain",
           "authority": "owner-controlled",
@@ -498,6 +573,80 @@
       ]
     },
     {
+      "id": "stream_global",
+      "description": "Global streaming services (high coverage)",
+      "rule_count": 288,
+      "surge_path": "surge/stream_global.list",
+      "openclash_path": "openclash/stream_global.yaml",
+      "surge_non_ip_path": "surge/non_ip/stream_global.list",
+      "surge_ip_path": "surge/ip/stream_global.list",
+      "surge_domainset_path": "surge/domainset/stream_global.conf",
+      "openclash_non_ip_path": "openclash/non_ip/stream_global.yaml",
+      "openclash_ip_path": "openclash/ip/stream_global.yaml",
+      "openclash_domainset_path": "openclash/domainset/stream_global.txt",
+      "openclash_ipcidr_path": "openclash/ipcidr/stream_global.txt",
+      "compat_clash_non_ip_path": "compat/Clash/non_ip/stream_global.txt",
+      "compat_clash_ip_path": "compat/Clash/ip/stream_global.txt",
+      "compat_clash_domainset_path": "compat/Clash/domainset/stream_global.txt",
+      "compat_list_non_ip_path": "compat/List/non_ip/stream_global.conf",
+      "compat_list_ip_path": "compat/List/ip/stream_global.conf",
+      "compat_list_domainset_path": "compat/List/domainset/stream_global.conf",
+      "recommended_action": "PROXY",
+      "recommended_priority": 314,
+      "recommended_note": "国外流媒体高覆盖集合走代理",
+      "sources": [
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/netflix",
+          "used_cache": true,
+          "rule_count": 28
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/hulu",
+          "used_cache": true,
+          "rule_count": 48
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/disney",
+          "used_cache": true,
+          "rule_count": 160
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/abema",
+          "used_cache": true,
+          "rule_count": 21
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple-tvplus",
+          "used_cache": true,
+          "rule_count": 8
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/primevideo",
+          "used_cache": true,
+          "rule_count": 23
+        },
+        {
+          "type": "local_domain",
+          "authority": "owner-controlled",
+          "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/stream_global.txt",
+          "used_cache": false,
+          "rule_count": 0
+        }
+      ]
+    },
+    {
       "id": "ai",
       "description": "AI services",
       "rule_count": 66,
@@ -817,27 +966,27 @@
       ]
     },
     {
-      "id": "gits",
+      "id": "github",
       "description": "Git hosting and source platforms",
-      "rule_count": 40,
-      "surge_path": "surge/gits.list",
-      "openclash_path": "openclash/gits.yaml",
-      "surge_non_ip_path": "surge/non_ip/gits.list",
-      "surge_ip_path": "surge/ip/gits.list",
-      "surge_domainset_path": "surge/domainset/gits.conf",
-      "openclash_non_ip_path": "openclash/non_ip/gits.yaml",
-      "openclash_ip_path": "openclash/ip/gits.yaml",
-      "openclash_domainset_path": "openclash/domainset/gits.txt",
-      "openclash_ipcidr_path": "openclash/ipcidr/gits.txt",
-      "compat_clash_non_ip_path": "compat/Clash/non_ip/gits.txt",
-      "compat_clash_ip_path": "compat/Clash/ip/gits.txt",
-      "compat_clash_domainset_path": "compat/Clash/domainset/gits.txt",
-      "compat_list_non_ip_path": "compat/List/non_ip/gits.conf",
-      "compat_list_ip_path": "compat/List/ip/gits.conf",
-      "compat_list_domainset_path": "compat/List/domainset/gits.conf",
+      "rule_count": 41,
+      "surge_path": "surge/github.list",
+      "openclash_path": "openclash/github.yaml",
+      "surge_non_ip_path": "surge/non_ip/github.list",
+      "surge_ip_path": "surge/ip/github.list",
+      "surge_domainset_path": "surge/domainset/github.conf",
+      "openclash_non_ip_path": "openclash/non_ip/github.yaml",
+      "openclash_ip_path": "openclash/ip/github.yaml",
+      "openclash_domainset_path": "openclash/domainset/github.txt",
+      "openclash_ipcidr_path": "openclash/ipcidr/github.txt",
+      "compat_clash_non_ip_path": "compat/Clash/non_ip/github.txt",
+      "compat_clash_ip_path": "compat/Clash/ip/github.txt",
+      "compat_clash_domainset_path": "compat/Clash/domainset/github.txt",
+      "compat_list_non_ip_path": "compat/List/non_ip/github.conf",
+      "compat_list_ip_path": "compat/List/ip/github.conf",
+      "compat_list_domainset_path": "compat/List/domainset/github.conf",
       "recommended_action": "PROXY",
       "recommended_priority": 325,
-      "recommended_note": "Git 托管平台走代理",
+      "recommended_note": "GitHub/GitLab/Gitee 等代码托管平台走代理",
       "sources": [
         {
           "type": "v2fly_dlc",
@@ -863,7 +1012,7 @@
         {
           "type": "local_domain",
           "authority": "owner-controlled",
-          "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/gits.txt",
+          "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/github.txt",
           "used_cache": false,
           "rule_count": 6
         }
@@ -1802,6 +1951,38 @@
       ]
     },
     {
+      "id": "vowifi",
+      "description": "VoWiFi / IMS / ePDG domains",
+      "rule_count": 6,
+      "surge_path": "surge/vowifi.list",
+      "openclash_path": "openclash/vowifi.yaml",
+      "surge_non_ip_path": "surge/non_ip/vowifi.list",
+      "surge_ip_path": "surge/ip/vowifi.list",
+      "surge_domainset_path": "surge/domainset/vowifi.conf",
+      "openclash_non_ip_path": "openclash/non_ip/vowifi.yaml",
+      "openclash_ip_path": "openclash/ip/vowifi.yaml",
+      "openclash_domainset_path": "openclash/domainset/vowifi.txt",
+      "openclash_ipcidr_path": "openclash/ipcidr/vowifi.txt",
+      "compat_clash_non_ip_path": "compat/Clash/non_ip/vowifi.txt",
+      "compat_clash_ip_path": "compat/Clash/ip/vowifi.txt",
+      "compat_clash_domainset_path": "compat/Clash/domainset/vowifi.txt",
+      "compat_list_non_ip_path": "compat/List/non_ip/vowifi.conf",
+      "compat_list_ip_path": "compat/List/ip/vowifi.conf",
+      "compat_list_domainset_path": "compat/List/domainset/vowifi.conf",
+      "recommended_action": "PROXY",
+      "recommended_priority": 344,
+      "recommended_note": "VoWiFi/IMS/ePDG 相关域名走代理",
+      "sources": [
+        {
+          "type": "local_domain",
+          "authority": "owner-controlled",
+          "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/vowifi.txt",
+          "used_cache": false,
+          "rule_count": 6
+        }
+      ]
+    },
+    {
       "id": "tld_proxy",
       "description": "Proxy-specific TLD set",
       "rule_count": 1433,
@@ -1821,7 +2002,7 @@
       "compat_list_ip_path": "compat/List/ip/tld_proxy.conf",
       "compat_list_domainset_path": "compat/List/domainset/tld_proxy.conf",
       "recommended_action": "PROXY",
-      "recommended_priority": 344,
+      "recommended_priority": 345,
       "recommended_note": "需要强制代理的 TLD 集",
       "sources": [
         {
@@ -1860,7 +2041,7 @@
       "compat_list_ip_path": "compat/List/ip/gfw.conf",
       "compat_list_domainset_path": "compat/List/domainset/gfw.conf",
       "recommended_action": "PROXY",
-      "recommended_priority": 345,
+      "recommended_priority": 346,
       "recommended_note": "GFW 列表走代理",
       "sources": [
         {

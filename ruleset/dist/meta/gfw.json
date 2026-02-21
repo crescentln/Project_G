@@ -2,7 +2,7 @@
   "id": "gfw",
   "description": "GFW-related domains",
   "recommended_action": "PROXY",
-  "recommended_priority": 345,
+  "recommended_priority": 346,
   "recommended_note": "GFW 列表走代理",
   "rule_count": 109,
   "paths": {

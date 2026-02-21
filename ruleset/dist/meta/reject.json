@@ -3,7 +3,7 @@
   "description": "Ads, trackers, and malware",
   "recommended_action": "REJECT",
   "recommended_priority": 100,
-  "recommended_note": "广告、追踪、恶意与补充拒绝规则（已合并）",
+  "recommended_note": "广告、追踪、恶意基础拦截规则",
   "rule_count": 175203,
   "paths": {
     "surge": "surge/reject.list",
@@ -48,27 +48,6 @@
       "type": "local_domain",
       "authority": "owner-controlled",
       "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/reject.txt",
-      "used_cache": false,
-      "rule_count": 0
-    },
-    {
-      "type": "local_domain",
-      "authority": "owner-controlled",
-      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/reject_extra.txt",
-      "used_cache": false,
-      "rule_count": 0
-    },
-    {
-      "type": "local_domain",
-      "authority": "owner-controlled",
-      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/reject_drop.txt",
-      "used_cache": false,
-      "rule_count": 0
-    },
-    {
-      "type": "local_domain",
-      "authority": "owner-controlled",
-      "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/reject_no_drop.txt",
       "used_cache": false,
       "rule_count": 0
     }

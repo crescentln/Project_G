@@ -7,6 +7,7 @@ Base URL:
 ## 当前主策略
 
 - 分别合并：`reject`、`direct`（两者互不合并）
+- 保留独立：`reject_extra`、`reject_drop`、`reject_no_drop`
 - 其余分类保持颗粒度，不做统一大合并
 
 ## 合并规则（你现在固定可用）
@@ -21,28 +22,29 @@ Base URL:
 - `reject`：`.../surge/reject.list`
 - `direct`：`.../surge/direct.list`
 
-## 旧规则名合并关系
+## 合并关系
 
-以下旧集合统一并入 `reject`：
-
-- `reject`
-- `reject_extra`
-- `reject_drop`
-- `reject_no_drop`
-
-以下旧直连集合统一并入 `direct`：
+以下直连集合统一并入 `direct`：
 
 - `lan` `domestic` `cncidr`
 - `apple_cn` `apple_cdn` `microsoft_cdn`
 - `games_cn` `socialmedia_cn` `douyin`
 - `cdn` `download` `dmca`
 
+以下拦截集合保持独立（按需挂载）：
+
+- `reject`
+- `reject_extra`
+- `reject_drop`
+- `reject_no_drop`
+
 ## 保持颗粒度（示例）
 
 下面这些继续独立维护和独立引用：
 
-- `ai` `telegram` `stream_us` `stream_jp` `stream_hk` `stream_tw`
-- `google` `googlefcm` `microsoft` `gits`
+- `github` `ai` `telegram` `vowifi`
+- `stream_us` `stream_jp` `stream_hk` `stream_tw` `stream_global`
+- `google` `googlefcm` `microsoft`
 - `youtube` `abema` `apple_tv` `primevideo` `spotify` `twitch`
 - `paypal` `crypto` `ecommerce` `onedrive` `forum` `socialmedia` `tiktok`
 - `gfw` `global` `tld_proxy`
@@ -52,6 +54,7 @@ Base URL:
 - `gfw`：`.../openclash/gfw.yaml` / `.../surge/gfw.list`
 - `global`：`.../openclash/global.yaml` / `.../surge/global.list`
 - `tld_proxy`：`.../openclash/tld_proxy.yaml` / `.../surge/tld_proxy.list`
+- `stream_global`：`.../openclash/stream_global.yaml` / `.../surge/stream_global.list`
 
 ## 兼容旧风格路径（可选）
 

@@ -24,17 +24,35 @@
           "type": "local_domain",
           "path": "manual/categories/reject.txt",
           "authority": "owner-controlled"
-        },
+        }
+      ]
+    },
+    {
+      "description": "Extra owner-controlled reject rules",
+      "id": "reject_extra",
+      "sources": [
         {
           "type": "local_domain",
           "path": "manual/categories/reject_extra.txt",
           "authority": "owner-controlled"
-        },
+        }
+      ]
+    },
+    {
+      "description": "Owner-controlled silent-drop reject rules",
+      "id": "reject_drop",
+      "sources": [
         {
           "type": "local_domain",
           "path": "manual/categories/reject_drop.txt",
           "authority": "owner-controlled"
-        },
+        }
+      ]
+    },
+    {
+      "description": "Owner-controlled explicit reject rules (no drop)",
+      "id": "reject_no_drop",
+      "sources": [
         {
           "type": "local_domain",
           "path": "manual/categories/reject_no_drop.txt",
@@ -244,6 +262,65 @@
       ]
     },
     {
+      "description": "Global streaming services (high coverage)",
+      "id": "stream_global",
+      "sources": [
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/netflix"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/hulu"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/disney"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/abema"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple-tvplus"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/primevideo"
+        },
+        {
+          "authority": "owner-controlled",
+          "path": "manual/categories/stream_global.txt",
+          "type": "local_domain"
+        }
+      ]
+    },
+    {
       "description": "AI services",
       "id": "ai",
       "sources": [
@@ -415,7 +492,7 @@
     },
     {
       "description": "Git hosting and source platforms",
-      "id": "gits",
+      "id": "github",
       "sources": [
         {
           "authority": "community-curated",
@@ -443,7 +520,7 @@
         },
         {
           "authority": "owner-controlled",
-          "path": "manual/categories/gits.txt",
+          "path": "manual/categories/github.txt",
           "type": "local_domain"
         }
       ]
@@ -932,6 +1009,17 @@
       ]
     },
     {
+      "description": "VoWiFi / IMS / ePDG domains",
+      "id": "vowifi",
+      "sources": [
+        {
+          "authority": "owner-controlled",
+          "path": "manual/categories/vowifi.txt",
+          "type": "local_domain"
+        }
+      ]
+    },
+    {
       "description": "Proxy-specific TLD set",
       "id": "tld_proxy",
       "sources": [
@@ -1136,6 +1224,34 @@
       "stream_jp"
     ],
     [
+      "stream_global",
+      "stream_us"
+    ],
+    [
+      "stream_global",
+      "stream_jp"
+    ],
+    [
+      "stream_global",
+      "stream_hk"
+    ],
+    [
+      "stream_global",
+      "stream_tw"
+    ],
+    [
+      "stream_global",
+      "abema"
+    ],
+    [
+      "stream_global",
+      "apple_tv"
+    ],
+    [
+      "stream_global",
+      "primevideo"
+    ],
+    [
       "apple_proxy",
       "apple_services"
     ],
@@ -1173,7 +1289,7 @@
     ],
     [
       "ai",
-      "gits"
+      "github"
     ],
     [
       "forum",
