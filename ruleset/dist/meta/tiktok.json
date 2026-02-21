@@ -4,7 +4,7 @@
   "recommended_action": "PROXY",
   "recommended_priority": 341,
   "recommended_note": "TikTok 国际站走代理",
-  "rule_count": 3,
+  "rule_count": 35,
   "paths": {
     "surge": "surge/tiktok.list",
     "surge_non_ip": "surge/non_ip/tiktok.list",
@@ -23,6 +23,13 @@
     "compat_list_domainset": "compat/List/domainset/tiktok.conf"
   },
   "sources": [
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/tiktok",
+      "used_cache": true,
+      "rule_count": 35
+    },
     {
       "type": "local_domain",
       "authority": "owner-controlled",

@@ -1,14 +1,14 @@
 {
-  "generated_at_utc": "2026-02-21T00:20:34.518128+00:00",
+  "generated_at_utc": "2026-02-21T01:14:33.701694+00:00",
   "config_path": "/Users/alpha2128125/Documents/New project/ruleset/config/sources.json",
   "policy_path": "/Users/alpha2128125/Documents/New project/ruleset/config/policy_map.json",
-  "category_count": 54,
+  "category_count": 49,
   "conflict_count": 0,
   "categories": [
     {
       "id": "reject",
       "description": "Ads, trackers, and malware",
-      "rule_count": 175182,
+      "rule_count": 175184,
       "surge_path": "surge/reject.list",
       "openclash_path": "openclash/reject.yaml",
       "surge_non_ip_path": "surge/non_ip/reject.list",
@@ -33,7 +33,7 @@
           "authority": "curated-upstream",
           "ref": "https://easylist.to/easylist/easylist.txt",
           "used_cache": true,
-          "rule_count": 58800
+          "rule_count": 58811
         },
         {
           "type": "adblock",
@@ -281,7 +281,7 @@
     {
       "id": "telegram",
       "description": "Telegram domains and official CIDRs",
-      "rule_count": 18,
+      "rule_count": 34,
       "surge_path": "surge/telegram.list",
       "openclash_path": "openclash/telegram.yaml",
       "surge_non_ip_path": "surge/non_ip/telegram.list",
@@ -307,6 +307,13 @@
           "ref": "https://core.telegram.org/resources/cidr.txt",
           "used_cache": true,
           "rule_count": 14
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/telegram",
+          "used_cache": true,
+          "rule_count": 20
         },
         {
           "type": "local_domain",
@@ -412,7 +419,7 @@
     {
       "id": "stream_us",
       "description": "Streaming services for North America",
-      "rule_count": 6,
+      "rule_count": 238,
       "surge_path": "surge/stream_us.list",
       "openclash_path": "openclash/stream_us.yaml",
       "surge_non_ip_path": "surge/non_ip/stream_us.list",
@@ -433,6 +440,27 @@
       "recommended_note": "北美流媒体走代理",
       "sources": [
         {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/netflix",
+          "used_cache": true,
+          "rule_count": 28
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/hulu",
+          "used_cache": true,
+          "rule_count": 48
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/disney",
+          "used_cache": true,
+          "rule_count": 160
+        },
+        {
           "type": "local_domain",
           "authority": "owner-controlled",
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/stream_us.txt",
@@ -444,7 +472,7 @@
     {
       "id": "stream_jp",
       "description": "Streaming services for Japan",
-      "rule_count": 5,
+      "rule_count": 25,
       "surge_path": "surge/stream_jp.list",
       "openclash_path": "openclash/stream_jp.yaml",
       "surge_non_ip_path": "surge/non_ip/stream_jp.list",
@@ -464,6 +492,13 @@
       "recommended_priority": 311,
       "recommended_note": "日本流媒体走代理",
       "sources": [
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/abema",
+          "used_cache": true,
+          "rule_count": 21
+        },
         {
           "type": "local_domain",
           "authority": "owner-controlled",
@@ -540,7 +575,7 @@
     {
       "id": "ai",
       "description": "AI services",
-      "rule_count": 9,
+      "rule_count": 66,
       "surge_path": "surge/ai.list",
       "openclash_path": "openclash/ai.yaml",
       "surge_non_ip_path": "surge/non_ip/ai.list",
@@ -561,6 +596,41 @@
       "recommended_note": "AI 服务走代理",
       "sources": [
         {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/openai",
+          "used_cache": true,
+          "rule_count": 17
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/anthropic",
+          "used_cache": true,
+          "rule_count": 6
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/perplexity",
+          "used_cache": true,
+          "rule_count": 4
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/google-gemini",
+          "used_cache": true,
+          "rule_count": 36
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/github-copilot",
+          "used_cache": true,
+          "rule_count": 1
+        },
+        {
           "type": "local_domain",
           "authority": "owner-controlled",
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/ai.txt",
@@ -570,169 +640,9 @@
       ]
     },
     {
-      "id": "ai_openai",
-      "description": "OpenAI ecosystem",
-      "rule_count": 4,
-      "surge_path": "surge/ai_openai.list",
-      "openclash_path": "openclash/ai_openai.yaml",
-      "surge_non_ip_path": "surge/non_ip/ai_openai.list",
-      "surge_ip_path": "surge/ip/ai_openai.list",
-      "surge_domainset_path": "surge/domainset/ai_openai.conf",
-      "openclash_non_ip_path": "openclash/non_ip/ai_openai.yaml",
-      "openclash_ip_path": "openclash/ip/ai_openai.yaml",
-      "openclash_domainset_path": "openclash/domainset/ai_openai.txt",
-      "openclash_ipcidr_path": "openclash/ipcidr/ai_openai.txt",
-      "compat_clash_non_ip_path": "compat/Clash/non_ip/ai_openai.txt",
-      "compat_clash_ip_path": "compat/Clash/ip/ai_openai.txt",
-      "compat_clash_domainset_path": "compat/Clash/domainset/ai_openai.txt",
-      "compat_list_non_ip_path": "compat/List/non_ip/ai_openai.conf",
-      "compat_list_ip_path": "compat/List/ip/ai_openai.conf",
-      "compat_list_domainset_path": "compat/List/domainset/ai_openai.conf",
-      "recommended_action": "PROXY",
-      "recommended_priority": 314,
-      "recommended_note": "OpenAI 相关服务走代理",
-      "sources": [
-        {
-          "type": "local_domain",
-          "authority": "owner-controlled",
-          "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/ai_openai.txt",
-          "used_cache": false,
-          "rule_count": 4
-        }
-      ]
-    },
-    {
-      "id": "ai_anthropic",
-      "description": "Anthropic and Claude ecosystem",
-      "rule_count": 3,
-      "surge_path": "surge/ai_anthropic.list",
-      "openclash_path": "openclash/ai_anthropic.yaml",
-      "surge_non_ip_path": "surge/non_ip/ai_anthropic.list",
-      "surge_ip_path": "surge/ip/ai_anthropic.list",
-      "surge_domainset_path": "surge/domainset/ai_anthropic.conf",
-      "openclash_non_ip_path": "openclash/non_ip/ai_anthropic.yaml",
-      "openclash_ip_path": "openclash/ip/ai_anthropic.yaml",
-      "openclash_domainset_path": "openclash/domainset/ai_anthropic.txt",
-      "openclash_ipcidr_path": "openclash/ipcidr/ai_anthropic.txt",
-      "compat_clash_non_ip_path": "compat/Clash/non_ip/ai_anthropic.txt",
-      "compat_clash_ip_path": "compat/Clash/ip/ai_anthropic.txt",
-      "compat_clash_domainset_path": "compat/Clash/domainset/ai_anthropic.txt",
-      "compat_list_non_ip_path": "compat/List/non_ip/ai_anthropic.conf",
-      "compat_list_ip_path": "compat/List/ip/ai_anthropic.conf",
-      "compat_list_domainset_path": "compat/List/domainset/ai_anthropic.conf",
-      "recommended_action": "PROXY",
-      "recommended_priority": 315,
-      "recommended_note": "Anthropic / Claude 走代理",
-      "sources": [
-        {
-          "type": "local_domain",
-          "authority": "owner-controlled",
-          "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/ai_anthropic.txt",
-          "used_cache": false,
-          "rule_count": 3
-        }
-      ]
-    },
-    {
-      "id": "ai_googleai",
-      "description": "Google AI ecosystem",
-      "rule_count": 4,
-      "surge_path": "surge/ai_googleai.list",
-      "openclash_path": "openclash/ai_googleai.yaml",
-      "surge_non_ip_path": "surge/non_ip/ai_googleai.list",
-      "surge_ip_path": "surge/ip/ai_googleai.list",
-      "surge_domainset_path": "surge/domainset/ai_googleai.conf",
-      "openclash_non_ip_path": "openclash/non_ip/ai_googleai.yaml",
-      "openclash_ip_path": "openclash/ip/ai_googleai.yaml",
-      "openclash_domainset_path": "openclash/domainset/ai_googleai.txt",
-      "openclash_ipcidr_path": "openclash/ipcidr/ai_googleai.txt",
-      "compat_clash_non_ip_path": "compat/Clash/non_ip/ai_googleai.txt",
-      "compat_clash_ip_path": "compat/Clash/ip/ai_googleai.txt",
-      "compat_clash_domainset_path": "compat/Clash/domainset/ai_googleai.txt",
-      "compat_list_non_ip_path": "compat/List/non_ip/ai_googleai.conf",
-      "compat_list_ip_path": "compat/List/ip/ai_googleai.conf",
-      "compat_list_domainset_path": "compat/List/domainset/ai_googleai.conf",
-      "recommended_action": "PROXY",
-      "recommended_priority": 316,
-      "recommended_note": "Google AI 服务走代理",
-      "sources": [
-        {
-          "type": "local_domain",
-          "authority": "owner-controlled",
-          "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/ai_googleai.txt",
-          "used_cache": false,
-          "rule_count": 4
-        }
-      ]
-    },
-    {
-      "id": "ai_copilot",
-      "description": "Copilot ecosystem",
-      "rule_count": 3,
-      "surge_path": "surge/ai_copilot.list",
-      "openclash_path": "openclash/ai_copilot.yaml",
-      "surge_non_ip_path": "surge/non_ip/ai_copilot.list",
-      "surge_ip_path": "surge/ip/ai_copilot.list",
-      "surge_domainset_path": "surge/domainset/ai_copilot.conf",
-      "openclash_non_ip_path": "openclash/non_ip/ai_copilot.yaml",
-      "openclash_ip_path": "openclash/ip/ai_copilot.yaml",
-      "openclash_domainset_path": "openclash/domainset/ai_copilot.txt",
-      "openclash_ipcidr_path": "openclash/ipcidr/ai_copilot.txt",
-      "compat_clash_non_ip_path": "compat/Clash/non_ip/ai_copilot.txt",
-      "compat_clash_ip_path": "compat/Clash/ip/ai_copilot.txt",
-      "compat_clash_domainset_path": "compat/Clash/domainset/ai_copilot.txt",
-      "compat_list_non_ip_path": "compat/List/non_ip/ai_copilot.conf",
-      "compat_list_ip_path": "compat/List/ip/ai_copilot.conf",
-      "compat_list_domainset_path": "compat/List/domainset/ai_copilot.conf",
-      "recommended_action": "PROXY",
-      "recommended_priority": 317,
-      "recommended_note": "Copilot 相关服务走代理",
-      "sources": [
-        {
-          "type": "local_domain",
-          "authority": "owner-controlled",
-          "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/ai_copilot.txt",
-          "used_cache": false,
-          "rule_count": 3
-        }
-      ]
-    },
-    {
-      "id": "ai_perplexity",
-      "description": "Perplexity ecosystem",
-      "rule_count": 2,
-      "surge_path": "surge/ai_perplexity.list",
-      "openclash_path": "openclash/ai_perplexity.yaml",
-      "surge_non_ip_path": "surge/non_ip/ai_perplexity.list",
-      "surge_ip_path": "surge/ip/ai_perplexity.list",
-      "surge_domainset_path": "surge/domainset/ai_perplexity.conf",
-      "openclash_non_ip_path": "openclash/non_ip/ai_perplexity.yaml",
-      "openclash_ip_path": "openclash/ip/ai_perplexity.yaml",
-      "openclash_domainset_path": "openclash/domainset/ai_perplexity.txt",
-      "openclash_ipcidr_path": "openclash/ipcidr/ai_perplexity.txt",
-      "compat_clash_non_ip_path": "compat/Clash/non_ip/ai_perplexity.txt",
-      "compat_clash_ip_path": "compat/Clash/ip/ai_perplexity.txt",
-      "compat_clash_domainset_path": "compat/Clash/domainset/ai_perplexity.txt",
-      "compat_list_non_ip_path": "compat/List/non_ip/ai_perplexity.conf",
-      "compat_list_ip_path": "compat/List/ip/ai_perplexity.conf",
-      "compat_list_domainset_path": "compat/List/domainset/ai_perplexity.conf",
-      "recommended_action": "PROXY",
-      "recommended_priority": 318,
-      "recommended_note": "Perplexity 相关服务走代理",
-      "sources": [
-        {
-          "type": "local_domain",
-          "authority": "owner-controlled",
-          "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/ai_perplexity.txt",
-          "used_cache": false,
-          "rule_count": 2
-        }
-      ]
-    },
-    {
       "id": "apple_cn",
       "description": "Apple China direct",
-      "rule_count": 2,
+      "rule_count": 285,
       "surge_path": "surge/apple_cn.list",
       "openclash_path": "openclash/apple_cn.yaml",
       "surge_non_ip_path": "surge/non_ip/apple_cn.list",
@@ -752,6 +662,13 @@
       "recommended_priority": 230,
       "recommended_note": "Apple 中国区服务直连",
       "sources": [
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple",
+          "used_cache": true,
+          "rule_count": 285
+        },
         {
           "type": "local_domain",
           "authority": "owner-controlled",
@@ -828,7 +745,7 @@
     {
       "id": "apple_services",
       "description": "Apple services routing",
-      "rule_count": 4,
+      "rule_count": 1522,
       "surge_path": "surge/apple_services.list",
       "openclash_path": "openclash/apple_services.yaml",
       "surge_non_ip_path": "surge/non_ip/apple_services.list",
@@ -849,6 +766,13 @@
       "recommended_note": "Apple 服务组走代理",
       "sources": [
         {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple",
+          "used_cache": true,
+          "rule_count": 1519
+        },
+        {
           "type": "local_domain",
           "authority": "owner-controlled",
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/apple_services.txt",
@@ -860,7 +784,7 @@
     {
       "id": "apple_intelligence",
       "description": "Apple intelligence routing",
-      "rule_count": 0,
+      "rule_count": 5,
       "surge_path": "surge/apple_intelligence.list",
       "openclash_path": "openclash/apple_intelligence.yaml",
       "surge_non_ip_path": "surge/non_ip/apple_intelligence.list",
@@ -881,6 +805,13 @@
       "recommended_note": "Apple Intelligence 走代理",
       "sources": [
         {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple-intelligence",
+          "used_cache": true,
+          "rule_count": 5
+        },
+        {
           "type": "local_domain",
           "authority": "owner-controlled",
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/apple_intelligence.txt",
@@ -892,7 +823,7 @@
     {
       "id": "microsoft",
       "description": "Microsoft services",
-      "rule_count": 5,
+      "rule_count": 422,
       "surge_path": "surge/microsoft.list",
       "openclash_path": "openclash/microsoft.yaml",
       "surge_non_ip_path": "surge/non_ip/microsoft.list",
@@ -912,6 +843,13 @@
       "recommended_priority": 324,
       "recommended_note": "微软国际服务走代理",
       "sources": [
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/microsoft",
+          "used_cache": true,
+          "rule_count": 422
+        },
         {
           "type": "local_domain",
           "authority": "owner-controlled",
@@ -956,7 +894,7 @@
     {
       "id": "gits",
       "description": "Git hosting and source platforms",
-      "rule_count": 6,
+      "rule_count": 40,
       "surge_path": "surge/gits.list",
       "openclash_path": "openclash/gits.yaml",
       "surge_non_ip_path": "surge/non_ip/gits.list",
@@ -976,6 +914,27 @@
       "recommended_priority": 325,
       "recommended_note": "Git 托管平台走代理",
       "sources": [
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/github",
+          "used_cache": true,
+          "rule_count": 32
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/gitlab",
+          "used_cache": true,
+          "rule_count": 5
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/gitee",
+          "used_cache": true,
+          "rule_count": 2
+        },
         {
           "type": "local_domain",
           "authority": "owner-controlled",
@@ -1020,7 +979,7 @@
     {
       "id": "games_cn",
       "description": "China game services",
-      "rule_count": 3,
+      "rule_count": 228,
       "surge_path": "surge/games_cn.list",
       "openclash_path": "openclash/games_cn.yaml",
       "surge_non_ip_path": "surge/non_ip/games_cn.list",
@@ -1041,6 +1000,13 @@
       "recommended_note": "国内游戏服务直连",
       "sources": [
         {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-games-cn",
+          "used_cache": true,
+          "rule_count": 228
+        },
+        {
           "type": "local_domain",
           "authority": "owner-controlled",
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/games_cn.txt",
@@ -1052,7 +1018,7 @@
     {
       "id": "games",
       "description": "Global game services",
-      "rule_count": 3,
+      "rule_count": 788,
       "surge_path": "surge/games.list",
       "openclash_path": "openclash/games.yaml",
       "surge_non_ip_path": "surge/non_ip/games.list",
@@ -1073,6 +1039,13 @@
       "recommended_note": "国际游戏服务走代理",
       "sources": [
         {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-games-!cn",
+          "used_cache": true,
+          "rule_count": 788
+        },
+        {
           "type": "local_domain",
           "authority": "owner-controlled",
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/games.txt",
@@ -1084,7 +1057,7 @@
     {
       "id": "youtube",
       "description": "YouTube",
-      "rule_count": 4,
+      "rule_count": 176,
       "surge_path": "surge/youtube.list",
       "openclash_path": "openclash/youtube.yaml",
       "surge_non_ip_path": "surge/non_ip/youtube.list",
@@ -1105,6 +1078,13 @@
       "recommended_note": "YouTube 走代理",
       "sources": [
         {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/youtube",
+          "used_cache": true,
+          "rule_count": 176
+        },
+        {
           "type": "local_domain",
           "authority": "owner-controlled",
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/youtube.txt",
@@ -1116,7 +1096,7 @@
     {
       "id": "abema",
       "description": "Abema",
-      "rule_count": 1,
+      "rule_count": 21,
       "surge_path": "surge/abema.list",
       "openclash_path": "openclash/abema.yaml",
       "surge_non_ip_path": "surge/non_ip/abema.list",
@@ -1137,6 +1117,13 @@
       "recommended_note": "Abema 走代理",
       "sources": [
         {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/abema",
+          "used_cache": true,
+          "rule_count": 21
+        },
+        {
           "type": "local_domain",
           "authority": "owner-controlled",
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/abema.txt",
@@ -1148,7 +1135,7 @@
     {
       "id": "apple_tv",
       "description": "Apple TV",
-      "rule_count": 1,
+      "rule_count": 8,
       "surge_path": "surge/apple_tv.list",
       "openclash_path": "openclash/apple_tv.yaml",
       "surge_non_ip_path": "surge/non_ip/apple_tv.list",
@@ -1169,6 +1156,13 @@
       "recommended_note": "Apple TV+ 走代理",
       "sources": [
         {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple-tvplus",
+          "used_cache": true,
+          "rule_count": 8
+        },
+        {
           "type": "local_domain",
           "authority": "owner-controlled",
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/apple_tv.txt",
@@ -1180,7 +1174,7 @@
     {
       "id": "primevideo",
       "description": "Prime Video",
-      "rule_count": 2,
+      "rule_count": 23,
       "surge_path": "surge/primevideo.list",
       "openclash_path": "openclash/primevideo.yaml",
       "surge_non_ip_path": "surge/non_ip/primevideo.list",
@@ -1201,6 +1195,13 @@
       "recommended_note": "Prime Video 走代理",
       "sources": [
         {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/primevideo",
+          "used_cache": true,
+          "rule_count": 23
+        },
+        {
           "type": "local_domain",
           "authority": "owner-controlled",
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/primevideo.txt",
@@ -1212,7 +1213,7 @@
     {
       "id": "spotify",
       "description": "Spotify",
-      "rule_count": 2,
+      "rule_count": 23,
       "surge_path": "surge/spotify.list",
       "openclash_path": "openclash/spotify.yaml",
       "surge_non_ip_path": "surge/non_ip/spotify.list",
@@ -1233,6 +1234,13 @@
       "recommended_note": "Spotify 走代理",
       "sources": [
         {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/spotify",
+          "used_cache": true,
+          "rule_count": 23
+        },
+        {
           "type": "local_domain",
           "authority": "owner-controlled",
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/spotify.txt",
@@ -1244,7 +1252,7 @@
     {
       "id": "twitch",
       "description": "Twitch",
-      "rule_count": 3,
+      "rule_count": 32,
       "surge_path": "surge/twitch.list",
       "openclash_path": "openclash/twitch.yaml",
       "surge_non_ip_path": "surge/non_ip/twitch.list",
@@ -1265,6 +1273,13 @@
       "recommended_note": "Twitch 走代理",
       "sources": [
         {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/twitch",
+          "used_cache": true,
+          "rule_count": 32
+        },
+        {
           "type": "local_domain",
           "authority": "owner-controlled",
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/twitch.txt",
@@ -1276,7 +1291,7 @@
     {
       "id": "google",
       "description": "Google services",
-      "rule_count": 5,
+      "rule_count": 727,
       "surge_path": "surge/google.list",
       "openclash_path": "openclash/google.yaml",
       "surge_non_ip_path": "surge/non_ip/google.list",
@@ -1297,6 +1312,13 @@
       "recommended_note": "Google 主服务走代理",
       "sources": [
         {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/google",
+          "used_cache": true,
+          "rule_count": 727
+        },
+        {
           "type": "local_domain",
           "authority": "owner-controlled",
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/google.txt",
@@ -1308,7 +1330,7 @@
     {
       "id": "googlefcm",
       "description": "Google FCM",
-      "rule_count": 3,
+      "rule_count": 15,
       "surge_path": "surge/googlefcm.list",
       "openclash_path": "openclash/googlefcm.yaml",
       "surge_non_ip_path": "surge/non_ip/googlefcm.list",
@@ -1329,6 +1351,13 @@
       "recommended_note": "Google FCM 推送走代理",
       "sources": [
         {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/googlefcm",
+          "used_cache": true,
+          "rule_count": 12
+        },
+        {
           "type": "local_domain",
           "authority": "owner-controlled",
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/googlefcm.txt",
@@ -1340,7 +1369,7 @@
     {
       "id": "paypal",
       "description": "PayPal",
-      "rule_count": 2,
+      "rule_count": 233,
       "surge_path": "surge/paypal.list",
       "openclash_path": "openclash/paypal.yaml",
       "surge_non_ip_path": "surge/non_ip/paypal.list",
@@ -1361,6 +1390,13 @@
       "recommended_note": "PayPal 走代理",
       "sources": [
         {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/paypal",
+          "used_cache": true,
+          "rule_count": 233
+        },
+        {
           "type": "local_domain",
           "authority": "owner-controlled",
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/paypal.txt",
@@ -1372,7 +1408,7 @@
     {
       "id": "crypto",
       "description": "Crypto services",
-      "rule_count": 4,
+      "rule_count": 74,
       "surge_path": "surge/crypto.list",
       "openclash_path": "openclash/crypto.yaml",
       "surge_non_ip_path": "surge/non_ip/crypto.list",
@@ -1393,6 +1429,41 @@
       "recommended_note": "加密交易站点走代理",
       "sources": [
         {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/binance",
+          "used_cache": true,
+          "rule_count": 38
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/bybit",
+          "used_cache": true,
+          "rule_count": 16
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/okx",
+          "used_cache": true,
+          "rule_count": 7
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/kraken",
+          "used_cache": true,
+          "rule_count": 2
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/huobi",
+          "used_cache": true,
+          "rule_count": 10
+        },
+        {
           "type": "local_domain",
           "authority": "owner-controlled",
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/crypto.txt",
@@ -1404,7 +1475,7 @@
     {
       "id": "ecommerce",
       "description": "E-commerce services",
-      "rule_count": 4,
+      "rule_count": 1093,
       "surge_path": "surge/ecommerce.list",
       "openclash_path": "openclash/ecommerce.yaml",
       "surge_non_ip_path": "surge/non_ip/ecommerce.list",
@@ -1425,6 +1496,13 @@
       "recommended_note": "跨境电商走代理",
       "sources": [
         {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-ecommerce",
+          "used_cache": true,
+          "rule_count": 1092
+        },
+        {
           "type": "local_domain",
           "authority": "owner-controlled",
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/ecommerce.txt",
@@ -1436,7 +1514,7 @@
     {
       "id": "onedrive",
       "description": "OneDrive",
-      "rule_count": 2,
+      "rule_count": 11,
       "surge_path": "surge/onedrive.list",
       "openclash_path": "openclash/onedrive.yaml",
       "surge_non_ip_path": "surge/non_ip/onedrive.list",
@@ -1457,6 +1535,13 @@
       "recommended_note": "OneDrive 走代理",
       "sources": [
         {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/onedrive",
+          "used_cache": true,
+          "rule_count": 11
+        },
+        {
           "type": "local_domain",
           "authority": "owner-controlled",
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/onedrive.txt",
@@ -1468,7 +1553,7 @@
     {
       "id": "forum",
       "description": "Forums",
-      "rule_count": 2,
+      "rule_count": 97,
       "surge_path": "surge/forum.list",
       "openclash_path": "openclash/forum.yaml",
       "surge_non_ip_path": "surge/non_ip/forum.list",
@@ -1488,6 +1573,13 @@
       "recommended_priority": 339,
       "recommended_note": "国际论坛走代理",
       "sources": [
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-forums",
+          "used_cache": true,
+          "rule_count": 97
+        },
         {
           "type": "local_domain",
           "authority": "owner-controlled",
@@ -1532,7 +1624,7 @@
     {
       "id": "socialmedia",
       "description": "Global social media",
-      "rule_count": 5,
+      "rule_count": 536,
       "surge_path": "surge/socialmedia.list",
       "openclash_path": "openclash/socialmedia.yaml",
       "surge_non_ip_path": "surge/non_ip/socialmedia.list",
@@ -1553,6 +1645,55 @@
       "recommended_note": "国际社交网络走代理",
       "sources": [
         {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/facebook",
+          "used_cache": true,
+          "rule_count": 394
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/instagram",
+          "used_cache": true,
+          "rule_count": 72
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/twitter",
+          "used_cache": true,
+          "rule_count": 23
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/discord",
+          "used_cache": true,
+          "rule_count": 28
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/reddit",
+          "used_cache": true,
+          "rule_count": 12
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/quora",
+          "used_cache": true,
+          "rule_count": 5
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/medium",
+          "used_cache": true,
+          "rule_count": 2
+        },
+        {
           "type": "local_domain",
           "authority": "owner-controlled",
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/socialmedia.txt",
@@ -1564,7 +1705,7 @@
     {
       "id": "tiktok",
       "description": "TikTok",
-      "rule_count": 3,
+      "rule_count": 35,
       "surge_path": "surge/tiktok.list",
       "openclash_path": "openclash/tiktok.yaml",
       "surge_non_ip_path": "surge/non_ip/tiktok.list",
@@ -1585,6 +1726,13 @@
       "recommended_note": "TikTok 国际站走代理",
       "sources": [
         {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/tiktok",
+          "used_cache": true,
+          "rule_count": 35
+        },
+        {
           "type": "local_domain",
           "authority": "owner-controlled",
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/tiktok.txt",
@@ -1596,7 +1744,7 @@
     {
       "id": "douyin",
       "description": "Douyin",
-      "rule_count": 2,
+      "rule_count": 65,
       "surge_path": "surge/douyin.list",
       "openclash_path": "openclash/douyin.yaml",
       "surge_non_ip_path": "surge/non_ip/douyin.list",
@@ -1616,6 +1764,13 @@
       "recommended_priority": 242,
       "recommended_note": "抖音国内流量直连",
       "sources": [
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/douyin",
+          "used_cache": true,
+          "rule_count": 65
+        },
         {
           "type": "local_domain",
           "authority": "owner-controlled",

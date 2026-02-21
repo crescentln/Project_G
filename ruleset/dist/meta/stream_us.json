@@ -4,7 +4,7 @@
   "recommended_action": "PROXY",
   "recommended_priority": 310,
   "recommended_note": "北美流媒体走代理",
-  "rule_count": 6,
+  "rule_count": 238,
   "paths": {
     "surge": "surge/stream_us.list",
     "surge_non_ip": "surge/non_ip/stream_us.list",
@@ -23,6 +23,27 @@
     "compat_list_domainset": "compat/List/domainset/stream_us.conf"
   },
   "sources": [
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/netflix",
+      "used_cache": true,
+      "rule_count": 28
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/hulu",
+      "used_cache": true,
+      "rule_count": 48
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/disney",
+      "used_cache": true,
+      "rule_count": 160
+    },
     {
       "type": "local_domain",
       "authority": "owner-controlled",

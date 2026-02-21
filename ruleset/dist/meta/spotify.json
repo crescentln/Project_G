@@ -4,7 +4,7 @@
   "recommended_action": "PROXY",
   "recommended_priority": 331,
   "recommended_note": "Spotify 走代理",
-  "rule_count": 2,
+  "rule_count": 23,
   "paths": {
     "surge": "surge/spotify.list",
     "surge_non_ip": "surge/non_ip/spotify.list",
@@ -23,6 +23,13 @@
     "compat_list_domainset": "compat/List/domainset/spotify.conf"
   },
   "sources": [
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/spotify",
+      "used_cache": true,
+      "rule_count": 23
+    },
     {
       "type": "local_domain",
       "authority": "owner-controlled",

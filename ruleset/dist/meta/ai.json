@@ -4,7 +4,7 @@
   "recommended_action": "PROXY",
   "recommended_priority": 320,
   "recommended_note": "AI 服务走代理",
-  "rule_count": 9,
+  "rule_count": 66,
   "paths": {
     "surge": "surge/ai.list",
     "surge_non_ip": "surge/non_ip/ai.list",
@@ -23,6 +23,41 @@
     "compat_list_domainset": "compat/List/domainset/ai.conf"
   },
   "sources": [
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/openai",
+      "used_cache": true,
+      "rule_count": 17
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/anthropic",
+      "used_cache": true,
+      "rule_count": 6
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/perplexity",
+      "used_cache": true,
+      "rule_count": 4
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/google-gemini",
+      "used_cache": true,
+      "rule_count": 36
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/github-copilot",
+      "used_cache": true,
+      "rule_count": 1
+    },
     {
       "type": "local_domain",
       "authority": "owner-controlled",

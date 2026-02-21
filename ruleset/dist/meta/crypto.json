@@ -4,7 +4,7 @@
   "recommended_action": "PROXY",
   "recommended_priority": 336,
   "recommended_note": "加密交易站点走代理",
-  "rule_count": 4,
+  "rule_count": 74,
   "paths": {
     "surge": "surge/crypto.list",
     "surge_non_ip": "surge/non_ip/crypto.list",
@@ -23,6 +23,41 @@
     "compat_list_domainset": "compat/List/domainset/crypto.conf"
   },
   "sources": [
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/binance",
+      "used_cache": true,
+      "rule_count": 38
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/bybit",
+      "used_cache": true,
+      "rule_count": 16
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/okx",
+      "used_cache": true,
+      "rule_count": 7
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/kraken",
+      "used_cache": true,
+      "rule_count": 2
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/huobi",
+      "used_cache": true,
+      "rule_count": 10
+    },
     {
       "type": "local_domain",
       "authority": "owner-controlled",

@@ -4,7 +4,7 @@
   "recommended_action": "PROXY",
   "recommended_priority": 332,
   "recommended_note": "Twitch 走代理",
-  "rule_count": 3,
+  "rule_count": 32,
   "paths": {
     "surge": "surge/twitch.list",
     "surge_non_ip": "surge/non_ip/twitch.list",
@@ -23,6 +23,13 @@
     "compat_list_domainset": "compat/List/domainset/twitch.conf"
   },
   "sources": [
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/twitch",
+      "used_cache": true,
+      "rule_count": 32
+    },
     {
       "type": "local_domain",
       "authority": "owner-controlled",

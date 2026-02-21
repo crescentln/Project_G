@@ -4,7 +4,7 @@
   "recommended_action": "PROXY",
   "recommended_priority": 335,
   "recommended_note": "PayPal 走代理",
-  "rule_count": 2,
+  "rule_count": 233,
   "paths": {
     "surge": "surge/paypal.list",
     "surge_non_ip": "surge/non_ip/paypal.list",
@@ -23,6 +23,13 @@
     "compat_list_domainset": "compat/List/domainset/paypal.conf"
   },
   "sources": [
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/paypal",
+      "used_cache": true,
+      "rule_count": 233
+    },
     {
       "type": "local_domain",
       "authority": "owner-controlled",

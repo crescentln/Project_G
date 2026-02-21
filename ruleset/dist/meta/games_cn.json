@@ -4,7 +4,7 @@
   "recommended_action": "DIRECT",
   "recommended_priority": 241,
   "recommended_note": "国内游戏服务直连",
-  "rule_count": 3,
+  "rule_count": 228,
   "paths": {
     "surge": "surge/games_cn.list",
     "surge_non_ip": "surge/non_ip/games_cn.list",
@@ -23,6 +23,13 @@
     "compat_list_domainset": "compat/List/domainset/games_cn.conf"
   },
   "sources": [
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-games-cn",
+      "used_cache": true,
+      "rule_count": 228
+    },
     {
       "type": "local_domain",
       "authority": "owner-controlled",

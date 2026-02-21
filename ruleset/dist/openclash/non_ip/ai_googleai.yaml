@@ -1,5 +1,0 @@
-payload:
-  - 'DOMAIN-SUFFIX,ai.google.dev'
-  - 'DOMAIN-SUFFIX,deepmind.google'
-  - 'DOMAIN-SUFFIX,gemini.google.com'
-  - 'DOMAIN-SUFFIX,makersuite.google.com'

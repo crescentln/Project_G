@@ -4,7 +4,7 @@
   "recommended_action": "PROXY",
   "recommended_priority": 325,
   "recommended_note": "Git 托管平台走代理",
-  "rule_count": 6,
+  "rule_count": 40,
   "paths": {
     "surge": "surge/gits.list",
     "surge_non_ip": "surge/non_ip/gits.list",
@@ -23,6 +23,27 @@
     "compat_list_domainset": "compat/List/domainset/gits.conf"
   },
   "sources": [
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/github",
+      "used_cache": true,
+      "rule_count": 32
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/gitlab",
+      "used_cache": true,
+      "rule_count": 5
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/gitee",
+      "used_cache": true,
+      "rule_count": 2
+    },
     {
       "type": "local_domain",
       "authority": "owner-controlled",

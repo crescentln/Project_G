@@ -4,7 +4,7 @@
   "recommended_action": "PROXY",
   "recommended_priority": 324,
   "recommended_note": "微软国际服务走代理",
-  "rule_count": 5,
+  "rule_count": 422,
   "paths": {
     "surge": "surge/microsoft.list",
     "surge_non_ip": "surge/non_ip/microsoft.list",
@@ -23,6 +23,13 @@
     "compat_list_domainset": "compat/List/domainset/microsoft.conf"
   },
   "sources": [
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/microsoft",
+      "used_cache": true,
+      "rule_count": 422
+    },
     {
       "type": "local_domain",
       "authority": "owner-controlled",

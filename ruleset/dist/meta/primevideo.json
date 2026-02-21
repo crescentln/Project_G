@@ -4,7 +4,7 @@
   "recommended_action": "PROXY",
   "recommended_priority": 330,
   "recommended_note": "Prime Video 走代理",
-  "rule_count": 2,
+  "rule_count": 23,
   "paths": {
     "surge": "surge/primevideo.list",
     "surge_non_ip": "surge/non_ip/primevideo.list",
@@ -23,6 +23,13 @@
     "compat_list_domainset": "compat/List/domainset/primevideo.conf"
   },
   "sources": [
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/primevideo",
+      "used_cache": true,
+      "rule_count": 23
+    },
     {
       "type": "local_domain",
       "authority": "owner-controlled",

@@ -4,7 +4,7 @@
   "recommended_action": "PROXY",
   "recommended_priority": 300,
   "recommended_note": "Telegram 走代理",
-  "rule_count": 18,
+  "rule_count": 34,
   "paths": {
     "surge": "surge/telegram.list",
     "surge_non_ip": "surge/non_ip/telegram.list",
@@ -29,6 +29,13 @@
       "ref": "https://core.telegram.org/resources/cidr.txt",
       "used_cache": true,
       "rule_count": 14
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/telegram",
+      "used_cache": true,
+      "rule_count": 20
     },
     {
       "type": "local_domain",

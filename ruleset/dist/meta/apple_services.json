@@ -4,7 +4,7 @@
   "recommended_action": "PROXY",
   "recommended_priority": 322,
   "recommended_note": "Apple 服务组走代理",
-  "rule_count": 4,
+  "rule_count": 1522,
   "paths": {
     "surge": "surge/apple_services.list",
     "surge_non_ip": "surge/non_ip/apple_services.list",
@@ -23,6 +23,13 @@
     "compat_list_domainset": "compat/List/domainset/apple_services.conf"
   },
   "sources": [
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple",
+      "used_cache": true,
+      "rule_count": 1519
+    },
     {
       "type": "local_domain",
       "authority": "owner-controlled",

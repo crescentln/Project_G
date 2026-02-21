@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-02-21T00:20:34.518505+00:00",
+  "generated_at_utc": "2026-02-21T01:14:33.702113+00:00",
   "policy_path": "/Users/alpha2128125/Documents/New project/ruleset/config/policy_map.json",
   "categories": [
     {
@@ -7,7 +7,7 @@
       "recommended_action": "REJECT",
       "recommended_priority": 100,
       "recommended_note": "广告、追踪与恶意域名拦截",
-      "rule_count": 175182
+      "rule_count": 175184
     },
     {
       "id": "reject_extra",
@@ -56,7 +56,7 @@
       "recommended_action": "PROXY",
       "recommended_priority": 300,
       "recommended_note": "Telegram 走代理",
-      "rule_count": 18
+      "rule_count": 34
     },
     {
       "id": "cdn",
@@ -77,14 +77,14 @@
       "recommended_action": "PROXY",
       "recommended_priority": 310,
       "recommended_note": "北美流媒体走代理",
-      "rule_count": 6
+      "rule_count": 238
     },
     {
       "id": "stream_jp",
       "recommended_action": "PROXY",
       "recommended_priority": 311,
       "recommended_note": "日本流媒体走代理",
-      "rule_count": 5
+      "rule_count": 25
     },
     {
       "id": "stream_hk",
@@ -105,49 +105,14 @@
       "recommended_action": "PROXY",
       "recommended_priority": 320,
       "recommended_note": "AI 服务走代理",
-      "rule_count": 9
-    },
-    {
-      "id": "ai_openai",
-      "recommended_action": "PROXY",
-      "recommended_priority": 314,
-      "recommended_note": "OpenAI 相关服务走代理",
-      "rule_count": 4
-    },
-    {
-      "id": "ai_anthropic",
-      "recommended_action": "PROXY",
-      "recommended_priority": 315,
-      "recommended_note": "Anthropic / Claude 走代理",
-      "rule_count": 3
-    },
-    {
-      "id": "ai_googleai",
-      "recommended_action": "PROXY",
-      "recommended_priority": 316,
-      "recommended_note": "Google AI 服务走代理",
-      "rule_count": 4
-    },
-    {
-      "id": "ai_copilot",
-      "recommended_action": "PROXY",
-      "recommended_priority": 317,
-      "recommended_note": "Copilot 相关服务走代理",
-      "rule_count": 3
-    },
-    {
-      "id": "ai_perplexity",
-      "recommended_action": "PROXY",
-      "recommended_priority": 318,
-      "recommended_note": "Perplexity 相关服务走代理",
-      "rule_count": 2
+      "rule_count": 66
     },
     {
       "id": "apple_cn",
       "recommended_action": "DIRECT",
       "recommended_priority": 230,
       "recommended_note": "Apple 中国区服务直连",
-      "rule_count": 2
+      "rule_count": 285
     },
     {
       "id": "apple_cdn",
@@ -168,21 +133,21 @@
       "recommended_action": "PROXY",
       "recommended_priority": 322,
       "recommended_note": "Apple 服务组走代理",
-      "rule_count": 4
+      "rule_count": 1522
     },
     {
       "id": "apple_intelligence",
       "recommended_action": "PROXY",
       "recommended_priority": 323,
       "recommended_note": "Apple Intelligence 走代理",
-      "rule_count": 0
+      "rule_count": 5
     },
     {
       "id": "microsoft",
       "recommended_action": "PROXY",
       "recommended_priority": 324,
       "recommended_note": "微软国际服务走代理",
-      "rule_count": 5
+      "rule_count": 422
     },
     {
       "id": "microsoft_cdn",
@@ -196,7 +161,7 @@
       "recommended_action": "PROXY",
       "recommended_priority": 325,
       "recommended_note": "Git 托管平台走代理",
-      "rule_count": 6
+      "rule_count": 40
     },
     {
       "id": "httpdns",
@@ -210,105 +175,105 @@
       "recommended_action": "DIRECT",
       "recommended_priority": 241,
       "recommended_note": "国内游戏服务直连",
-      "rule_count": 3
+      "rule_count": 228
     },
     {
       "id": "games",
       "recommended_action": "PROXY",
       "recommended_priority": 326,
       "recommended_note": "国际游戏服务走代理",
-      "rule_count": 3
+      "rule_count": 788
     },
     {
       "id": "youtube",
       "recommended_action": "PROXY",
       "recommended_priority": 327,
       "recommended_note": "YouTube 走代理",
-      "rule_count": 4
+      "rule_count": 176
     },
     {
       "id": "abema",
       "recommended_action": "PROXY",
       "recommended_priority": 328,
       "recommended_note": "Abema 走代理",
-      "rule_count": 1
+      "rule_count": 21
     },
     {
       "id": "apple_tv",
       "recommended_action": "PROXY",
       "recommended_priority": 329,
       "recommended_note": "Apple TV+ 走代理",
-      "rule_count": 1
+      "rule_count": 8
     },
     {
       "id": "primevideo",
       "recommended_action": "PROXY",
       "recommended_priority": 330,
       "recommended_note": "Prime Video 走代理",
-      "rule_count": 2
+      "rule_count": 23
     },
     {
       "id": "spotify",
       "recommended_action": "PROXY",
       "recommended_priority": 331,
       "recommended_note": "Spotify 走代理",
-      "rule_count": 2
+      "rule_count": 23
     },
     {
       "id": "twitch",
       "recommended_action": "PROXY",
       "recommended_priority": 332,
       "recommended_note": "Twitch 走代理",
-      "rule_count": 3
+      "rule_count": 32
     },
     {
       "id": "google",
       "recommended_action": "PROXY",
       "recommended_priority": 333,
       "recommended_note": "Google 主服务走代理",
-      "rule_count": 5
+      "rule_count": 727
     },
     {
       "id": "googlefcm",
       "recommended_action": "PROXY",
       "recommended_priority": 334,
       "recommended_note": "Google FCM 推送走代理",
-      "rule_count": 3
+      "rule_count": 15
     },
     {
       "id": "paypal",
       "recommended_action": "PROXY",
       "recommended_priority": 335,
       "recommended_note": "PayPal 走代理",
-      "rule_count": 2
+      "rule_count": 233
     },
     {
       "id": "crypto",
       "recommended_action": "PROXY",
       "recommended_priority": 336,
       "recommended_note": "加密交易站点走代理",
-      "rule_count": 4
+      "rule_count": 74
     },
     {
       "id": "ecommerce",
       "recommended_action": "PROXY",
       "recommended_priority": 337,
       "recommended_note": "跨境电商走代理",
-      "rule_count": 4
+      "rule_count": 1093
     },
     {
       "id": "onedrive",
       "recommended_action": "PROXY",
       "recommended_priority": 338,
       "recommended_note": "OneDrive 走代理",
-      "rule_count": 2
+      "rule_count": 11
     },
     {
       "id": "forum",
       "recommended_action": "PROXY",
       "recommended_priority": 339,
       "recommended_note": "国际论坛走代理",
-      "rule_count": 2
+      "rule_count": 97
     },
     {
       "id": "socialmedia_cn",
@@ -322,21 +287,21 @@
       "recommended_action": "PROXY",
       "recommended_priority": 340,
       "recommended_note": "国际社交网络走代理",
-      "rule_count": 5
+      "rule_count": 536
     },
     {
       "id": "tiktok",
       "recommended_action": "PROXY",
       "recommended_priority": 341,
       "recommended_note": "TikTok 国际站走代理",
-      "rule_count": 3
+      "rule_count": 35
     },
     {
       "id": "douyin",
       "recommended_action": "DIRECT",
       "recommended_priority": 242,
       "recommended_note": "抖音国内流量直连",
-      "rule_count": 2
+      "rule_count": 65
     },
     {
       "id": "apns",

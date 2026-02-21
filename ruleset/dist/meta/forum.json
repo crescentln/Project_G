@@ -4,7 +4,7 @@
   "recommended_action": "PROXY",
   "recommended_priority": 339,
   "recommended_note": "国际论坛走代理",
-  "rule_count": 2,
+  "rule_count": 97,
   "paths": {
     "surge": "surge/forum.list",
     "surge_non_ip": "surge/non_ip/forum.list",
@@ -23,6 +23,13 @@
     "compat_list_domainset": "compat/List/domainset/forum.conf"
   },
   "sources": [
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-forums",
+      "used_cache": true,
+      "rule_count": 97
+    },
     {
       "type": "local_domain",
       "authority": "owner-controlled",

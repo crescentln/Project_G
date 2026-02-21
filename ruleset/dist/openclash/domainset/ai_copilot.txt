@@ -1,3 +1,0 @@
-+.copilot-proxy.githubusercontent.com
-+.copilot.microsoft.com
-+.githubcopilot.com

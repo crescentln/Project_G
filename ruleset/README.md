@@ -61,6 +61,12 @@ Useful documents:
 - `.../ruleset/dist/policy_reference.md`
 - `.../ruleset/dist/rule_catalog.md`
 
+Recommended client-facing formats:
+
+- OpenClash: `openclash/<category>.yaml` or `openclash/non_ip/<category>.yaml`
+- Surge: `surge/<category>.list` or `surge/non_ip/<category>.list`
+- `compat/*` is kept only for migration compatibility with Sukka/Quixotic-style URLs.
+
 ## Build
 
 Online:
@@ -101,11 +107,3 @@ Behavior:
 Your existing OpenClash/Surge names are mapped in:
 
 - `ruleset/MAPPING.md`
-
-Additional granular AI categories are also available:
-
-- `ai_openai`
-- `ai_anthropic`
-- `ai_googleai`
-- `ai_copilot`
-- `ai_perplexity`

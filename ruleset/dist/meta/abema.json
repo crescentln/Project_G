@@ -4,7 +4,7 @@
   "recommended_action": "PROXY",
   "recommended_priority": 328,
   "recommended_note": "Abema 走代理",
-  "rule_count": 1,
+  "rule_count": 21,
   "paths": {
     "surge": "surge/abema.list",
     "surge_non_ip": "surge/non_ip/abema.list",
@@ -23,6 +23,13 @@
     "compat_list_domainset": "compat/List/domainset/abema.conf"
   },
   "sources": [
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/abema",
+      "used_cache": true,
+      "rule_count": 21
+    },
     {
       "type": "local_domain",
       "authority": "owner-controlled",

@@ -412,6 +412,124 @@ def parse_gcp_ip_ranges(data: bytes) -> set[str]:
     return rules
 
 
+def parse_v2fly_attrs(payload: str) -> tuple[str, set[str]]:
+    parts = payload.strip().split()
+    if not parts:
+        return "", set()
+    value = parts[0].strip()
+    attrs = {part.strip() for part in parts[1:] if part.strip().startswith("@")}
+    return value, attrs
+
+
+def parse_v2fly_dlc_text(
+    text: str,
+    *,
+    include_attrs: set[str],
+    exclude_attrs: set[str],
+    include_handler: Any,
+) -> set[str]:
+    rules: set[str] = set()
+
+    for raw in text.splitlines():
+        line = raw.strip()
+        if not line or line.startswith("#"):
+            continue
+        if " #" in line:
+            line = line.split(" #", 1)[0].strip()
+        if not line:
+            continue
+
+        line_type = ""
+        payload = line
+        if ":" in line:
+            prefix, rest = line.split(":", 1)
+            prefix = prefix.strip().lower()
+            if prefix in {"include", "full", "domain", "keyword", "regexp"}:
+                line_type = prefix
+                payload = rest.strip()
+
+        if line_type == "include":
+            include_name, _ = parse_v2fly_attrs(payload)
+            if include_name:
+                rules.update(include_handler(include_name))
+            continue
+
+        value, attrs = parse_v2fly_attrs(payload)
+        if not value:
+            continue
+
+        if include_attrs and not (attrs & include_attrs):
+            continue
+        if exclude_attrs and (attrs & exclude_attrs):
+            continue
+
+        if line_type == "full":
+            domain = normalize_domain(value)
+            if domain:
+                rules.add(f"DOMAIN,{domain}")
+            continue
+
+        if line_type == "domain":
+            domain = normalize_domain(value)
+            if domain:
+                rules.add(f"DOMAIN-SUFFIX,{domain}")
+            continue
+
+        if line_type == "keyword":
+            rules.add(f"DOMAIN-KEYWORD,{value}")
+            continue
+
+        if line_type == "regexp":
+            rules.add(f"DOMAIN-REGEX,{value}")
+            continue
+
+        parsed = parse_domain_or_ip_token(value)
+        if parsed:
+            rules.add(parsed)
+
+    return rules
+
+
+def parse_v2fly_dlc_source(
+    url: str,
+    cache_dir: pathlib.Path,
+    offline: bool,
+    include_attrs: set[str],
+    exclude_attrs: set[str],
+    exclude_includes: set[str],
+) -> tuple[set[str], bool]:
+    visited: set[str] = set()
+    rules: set[str] = set()
+    used_cache_only = True
+
+    def walk(current_url: str) -> set[str]:
+        nonlocal used_cache_only
+        if current_url in visited:
+            return set()
+        visited.add(current_url)
+
+        data, used_cache = fetch_bytes(current_url, cache_dir, offline=offline)
+        used_cache_only = used_cache_only and used_cache
+        text = decode_text(data)
+        base_url = current_url.rsplit("/", 1)[0]
+
+        def include_handler(include_name: str) -> set[str]:
+            if include_name in exclude_includes:
+                return set()
+            include_url = f"{base_url}/{include_name}"
+            return walk(include_url)
+
+        return parse_v2fly_dlc_text(
+            text,
+            include_attrs=include_attrs,
+            exclude_attrs=exclude_attrs,
+            include_handler=include_handler,
+        )
+
+    rules.update(walk(url))
+    return rules, used_cache_only
+
+
 def fetch_bytes(url: str, cache_dir: pathlib.Path, offline: bool = False) -> tuple[bytes, bool]:
     cache_dir.mkdir(parents=True, exist_ok=True)
     digest = hashlib.sha256(url.encode("utf-8")).hexdigest()[:24]
@@ -488,6 +606,21 @@ def load_source(
         return SourceBuildResult(parse_aws_ip_ranges(data, services), used_cache, url)
     if source_type == "gcp_ip_ranges":
         return SourceBuildResult(parse_gcp_ip_ranges(data), used_cache, url)
+    if source_type == "v2fly_dlc":
+        include_attrs = {str(item).strip() for item in source.get("include_attrs", []) if str(item).strip()}
+        exclude_attrs = {str(item).strip() for item in source.get("exclude_attrs", []) if str(item).strip()}
+        exclude_includes = {
+            str(item).strip() for item in source.get("exclude_includes", []) if str(item).strip()
+        }
+        rules, used_cache_only = parse_v2fly_dlc_source(
+            url,
+            cache_dir=cache_dir,
+            offline=offline,
+            include_attrs=include_attrs,
+            exclude_attrs=exclude_attrs,
+            exclude_includes=exclude_includes,
+        )
+        return SourceBuildResult(rules, used_cache_only, url)
 
     raise BuildError(f"unsupported source type: {source_type}")
 
@@ -630,8 +763,8 @@ def render_rule_catalog_markdown(categories: list[dict[str, Any]]) -> str:
         "Use with base URL:",
         "`https://raw.githubusercontent.com/<owner>/<repo>/main/ruleset/dist`",
         "",
-        "| Category | Action | Priority | Rules | OpenClash | Surge | Note |",
-        "|---|---|---:|---:|---|---|---|",
+        "| Category | Action | Priority | Rules | OpenClash (YAML) | Surge | Compat (txt/conf) | Note |",
+        "|---|---|---:|---:|---|---|---|---|",
     ]
     sorted_rows = sorted(
         categories,
@@ -646,20 +779,31 @@ def render_rule_catalog_markdown(categories: list[dict[str, Any]]) -> str:
 
         openclash_paths = "<br>".join(
             [
-                f"`compat/Clash/non_ip/{category_id}.txt`",
-                f"`compat/Clash/ip/{category_id}.txt`",
-                f"`compat/Clash/domainset/{category_id}.txt`",
+                f"`openclash/{category_id}.yaml`",
+                f"`openclash/non_ip/{category_id}.yaml`",
+                f"`openclash/ip/{category_id}.yaml`",
             ]
         )
         surge_paths = "<br>".join(
             [
+                f"`surge/{category_id}.list`",
+                f"`surge/non_ip/{category_id}.list`",
+                f"`surge/ip/{category_id}.list`",
+                f"`surge/domainset/{category_id}.conf`",
+            ]
+        )
+        compat_paths = "<br>".join(
+            [
+                f"`compat/Clash/non_ip/{category_id}.txt`",
+                f"`compat/Clash/ip/{category_id}.txt`",
+                f"`compat/Clash/domainset/{category_id}.txt`",
                 f"`compat/List/non_ip/{category_id}.conf`",
                 f"`compat/List/ip/{category_id}.conf`",
                 f"`compat/List/domainset/{category_id}.conf`",
             ]
         )
         lines.append(
-            f"| `{category_id}` | `{action}` | {priority} | {rules} | {openclash_paths} | {surge_paths} | {note} |"
+            f"| `{category_id}` | `{action}` | {priority} | {rules} | {openclash_paths} | {surge_paths} | {compat_paths} | {note} |"
         )
 
     lines.append("")

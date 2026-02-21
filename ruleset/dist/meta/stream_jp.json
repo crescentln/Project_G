@@ -4,7 +4,7 @@
   "recommended_action": "PROXY",
   "recommended_priority": 311,
   "recommended_note": "日本流媒体走代理",
-  "rule_count": 5,
+  "rule_count": 25,
   "paths": {
     "surge": "surge/stream_jp.list",
     "surge_non_ip": "surge/non_ip/stream_jp.list",
@@ -23,6 +23,13 @@
     "compat_list_domainset": "compat/List/domainset/stream_jp.conf"
   },
   "sources": [
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/abema",
+      "used_cache": true,
+      "rule_count": 21
+    },
     {
       "type": "local_domain",
       "authority": "owner-controlled",

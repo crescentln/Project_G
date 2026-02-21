@@ -4,7 +4,7 @@
   "recommended_action": "PROXY",
   "recommended_priority": 329,
   "recommended_note": "Apple TV+ 走代理",
-  "rule_count": 1,
+  "rule_count": 8,
   "paths": {
     "surge": "surge/apple_tv.list",
     "surge_non_ip": "surge/non_ip/apple_tv.list",
@@ -23,6 +23,13 @@
     "compat_list_domainset": "compat/List/domainset/apple_tv.conf"
   },
   "sources": [
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple-tvplus",
+      "used_cache": true,
+      "rule_count": 8
+    },
     {
       "type": "local_domain",
       "authority": "owner-controlled",

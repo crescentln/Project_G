@@ -1,5 +1,0 @@
-+.gmail.com
-+.google.com
-+.googleapis.com
-+.gstatic.com
-+.gvt1.com

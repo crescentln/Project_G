@@ -1,4 +1,0 @@
-# Copilot ecosystem.
-copilot.microsoft.com
-githubcopilot.com
-copilot-proxy.githubusercontent.com

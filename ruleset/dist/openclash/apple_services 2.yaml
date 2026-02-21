@@ -1,5 +1,0 @@
-payload:
-  - 'DOMAIN-SUFFIX,appleid.apple.com'
-  - 'DOMAIN-SUFFIX,appstore.com'
-  - 'DOMAIN-SUFFIX,icloud.com'
-  - 'DOMAIN-SUFFIX,push.apple.com'

@@ -14,6 +14,11 @@ Sukka-style compatibility base URL:
 
 `https://raw.githubusercontent.com/<owner>/<repo>/main/ruleset/dist/compat`
 
+Recommended non-text-native formats:
+
+- OpenClash: `.../ruleset/dist/openclash/non_ip/<category>.yaml` (or `openclash/<category>.yaml`)
+- Surge: `.../ruleset/dist/surge/non_ip/<category>.list` (or `surge/<category>.list`)
+
 ## OpenClash
 
 `skk_reject_domainset` -> `.../ruleset/dist/compat/Clash/domainset/reject.txt`  
@@ -45,11 +50,6 @@ Sukka-style compatibility base URL:
 `skk_telegram_ip` -> `.../ruleset/dist/compat/Clash/ip/telegram.txt`  
 
 `skk_ai_non_ip` -> `.../ruleset/dist/compat/Clash/non_ip/ai.txt`  
-`ai_openai` -> `.../ruleset/dist/compat/Clash/non_ip/ai_openai.txt`  
-`ai_anthropic` -> `.../ruleset/dist/compat/Clash/non_ip/ai_anthropic.txt`  
-`ai_googleai` -> `.../ruleset/dist/compat/Clash/non_ip/ai_googleai.txt`  
-`ai_copilot` -> `.../ruleset/dist/compat/Clash/non_ip/ai_copilot.txt`  
-`ai_perplexity` -> `.../ruleset/dist/compat/Clash/non_ip/ai_perplexity.txt`  
 
 `qh_httpdns` -> `.../ruleset/dist/compat/Clash/domainset/httpdns.txt`  
 `qh_cn_domain` -> `.../ruleset/dist/compat/Clash/domainset/domestic.txt`  
@@ -99,10 +99,6 @@ Your currently used Surge categories are all present, including:
 Also available for current Surge style:
 
 `apple_cdn, reject_extra, reject_drop, reject_no_drop`.
-
-Additional granular AI categories for Surge:
-
-`ai_openai, ai_anthropic, ai_googleai, ai_copilot, ai_perplexity`.
 
 For full action/path matrix, see:
 

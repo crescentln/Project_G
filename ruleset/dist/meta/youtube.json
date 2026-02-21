@@ -4,7 +4,7 @@
   "recommended_action": "PROXY",
   "recommended_priority": 327,
   "recommended_note": "YouTube 走代理",
-  "rule_count": 4,
+  "rule_count": 176,
   "paths": {
     "surge": "surge/youtube.list",
     "surge_non_ip": "surge/non_ip/youtube.list",
@@ -23,6 +23,13 @@
     "compat_list_domainset": "compat/List/domainset/youtube.conf"
   },
   "sources": [
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/youtube",
+      "used_cache": true,
+      "rule_count": 176
+    },
     {
       "type": "local_domain",
       "authority": "owner-controlled",
