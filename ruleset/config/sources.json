@@ -1116,25 +1116,6 @@
           "authority": "owner-controlled"
         }
       ]
-    },
-    {
-      "id": "proxy",
-      "description": "Merged proxy rules for simplified deployment",
-      "sources": [
-        {
-          "type": "v2fly_dlc",
-          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/geolocation-!cn",
-          "authority": "community-curated",
-          "exclude_attrs": [
-            "@ads"
-          ]
-        },
-        {
-          "type": "local_domain",
-          "path": "manual/categories/proxy.txt",
-          "authority": "owner-controlled"
-        }
-      ]
     }
   ],
   "ignore_conflicts": [
@@ -1219,18 +1200,6 @@
     [
       "direct",
       "cncidr"
-    ],
-    [
-      "proxy",
-      "global"
-    ],
-    [
-      "proxy",
-      "gfw"
-    ],
-    [
-      "proxy",
-      "tld_proxy"
     ]
   ],
   "version": 2

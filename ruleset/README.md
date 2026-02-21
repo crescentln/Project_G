@@ -15,13 +15,10 @@
 - 手工补充：`ruleset/manual/categories/*.txt`
 - 手工排除：`ruleset/manual/exclude/*.txt`
 
-## 关键分类（简化部署）
+## 分类策略（按你的要求）
 
-- `reject` -> `REJECT`（合并拒绝类）
-- `direct` -> `DIRECT`（合并直连类）
-- `proxy` -> `PROXY`（合并代理类）
-
-高覆盖补充：`gfw` / `global` / `tld_proxy`。
+- 合并：`reject`（REJECT）、`direct`（DIRECT）
+- 保持颗粒度：其余所有分类（如 `ai`、`telegram`、`stream_*`、`google`、`gfw`、`global`、`tld_proxy` 等）
 
 ## 输出结构
 

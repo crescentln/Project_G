@@ -1036,7 +1036,7 @@ def build_all(
             rule_index[rule].append(category_id)
 
     reject_like = {"reject", "reject_extra", "reject_drop", "reject_no_drop"}
-    aggregate_categories = {"direct", "proxy"}
+    aggregate_categories = {"direct"}
     overlay_categories = {"gfw", "global", "tld_proxy"}
 
     conflicts = []

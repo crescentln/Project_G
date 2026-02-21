@@ -4,7 +4,7 @@ This file defines the recommended action per category.
 
 | Category | Action | Priority | Rules | Note |
 |---|---:|---:|---:|---|
-| `reject` | `REJECT` | 100 | 175191 | 广告、追踪、恶意与补充拒绝规则（已合并） |
+| `reject` | `REJECT` | 100 | 175203 | 广告、追踪、恶意与补充拒绝规则（已合并） |
 | `httpdns` | `REJECT` | 150 | 2 | HTTPDNS 相关域名建议拦截 |
 | `lan` | `DIRECT` | 200 | 33 | 局域网与特殊保留地址直连 |
 | `direct` | `DIRECT` | 205 | 18883 | 合并直连集合（简化部署） |
@@ -50,7 +50,6 @@ This file defines the recommended action per category.
 | `talkatone` | `PROXY` | 343 | 1 | Talkatone 走代理 |
 | `tld_proxy` | `PROXY` | 344 | 1433 | 需要强制代理的 TLD 集 |
 | `gfw` | `PROXY` | 345 | 109 | GFW 列表走代理 |
-| `proxy` | `PROXY` | 880 | 23648 | 合并代理集合（简化部署） |
 | `global` | `PROXY` | 900 | 23648 | 兜底代理集合（应放在较后顺序） |
 
 Action definitions:

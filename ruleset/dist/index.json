@@ -1,14 +1,14 @@
 {
-  "generated_at_utc": "2026-02-21T02:15:52.056228+00:00",
+  "generated_at_utc": "2026-02-21T02:53:02.999643+00:00",
   "config_path": "/Users/alpha2128125/Documents/New project/ruleset/config/sources.json",
   "policy_path": "/Users/alpha2128125/Documents/New project/ruleset/config/policy_map.json",
-  "category_count": 48,
+  "category_count": 47,
   "conflict_count": 0,
   "categories": [
     {
       "id": "reject",
       "description": "Ads, trackers, and malware",
-      "rule_count": 175191,
+      "rule_count": 175203,
       "surge_path": "surge/reject.list",
       "openclash_path": "openclash/reject.yaml",
       "surge_non_ip_path": "surge/non_ip/reject.list",
@@ -33,7 +33,7 @@
           "authority": "curated-upstream",
           "ref": "https://easylist.to/easylist/easylist.txt",
           "used_cache": true,
-          "rule_count": 58818
+          "rule_count": 58828
         },
         {
           "type": "adblock",
@@ -47,7 +47,7 @@
           "authority": "curated-upstream",
           "ref": "https://filters.adtidy.org/dns/filter_1.txt",
           "used_cache": true,
-          "rule_count": 147859
+          "rule_count": 147884
         },
         {
           "type": "local_domain",
@@ -2092,45 +2092,6 @@
           "type": "local_domain",
           "authority": "owner-controlled",
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/direct.txt",
-          "used_cache": false,
-          "rule_count": 0
-        }
-      ]
-    },
-    {
-      "id": "proxy",
-      "description": "Merged proxy rules for simplified deployment",
-      "rule_count": 23648,
-      "surge_path": "surge/proxy.list",
-      "openclash_path": "openclash/proxy.yaml",
-      "surge_non_ip_path": "surge/non_ip/proxy.list",
-      "surge_ip_path": "surge/ip/proxy.list",
-      "surge_domainset_path": "surge/domainset/proxy.conf",
-      "openclash_non_ip_path": "openclash/non_ip/proxy.yaml",
-      "openclash_ip_path": "openclash/ip/proxy.yaml",
-      "openclash_domainset_path": "openclash/domainset/proxy.txt",
-      "openclash_ipcidr_path": "openclash/ipcidr/proxy.txt",
-      "compat_clash_non_ip_path": "compat/Clash/non_ip/proxy.txt",
-      "compat_clash_ip_path": "compat/Clash/ip/proxy.txt",
-      "compat_clash_domainset_path": "compat/Clash/domainset/proxy.txt",
-      "compat_list_non_ip_path": "compat/List/non_ip/proxy.conf",
-      "compat_list_ip_path": "compat/List/ip/proxy.conf",
-      "compat_list_domainset_path": "compat/List/domainset/proxy.conf",
-      "recommended_action": "PROXY",
-      "recommended_priority": 880,
-      "recommended_note": "合并代理集合（简化部署）",
-      "sources": [
-        {
-          "type": "v2fly_dlc",
-          "authority": "community-curated",
-          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/geolocation-!cn",
-          "used_cache": true,
-          "rule_count": 23648
-        },
-        {
-          "type": "local_domain",
-          "authority": "owner-controlled",
-          "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/proxy.txt",
           "used_cache": false,
           "rule_count": 0
         }

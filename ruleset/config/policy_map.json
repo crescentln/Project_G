@@ -235,11 +235,6 @@
       "action": "DIRECT",
       "priority": 205,
       "note": "合并直连集合（简化部署）"
-    },
-    "proxy": {
-      "action": "PROXY",
-      "priority": 880,
-      "note": "合并代理集合（简化部署）"
     }
   }
 }
