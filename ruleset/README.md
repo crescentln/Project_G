@@ -29,6 +29,9 @@
 - 细分格式：`openclash/non_ip|ip`、`surge/non_ip|ip`、`*/domainset`
 - 兼容路径：`compat/Clash/*`、`compat/List/*`
 - 元数据：`index.json`、`policy_reference.md`、`rule_catalog.md`、`meta/*.json`
+- 可直接粘贴模板：
+  - `ruleset/examples/openclash-rules.yaml`
+  - `ruleset/examples/surge-rules.conf`
 
 ## 构建与校验
 

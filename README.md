@@ -24,6 +24,20 @@
 - 合并拦截 `reject`（REJECT）：`https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/surge/reject.list`
 - 合并直连 `direct`（DIRECT）：`https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist/surge/direct.list`
 
+## 直接可用配置模板
+
+- OpenClash 模板（`rule-providers + rules`）：
+  - `ruleset/examples/openclash-rules.yaml`
+  - `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/examples/openclash-rules.yaml`
+- Surge 模板（`[Rule]`）：
+  - `ruleset/examples/surge-rules.conf`
+  - `https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/examples/surge-rules.conf`
+
+说明：
+
+- 这两份模板已按当前 `policy_map` 生成，包含全部分类 URL。
+- 如果你的策略组名称不是 `PROXY`，把模板里结尾策略 `PROXY` 改成你的组名。
+
 ## 高覆盖补充（保持颗粒度）
 
 - `gfw`
