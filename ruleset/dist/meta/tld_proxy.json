@@ -4,7 +4,7 @@
   "recommended_action": "PROXY",
   "recommended_priority": 344,
   "recommended_note": "需要强制代理的 TLD 集",
-  "rule_count": 0,
+  "rule_count": 1433,
   "paths": {
     "surge": "surge/tld_proxy.list",
     "surge_non_ip": "surge/non_ip/tld_proxy.list",
@@ -23,6 +23,13 @@
     "compat_list_domainset": "compat/List/domainset/tld_proxy.conf"
   },
   "sources": [
+    {
+      "type": "iana_tld_list",
+      "authority": "official",
+      "ref": "https://data.iana.org/TLD/tlds-alpha-by-domain.txt",
+      "used_cache": true,
+      "rule_count": 1433
+    },
     {
       "type": "local_domain",
       "authority": "owner-controlled",

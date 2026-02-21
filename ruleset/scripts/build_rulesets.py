@@ -25,6 +25,7 @@ DEFAULT_DIST_DIR = ROOT_DIR / "dist"
 DEFAULT_CACHE_DIR = ROOT_DIR / ".cache"
 
 USER_AGENT = "self-owned-ruleset-builder/1.0"
+FETCH_MEMO: dict[str, tuple[bytes, bool]] = {}
 
 RULE_ORDER = {
     "DOMAIN": 0,
@@ -412,6 +413,25 @@ def parse_gcp_ip_ranges(data: bytes) -> set[str]:
     return rules
 
 
+def parse_iana_tld_list_text(text: str, exclude_tlds: set[str]) -> set[str]:
+    rules: set[str] = set()
+    excluded = {item.lower() for item in exclude_tlds}
+    for raw in text.splitlines():
+        line = raw.strip()
+        if not line or line.startswith("#"):
+            continue
+        token = line.split("#", 1)[0].strip().lower()
+        if not token:
+            continue
+        if token in excluded:
+            continue
+        # IANA list uses ASCII TLD labels (including punycode where needed).
+        if not re.fullmatch(r"[a-z0-9-]{2,63}", token):
+            continue
+        rules.add(f"DOMAIN-SUFFIX,{token}")
+    return rules
+
+
 def parse_v2fly_attrs(payload: str) -> tuple[str, set[str]]:
     parts = payload.strip().split()
     if not parts:
@@ -531,6 +551,10 @@ def parse_v2fly_dlc_source(
 
 
 def fetch_bytes(url: str, cache_dir: pathlib.Path, offline: bool = False) -> tuple[bytes, bool]:
+    memo_hit = FETCH_MEMO.get(url)
+    if memo_hit is not None:
+        return memo_hit
+
     cache_dir.mkdir(parents=True, exist_ok=True)
     digest = hashlib.sha256(url.encode("utf-8")).hexdigest()[:24]
     cache_file = cache_dir / f"{digest}.bin"
@@ -539,7 +563,9 @@ def fetch_bytes(url: str, cache_dir: pathlib.Path, offline: bool = False) -> tup
     if offline:
         if not cache_file.exists():
             raise BuildError(f"offline mode: no cache for {url}")
-        return cache_file.read_bytes(), True
+        result = (cache_file.read_bytes(), True)
+        FETCH_MEMO[url] = result
+        return result
 
     request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT, "Accept": "*/*"})
     try:
@@ -549,14 +575,18 @@ def fetch_bytes(url: str, cache_dir: pathlib.Path, offline: bool = False) -> tup
             raise BuildError(f"empty response from {url}")
         cache_file.write_bytes(data)
         meta_file.write_text(
-            json.dumps({"url": url, "fetched_at_utc": dt.datetime.now(dt.UTC).isoformat()}),
+            json.dumps({"url": url, "fetched_at_utc": dt.datetime.now(dt.timezone.utc).isoformat()}),
             encoding="utf-8",
         )
-        return data, False
+        result = (data, False)
+        FETCH_MEMO[url] = result
+        return result
     except (urllib.error.URLError, TimeoutError, OSError) as exc:
         if cache_file.exists():
             log(f"warning: fetch failed for {url}; using cache ({exc})")
-            return cache_file.read_bytes(), True
+            result = (cache_file.read_bytes(), True)
+            FETCH_MEMO[url] = result
+            return result
         raise BuildError(f"fetch failed for {url}: {exc}") from exc
 
 
@@ -606,6 +636,9 @@ def load_source(
         return SourceBuildResult(parse_aws_ip_ranges(data, services), used_cache, url)
     if source_type == "gcp_ip_ranges":
         return SourceBuildResult(parse_gcp_ip_ranges(data), used_cache, url)
+    if source_type == "iana_tld_list":
+        exclude_tlds = {str(item).strip().lower() for item in source.get("exclude_tlds", []) if str(item).strip()}
+        return SourceBuildResult(parse_iana_tld_list_text(text, exclude_tlds), used_cache, url)
     if source_type == "v2fly_dlc":
         include_attrs = {str(item).strip() for item in source.get("include_attrs", []) if str(item).strip()}
         exclude_attrs = {str(item).strip() for item in source.get("exclude_attrs", []) if str(item).strip()}
@@ -1003,6 +1036,8 @@ def build_all(
             rule_index[rule].append(category_id)
 
     reject_like = {"reject", "reject_extra", "reject_drop", "reject_no_drop"}
+    aggregate_categories = {"direct", "proxy"}
+    overlay_categories = {"gfw", "global", "tld_proxy"}
 
     conflicts = []
     for rule, category_ids in rule_index.items():
@@ -1013,6 +1048,10 @@ def build_all(
             continue
         if len(category_set) == 2 and category_set & reject_like:
             continue
+        if len(category_set) > 1 and (category_set & aggregate_categories):
+            continue
+        if len(category_set) > 1 and (category_set & overlay_categories):
+            continue
         conflicts.append({"rule": rule, "categories": sorted(category_set)})
     conflicts.sort(key=lambda item: (len(item["categories"]) * -1, item["rule"]))
 
@@ -1020,7 +1059,7 @@ def build_all(
     conflicts_file.write_text(
         json.dumps(
             {
-                "generated_at_utc": dt.datetime.now(dt.UTC).isoformat(),
+                "generated_at_utc": dt.datetime.now(dt.timezone.utc).isoformat(),
                 "conflict_count": len(conflicts),
                 "conflicts": conflicts,
             },
@@ -1032,7 +1071,7 @@ def build_all(
     )
 
     manifest = {
-        "generated_at_utc": dt.datetime.now(dt.UTC).isoformat(),
+        "generated_at_utc": dt.datetime.now(dt.timezone.utc).isoformat(),
         "config_path": str(config_path),
         "policy_path": str(policy_path) if policy_path else None,
         "category_count": len(metadata_categories),
@@ -1049,7 +1088,7 @@ def build_all(
     policy_reference_json.write_text(
         json.dumps(
             {
-                "generated_at_utc": dt.datetime.now(dt.UTC).isoformat(),
+                "generated_at_utc": dt.datetime.now(dt.timezone.utc).isoformat(),
                 "policy_path": str(policy_path) if policy_path else None,
                 "categories": [
                     {

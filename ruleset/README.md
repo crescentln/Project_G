@@ -1,109 +1,60 @@
 # Self-Owned Ruleset Pipeline
 
-This repository builds your own ruleset assets for both OpenClash and Surge.
+这个目录负责从权威源/社区源拉取数据，构建 OpenClash + Surge 双栈规则。
 
-It uses the same production pattern as major public projects:
-1. fetch upstream datasets,
-2. normalize into one internal rule model,
-3. deduplicate and report cross-category overlaps,
-4. export multi-client formats,
-5. auto-update with GitHub Actions.
+## 设计目标
 
-## What Is Different
+- 不依赖 Sukka/Quixotic 的产物地址。
+- 所有来源、分类、动作都在本仓库可控。
+- 同时输出 OpenClash 与 Surge 可直接引用格式。
 
-- No dependency on Sukka/Quixotic hosted output files.
-- All categories and sources are controlled in:
-  - `ruleset/config/sources.json`
-- Recommended action (DIRECT/PROXY/REJECT) per category is controlled in:
-  - `ruleset/config/policy_map.json`
-- Category content is controlled in:
-  - `ruleset/manual/categories/*.txt`
-- Official machine-readable sources are used where available:
-  - IANA special-use registries
-  - APNIC delegated data
-  - Telegram official CIDR feed
-  - Cloudflare/AWS/GCP official IP ranges
+## 配置入口
 
-## Output Layout
+- 来源配置：`ruleset/config/sources.json`
+- 动作映射：`ruleset/config/policy_map.json`
+- 手工补充：`ruleset/manual/categories/*.txt`
+- 手工排除：`ruleset/manual/exclude/*.txt`
 
-Generated under `ruleset/dist/`:
+## 关键分类（简化部署）
 
-- `surge/<category>.list` (classical rules)
-- `surge/non_ip/<category>.list` (non-IP split)
-- `surge/ip/<category>.list` (IP split)
-- `surge/domainset/<category>.conf` (DOMAIN-SET compatible)
-- `openclash/<category>.yaml` (classical provider)
-- `openclash/non_ip/<category>.yaml` (non-IP split)
-- `openclash/ip/<category>.yaml` (IP split in classical form)
-- `openclash/domainset/<category>.txt` (domainset text)
-- `openclash/ipcidr/<category>.txt` (CIDR-only text)
-- `compat/Clash/non_ip/<category>.txt` (Sukka-style clash classical text)
-- `compat/Clash/ip/<category>.txt` (Sukka-style clash IP text)
-- `compat/Clash/domainset/<category>.txt` (Sukka-style clash domainset text)
-- `compat/List/non_ip/<category>.conf` (Sukka-style surge classical text)
-- `compat/List/ip/<category>.conf` (Sukka-style surge IP text)
-- `compat/List/domainset/<category>.conf` (Sukka-style surge domainset text)
-- `index.json` (build manifest)
-- `conflicts.json` (cross-category overlaps)
-- `policy_reference.json` (machine-readable policy map)
-- `policy_reference.md` (human-readable policy reference)
-- `rule_catalog.md` (all categories with action + OpenClash/Surge paths)
-- `meta/<category>.json` (per-category action/paths/source detail)
+- `reject` -> `REJECT`（合并拒绝类）
+- `direct` -> `DIRECT`（合并直连类）
+- `proxy` -> `PROXY`（合并代理类）
 
-## Current Public Base URL
+高覆盖补充：`gfw` / `global` / `tld_proxy`。
 
-For this repo:
+## 输出结构
 
-`https://raw.githubusercontent.com/crescentln/new-project/main/ruleset/dist`
+产物目录：`ruleset/dist/`
 
-Useful documents:
+- OpenClash：`openclash/<category>.yaml`
+- Surge：`surge/<category>.list`
+- 细分格式：`openclash/non_ip|ip`、`surge/non_ip|ip`、`*/domainset`
+- 兼容路径：`compat/Clash/*`、`compat/List/*`
+- 元数据：`index.json`、`policy_reference.md`、`rule_catalog.md`、`meta/*.json`
 
-- `.../ruleset/dist/policy_reference.md`
-- `.../ruleset/dist/rule_catalog.md`
-
-Recommended client-facing formats:
-
-- OpenClash: `openclash/<category>.yaml` or `openclash/non_ip/<category>.yaml`
-- Surge: `surge/<category>.list` or `surge/non_ip/<category>.list`
-- `compat/*` is kept only for migration compatibility with Sukka/Quixotic-style URLs.
-
-## Build
-
-Online:
+## 构建与校验
 
 ```bash
 python3 ruleset/scripts/build_rulesets.py
+python3 ruleset/scripts/validate_rulesets.py
 ```
 
-Offline (cache only):
+离线（使用缓存）：
 
 ```bash
 python3 ruleset/scripts/build_rulesets.py --offline
 ```
 
-Validate generated format:
+## 自动更新
 
-```bash
-python3 ruleset/scripts/validate_rulesets.py
-```
+工作流：`.github/workflows/ruleset-update.yml`
 
-## Auto Update
+- 每周执行：`17 3 * * 1`（UTC）
+- 仅当 `ruleset/dist` 变化时提交
 
-Workflow file:
+## 当前主要数据源
 
-- `.github/workflows/ruleset-update.yml`
-
-Schedule:
-
-- every 6 hours (`cron: 17 */6 * * *`)
-
-Behavior:
-
-1. Build rulesets.
-2. Commit `ruleset/dist` only if changed.
-
-## Migration
-
-Your existing OpenClash/Surge names are mapped in:
-
-- `ruleset/MAPPING.md`
+- 官方：IANA、APNIC、Cloudflare、AWS、GCP、IANA TLD
+- 社区高质量：v2fly/domain-list-community
+- 本地可控：`ruleset/manual/categories/*.txt`

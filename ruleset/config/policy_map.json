@@ -4,22 +4,7 @@
     "reject": {
       "action": "REJECT",
       "priority": 100,
-      "note": "广告、追踪与恶意域名拦截"
-    },
-    "reject_extra": {
-      "action": "REJECT",
-      "priority": 110,
-      "note": "额外补充拦截"
-    },
-    "reject_drop": {
-      "action": "REJECT-DROP",
-      "priority": 120,
-      "note": "需要静默丢弃的拦截"
-    },
-    "reject_no_drop": {
-      "action": "REJECT-NO-DROP",
-      "priority": 130,
-      "note": "拒绝但不使用 drop"
+      "note": "广告、追踪、恶意与补充拒绝规则（已合并）"
     },
     "lan": {
       "action": "DIRECT",
@@ -245,6 +230,16 @@
       "action": "REJECT",
       "priority": 150,
       "note": "HTTPDNS 相关域名建议拦截"
+    },
+    "direct": {
+      "action": "DIRECT",
+      "priority": 205,
+      "note": "合并直连集合（简化部署）"
+    },
+    "proxy": {
+      "action": "PROXY",
+      "priority": 880,
+      "note": "合并代理集合（简化部署）"
     }
   }
 }

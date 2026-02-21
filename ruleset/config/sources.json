@@ -6,57 +6,39 @@
       "id": "reject",
       "sources": [
         {
-          "authority": "curated-upstream",
           "type": "adblock",
-          "url": "https://easylist.to/easylist/easylist.txt"
+          "url": "https://easylist.to/easylist/easylist.txt",
+          "authority": "curated-upstream"
         },
         {
-          "authority": "curated-upstream",
           "type": "adblock",
-          "url": "https://easylist.to/easylist/easyprivacy.txt"
+          "url": "https://easylist.to/easylist/easyprivacy.txt",
+          "authority": "curated-upstream"
         },
         {
-          "authority": "curated-upstream",
           "type": "adblock",
-          "url": "https://filters.adtidy.org/dns/filter_1.txt"
+          "url": "https://filters.adtidy.org/dns/filter_1.txt",
+          "authority": "curated-upstream"
         },
         {
-          "authority": "owner-controlled",
+          "type": "local_domain",
           "path": "manual/categories/reject.txt",
-          "type": "local_domain"
-        }
-      ]
-    },
-    {
-      "description": "Extra reject entries",
-      "id": "reject_extra",
-      "sources": [
+          "authority": "owner-controlled"
+        },
         {
-          "authority": "owner-controlled",
+          "type": "local_domain",
           "path": "manual/categories/reject_extra.txt",
-          "type": "local_domain"
-        }
-      ]
-    },
-    {
-      "description": "Reject drop rules",
-      "id": "reject_drop",
-      "sources": [
+          "authority": "owner-controlled"
+        },
         {
-          "authority": "owner-controlled",
+          "type": "local_domain",
           "path": "manual/categories/reject_drop.txt",
-          "type": "local_domain"
-        }
-      ]
-    },
-    {
-      "description": "Reject no-drop rules",
-      "id": "reject_no_drop",
-      "sources": [
+          "authority": "owner-controlled"
+        },
         {
-          "authority": "owner-controlled",
+          "type": "local_domain",
           "path": "manual/categories/reject_no_drop.txt",
-          "type": "local_domain"
+          "authority": "owner-controlled"
         }
       ]
     },
@@ -954,9 +936,19 @@
       "id": "tld_proxy",
       "sources": [
         {
-          "authority": "owner-controlled",
+          "type": "iana_tld_list",
+          "url": "https://data.iana.org/TLD/tlds-alpha-by-domain.txt",
+          "authority": "official",
+          "exclude_tlds": [
+            "cn",
+            "xn--fiqs8s",
+            "xn--fiqz9s"
+          ]
+        },
+        {
+          "type": "local_domain",
           "path": "manual/categories/tld_proxy.txt",
-          "type": "local_domain"
+          "authority": "owner-controlled"
         }
       ]
     },
@@ -965,9 +957,25 @@
       "id": "gfw",
       "sources": [
         {
-          "authority": "owner-controlled",
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-anticensorship",
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ]
+        },
+        {
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-proxy-tunnels",
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ]
+        },
+        {
+          "type": "local_domain",
           "path": "manual/categories/gfw.txt",
-          "type": "local_domain"
+          "authority": "owner-controlled"
         }
       ]
     },
@@ -976,9 +984,155 @@
       "id": "global",
       "sources": [
         {
-          "authority": "owner-controlled",
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/geolocation-!cn",
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ]
+        },
+        {
+          "type": "local_domain",
           "path": "manual/categories/global.txt",
-          "type": "local_domain"
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "direct",
+      "description": "Merged direct rules for simplified deployment",
+      "sources": [
+        {
+          "type": "iana_special_csv",
+          "url": "https://www.iana.org/assignments/iana-ipv4-special-registry/iana-ipv4-special-registry-1.csv",
+          "authority": "official"
+        },
+        {
+          "type": "iana_special_csv",
+          "url": "https://www.iana.org/assignments/iana-ipv6-special-registry/iana-ipv6-special-registry-1.csv",
+          "authority": "official"
+        },
+        {
+          "type": "apnic_country_cidr",
+          "url": "https://ftp.apnic.net/stats/apnic/delegated-apnic-latest",
+          "country": "CN",
+          "authority": "official"
+        },
+        {
+          "type": "plain_cidr",
+          "url": "https://www.cloudflare.com/ips-v4",
+          "authority": "official"
+        },
+        {
+          "type": "plain_cidr",
+          "url": "https://www.cloudflare.com/ips-v6",
+          "authority": "official"
+        },
+        {
+          "type": "aws_ip_ranges",
+          "url": "https://ip-ranges.amazonaws.com/ip-ranges.json",
+          "services": [
+            "CLOUDFRONT",
+            "GLOBALACCELERATOR"
+          ],
+          "authority": "official"
+        },
+        {
+          "type": "gcp_ip_ranges",
+          "url": "https://www.gstatic.com/ipranges/cloud.json",
+          "authority": "official"
+        },
+        {
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/geolocation-cn",
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ]
+        },
+        {
+          "type": "local_domain",
+          "path": "manual/categories/lan.txt",
+          "authority": "owner-controlled"
+        },
+        {
+          "type": "local_domain",
+          "path": "manual/categories/domestic.txt",
+          "authority": "owner-controlled"
+        },
+        {
+          "type": "local_domain",
+          "path": "manual/categories/cncidr.txt",
+          "authority": "owner-controlled"
+        },
+        {
+          "type": "local_domain",
+          "path": "manual/categories/apple_cn.txt",
+          "authority": "owner-controlled"
+        },
+        {
+          "type": "local_domain",
+          "path": "manual/categories/apple_cdn.txt",
+          "authority": "owner-controlled"
+        },
+        {
+          "type": "local_domain",
+          "path": "manual/categories/microsoft_cdn.txt",
+          "authority": "owner-controlled"
+        },
+        {
+          "type": "local_domain",
+          "path": "manual/categories/socialmedia_cn.txt",
+          "authority": "owner-controlled"
+        },
+        {
+          "type": "local_domain",
+          "path": "manual/categories/games_cn.txt",
+          "authority": "owner-controlled"
+        },
+        {
+          "type": "local_domain",
+          "path": "manual/categories/douyin.txt",
+          "authority": "owner-controlled"
+        },
+        {
+          "type": "local_domain",
+          "path": "manual/categories/dmca.txt",
+          "authority": "owner-controlled"
+        },
+        {
+          "type": "local_domain",
+          "path": "manual/categories/cdn.txt",
+          "authority": "owner-controlled"
+        },
+        {
+          "type": "local_domain",
+          "path": "manual/categories/download.txt",
+          "authority": "owner-controlled"
+        },
+        {
+          "type": "local_domain",
+          "path": "manual/categories/direct.txt",
+          "authority": "owner-controlled"
+        }
+      ]
+    },
+    {
+      "id": "proxy",
+      "description": "Merged proxy rules for simplified deployment",
+      "sources": [
+        {
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/geolocation-!cn",
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ]
+        },
+        {
+          "type": "local_domain",
+          "path": "manual/categories/proxy.txt",
+          "authority": "owner-controlled"
         }
       ]
     }
@@ -1053,6 +1207,30 @@
       "ai",
       "forum",
       "socialmedia"
+    ],
+    [
+      "direct",
+      "lan"
+    ],
+    [
+      "direct",
+      "domestic"
+    ],
+    [
+      "direct",
+      "cncidr"
+    ],
+    [
+      "proxy",
+      "global"
+    ],
+    [
+      "proxy",
+      "gfw"
+    ],
+    [
+      "proxy",
+      "tld_proxy"
     ]
   ],
   "version": 2

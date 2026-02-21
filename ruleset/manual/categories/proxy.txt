@@ -1,0 +1,4 @@
+# Optional owner overrides for merged PROXY rules.
+# Example:
+# DOMAIN-SUFFIX,example.com
+

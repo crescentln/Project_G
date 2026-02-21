@@ -4,7 +4,7 @@
   "recommended_action": "PROXY",
   "recommended_priority": 345,
   "recommended_note": "GFW 列表走代理",
-  "rule_count": 0,
+  "rule_count": 109,
   "paths": {
     "surge": "surge/gfw.list",
     "surge_non_ip": "surge/non_ip/gfw.list",
@@ -23,6 +23,20 @@
     "compat_list_domainset": "compat/List/domainset/gfw.conf"
   },
   "sources": [
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-anticensorship",
+      "used_cache": true,
+      "rule_count": 95
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-proxy-tunnels",
+      "used_cache": true,
+      "rule_count": 14
+    },
     {
       "type": "local_domain",
       "authority": "owner-controlled",

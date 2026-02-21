@@ -36,6 +36,7 @@ RULE_TYPES = {
 DOMAIN_RE = re.compile(
     r"^(?=.{1,253}$)(?!-)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z0-9][a-z0-9-]{0,62}$"
 )
+LABEL_RE = re.compile(r"^(?!-)[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$")
 
 
 def strip_comment(line: str) -> str:
@@ -52,7 +53,11 @@ def is_domain_token(value: str) -> bool:
         value = value[2:]
     elif value.startswith("."):
         value = value[1:]
-    return bool(DOMAIN_RE.fullmatch(value.lower()))
+    value = value.lower()
+    if DOMAIN_RE.fullmatch(value):
+        return True
+    # TLD-only domainset entries like ".com" are valid for suffix matching.
+    return "." not in value and bool(LABEL_RE.fullmatch(value))
 
 
 def validate_classical_line(line: str, path: pathlib.Path, line_no: int) -> str | None:

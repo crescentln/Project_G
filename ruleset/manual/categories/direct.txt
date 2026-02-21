@@ -1,0 +1,4 @@
+# Optional owner overrides for merged DIRECT rules.
+# Example:
+# DOMAIN-SUFFIX,example.cn
+

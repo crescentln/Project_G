@@ -1,14 +1,14 @@
 {
-  "generated_at_utc": "2026-02-21T01:14:33.701694+00:00",
+  "generated_at_utc": "2026-02-21T02:15:52.056228+00:00",
   "config_path": "/Users/alpha2128125/Documents/New project/ruleset/config/sources.json",
   "policy_path": "/Users/alpha2128125/Documents/New project/ruleset/config/policy_map.json",
-  "category_count": 49,
+  "category_count": 48,
   "conflict_count": 0,
   "categories": [
     {
       "id": "reject",
       "description": "Ads, trackers, and malware",
-      "rule_count": 175184,
+      "rule_count": 175191,
       "surge_path": "surge/reject.list",
       "openclash_path": "openclash/reject.yaml",
       "surge_non_ip_path": "surge/non_ip/reject.list",
@@ -26,14 +26,14 @@
       "compat_list_domainset_path": "compat/List/domainset/reject.conf",
       "recommended_action": "REJECT",
       "recommended_priority": 100,
-      "recommended_note": "广告、追踪与恶意域名拦截",
+      "recommended_note": "广告、追踪、恶意与补充拒绝规则（已合并）",
       "sources": [
         {
           "type": "adblock",
           "authority": "curated-upstream",
           "ref": "https://easylist.to/easylist/easylist.txt",
           "used_cache": true,
-          "rule_count": 58811
+          "rule_count": 58818
         },
         {
           "type": "adblock",
@@ -55,96 +55,21 @@
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/reject.txt",
           "used_cache": false,
           "rule_count": 0
-        }
-      ]
-    },
-    {
-      "id": "reject_extra",
-      "description": "Extra reject entries",
-      "rule_count": 0,
-      "surge_path": "surge/reject_extra.list",
-      "openclash_path": "openclash/reject_extra.yaml",
-      "surge_non_ip_path": "surge/non_ip/reject_extra.list",
-      "surge_ip_path": "surge/ip/reject_extra.list",
-      "surge_domainset_path": "surge/domainset/reject_extra.conf",
-      "openclash_non_ip_path": "openclash/non_ip/reject_extra.yaml",
-      "openclash_ip_path": "openclash/ip/reject_extra.yaml",
-      "openclash_domainset_path": "openclash/domainset/reject_extra.txt",
-      "openclash_ipcidr_path": "openclash/ipcidr/reject_extra.txt",
-      "compat_clash_non_ip_path": "compat/Clash/non_ip/reject_extra.txt",
-      "compat_clash_ip_path": "compat/Clash/ip/reject_extra.txt",
-      "compat_clash_domainset_path": "compat/Clash/domainset/reject_extra.txt",
-      "compat_list_non_ip_path": "compat/List/non_ip/reject_extra.conf",
-      "compat_list_ip_path": "compat/List/ip/reject_extra.conf",
-      "compat_list_domainset_path": "compat/List/domainset/reject_extra.conf",
-      "recommended_action": "REJECT",
-      "recommended_priority": 110,
-      "recommended_note": "额外补充拦截",
-      "sources": [
+        },
         {
           "type": "local_domain",
           "authority": "owner-controlled",
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/reject_extra.txt",
           "used_cache": false,
           "rule_count": 0
-        }
-      ]
-    },
-    {
-      "id": "reject_drop",
-      "description": "Reject drop rules",
-      "rule_count": 0,
-      "surge_path": "surge/reject_drop.list",
-      "openclash_path": "openclash/reject_drop.yaml",
-      "surge_non_ip_path": "surge/non_ip/reject_drop.list",
-      "surge_ip_path": "surge/ip/reject_drop.list",
-      "surge_domainset_path": "surge/domainset/reject_drop.conf",
-      "openclash_non_ip_path": "openclash/non_ip/reject_drop.yaml",
-      "openclash_ip_path": "openclash/ip/reject_drop.yaml",
-      "openclash_domainset_path": "openclash/domainset/reject_drop.txt",
-      "openclash_ipcidr_path": "openclash/ipcidr/reject_drop.txt",
-      "compat_clash_non_ip_path": "compat/Clash/non_ip/reject_drop.txt",
-      "compat_clash_ip_path": "compat/Clash/ip/reject_drop.txt",
-      "compat_clash_domainset_path": "compat/Clash/domainset/reject_drop.txt",
-      "compat_list_non_ip_path": "compat/List/non_ip/reject_drop.conf",
-      "compat_list_ip_path": "compat/List/ip/reject_drop.conf",
-      "compat_list_domainset_path": "compat/List/domainset/reject_drop.conf",
-      "recommended_action": "REJECT-DROP",
-      "recommended_priority": 120,
-      "recommended_note": "需要静默丢弃的拦截",
-      "sources": [
+        },
         {
           "type": "local_domain",
           "authority": "owner-controlled",
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/reject_drop.txt",
           "used_cache": false,
           "rule_count": 0
-        }
-      ]
-    },
-    {
-      "id": "reject_no_drop",
-      "description": "Reject no-drop rules",
-      "rule_count": 0,
-      "surge_path": "surge/reject_no_drop.list",
-      "openclash_path": "openclash/reject_no_drop.yaml",
-      "surge_non_ip_path": "surge/non_ip/reject_no_drop.list",
-      "surge_ip_path": "surge/ip/reject_no_drop.list",
-      "surge_domainset_path": "surge/domainset/reject_no_drop.conf",
-      "openclash_non_ip_path": "openclash/non_ip/reject_no_drop.yaml",
-      "openclash_ip_path": "openclash/ip/reject_no_drop.yaml",
-      "openclash_domainset_path": "openclash/domainset/reject_no_drop.txt",
-      "openclash_ipcidr_path": "openclash/ipcidr/reject_no_drop.txt",
-      "compat_clash_non_ip_path": "compat/Clash/non_ip/reject_no_drop.txt",
-      "compat_clash_ip_path": "compat/Clash/ip/reject_no_drop.txt",
-      "compat_clash_domainset_path": "compat/Clash/domainset/reject_no_drop.txt",
-      "compat_list_non_ip_path": "compat/List/non_ip/reject_no_drop.conf",
-      "compat_list_ip_path": "compat/List/ip/reject_no_drop.conf",
-      "compat_list_domainset_path": "compat/List/domainset/reject_no_drop.conf",
-      "recommended_action": "REJECT-NO-DROP",
-      "recommended_priority": 130,
-      "recommended_note": "拒绝但不使用 drop",
-      "sources": [
+        },
         {
           "type": "local_domain",
           "authority": "owner-controlled",
@@ -1879,7 +1804,7 @@
     {
       "id": "tld_proxy",
       "description": "Proxy-specific TLD set",
-      "rule_count": 0,
+      "rule_count": 1433,
       "surge_path": "surge/tld_proxy.list",
       "openclash_path": "openclash/tld_proxy.yaml",
       "surge_non_ip_path": "surge/non_ip/tld_proxy.list",
@@ -1900,6 +1825,13 @@
       "recommended_note": "需要强制代理的 TLD 集",
       "sources": [
         {
+          "type": "iana_tld_list",
+          "authority": "official",
+          "ref": "https://data.iana.org/TLD/tlds-alpha-by-domain.txt",
+          "used_cache": true,
+          "rule_count": 1433
+        },
+        {
           "type": "local_domain",
           "authority": "owner-controlled",
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/tld_proxy.txt",
@@ -1911,7 +1843,7 @@
     {
       "id": "gfw",
       "description": "GFW-related domains",
-      "rule_count": 0,
+      "rule_count": 109,
       "surge_path": "surge/gfw.list",
       "openclash_path": "openclash/gfw.yaml",
       "surge_non_ip_path": "surge/non_ip/gfw.list",
@@ -1932,6 +1864,20 @@
       "recommended_note": "GFW 列表走代理",
       "sources": [
         {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-anticensorship",
+          "used_cache": true,
+          "rule_count": 95
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-proxy-tunnels",
+          "used_cache": true,
+          "rule_count": 14
+        },
+        {
           "type": "local_domain",
           "authority": "owner-controlled",
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/gfw.txt",
@@ -1943,7 +1889,7 @@
     {
       "id": "global",
       "description": "Global fallback domain list",
-      "rule_count": 0,
+      "rule_count": 23648,
       "surge_path": "surge/global.list",
       "openclash_path": "openclash/global.yaml",
       "surge_non_ip_path": "surge/non_ip/global.list",
@@ -1964,9 +1910,227 @@
       "recommended_note": "兜底代理集合（应放在较后顺序）",
       "sources": [
         {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/geolocation-!cn",
+          "used_cache": true,
+          "rule_count": 23648
+        },
+        {
           "type": "local_domain",
           "authority": "owner-controlled",
           "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/global.txt",
+          "used_cache": false,
+          "rule_count": 0
+        }
+      ]
+    },
+    {
+      "id": "direct",
+      "description": "Merged direct rules for simplified deployment",
+      "rule_count": 18883,
+      "surge_path": "surge/direct.list",
+      "openclash_path": "openclash/direct.yaml",
+      "surge_non_ip_path": "surge/non_ip/direct.list",
+      "surge_ip_path": "surge/ip/direct.list",
+      "surge_domainset_path": "surge/domainset/direct.conf",
+      "openclash_non_ip_path": "openclash/non_ip/direct.yaml",
+      "openclash_ip_path": "openclash/ip/direct.yaml",
+      "openclash_domainset_path": "openclash/domainset/direct.txt",
+      "openclash_ipcidr_path": "openclash/ipcidr/direct.txt",
+      "compat_clash_non_ip_path": "compat/Clash/non_ip/direct.txt",
+      "compat_clash_ip_path": "compat/Clash/ip/direct.txt",
+      "compat_clash_domainset_path": "compat/Clash/domainset/direct.txt",
+      "compat_list_non_ip_path": "compat/List/non_ip/direct.conf",
+      "compat_list_ip_path": "compat/List/ip/direct.conf",
+      "compat_list_domainset_path": "compat/List/domainset/direct.conf",
+      "recommended_action": "DIRECT",
+      "recommended_priority": 205,
+      "recommended_note": "合并直连集合（简化部署）",
+      "sources": [
+        {
+          "type": "iana_special_csv",
+          "authority": "official",
+          "ref": "https://www.iana.org/assignments/iana-ipv4-special-registry/iana-ipv4-special-registry-1.csv",
+          "used_cache": true,
+          "rule_count": 20
+        },
+        {
+          "type": "iana_special_csv",
+          "authority": "official",
+          "ref": "https://www.iana.org/assignments/iana-ipv6-special-registry/iana-ipv6-special-registry-1.csv",
+          "used_cache": true,
+          "rule_count": 13
+        },
+        {
+          "type": "apnic_country_cidr",
+          "authority": "official",
+          "ref": "https://ftp.apnic.net/stats/apnic/delegated-apnic-latest",
+          "used_cache": true,
+          "rule_count": 10828
+        },
+        {
+          "type": "plain_cidr",
+          "authority": "official",
+          "ref": "https://www.cloudflare.com/ips-v4",
+          "used_cache": true,
+          "rule_count": 15
+        },
+        {
+          "type": "plain_cidr",
+          "authority": "official",
+          "ref": "https://www.cloudflare.com/ips-v6",
+          "used_cache": true,
+          "rule_count": 7
+        },
+        {
+          "type": "aws_ip_ranges",
+          "authority": "official",
+          "ref": "https://ip-ranges.amazonaws.com/ip-ranges.json",
+          "used_cache": true,
+          "rule_count": 379
+        },
+        {
+          "type": "gcp_ip_ranges",
+          "authority": "official",
+          "ref": "https://www.gstatic.com/ipranges/cloud.json",
+          "used_cache": true,
+          "rule_count": 884
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/geolocation-cn",
+          "used_cache": true,
+          "rule_count": 6727
+        },
+        {
+          "type": "local_domain",
+          "authority": "owner-controlled",
+          "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/lan.txt",
+          "used_cache": false,
+          "rule_count": 0
+        },
+        {
+          "type": "local_domain",
+          "authority": "owner-controlled",
+          "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/domestic.txt",
+          "used_cache": false,
+          "rule_count": 0
+        },
+        {
+          "type": "local_domain",
+          "authority": "owner-controlled",
+          "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/cncidr.txt",
+          "used_cache": false,
+          "rule_count": 0
+        },
+        {
+          "type": "local_domain",
+          "authority": "owner-controlled",
+          "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/apple_cn.txt",
+          "used_cache": false,
+          "rule_count": 2
+        },
+        {
+          "type": "local_domain",
+          "authority": "owner-controlled",
+          "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/apple_cdn.txt",
+          "used_cache": false,
+          "rule_count": 0
+        },
+        {
+          "type": "local_domain",
+          "authority": "owner-controlled",
+          "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/microsoft_cdn.txt",
+          "used_cache": false,
+          "rule_count": 3
+        },
+        {
+          "type": "local_domain",
+          "authority": "owner-controlled",
+          "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/socialmedia_cn.txt",
+          "used_cache": false,
+          "rule_count": 4
+        },
+        {
+          "type": "local_domain",
+          "authority": "owner-controlled",
+          "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/games_cn.txt",
+          "used_cache": false,
+          "rule_count": 3
+        },
+        {
+          "type": "local_domain",
+          "authority": "owner-controlled",
+          "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/douyin.txt",
+          "used_cache": false,
+          "rule_count": 2
+        },
+        {
+          "type": "local_domain",
+          "authority": "owner-controlled",
+          "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/dmca.txt",
+          "used_cache": false,
+          "rule_count": 0
+        },
+        {
+          "type": "local_domain",
+          "authority": "owner-controlled",
+          "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/cdn.txt",
+          "used_cache": false,
+          "rule_count": 0
+        },
+        {
+          "type": "local_domain",
+          "authority": "owner-controlled",
+          "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/download.txt",
+          "used_cache": false,
+          "rule_count": 5
+        },
+        {
+          "type": "local_domain",
+          "authority": "owner-controlled",
+          "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/direct.txt",
+          "used_cache": false,
+          "rule_count": 0
+        }
+      ]
+    },
+    {
+      "id": "proxy",
+      "description": "Merged proxy rules for simplified deployment",
+      "rule_count": 23648,
+      "surge_path": "surge/proxy.list",
+      "openclash_path": "openclash/proxy.yaml",
+      "surge_non_ip_path": "surge/non_ip/proxy.list",
+      "surge_ip_path": "surge/ip/proxy.list",
+      "surge_domainset_path": "surge/domainset/proxy.conf",
+      "openclash_non_ip_path": "openclash/non_ip/proxy.yaml",
+      "openclash_ip_path": "openclash/ip/proxy.yaml",
+      "openclash_domainset_path": "openclash/domainset/proxy.txt",
+      "openclash_ipcidr_path": "openclash/ipcidr/proxy.txt",
+      "compat_clash_non_ip_path": "compat/Clash/non_ip/proxy.txt",
+      "compat_clash_ip_path": "compat/Clash/ip/proxy.txt",
+      "compat_clash_domainset_path": "compat/Clash/domainset/proxy.txt",
+      "compat_list_non_ip_path": "compat/List/non_ip/proxy.conf",
+      "compat_list_ip_path": "compat/List/ip/proxy.conf",
+      "compat_list_domainset_path": "compat/List/domainset/proxy.conf",
+      "recommended_action": "PROXY",
+      "recommended_priority": 880,
+      "recommended_note": "合并代理集合（简化部署）",
+      "sources": [
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/geolocation-!cn",
+          "used_cache": true,
+          "rule_count": 23648
+        },
+        {
+          "type": "local_domain",
+          "authority": "owner-controlled",
+          "ref": "/Users/alpha2128125/Documents/New project/ruleset/manual/categories/proxy.txt",
           "used_cache": false,
           "rule_count": 0
         }

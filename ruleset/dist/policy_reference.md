@@ -4,12 +4,10 @@ This file defines the recommended action per category.
 
 | Category | Action | Priority | Rules | Note |
 |---|---:|---:|---:|---|
-| `reject` | `REJECT` | 100 | 175184 | 广告、追踪与恶意域名拦截 |
-| `reject_extra` | `REJECT` | 110 | 0 | 额外补充拦截 |
-| `reject_drop` | `REJECT-DROP` | 120 | 0 | 需要静默丢弃的拦截 |
-| `reject_no_drop` | `REJECT-NO-DROP` | 130 | 0 | 拒绝但不使用 drop |
+| `reject` | `REJECT` | 100 | 175191 | 广告、追踪、恶意与补充拒绝规则（已合并） |
 | `httpdns` | `REJECT` | 150 | 2 | HTTPDNS 相关域名建议拦截 |
 | `lan` | `DIRECT` | 200 | 33 | 局域网与特殊保留地址直连 |
+| `direct` | `DIRECT` | 205 | 18883 | 合并直连集合（简化部署） |
 | `domestic` | `DIRECT` | 210 | 10828 | 中国大陆业务优先直连 |
 | `cncidr` | `DIRECT` | 220 | 10828 | 中国大陆 IP 段直连 |
 | `apple_cn` | `DIRECT` | 230 | 285 | Apple 中国区服务直连 |
@@ -50,9 +48,10 @@ This file defines the recommended action per category.
 | `tiktok` | `PROXY` | 341 | 35 | TikTok 国际站走代理 |
 | `apns` | `PROXY` | 342 | 2 | APNS 按你当前策略走代理 |
 | `talkatone` | `PROXY` | 343 | 1 | Talkatone 走代理 |
-| `tld_proxy` | `PROXY` | 344 | 0 | 需要强制代理的 TLD 集 |
-| `gfw` | `PROXY` | 345 | 0 | GFW 列表走代理 |
-| `global` | `PROXY` | 900 | 0 | 兜底代理集合（应放在较后顺序） |
+| `tld_proxy` | `PROXY` | 344 | 1433 | 需要强制代理的 TLD 集 |
+| `gfw` | `PROXY` | 345 | 109 | GFW 列表走代理 |
+| `proxy` | `PROXY` | 880 | 23648 | 合并代理集合（简化部署） |
+| `global` | `PROXY` | 900 | 23648 | 兜底代理集合（应放在较后顺序） |
 
 Action definitions:
 - `DIRECT`: bypass proxy.

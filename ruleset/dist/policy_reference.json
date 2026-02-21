@@ -1,34 +1,13 @@
 {
-  "generated_at_utc": "2026-02-21T01:14:33.702113+00:00",
+  "generated_at_utc": "2026-02-21T02:15:52.056866+00:00",
   "policy_path": "/Users/alpha2128125/Documents/New project/ruleset/config/policy_map.json",
   "categories": [
     {
       "id": "reject",
       "recommended_action": "REJECT",
       "recommended_priority": 100,
-      "recommended_note": "广告、追踪与恶意域名拦截",
-      "rule_count": 175184
-    },
-    {
-      "id": "reject_extra",
-      "recommended_action": "REJECT",
-      "recommended_priority": 110,
-      "recommended_note": "额外补充拦截",
-      "rule_count": 0
-    },
-    {
-      "id": "reject_drop",
-      "recommended_action": "REJECT-DROP",
-      "recommended_priority": 120,
-      "recommended_note": "需要静默丢弃的拦截",
-      "rule_count": 0
-    },
-    {
-      "id": "reject_no_drop",
-      "recommended_action": "REJECT-NO-DROP",
-      "recommended_priority": 130,
-      "recommended_note": "拒绝但不使用 drop",
-      "rule_count": 0
+      "recommended_note": "广告、追踪、恶意与补充拒绝规则（已合并）",
+      "rule_count": 175191
     },
     {
       "id": "lan",
@@ -329,21 +308,35 @@
       "recommended_action": "PROXY",
       "recommended_priority": 344,
       "recommended_note": "需要强制代理的 TLD 集",
-      "rule_count": 0
+      "rule_count": 1433
     },
     {
       "id": "gfw",
       "recommended_action": "PROXY",
       "recommended_priority": 345,
       "recommended_note": "GFW 列表走代理",
-      "rule_count": 0
+      "rule_count": 109
     },
     {
       "id": "global",
       "recommended_action": "PROXY",
       "recommended_priority": 900,
       "recommended_note": "兜底代理集合（应放在较后顺序）",
-      "rule_count": 0
+      "rule_count": 23648
+    },
+    {
+      "id": "direct",
+      "recommended_action": "DIRECT",
+      "recommended_priority": 205,
+      "recommended_note": "合并直连集合（简化部署）",
+      "rule_count": 18883
+    },
+    {
+      "id": "proxy",
+      "recommended_action": "PROXY",
+      "recommended_priority": 880,
+      "recommended_note": "合并代理集合（简化部署）",
+      "rule_count": 23648
     }
   ]
 }
