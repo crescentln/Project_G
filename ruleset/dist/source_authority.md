@@ -1,6 +1,6 @@
 # Source Authority Matrix
 
-Generated at (UTC): `2026-02-22T00:48:08.669460+00:00`
+Generated at (UTC): `2026-02-22T00:59:05.419530+00:00`
 
 ## Overall
 
@@ -28,7 +28,7 @@ Generated at (UTC): `2026-02-22T00:48:08.669460+00:00`
 
 | Category | Action | Rules | Official | Community | Owner | Other | Sources |
 |---|---|---:|---:|---:|---:|---:|---|
-| `reject` | `REJECT` | 331318 | 0 | 4 | 1 | 0 | `curated-upstream` `adblock` `https://easylist.to/easylist/easylist.txt`<br>`curated-upstream` `adblock` `https://easylist.to/easylist/easyprivacy.txt`<br>`curated-upstream` `adblock` `https://filters.adtidy.org/dns/filter_1.txt`<br>`curated-upstream` `adblock` `https://phishing.army/download/phishing_army_blocklist_extended.txt`<br>`owner-controlled` `local_domain` `manual/categories/reject.txt` |
+| `reject` | `REJECT` | 331321 | 0 | 4 | 1 | 0 | `curated-upstream` `adblock` `https://easylist.to/easylist/easylist.txt`<br>`curated-upstream` `adblock` `https://easylist.to/easylist/easyprivacy.txt`<br>`curated-upstream` `adblock` `https://filters.adtidy.org/dns/filter_1.txt`<br>`curated-upstream` `adblock` `https://phishing.army/download/phishing_army_blocklist_extended.txt`<br>`owner-controlled` `local_domain` `manual/categories/reject.txt` |
 | `reject_extra` | `REJECT` | 10 | 0 | 0 | 1 | 0 | `owner-controlled` `local_domain` `manual/categories/reject_extra.txt` |
 | `reject_drop` | `REJECT-DROP` | 5 | 0 | 0 | 1 | 0 | `owner-controlled` `local_domain` `manual/categories/reject_drop.txt` |
 | `reject_no_drop` | `REJECT-NO-DROP` | 6 | 0 | 0 | 1 | 0 | `owner-controlled` `local_domain` `manual/categories/reject_no_drop.txt` |

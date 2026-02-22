@@ -1,12 +1,12 @@
 # Ruleset URL Catalog
 
-Generated at (UTC): `2026-02-22T00:48:08.668878+00:00`
+Generated at (UTC): `2026-02-22T00:59:05.419150+00:00`
 
 Raw Base: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist`
 
 | Category | Action | Priority | Rules | OpenClash | Surge | Note |
 |---|---|---:|---:|---|---|---|
-| `reject` | `REJECT` | 100 | 331318 | [openclash/reject.yaml](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/reject.yaml) | [surge/reject.list](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/reject.list) | 广告、追踪、恶意基础拦截规则 |
+| `reject` | `REJECT` | 100 | 331321 | [openclash/reject.yaml](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/reject.yaml) | [surge/reject.list](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/reject.list) | 广告、追踪、恶意基础拦截规则 |
 | `reject_extra` | `REJECT` | 110 | 10 | [openclash/reject_extra.yaml](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/reject_extra.yaml) | [surge/reject_extra.list](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/reject_extra.list) | 额外补充拦截规则（标准拒绝） |
 | `reject_drop` | `REJECT-DROP` | 120 | 5 | [openclash/reject_drop.yaml](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/reject_drop.yaml) | [surge/reject_drop.list](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/reject_drop.list) | 静默丢弃拦截规则 |
 | `reject_no_drop` | `REJECT-NO-DROP` | 130 | 6 | [openclash/reject_no_drop.yaml](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/reject_no_drop.yaml) | [surge/reject_no_drop.list](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/reject_no_drop.list) | 显式拒绝规则（不静默丢弃） |

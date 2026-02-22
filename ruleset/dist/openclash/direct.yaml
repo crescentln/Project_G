@@ -18884,6 +18884,6 @@ payload:
   - 'IP-CIDR6,64:ff9b:1::/48,no-resolve'
   - 'IP-CIDR6,::/128,no-resolve'
   - 'IP-CIDR6,::1/128,no-resolve'
-  - 'IP-CIDR6,::ffff:0:0/96,no-resolve'
+  - 'IP-CIDR6,::ffff:0.0.0.0/96,no-resolve'
   - 'IP-CIDR6,fc00::/7,no-resolve'
   - 'IP-CIDR6,fe80::/10,no-resolve'

@@ -4,7 +4,7 @@ This file defines the recommended action per category.
 
 | Category | Action | Priority | Rules | Note |
 |---|---:|---:|---:|---|
-| `reject` | `REJECT` | 100 | 331318 | 广告、追踪、恶意基础拦截规则 |
+| `reject` | `REJECT` | 100 | 331321 | 广告、追踪、恶意基础拦截规则 |
 | `reject_extra` | `REJECT` | 110 | 10 | 额外补充拦截规则（标准拒绝） |
 | `reject_drop` | `REJECT-DROP` | 120 | 5 | 静默丢弃拦截规则 |
 | `reject_no_drop` | `REJECT-NO-DROP` | 130 | 6 | 显式拒绝规则（不静默丢弃） |

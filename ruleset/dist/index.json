@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-02-22T00:48:08.510736+00:00",
+  "generated_at_utc": "2026-02-22T00:59:05.226945+00:00",
   "config_path": "config/sources.json",
   "policy_path": "config/policy_map.json",
   "category_count": 55,
@@ -11,7 +11,7 @@
     {
       "id": "reject",
       "description": "Ads, trackers, and malware",
-      "rule_count": 331318,
+      "rule_count": 331321,
       "surge_path": "surge/reject.list",
       "openclash_path": "openclash/reject.yaml",
       "surge_non_ip_path": "surge/non_ip/reject.list",
@@ -35,28 +35,28 @@
           "type": "adblock",
           "authority": "curated-upstream",
           "ref": "https://easylist.to/easylist/easylist.txt",
-          "used_cache": true,
-          "rule_count": 59038
+          "used_cache": false,
+          "rule_count": 59041
         },
         {
           "type": "adblock",
           "authority": "curated-upstream",
           "ref": "https://easylist.to/easylist/easyprivacy.txt",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 49862
         },
         {
           "type": "adblock",
           "authority": "curated-upstream",
           "ref": "https://filters.adtidy.org/dns/filter_1.txt",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 148106
         },
         {
           "type": "adblock",
           "authority": "curated-upstream",
           "ref": "https://phishing.army/download/phishing_army_blocklist_extended.txt",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 155901
         },
         {
@@ -191,14 +191,14 @@
           "type": "iana_special_csv",
           "authority": "official",
           "ref": "https://www.iana.org/assignments/iana-ipv4-special-registry/iana-ipv4-special-registry-1.csv",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 20
         },
         {
           "type": "iana_special_csv",
           "authority": "official",
           "ref": "https://www.iana.org/assignments/iana-ipv6-special-registry/iana-ipv6-special-registry-1.csv",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 13
         },
         {
@@ -237,7 +237,7 @@
           "type": "apnic_country_cidr",
           "authority": "official",
           "ref": "https://ftp.apnic.net/stats/apnic/delegated-apnic-latest",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 10828
         },
         {
@@ -276,7 +276,7 @@
           "type": "apnic_country_cidr",
           "authority": "official",
           "ref": "https://ftp.apnic.net/stats/apnic/delegated-apnic-latest",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 10828
         },
         {
@@ -315,14 +315,14 @@
           "type": "telegram_cidr",
           "authority": "official",
           "ref": "https://core.telegram.org/resources/cidr.txt",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 14
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/telegram",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 20
         },
         {
@@ -361,28 +361,28 @@
           "type": "plain_cidr",
           "authority": "official",
           "ref": "https://www.cloudflare.com/ips-v4",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 15
         },
         {
           "type": "plain_cidr",
           "authority": "official",
           "ref": "https://www.cloudflare.com/ips-v6",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 7
         },
         {
           "type": "aws_ip_ranges",
           "authority": "official",
           "ref": "https://ip-ranges.amazonaws.com/ip-ranges.json",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 379
         },
         {
           "type": "gcp_ip_ranges",
           "authority": "official",
           "ref": "https://www.gstatic.com/ipranges/cloud.json",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 884
         },
         {
@@ -421,7 +421,7 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-android-app-download",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 8
         },
         {
@@ -460,147 +460,147 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/netflix",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 28
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/hulu",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 48
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/disney",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 160
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/hbo",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 63
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/discoveryplus",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 3
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/plutotv",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 2
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/roku",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 6
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/tubi",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 4
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/sling",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 5
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/showtimeanytime",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 2
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/nbcuniversal",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 17
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/abema",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 21
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple-tvplus",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 8
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/primevideo",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 23
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/mytvsuper",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 2
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/viu",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 7
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/now",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 6
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/bahamut",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 5
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/hamivideo",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 8
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/catchplay",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 2
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/litv",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 11
         },
         {
@@ -639,77 +639,77 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/netflix",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 28
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/hulu",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 48
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/disney",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 160
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/hbo",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 63
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/discoveryplus",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 3
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/plutotv",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 2
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/roku",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 6
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/tubi",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 4
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/sling",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 5
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/showtimeanytime",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 2
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/nbcuniversal",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 17
         },
         {
@@ -748,7 +748,7 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/abema",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 21
         },
         {
@@ -787,21 +787,21 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/mytvsuper",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 2
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/viu",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 7
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/now",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 6
         },
         {
@@ -840,28 +840,28 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/bahamut",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 5
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/hamivideo",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 8
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/catchplay",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 2
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/litv",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 11
         },
         {
@@ -900,42 +900,42 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/netflix",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 28
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/hulu",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 48
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/disney",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 160
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/abema",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 21
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple-tvplus",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 8
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/primevideo",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 23
         },
         {
@@ -974,42 +974,42 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/openai",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 17
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/anthropic",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 6
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/perplexity",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 4
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/google-gemini",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 36
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/github-copilot",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 1
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-ai-!cn",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 120
         },
         {
@@ -1048,7 +1048,7 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 285
         },
         {
@@ -1087,14 +1087,14 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple-update",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 21
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple-pki",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 10
         },
         {
@@ -1133,7 +1133,7 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/icloud",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 48
         },
         {
@@ -1172,7 +1172,7 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/icloudprivaterelay",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 3
         },
         {
@@ -1211,7 +1211,7 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 1498
         },
         {
@@ -1250,7 +1250,7 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple-intelligence",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 5
         },
         {
@@ -1289,7 +1289,7 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/microsoft",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 422
         },
         {
@@ -1328,7 +1328,7 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/microsoft",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 168
         },
         {
@@ -1367,35 +1367,35 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/github",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 32
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/gitlab",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 5
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/gitee",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 2
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/codeberg",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 2
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/sourcehut",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 2
         },
         {
@@ -1434,7 +1434,7 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-httpdns-cn",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 49
         },
         {
@@ -1473,7 +1473,7 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-games-cn",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 228
         },
         {
@@ -1512,63 +1512,63 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-games-!cn",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 788
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/steam",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 54
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/epicgames",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 31
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/blizzard",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 23
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/origin",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 9
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/nintendo",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 124
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/xbox",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 44
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/playstation",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 3
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/ubisoft",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 32
         },
         {
@@ -1607,7 +1607,7 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/youtube",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 176
         },
         {
@@ -1646,7 +1646,7 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/abema",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 21
         },
         {
@@ -1685,7 +1685,7 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple-tvplus",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 8
         },
         {
@@ -1724,7 +1724,7 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/primevideo",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 23
         },
         {
@@ -1763,7 +1763,7 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/spotify",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 23
         },
         {
@@ -1802,7 +1802,7 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/twitch",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 32
         },
         {
@@ -1841,7 +1841,7 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/google",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 727
         },
         {
@@ -1880,7 +1880,7 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/googlefcm",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 12
         },
         {
@@ -1919,7 +1919,7 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/paypal",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 233
         },
         {
@@ -1958,35 +1958,35 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/binance",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 38
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/bybit",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 16
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/okx",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 7
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/kraken",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 2
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/huobi",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 10
         },
         {
@@ -2025,7 +2025,7 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-ecommerce",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 1092
         },
         {
@@ -2064,7 +2064,7 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/onedrive",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 11
         },
         {
@@ -2103,7 +2103,7 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-forums",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 97
         },
         {
@@ -2142,28 +2142,28 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-social-media-cn",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 74
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/sina",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 29
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/zhihu",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 2
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/bilibili",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 50
         },
         {
@@ -2202,56 +2202,56 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-social-media-!cn",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 582
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/facebook",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 394
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/instagram",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 72
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/twitter",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 23
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/discord",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 28
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/reddit",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 12
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/quora",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 5
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/medium",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 2
         },
         {
@@ -2322,7 +2322,7 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/tiktok",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 35
         },
         {
@@ -2361,7 +2361,7 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/douyin",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 65
         },
         {
@@ -2528,7 +2528,7 @@
           "type": "iana_tld_list",
           "authority": "official",
           "ref": "https://data.iana.org/TLD/tlds-alpha-by-domain.txt",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 1433
         },
         {
@@ -2567,14 +2567,14 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-anticensorship",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 95
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-proxy-tunnels",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 14
         },
         {
@@ -2613,7 +2613,7 @@
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/geolocation-!cn",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 23648
         },
         {
@@ -2652,56 +2652,56 @@
           "type": "iana_special_csv",
           "authority": "official",
           "ref": "https://www.iana.org/assignments/iana-ipv4-special-registry/iana-ipv4-special-registry-1.csv",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 20
         },
         {
           "type": "iana_special_csv",
           "authority": "official",
           "ref": "https://www.iana.org/assignments/iana-ipv6-special-registry/iana-ipv6-special-registry-1.csv",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 13
         },
         {
           "type": "apnic_country_cidr",
           "authority": "official",
           "ref": "https://ftp.apnic.net/stats/apnic/delegated-apnic-latest",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 10828
         },
         {
           "type": "plain_cidr",
           "authority": "official",
           "ref": "https://www.cloudflare.com/ips-v4",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 15
         },
         {
           "type": "plain_cidr",
           "authority": "official",
           "ref": "https://www.cloudflare.com/ips-v6",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 7
         },
         {
           "type": "aws_ip_ranges",
           "authority": "official",
           "ref": "https://ip-ranges.amazonaws.com/ip-ranges.json",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 379
         },
         {
           "type": "gcp_ip_ranges",
           "authority": "official",
           "ref": "https://www.gstatic.com/ipranges/cloud.json",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 884
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/geolocation-cn",
-          "used_cache": true,
+          "used_cache": false,
           "rule_count": 6727
         },
         {

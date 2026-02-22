@@ -27,28 +27,28 @@
       "type": "plain_cidr",
       "authority": "official",
       "ref": "https://www.cloudflare.com/ips-v4",
-      "used_cache": true,
+      "used_cache": false,
       "rule_count": 15
     },
     {
       "type": "plain_cidr",
       "authority": "official",
       "ref": "https://www.cloudflare.com/ips-v6",
-      "used_cache": true,
+      "used_cache": false,
       "rule_count": 7
     },
     {
       "type": "aws_ip_ranges",
       "authority": "official",
       "ref": "https://ip-ranges.amazonaws.com/ip-ranges.json",
-      "used_cache": true,
+      "used_cache": false,
       "rule_count": 379
     },
     {
       "type": "gcp_ip_ranges",
       "authority": "official",
       "ref": "https://www.gstatic.com/ipranges/cloud.json",
-      "used_cache": true,
+      "used_cache": false,
       "rule_count": 884
     },
     {
