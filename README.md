@@ -101,17 +101,18 @@
 
 ## 主要分类的数据来源（权威/主流）
 
-- `github`: v2fly `github` + `gitlab` + `gitee`，外加本地可控补充
+- `github`: v2fly `github` + `gitlab` + `gitee` + `codeberg` + `sourcehut`，外加本地可控补充
 - `ai`: v2fly `category-ai-!cn` + `openai`、`anthropic`、`perplexity`、`google-gemini`、`github-copilot`
-- `stream`（整合流媒体）: v2fly `netflix`、`hulu`、`disney`、`hbo`、`discoveryplus`、`plutotv`、`roku`、`tubi`、`sling`、`showtimeanytime`、`nbcuniversal`、`abema`、`apple-tvplus`、`primevideo`、`mytvsuper`、`viu`、`now`、`bahamut`、`hamivideo`、`catchplay`、`litv`
+- `stream`（整合流媒体）: v2fly `netflix`、`hulu`、`disney`、`hbo`、`discoveryplus`、`plutotv`、`roku`、`tubi`、`sling`、`showtimeanytime`、`nbcuniversal`、`abema`、`apple-tvplus`、`primevideo`、`mytvsuper`、`viu`、`now`、`bahamut`、`hamivideo`、`catchplay`、`litv`（已包含 Netflix）
 - `stream_us`: v2fly `netflix`、`hulu`、`disney` + `hbo`、`discoveryplus`、`plutotv`、`roku`、`tubi`、`sling`、`showtimeanytime`、`nbcuniversal`（可选细分）
 - `stream_global`: v2fly `netflix`、`hulu`、`disney`、`abema`、`apple-tvplus`、`primevideo`
 - `socialmedia`: v2fly `category-social-media-!cn` + `facebook`、`instagram`、`twitter`、`discord`、`reddit`、`quora`、`medium`
 - `anime`: 仓库可控集合（海外动漫/漫画/成人站点，含 `pornhub`、`91porn` 等）
-- `socialmedia_cn`: v2fly `category-social-media-cn` + `sina` + `zhihu` + 本地可控补充
+- `socialmedia_cn`: v2fly `category-social-media-cn` + `sina` + `zhihu` + `bilibili` + 本地可控补充
 - `ecommerce`: v2fly `category-ecommerce`
 - `spotify` / `youtube` / `twitch`: v2fly 对应官方维护集合
-- `apple_proxy`: v2fly `icloud`（排除 `@cn`）+ `icloudprivaterelay` + 本地可控补充
+- `apple_proxy`: v2fly `icloud`（排除 `@cn`）+ 本地可控补充
+- `icloud_private_relay`: v2fly `icloudprivaterelay` + 本地可控补充，建议 `PROXY`
 - `download`: v2fly `category-android-app-download` + 本地可控补充（非游戏平台）
 - `games`: v2fly `category-games-!cn` + `steam`、`epicgames`、`blizzard`、`origin`、`nintendo`、`xbox`、`playstation`、`ubisoft` + 本地可控补充
 - `vowifi`: 3GPP `pub.3gppnetwork.org` 命名体系 + 美国运营商优先（MCC 310~316）+ 仓库可控的 ePDG/IMS 增补
@@ -195,6 +196,7 @@
 | `stream_global` | 代理 (PROXY) | [`openclash/stream_global.yaml`](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/stream_global.yaml) | [`surge/stream_global.list`](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/stream_global.list) |
 | `ai` | 代理 (PROXY) | [`openclash/ai.yaml`](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/ai.yaml) | [`surge/ai.list`](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/ai.list) |
 | `apple_proxy` | 代理 (PROXY) | [`openclash/apple_proxy.yaml`](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/apple_proxy.yaml) | [`surge/apple_proxy.list`](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/apple_proxy.list) |
+| `icloud_private_relay` | 代理 (PROXY) | [`openclash/icloud_private_relay.yaml`](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/icloud_private_relay.yaml) | [`surge/icloud_private_relay.list`](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/icloud_private_relay.list) |
 | `apple_services` | 代理 (PROXY) | [`openclash/apple_services.yaml`](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/apple_services.yaml) | [`surge/apple_services.list`](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/apple_services.list) |
 | `apple_intelligence` | 代理 (PROXY) | [`openclash/apple_intelligence.yaml`](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/apple_intelligence.yaml) | [`surge/apple_intelligence.list`](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/apple_intelligence.list) |
 | `microsoft` | 代理 (PROXY) | [`openclash/microsoft.yaml`](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/microsoft.yaml) | [`surge/microsoft.list`](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/microsoft.list) |
@@ -229,6 +231,7 @@
 - EasyList
 - EasyPrivacy
 - AdGuard DNS Filter
+- Phishing Army（phishing 域名）
 - 本地可控补充：`ruleset/manual/categories/reject.txt`
 
 ### 独立可选拦截集合

@@ -3,7 +3,7 @@
   "description": "Unified streaming services (all regions, high coverage)",
   "recommended_action": "PROXY",
   "recommended_priority": 309,
-  "recommended_note": "整合流媒体集合（跨地区统一）",
+  "recommended_note": "整合流媒体集合（含 Netflix），跨地区统一",
   "rule_count": 434,
   "paths": {
     "surge": "surge/stream.list",
@@ -175,7 +175,7 @@
       "authority": "owner-controlled",
       "ref": "manual/categories/stream.txt",
       "used_cache": false,
-      "rule_count": 4
+      "rule_count": 5
     }
   ]
 }

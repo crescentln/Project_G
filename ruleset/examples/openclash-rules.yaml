@@ -159,6 +159,12 @@ rule-providers:
     path: ./rule_provider/apple_proxy.yaml
     url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/apple_proxy.yaml
     interval: 86400
+  icloud_private_relay:
+    type: http
+    behavior: classical
+    path: ./rule_provider/icloud_private_relay.yaml
+    url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/icloud_private_relay.yaml
+    interval: 86400
   apple_services:
     type: http
     behavior: classical
@@ -349,6 +355,7 @@ rules:
   - RULE-SET,stream_global,PROXY
   - RULE-SET,ai,PROXY
   - RULE-SET,apple_proxy,PROXY
+  - RULE-SET,icloud_private_relay,PROXY
   - RULE-SET,apple_services,PROXY
   - RULE-SET,apple_intelligence,PROXY
   - RULE-SET,microsoft,PROXY

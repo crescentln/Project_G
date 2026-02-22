@@ -1,23 +1,23 @@
 # Source Authority Matrix
 
-Generated at (UTC): `2026-02-22T00:07:07.005103+00:00`
+Generated at (UTC): `2026-02-22T00:44:17.282435+00:00`
 
 ## Overall
 
 | Authority | Source Entries |
 |---|---:|
 | `official` | 17 |
-| `community` | 114 |
-| `owner` | 66 |
+| `community` | 118 |
+| `owner` | 67 |
 | `other` | 0 |
 
 | Source Type | Source Entries |
 |---|---:|
-| `v2fly_dlc` | 111 |
-| `local_domain` | 66 |
+| `v2fly_dlc` | 114 |
+| `local_domain` | 67 |
+| `adblock` | 4 |
 | `iana_special_csv` | 4 |
 | `plain_cidr` | 4 |
-| `adblock` | 3 |
 | `apnic_country_cidr` | 3 |
 | `aws_ip_ranges` | 2 |
 | `gcp_ip_ranges` | 2 |
@@ -28,7 +28,7 @@ Generated at (UTC): `2026-02-22T00:07:07.005103+00:00`
 
 | Category | Action | Rules | Official | Community | Owner | Other | Sources |
 |---|---|---:|---:|---:|---:|---:|---|
-| `reject` | `REJECT` | 175202 | 0 | 3 | 1 | 0 | `curated-upstream` `adblock` `https://easylist.to/easylist/easylist.txt`<br>`curated-upstream` `adblock` `https://easylist.to/easylist/easyprivacy.txt`<br>`curated-upstream` `adblock` `https://filters.adtidy.org/dns/filter_1.txt`<br>`owner-controlled` `local_domain` `manual/categories/reject.txt` |
+| `reject` | `REJECT` | 331318 | 0 | 4 | 1 | 0 | `curated-upstream` `adblock` `https://easylist.to/easylist/easylist.txt`<br>`curated-upstream` `adblock` `https://easylist.to/easylist/easyprivacy.txt`<br>`curated-upstream` `adblock` `https://filters.adtidy.org/dns/filter_1.txt`<br>`curated-upstream` `adblock` `https://phishing.army/download/phishing_army_blocklist_extended.txt`<br>`owner-controlled` `local_domain` `manual/categories/reject.txt` |
 | `reject_extra` | `REJECT` | 10 | 0 | 0 | 1 | 0 | `owner-controlled` `local_domain` `manual/categories/reject_extra.txt` |
 | `reject_drop` | `REJECT-DROP` | 5 | 0 | 0 | 1 | 0 | `owner-controlled` `local_domain` `manual/categories/reject_drop.txt` |
 | `reject_no_drop` | `REJECT-NO-DROP` | 6 | 0 | 0 | 1 | 0 | `owner-controlled` `local_domain` `manual/categories/reject_no_drop.txt` |
@@ -40,7 +40,7 @@ Generated at (UTC): `2026-02-22T00:07:07.005103+00:00`
 | `apple_cn` | `DIRECT` | 285 | 0 | 1 | 1 | 0 | `community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple`<br>`owner-controlled` `local_domain` `manual/categories/apple_cn.txt` |
 | `apple_cdn` | `DIRECT` | 31 | 0 | 2 | 1 | 0 | `community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple-update`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple-pki`<br>`owner-controlled` `local_domain` `manual/categories/apple_cdn.txt` |
 | `microsoft_cdn` | `DIRECT` | 171 | 0 | 1 | 1 | 0 | `community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/microsoft`<br>`owner-controlled` `local_domain` `manual/categories/microsoft_cdn.txt` |
-| `socialmedia_cn` | `DIRECT` | 74 | 0 | 3 | 1 | 0 | `community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-social-media-cn`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/sina`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/zhihu`<br>`owner-controlled` `local_domain` `manual/categories/socialmedia_cn.txt` |
+| `socialmedia_cn` | `DIRECT` | 124 | 0 | 4 | 1 | 0 | `community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-social-media-cn`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/sina`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/zhihu`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/bilibili`<br>`owner-controlled` `local_domain` `manual/categories/socialmedia_cn.txt` |
 | `games_cn` | `DIRECT` | 228 | 0 | 1 | 1 | 0 | `community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-games-cn`<br>`owner-controlled` `local_domain` `manual/categories/games_cn.txt` |
 | `douyin` | `DIRECT` | 65 | 0 | 1 | 1 | 0 | `community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/douyin`<br>`owner-controlled` `local_domain` `manual/categories/douyin.txt` |
 | `dmca` | `DIRECT` | 5 | 0 | 0 | 1 | 0 | `owner-controlled` `local_domain` `manual/categories/dmca.txt` |
@@ -54,11 +54,12 @@ Generated at (UTC): `2026-02-22T00:07:07.005103+00:00`
 | `stream_tw` | `PROXY` | 28 | 0 | 4 | 1 | 0 | `community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/bahamut`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/hamivideo`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/catchplay`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/litv`<br>`owner-controlled` `local_domain` `manual/categories/stream_tw.txt` |
 | `stream_global` | `PROXY` | 288 | 0 | 6 | 1 | 0 | `community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/netflix`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/hulu`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/disney`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/abema`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple-tvplus`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/primevideo`<br>`owner-controlled` `local_domain` `manual/categories/stream_global.txt` |
 | `ai` | `PROXY` | 120 | 0 | 6 | 1 | 0 | `community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/openai`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/anthropic`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/perplexity`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/google-gemini`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/github-copilot`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-ai-!cn`<br>`owner-controlled` `local_domain` `manual/categories/ai.txt` |
-| `apple_proxy` | `PROXY` | 50 | 0 | 2 | 1 | 0 | `community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/icloud`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/icloudprivaterelay`<br>`owner-controlled` `local_domain` `manual/categories/apple_proxy.txt` |
+| `apple_proxy` | `PROXY` | 50 | 0 | 1 | 1 | 0 | `community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/icloud`<br>`owner-controlled` `local_domain` `manual/categories/apple_proxy.txt` |
+| `icloud_private_relay` | `PROXY` | 3 | 0 | 1 | 1 | 0 | `community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/icloudprivaterelay`<br>`owner-controlled` `local_domain` `manual/categories/icloud_private_relay.txt` |
 | `apple_services` | `PROXY` | 1501 | 0 | 1 | 1 | 0 | `community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple`<br>`owner-controlled` `local_domain` `manual/categories/apple_services.txt` |
 | `apple_intelligence` | `PROXY` | 5 | 0 | 1 | 1 | 0 | `community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple-intelligence`<br>`owner-controlled` `local_domain` `manual/categories/apple_intelligence.txt` |
 | `microsoft` | `PROXY` | 422 | 0 | 1 | 1 | 0 | `community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/microsoft`<br>`owner-controlled` `local_domain` `manual/categories/microsoft.txt` |
-| `github` | `PROXY` | 41 | 0 | 3 | 1 | 0 | `community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/github`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/gitlab`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/gitee`<br>`owner-controlled` `local_domain` `manual/categories/github.txt` |
+| `github` | `PROXY` | 47 | 0 | 5 | 1 | 0 | `community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/github`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/gitlab`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/gitee`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/codeberg`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/sourcehut`<br>`owner-controlled` `local_domain` `manual/categories/github.txt` |
 | `games` | `PROXY` | 788 | 0 | 9 | 1 | 0 | `community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-games-!cn`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/steam`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/epicgames`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/blizzard`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/origin`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/nintendo`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/xbox`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/playstation`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/ubisoft`<br>`owner-controlled` `local_domain` `manual/categories/games.txt` |
 | `youtube` | `PROXY` | 176 | 0 | 1 | 1 | 0 | `community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/youtube`<br>`owner-controlled` `local_domain` `manual/categories/youtube.txt` |
 | `abema` | `PROXY` | 21 | 0 | 1 | 1 | 0 | `community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/abema`<br>`owner-controlled` `local_domain` `manual/categories/abema.txt` |

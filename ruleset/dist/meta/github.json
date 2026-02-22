@@ -3,8 +3,8 @@
   "description": "Git hosting and source platforms",
   "recommended_action": "PROXY",
   "recommended_priority": 325,
-  "recommended_note": "GitHub/GitLab/Gitee 等代码托管平台走代理",
-  "rule_count": 41,
+  "recommended_note": "GitHub/GitLab/Gitee/Codeberg/SourceHut 等代码托管平台走代理",
+  "rule_count": 47,
   "paths": {
     "surge": "surge/github.list",
     "surge_non_ip": "surge/non_ip/github.list",
@@ -45,11 +45,25 @@
       "rule_count": 2
     },
     {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/codeberg",
+      "used_cache": true,
+      "rule_count": 2
+    },
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/sourcehut",
+      "used_cache": true,
+      "rule_count": 2
+    },
+    {
       "type": "local_domain",
       "authority": "owner-controlled",
       "ref": "manual/categories/github.txt",
       "used_cache": false,
-      "rule_count": 6
+      "rule_count": 14
     }
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-02-22T00:06:49.048019+00:00",
+  "generated_at_utc": "2026-02-22T00:44:10.756609+00:00",
   "policy_path": "config/policy_map.json",
   "categories": [
     {
@@ -7,7 +7,7 @@
       "recommended_action": "REJECT",
       "recommended_priority": 100,
       "recommended_note": "广告、追踪、恶意基础拦截规则",
-      "rule_count": 175202
+      "rule_count": 331318
     },
     {
       "id": "reject_extra",
@@ -55,7 +55,7 @@
       "id": "telegram",
       "recommended_action": "PROXY",
       "recommended_priority": 300,
-      "recommended_note": "Telegram 走代理",
+      "recommended_note": "Telegram 官方 CIDR + 域名集合走代理",
       "rule_count": 34
     },
     {
@@ -76,7 +76,7 @@
       "id": "stream",
       "recommended_action": "PROXY",
       "recommended_priority": 309,
-      "recommended_note": "整合流媒体集合（跨地区统一）",
+      "recommended_note": "整合流媒体集合（含 Netflix），跨地区统一",
       "rule_count": 434
     },
     {
@@ -143,6 +143,13 @@
       "rule_count": 50
     },
     {
+      "id": "icloud_private_relay",
+      "recommended_action": "PROXY",
+      "recommended_priority": 321,
+      "recommended_note": "iCloud Private Relay 推荐走代理（PROXY）",
+      "rule_count": 3
+    },
+    {
       "id": "apple_services",
       "recommended_action": "PROXY",
       "recommended_priority": 322,
@@ -174,8 +181,8 @@
       "id": "github",
       "recommended_action": "PROXY",
       "recommended_priority": 325,
-      "recommended_note": "GitHub/GitLab/Gitee 等代码托管平台走代理",
-      "rule_count": 41
+      "recommended_note": "GitHub/GitLab/Gitee/Codeberg/SourceHut 等代码托管平台走代理",
+      "rule_count": 47
     },
     {
       "id": "httpdns",
@@ -294,7 +301,7 @@
       "recommended_action": "DIRECT",
       "recommended_priority": 240,
       "recommended_note": "国内社交平台直连",
-      "rule_count": 74
+      "rule_count": 124
     },
     {
       "id": "socialmedia",

@@ -1,9 +1,9 @@
 {
-  "generated_at_utc": "2026-02-22T00:06:49.046306+00:00",
+  "generated_at_utc": "2026-02-22T00:44:10.755254+00:00",
   "config_path": "config/sources.json",
   "policy_path": "config/policy_map.json",
-  "category_count": 54,
-  "conflict_count": 0,
+  "category_count": 55,
+  "conflict_count": 6,
   "cross_action_conflict_count": 0,
   "high_severity_conflict_count": 0,
   "fetch_report_path": "fetch_report.json",
@@ -11,7 +11,7 @@
     {
       "id": "reject",
       "description": "Ads, trackers, and malware",
-      "rule_count": 175202,
+      "rule_count": 331318,
       "surge_path": "surge/reject.list",
       "openclash_path": "openclash/reject.yaml",
       "surge_non_ip_path": "surge/non_ip/reject.list",
@@ -36,21 +36,28 @@
           "authority": "curated-upstream",
           "ref": "https://easylist.to/easylist/easylist.txt",
           "used_cache": true,
-          "rule_count": 58828
+          "rule_count": 59038
         },
         {
           "type": "adblock",
           "authority": "curated-upstream",
           "ref": "https://easylist.to/easylist/easyprivacy.txt",
           "used_cache": true,
-          "rule_count": 49863
+          "rule_count": 49862
         },
         {
           "type": "adblock",
           "authority": "curated-upstream",
           "ref": "https://filters.adtidy.org/dns/filter_1.txt",
           "used_cache": true,
-          "rule_count": 147884
+          "rule_count": 148106
+        },
+        {
+          "type": "adblock",
+          "authority": "curated-upstream",
+          "ref": "https://phishing.army/download/phishing_army_blocklist_extended.txt",
+          "used_cache": true,
+          "rule_count": 155901
         },
         {
           "type": "local_domain",
@@ -302,7 +309,7 @@
       "compat_list_domainset_path": "compat/List/domainset/telegram.conf",
       "recommended_action": "PROXY",
       "recommended_priority": 300,
-      "recommended_note": "Telegram 走代理",
+      "recommended_note": "Telegram 官方 CIDR + 域名集合走代理",
       "sources": [
         {
           "type": "telegram_cidr",
@@ -323,7 +330,7 @@
           "authority": "owner-controlled",
           "ref": "manual/categories/telegram.txt",
           "used_cache": false,
-          "rule_count": 4
+          "rule_count": 8
         }
       ]
     },
@@ -447,7 +454,7 @@
       "compat_list_domainset_path": "compat/List/domainset/stream.conf",
       "recommended_action": "PROXY",
       "recommended_priority": 309,
-      "recommended_note": "整合流媒体集合（跨地区统一）",
+      "recommended_note": "整合流媒体集合（含 Netflix），跨地区统一",
       "sources": [
         {
           "type": "v2fly_dlc",
@@ -601,7 +608,7 @@
           "authority": "owner-controlled",
           "ref": "manual/categories/stream.txt",
           "used_cache": false,
-          "rule_count": 4
+          "rule_count": 5
         }
       ]
     },
@@ -1130,6 +1137,38 @@
           "rule_count": 48
         },
         {
+          "type": "local_domain",
+          "authority": "owner-controlled",
+          "ref": "manual/categories/apple_proxy.txt",
+          "used_cache": false,
+          "rule_count": 3
+        }
+      ]
+    },
+    {
+      "id": "icloud_private_relay",
+      "description": "Apple iCloud Private Relay endpoints",
+      "rule_count": 3,
+      "surge_path": "surge/icloud_private_relay.list",
+      "openclash_path": "openclash/icloud_private_relay.yaml",
+      "surge_non_ip_path": "surge/non_ip/icloud_private_relay.list",
+      "surge_ip_path": "surge/ip/icloud_private_relay.list",
+      "surge_domainset_path": "surge/domainset/icloud_private_relay.conf",
+      "openclash_non_ip_path": "openclash/non_ip/icloud_private_relay.yaml",
+      "openclash_ip_path": "openclash/ip/icloud_private_relay.yaml",
+      "openclash_domainset_path": "openclash/domainset/icloud_private_relay.txt",
+      "openclash_ipcidr_path": "openclash/ipcidr/icloud_private_relay.txt",
+      "compat_clash_non_ip_path": "compat/Clash/non_ip/icloud_private_relay.txt",
+      "compat_clash_ip_path": "compat/Clash/ip/icloud_private_relay.txt",
+      "compat_clash_domainset_path": "compat/Clash/domainset/icloud_private_relay.txt",
+      "compat_list_non_ip_path": "compat/List/non_ip/icloud_private_relay.conf",
+      "compat_list_ip_path": "compat/List/ip/icloud_private_relay.conf",
+      "compat_list_domainset_path": "compat/List/domainset/icloud_private_relay.conf",
+      "recommended_action": "PROXY",
+      "recommended_priority": 321,
+      "recommended_note": "iCloud Private Relay 推荐走代理（PROXY）",
+      "sources": [
+        {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/icloudprivaterelay",
@@ -1139,9 +1178,9 @@
         {
           "type": "local_domain",
           "authority": "owner-controlled",
-          "ref": "manual/categories/apple_proxy.txt",
+          "ref": "manual/categories/icloud_private_relay.txt",
           "used_cache": false,
-          "rule_count": 3
+          "rule_count": 2
         }
       ]
     },
@@ -1304,7 +1343,7 @@
     {
       "id": "github",
       "description": "Git hosting and source platforms",
-      "rule_count": 41,
+      "rule_count": 47,
       "surge_path": "surge/github.list",
       "openclash_path": "openclash/github.yaml",
       "surge_non_ip_path": "surge/non_ip/github.list",
@@ -1322,7 +1361,7 @@
       "compat_list_domainset_path": "compat/List/domainset/github.conf",
       "recommended_action": "PROXY",
       "recommended_priority": 325,
-      "recommended_note": "GitHub/GitLab/Gitee 等代码托管平台走代理",
+      "recommended_note": "GitHub/GitLab/Gitee/Codeberg/SourceHut 等代码托管平台走代理",
       "sources": [
         {
           "type": "v2fly_dlc",
@@ -1346,11 +1385,25 @@
           "rule_count": 2
         },
         {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/codeberg",
+          "used_cache": true,
+          "rule_count": 2
+        },
+        {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/sourcehut",
+          "used_cache": true,
+          "rule_count": 2
+        },
+        {
           "type": "local_domain",
           "authority": "owner-controlled",
           "ref": "manual/categories/github.txt",
           "used_cache": false,
-          "rule_count": 6
+          "rule_count": 14
         }
       ]
     },
@@ -2065,7 +2118,7 @@
     {
       "id": "socialmedia_cn",
       "description": "Domestic social media",
-      "rule_count": 74,
+      "rule_count": 124,
       "surge_path": "surge/socialmedia_cn.list",
       "openclash_path": "openclash/socialmedia_cn.yaml",
       "surge_non_ip_path": "surge/non_ip/socialmedia_cn.list",
@@ -2107,11 +2160,18 @@
           "rule_count": 2
         },
         {
+          "type": "v2fly_dlc",
+          "authority": "community-curated",
+          "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/bilibili",
+          "used_cache": true,
+          "rule_count": 50
+        },
+        {
           "type": "local_domain",
           "authority": "owner-controlled",
           "ref": "manual/categories/socialmedia_cn.txt",
           "used_cache": false,
-          "rule_count": 4
+          "rule_count": 14
         }
       ]
     },
@@ -2691,7 +2751,7 @@
           "authority": "owner-controlled",
           "ref": "manual/categories/socialmedia_cn.txt",
           "used_cache": false,
-          "rule_count": 4
+          "rule_count": 14
         },
         {
           "type": "local_domain",

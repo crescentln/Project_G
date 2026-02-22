@@ -1,0 +1,4 @@
+# Apple iCloud Private Relay explicit supplement
+# Recommended action: PROXY
+DOMAIN-SUFFIX,mask.icloud.com
+DOMAIN-SUFFIX,mask-h2.icloud.com

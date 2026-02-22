@@ -84,12 +84,12 @@
     "telegram": {
       "action": "PROXY",
       "priority": 300,
-      "note": "Telegram 走代理"
+      "note": "Telegram 官方 CIDR + 域名集合走代理"
     },
     "stream": {
       "action": "PROXY",
       "priority": 309,
-      "note": "整合流媒体集合（跨地区统一）"
+      "note": "整合流媒体集合（含 Netflix），跨地区统一"
     },
     "stream_us": {
       "action": "PROXY",
@@ -126,6 +126,11 @@
       "priority": 321,
       "note": "Apple 国际域名走代理（中国区见 apple_cn/apple_cdn 直连）"
     },
+    "icloud_private_relay": {
+      "action": "PROXY",
+      "priority": 321,
+      "note": "iCloud Private Relay 推荐走代理（PROXY）"
+    },
     "apple_services": {
       "action": "PROXY",
       "priority": 322,
@@ -144,7 +149,7 @@
     "github": {
       "action": "PROXY",
       "priority": 325,
-      "note": "GitHub/GitLab/Gitee 等代码托管平台走代理"
+      "note": "GitHub/GitLab/Gitee/Codeberg/SourceHut 等代码托管平台走代理"
     },
     "games": {
       "action": "PROXY",

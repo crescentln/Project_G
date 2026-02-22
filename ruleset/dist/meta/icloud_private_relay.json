@@ -1,0 +1,41 @@
+{
+  "id": "icloud_private_relay",
+  "description": "Apple iCloud Private Relay endpoints",
+  "recommended_action": "PROXY",
+  "recommended_priority": 321,
+  "recommended_note": "iCloud Private Relay 推荐走代理（PROXY）",
+  "rule_count": 3,
+  "paths": {
+    "surge": "surge/icloud_private_relay.list",
+    "surge_non_ip": "surge/non_ip/icloud_private_relay.list",
+    "surge_ip": "surge/ip/icloud_private_relay.list",
+    "surge_domainset": "surge/domainset/icloud_private_relay.conf",
+    "openclash": "openclash/icloud_private_relay.yaml",
+    "openclash_non_ip": "openclash/non_ip/icloud_private_relay.yaml",
+    "openclash_ip": "openclash/ip/icloud_private_relay.yaml",
+    "openclash_domainset": "openclash/domainset/icloud_private_relay.txt",
+    "openclash_ipcidr": "openclash/ipcidr/icloud_private_relay.txt",
+    "compat_clash_non_ip": "compat/Clash/non_ip/icloud_private_relay.txt",
+    "compat_clash_ip": "compat/Clash/ip/icloud_private_relay.txt",
+    "compat_clash_domainset": "compat/Clash/domainset/icloud_private_relay.txt",
+    "compat_list_non_ip": "compat/List/non_ip/icloud_private_relay.conf",
+    "compat_list_ip": "compat/List/ip/icloud_private_relay.conf",
+    "compat_list_domainset": "compat/List/domainset/icloud_private_relay.conf"
+  },
+  "sources": [
+    {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/icloudprivaterelay",
+      "used_cache": true,
+      "rule_count": 3
+    },
+    {
+      "type": "local_domain",
+      "authority": "owner-controlled",
+      "ref": "manual/categories/icloud_private_relay.txt",
+      "used_cache": false,
+      "rule_count": 2
+    }
+  ]
+}

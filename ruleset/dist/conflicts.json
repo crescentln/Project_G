@@ -1,9 +1,136 @@
 {
-  "generated_at_utc": "2026-02-22T00:06:49.044909+00:00",
-  "conflict_count": 0,
+  "generated_at_utc": "2026-02-22T00:44:10.753611+00:00",
+  "conflict_count": 6,
   "cross_action_conflict_count": 0,
   "high_severity_conflict_count": 0,
   "medium_severity_conflict_count": 0,
-  "low_severity_conflict_count": 0,
-  "conflicts": []
+  "low_severity_conflict_count": 6,
+  "conflicts": [
+    {
+      "rule": "DOMAIN-SUFFIX,bilibiligame.cn",
+      "categories": [
+        "games_cn",
+        "socialmedia_cn"
+      ],
+      "actions": [
+        {
+          "category": "games_cn",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        },
+        {
+          "category": "socialmedia_cn",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        }
+      ],
+      "type": "same_action_overlap",
+      "severity": "low"
+    },
+    {
+      "rule": "DOMAIN-SUFFIX,bilibiligame.co",
+      "categories": [
+        "games_cn",
+        "socialmedia_cn"
+      ],
+      "actions": [
+        {
+          "category": "games_cn",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        },
+        {
+          "category": "socialmedia_cn",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        }
+      ],
+      "type": "same_action_overlap",
+      "severity": "low"
+    },
+    {
+      "rule": "DOMAIN-SUFFIX,bilibiligame.net",
+      "categories": [
+        "games_cn",
+        "socialmedia_cn"
+      ],
+      "actions": [
+        {
+          "category": "games_cn",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        },
+        {
+          "category": "socialmedia_cn",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        }
+      ],
+      "type": "same_action_overlap",
+      "severity": "low"
+    },
+    {
+      "rule": "DOMAIN-SUFFIX,biligame.co",
+      "categories": [
+        "games_cn",
+        "socialmedia_cn"
+      ],
+      "actions": [
+        {
+          "category": "games_cn",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        },
+        {
+          "category": "socialmedia_cn",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        }
+      ],
+      "type": "same_action_overlap",
+      "severity": "low"
+    },
+    {
+      "rule": "DOMAIN-SUFFIX,biligame.com",
+      "categories": [
+        "games_cn",
+        "socialmedia_cn"
+      ],
+      "actions": [
+        {
+          "category": "games_cn",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        },
+        {
+          "category": "socialmedia_cn",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        }
+      ],
+      "type": "same_action_overlap",
+      "severity": "low"
+    },
+    {
+      "rule": "DOMAIN-SUFFIX,biligame.net",
+      "categories": [
+        "games_cn",
+        "socialmedia_cn"
+      ],
+      "actions": [
+        {
+          "category": "games_cn",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        },
+        {
+          "category": "socialmedia_cn",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        }
+      ],
+      "type": "same_action_overlap",
+      "severity": "low"
+    }
+  ]
 }

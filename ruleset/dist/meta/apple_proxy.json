@@ -31,13 +31,6 @@
       "rule_count": 48
     },
     {
-      "type": "v2fly_dlc",
-      "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/icloudprivaterelay",
-      "used_cache": true,
-      "rule_count": 3
-    },
-    {
       "type": "local_domain",
       "authority": "owner-controlled",
       "ref": "manual/categories/apple_proxy.txt",

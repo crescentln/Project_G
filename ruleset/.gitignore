@@ -3,3 +3,4 @@ __pycache__/
 *.pyc
 dist/openclash/* [0-9].yaml
 dist/meta/* [0-9].json
+.dist.staging.*/

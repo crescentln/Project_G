@@ -9,7 +9,8 @@
     "apns",
     "socialmedia",
     "socialmedia_cn",
-    "anime"
+    "anime",
+    "icloud_private_relay"
   ],
   "expect_rules": {
     "github": [
@@ -41,6 +42,15 @@
       "DOMAIN-SUFFIX,mangadex.org",
       "DOMAIN-SUFFIX,pornhub.com",
       "DOMAIN-SUFFIX,91porn.com"
+    ],
+    "icloud_private_relay": [
+      "DOMAIN-SUFFIX,mask.icloud.com"
+    ],
+    "socialmedia_cn": [
+      "DOMAIN-SUFFIX,bilibili.com"
+    ],
+    "telegram": [
+      "DOMAIN-SUFFIX,telegram.org"
     ]
   }
 }

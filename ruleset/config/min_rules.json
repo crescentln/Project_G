@@ -21,7 +21,7 @@
     "apple_cn": 200,
     "microsoft_cdn": 120,
     "gfw": 80,
-    "github": 30,
+    "github": 35,
     "ai": 90,
     "vowifi": 18,
     "apns": 6,
@@ -30,7 +30,7 @@
     "apple_intelligence": 5,
     "telegram": 20,
     "lan": 20,
-    "socialmedia_cn": 70,
+    "socialmedia_cn": 80,
     "download": 10,
     "dmca": 5,
     "googlefcm": 10,
@@ -45,6 +45,7 @@
     "reject_no_drop": 3,
     "spotify": 15,
     "twitch": 20,
-    "anime": 30
+    "anime": 30,
+    "icloud_private_relay": 2
   }
 }

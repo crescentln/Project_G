@@ -42,7 +42,7 @@ Base URL:
 
 下面这些继续独立维护和独立引用：
 
-- `github` `ai` `telegram` `vowifi`
+- `github` `ai` `telegram` `vowifi` `icloud_private_relay`
 - `stream`（推荐整合）`stream_us` `stream_jp` `stream_hk` `stream_tw` `stream_global`
 - `google` `googlefcm` `microsoft`
 - `youtube` `abema` `apple_tv` `primevideo` `spotify` `twitch`

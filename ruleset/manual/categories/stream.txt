@@ -5,3 +5,4 @@ DOMAIN-SUFFIX,paramountplus.com
 DOMAIN-SUFFIX,max.com
 DOMAIN-SUFFIX,fubo.tv
 DOMAIN-SUFFIX,crunchyroll.com
+DOMAIN-SUFFIX,netflix.com

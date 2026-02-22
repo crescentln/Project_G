@@ -4,7 +4,7 @@
   "recommended_action": "DIRECT",
   "recommended_priority": 240,
   "recommended_note": "国内社交平台直连",
-  "rule_count": 74,
+  "rule_count": 124,
   "paths": {
     "surge": "surge/socialmedia_cn.list",
     "surge_non_ip": "surge/non_ip/socialmedia_cn.list",
@@ -45,11 +45,18 @@
       "rule_count": 2
     },
     {
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/bilibili",
+      "used_cache": true,
+      "rule_count": 50
+    },
+    {
       "type": "local_domain",
       "authority": "owner-controlled",
       "ref": "manual/categories/socialmedia_cn.txt",
       "used_cache": false,
-      "rule_count": 4
+      "rule_count": 14
     }
   ]
 }

@@ -22,6 +22,11 @@
           "authority": "curated-upstream"
         },
         {
+          "type": "adblock",
+          "url": "https://phishing.army/download/phishing_army_blocklist_extended.txt",
+          "authority": "curated-upstream"
+        },
+        {
           "type": "local_domain",
           "path": "manual/categories/reject.txt",
           "authority": "owner-controlled"
@@ -756,6 +761,17 @@
           "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/icloud"
         },
         {
+          "authority": "owner-controlled",
+          "path": "manual/categories/apple_proxy.txt",
+          "type": "local_domain"
+        }
+      ]
+    },
+    {
+      "description": "Apple iCloud Private Relay endpoints",
+      "id": "icloud_private_relay",
+      "sources": [
+        {
           "authority": "community-curated",
           "exclude_attrs": [
             "@ads"
@@ -765,7 +781,7 @@
         },
         {
           "authority": "owner-controlled",
-          "path": "manual/categories/apple_proxy.txt",
+          "path": "manual/categories/icloud_private_relay.txt",
           "type": "local_domain"
         }
       ]
@@ -887,6 +903,22 @@
           ],
           "type": "v2fly_dlc",
           "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/gitee"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/codeberg"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/sourcehut"
         },
         {
           "authority": "owner-controlled",
@@ -1328,6 +1360,14 @@
           ],
           "type": "v2fly_dlc",
           "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/zhihu"
+        },
+        {
+          "authority": "community-curated",
+          "exclude_attrs": [
+            "@ads"
+          ],
+          "type": "v2fly_dlc",
+          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/bilibili"
         },
         {
           "authority": "owner-controlled",
