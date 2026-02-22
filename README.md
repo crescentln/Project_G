@@ -286,19 +286,14 @@
 - 质量门允许少量抓取回退（fallback <= 30），若超阈值仍会失败并触发告警
 - 失败时自动上传诊断产物（conflicts/fetch_report/policy/changelog）
 
-### 失败邮件告警配置
+### GitHub 原生通知（推荐）
 
-当 `build-and-publish` 失败时，会触发 `notify-failure-email` job。
-需要在仓库 `Settings -> Secrets and variables -> Actions` 中设置以下 Secrets：
+本仓库改为仅使用 GitHub 原生 Actions 通知，不再使用 SMTP 发信。
 
-- `SMTP_SERVER`：SMTP 服务器地址（例如 `smtp.gmail.com`）
-- `SMTP_PORT`：SMTP 端口（常见 `465` 或 `587`）
-- `SMTP_USERNAME`：SMTP 用户名
-- `SMTP_PASSWORD`：SMTP 密码或应用专用密码
-- `ALERT_EMAIL_FROM`：发件人地址（例如 `Project_G Bot <bot@example.com>`）
-- `ALERT_EMAIL_TO`：收件人地址（可以是多个，用逗号分隔）
+在 GitHub 账户通知设置中开启 Actions 邮件通知即可：
 
-如果上述 Secrets 缺失，工作流会跳过发信并在日志中提示缺失项。
+- 路径：`Settings -> Notifications -> System -> Actions`
+- 建议：仅开启失败通知（避免成功运行邮件过多）
 
 ## 误杀处理流程
 
