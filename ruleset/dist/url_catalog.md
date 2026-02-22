@@ -1,6 +1,6 @@
 # Ruleset URL Catalog
 
-Generated at (UTC): `2026-02-22T00:44:17.281988+00:00`
+Generated at (UTC): `2026-02-22T00:48:08.668878+00:00`
 
 Raw Base: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist`
 
@@ -52,7 +52,7 @@ Raw Base: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/d
 | `ecommerce` | `PROXY` | 337 | 1094 | [openclash/ecommerce.yaml](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/ecommerce.yaml) | [surge/ecommerce.list](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/ecommerce.list) | 跨境电商走代理 |
 | `onedrive` | `PROXY` | 338 | 11 | [openclash/onedrive.yaml](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/onedrive.yaml) | [surge/onedrive.list](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/onedrive.list) | OneDrive 走代理 |
 | `forum` | `PROXY` | 339 | 97 | [openclash/forum.yaml](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/forum.yaml) | [surge/forum.list](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/forum.list) | 国际论坛走代理 |
-| `anime` | `PROXY` | 340 | 45 | [openclash/anime.yaml](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/anime.yaml) | [surge/anime.list](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/anime.list) | 海外动漫、漫画与成人站点走代理 |
+| `anime` | `PROXY` | 340 | 52 | [openclash/anime.yaml](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/anime.yaml) | [surge/anime.list](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/anime.list) | 海外动漫、漫画与成人站点走代理 |
 | `socialmedia` | `PROXY` | 340 | 631 | [openclash/socialmedia.yaml](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/socialmedia.yaml) | [surge/socialmedia.list](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/socialmedia.list) | 国际社交网络走代理 |
 | `tiktok` | `PROXY` | 341 | 35 | [openclash/tiktok.yaml](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/tiktok.yaml) | [surge/tiktok.list](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/tiktok.list) | TikTok 国际站走代理 |
 | `apns` | `PROXY` | 342 | 7 | [openclash/apns.yaml](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/apns.yaml) | [surge/apns.list](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/apns.list) | APNS 连接域名（关键端点集合，按你当前策略走代理） |

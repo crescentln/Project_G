@@ -1,6 +1,6 @@
 # Source Authority Matrix
 
-Generated at (UTC): `2026-02-22T00:44:17.282435+00:00`
+Generated at (UTC): `2026-02-22T00:48:08.669460+00:00`
 
 ## Overall
 
@@ -74,7 +74,7 @@ Generated at (UTC): `2026-02-22T00:44:17.282435+00:00`
 | `ecommerce` | `PROXY` | 1094 | 0 | 1 | 1 | 0 | `community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-ecommerce`<br>`owner-controlled` `local_domain` `manual/categories/ecommerce.txt` |
 | `onedrive` | `PROXY` | 11 | 0 | 1 | 1 | 0 | `community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/onedrive`<br>`owner-controlled` `local_domain` `manual/categories/onedrive.txt` |
 | `forum` | `PROXY` | 97 | 0 | 1 | 1 | 0 | `community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-forums`<br>`owner-controlled` `local_domain` `manual/categories/forum.txt` |
-| `anime` | `PROXY` | 45 | 0 | 0 | 1 | 0 | `owner-controlled` `local_domain` `manual/categories/anime.txt` |
+| `anime` | `PROXY` | 52 | 0 | 0 | 1 | 0 | `owner-controlled` `local_domain` `manual/categories/anime.txt` |
 | `socialmedia` | `PROXY` | 631 | 0 | 8 | 1 | 0 | `community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-social-media-!cn`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/facebook`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/instagram`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/twitter`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/discord`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/reddit`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/quora`<br>`community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/medium`<br>`owner-controlled` `local_domain` `manual/categories/socialmedia.txt` |
 | `tiktok` | `PROXY` | 35 | 0 | 1 | 1 | 0 | `community-curated` `v2fly_dlc` `https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/tiktok`<br>`owner-controlled` `local_domain` `manual/categories/tiktok.txt` |
 | `apns` | `PROXY` | 7 | 0 | 0 | 1 | 0 | `owner-controlled` `local_domain` `manual/categories/apns.txt` |

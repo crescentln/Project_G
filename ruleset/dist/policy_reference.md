@@ -50,7 +50,7 @@ This file defines the recommended action per category.
 | `ecommerce` | `PROXY` | 337 | 1094 | 跨境电商走代理 |
 | `onedrive` | `PROXY` | 338 | 11 | OneDrive 走代理 |
 | `forum` | `PROXY` | 339 | 97 | 国际论坛走代理 |
-| `anime` | `PROXY` | 340 | 45 | 海外动漫、漫画与成人站点走代理 |
+| `anime` | `PROXY` | 340 | 52 | 海外动漫、漫画与成人站点走代理 |
 | `socialmedia` | `PROXY` | 340 | 631 | 国际社交网络走代理 |
 | `tiktok` | `PROXY` | 341 | 35 | TikTok 国际站走代理 |
 | `apns` | `PROXY` | 342 | 7 | APNS 连接域名（关键端点集合，按你当前策略走代理） |
