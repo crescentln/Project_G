@@ -282,6 +282,8 @@
 - 有变化时自动创建 GitHub Release（tag 与快照标签一致）
 - Release 说明由脚本自动生成（基于 `CHANGELOG` + 冲突/抓取统计）
 - 工作流增加稳定性保护：并发互斥、构建重试（最多 3 次）和 Job 超时限制
+- 使用 Actions 缓存保留 `ruleset/.cache`，提升上游源短时波动时的成功率
+- 质量门允许少量抓取回退（fallback <= 30），若超阈值仍会失败并触发告警
 - 失败时自动上传诊断产物（conflicts/fetch_report/policy/changelog）
 
 ### 失败邮件告警配置

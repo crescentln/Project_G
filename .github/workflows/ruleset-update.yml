@@ -16,6 +16,8 @@ jobs:
   build-and-publish:
     runs-on: ubuntu-latest
     timeout-minutes: 90
+    env:
+      MAX_FETCH_FALLBACKS: "30"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -26,6 +28,15 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+
+      - name: Cache source downloads
+        uses: actions/cache@v4
+        with:
+          path: ruleset/.cache
+          key: ruleset-source-cache-${{ runner.os }}-${{ github.ref_name }}-${{ github.run_id }}
+          restore-keys: |
+            ruleset-source-cache-${{ runner.os }}-${{ github.ref_name }}-
+            ruleset-source-cache-${{ runner.os }}-
 
       - name: Snapshot previous rule counts baseline
         run: |
@@ -87,7 +98,7 @@ jobs:
               --min-abs-delta 50 \
               --min-baseline-rules 100 \
               --minimums ruleset/config/min_rules.json \
-              --max-fetch-fallbacks 0 \
+              --max-fetch-fallbacks "${MAX_FETCH_FALLBACKS}" \
               --max-cross-action-conflicts 0 \
               --max-high-severity-conflicts 0
           else
@@ -99,7 +110,7 @@ jobs:
               --min-abs-delta 50 \
               --min-baseline-rules 100 \
               --minimums ruleset/config/min_rules.json \
-              --max-fetch-fallbacks 0 \
+              --max-fetch-fallbacks "${MAX_FETCH_FALLBACKS}" \
               --max-cross-action-conflicts 0 \
               --max-high-severity-conflicts 0
           fi
@@ -129,6 +140,8 @@ jobs:
       - name: Commit dist changes
         id: commit_dist
         run: |
+          set -euo pipefail
+
           if [ -z "$(git status --porcelain ruleset/dist)" ]; then
             echo "No ruleset changes."
             echo "committed=false" >> "$GITHUB_OUTPUT"
@@ -139,16 +152,43 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add ruleset/dist
           git commit -m "chore(ruleset): auto update $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
-          git push
-          echo "committed=true" >> "$GITHUB_OUTPUT"
+
+          for attempt in 1 2 3; do
+            echo "Push attempt ${attempt}/3"
+            if git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}"; then
+              echo "committed=true" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            if [ "${attempt}" -eq 3 ]; then
+              echo "Push failed after 3 attempts."
+              exit 1
+            fi
+            sleep 10
+          done
 
       - name: Tag snapshot for rollback
         id: tag_snapshot
         if: steps.commit_dist.outputs.committed == 'true'
         run: |
+          set -euo pipefail
+
           TAG="ruleset-$(date -u +'%Y%m%dT%H%M%SZ')"
+          if git ls-remote --exit-code --tags origin "refs/tags/${TAG}" >/dev/null 2>&1; then
+            TAG="${TAG}-${GITHUB_RUN_ID}"
+          fi
+
           git tag -a "$TAG" -m "ruleset snapshot $TAG"
-          git push origin "$TAG"
+          for attempt in 1 2 3; do
+            if git push origin "$TAG"; then
+              break
+            fi
+            if [ "${attempt}" -eq 3 ]; then
+              echo "Tag push failed after 3 attempts."
+              exit 1
+            fi
+            sleep 10
+          done
+
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
 
       - name: Generate release notes
@@ -168,19 +208,34 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          set -euo pipefail
           TAG="${{ steps.tag_snapshot.outputs.tag }}"
           TITLE="Ruleset Snapshot ${TAG}"
-          if gh release view "$TAG" --repo "${{ github.repository }}" >/dev/null 2>&1; then
-            gh release edit "$TAG" \
-              --repo "${{ github.repository }}" \
-              --title "$TITLE" \
-              --notes-file /tmp/ruleset-release-notes.md
-          else
-            gh release create "$TAG" \
-              --repo "${{ github.repository }}" \
-              --title "$TITLE" \
-              --notes-file /tmp/ruleset-release-notes.md
-          fi
+
+          for attempt in 1 2 3; do
+            echo "Release publish attempt ${attempt}/3"
+            if gh release view "$TAG" --repo "${{ github.repository }}" >/dev/null 2>&1; then
+              if gh release edit "$TAG" \
+                --repo "${{ github.repository }}" \
+                --title "$TITLE" \
+                --notes-file /tmp/ruleset-release-notes.md; then
+                exit 0
+              fi
+            else
+              if gh release create "$TAG" \
+                --repo "${{ github.repository }}" \
+                --title "$TITLE" \
+                --notes-file /tmp/ruleset-release-notes.md; then
+                exit 0
+              fi
+            fi
+
+            if [ "${attempt}" -eq 3 ]; then
+              echo "Release publish failed after 3 attempts."
+              exit 1
+            fi
+            sleep 10
+          done
 
       - name: Upload diagnostics on failure
         if: failure()
@@ -199,6 +254,7 @@ jobs:
     needs:
       - build-and-publish
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - name: Check mail configuration
         id: mail_config
