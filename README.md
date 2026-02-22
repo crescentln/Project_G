@@ -281,6 +281,22 @@
 - 同时打回滚标签：`ruleset-YYYYMMDDTHHMMSSZ`
 - 有变化时自动创建 GitHub Release（tag 与快照标签一致）
 - Release 说明由脚本自动生成（基于 `CHANGELOG` + 冲突/抓取统计）
+- 工作流增加稳定性保护：并发互斥、构建重试（最多 3 次）和 Job 超时限制
+- 失败时自动上传诊断产物（conflicts/fetch_report/policy/changelog）
+
+### 失败邮件告警配置
+
+当 `build-and-publish` 失败时，会触发 `notify-failure-email` job。
+需要在仓库 `Settings -> Secrets and variables -> Actions` 中设置以下 Secrets：
+
+- `SMTP_SERVER`：SMTP 服务器地址（例如 `smtp.gmail.com`）
+- `SMTP_PORT`：SMTP 端口（常见 `465` 或 `587`）
+- `SMTP_USERNAME`：SMTP 用户名
+- `SMTP_PASSWORD`：SMTP 密码或应用专用密码
+- `ALERT_EMAIL_FROM`：发件人地址（例如 `Project_G Bot <bot@example.com>`）
+- `ALERT_EMAIL_TO`：收件人地址（可以是多个，用逗号分隔）
+
+如果上述 Secrets 缺失，工作流会跳过发信并在日志中提示缺失项。
 
 ## 误杀处理流程
 

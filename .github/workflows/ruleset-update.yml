@@ -8,12 +8,19 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: ruleset-auto-update-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
+    timeout-minutes: 90
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -27,7 +34,21 @@ jobs:
           fi
 
       - name: Build rulesets
-        run: python3 ruleset/scripts/build_rulesets.py --fail-on-cross-action-conflicts
+        timeout-minutes: 45
+        run: |
+          set -euo pipefail
+          for attempt in 1 2 3; do
+            echo "Build attempt ${attempt}/3"
+            if python3 ruleset/scripts/build_rulesets.py --fail-on-cross-action-conflicts; then
+              exit 0
+            fi
+            if [ "${attempt}" -eq 3 ]; then
+              echo "Build failed after 3 attempts."
+              exit 1
+            fi
+            echo "Retrying in 20 seconds..."
+            sleep 20
+          done
 
       - name: Generate recommended templates
         run: |
@@ -160,3 +181,74 @@ jobs:
               --title "$TITLE" \
               --notes-file /tmp/ruleset-release-notes.md
           fi
+
+      - name: Upload diagnostics on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ruleset-debug-${{ github.run_id }}
+          if-no-files-found: ignore
+          path: |
+            ruleset/dist/conflicts.json
+            ruleset/dist/fetch_report.json
+            ruleset/dist/policy_reference.json
+            ruleset/dist/CHANGELOG.md
+
+  notify-failure-email:
+    if: ${{ always() && needs.build-and-publish.result == 'failure' }}
+    needs:
+      - build-and-publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check mail configuration
+        id: mail_config
+        env:
+          SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          ALERT_EMAIL_FROM: ${{ secrets.ALERT_EMAIL_FROM }}
+          ALERT_EMAIL_TO: ${{ secrets.ALERT_EMAIL_TO }}
+        run: |
+          set -euo pipefail
+          missing=""
+          for key in SMTP_SERVER SMTP_PORT SMTP_USERNAME SMTP_PASSWORD ALERT_EMAIL_FROM ALERT_EMAIL_TO; do
+            if [ -z "${!key}" ]; then
+              missing="${missing}${key} "
+            fi
+          done
+
+          if [ -n "${missing}" ]; then
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "missing_keys=${missing}" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+            echo "missing_keys=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Send failure email
+        if: steps.mail_config.outputs.ready == 'true'
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ secrets.SMTP_SERVER }}
+          server_port: ${{ secrets.SMTP_PORT }}
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+          subject: "[Project_G] Ruleset Auto Update failed (#${{ github.run_number }})"
+          to: ${{ secrets.ALERT_EMAIL_TO }}
+          from: ${{ secrets.ALERT_EMAIL_FROM }}
+          body: |
+            Repository: ${{ github.repository }}
+            Workflow: ${{ github.workflow }}
+            Branch: ${{ github.ref_name }}
+            Trigger: ${{ github.event_name }}
+            Run Number: ${{ github.run_number }}
+            Run URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+            Please review workflow logs and the uploaded diagnostics artifact.
+          content_type: text/plain
+
+      - name: Mail notification is not configured
+        if: steps.mail_config.outputs.ready != 'true'
+        run: |
+          echo "Failure email skipped. Missing secrets: ${{ steps.mail_config.outputs.missing_keys }}"
