@@ -56,6 +56,9 @@
 - `socialmedia`（国外社交媒体）
   - OpenClash: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/socialmedia.yaml`
   - Surge: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/socialmedia.list`
+- `anime`（海外动漫/漫画/成人站）
+  - OpenClash: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/anime.yaml`
+  - Surge: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/anime.list`
 - `ecommerce`（国外购物）
   - OpenClash: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/ecommerce.yaml`
   - Surge: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/ecommerce.list`
@@ -104,6 +107,7 @@
 - `stream_us`: v2fly `netflix`、`hulu`、`disney` + `hbo`、`discoveryplus`、`plutotv`、`roku`、`tubi`、`sling`、`showtimeanytime`、`nbcuniversal`（可选细分）
 - `stream_global`: v2fly `netflix`、`hulu`、`disney`、`abema`、`apple-tvplus`、`primevideo`
 - `socialmedia`: v2fly `category-social-media-!cn` + `facebook`、`instagram`、`twitter`、`discord`、`reddit`、`quora`、`medium`
+- `anime`: 仓库可控集合（海外动漫/漫画/成人站点，含 `pornhub`、`91porn` 等）
 - `socialmedia_cn`: v2fly `category-social-media-cn` + `sina` + `zhihu` + 本地可控补充
 - `ecommerce`: v2fly `category-ecommerce`
 - `spotify` / `youtube` / `twitch`: v2fly 对应官方维护集合
@@ -209,6 +213,7 @@
 | `ecommerce` | 代理 (PROXY) | [`openclash/ecommerce.yaml`](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/ecommerce.yaml) | [`surge/ecommerce.list`](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/ecommerce.list) |
 | `onedrive` | 代理 (PROXY) | [`openclash/onedrive.yaml`](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/onedrive.yaml) | [`surge/onedrive.list`](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/onedrive.list) |
 | `forum` | 代理 (PROXY) | [`openclash/forum.yaml`](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/forum.yaml) | [`surge/forum.list`](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/forum.list) |
+| `anime` | 代理 (PROXY) | [`openclash/anime.yaml`](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/anime.yaml) | [`surge/anime.list`](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/anime.list) |
 | `socialmedia` | 代理 (PROXY) | [`openclash/socialmedia.yaml`](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/socialmedia.yaml) | [`surge/socialmedia.list`](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/socialmedia.list) |
 | `tiktok` | 代理 (PROXY) | [`openclash/tiktok.yaml`](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/tiktok.yaml) | [`surge/tiktok.list`](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/tiktok.list) |
 | `apns` | 代理 (PROXY) | [`openclash/apns.yaml`](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/apns.yaml) | [`surge/apns.list`](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/apns.list) |
@@ -217,7 +222,6 @@
 | `tld_proxy` | 代理 (PROXY) | [`openclash/tld_proxy.yaml`](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/tld_proxy.yaml) | [`surge/tld_proxy.list`](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/tld_proxy.list) |
 | `gfw` | 代理 (PROXY) | [`openclash/gfw.yaml`](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/gfw.yaml) | [`surge/gfw.list`](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/gfw.list) |
 | `global` | 代理 (PROXY) | [`openclash/global.yaml`](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/global.yaml) | [`surge/global.list`](https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/global.list) |
-
 ## 两个合并规则的来源
 
 ### `reject`（REJECT）

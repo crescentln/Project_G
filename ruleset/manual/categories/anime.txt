@@ -1,0 +1,57 @@
+# Anime / Manga / Adult (overseas) proxy set
+# Scope:
+# - Anime and manga community/content sites
+# - Adult manga/anime communities
+# - Mainstream adult video sites
+# Recommended action: PROXY
+
+# Anime / manga
+DOMAIN-SUFFIX,crunchyroll.com
+DOMAIN-SUFFIX,funimation.com
+DOMAIN-SUFFIX,hidive.com
+DOMAIN-SUFFIX,myanimelist.net
+DOMAIN-SUFFIX,anilist.co
+DOMAIN-SUFFIX,anime-planet.com
+DOMAIN-SUFFIX,mangadex.org
+DOMAIN-SUFFIX,mangaplus.shueisha.co.jp
+DOMAIN-SUFFIX,viz.com
+DOMAIN-SUFFIX,webtoons.com
+DOMAIN-SUFFIX,tapas.io
+DOMAIN-SUFFIX,bato.to
+DOMAIN-SUFFIX,fanfox.net
+DOMAIN-SUFFIX,nyaa.si
+DOMAIN,sukebei.nyaa.si
+
+# Adult manga / anime
+DOMAIN-SUFFIX,nhentai.net
+DOMAIN-SUFFIX,e-hentai.org
+DOMAIN-SUFFIX,exhentai.org
+DOMAIN-SUFFIX,hitomi.la
+DOMAIN-SUFFIX,hanime.tv
+DOMAIN-SUFFIX,hentaihaven.xxx
+DOMAIN-SUFFIX,fakku.net
+DOMAIN-SUFFIX,iwara.tv
+DOMAIN-SUFFIX,rule34.xxx
+DOMAIN-SUFFIX,gelbooru.com
+DOMAIN-SUFFIX,sankakucomplex.com
+
+# Adult video / tube
+DOMAIN-SUFFIX,pornhub.com
+DOMAIN-SUFFIX,phncdn.com
+DOMAIN-SUFFIX,pornhubpremium.com
+DOMAIN-SUFFIX,91porn.com
+DOMAIN-SUFFIX,xvideos.com
+DOMAIN-SUFFIX,xnxx.com
+DOMAIN-SUFFIX,xhamster.com
+DOMAIN-SUFFIX,redtube.com
+DOMAIN-SUFFIX,youporn.com
+DOMAIN-SUFFIX,tube8.com
+DOMAIN-SUFFIX,spankbang.com
+DOMAIN-SUFFIX,beeg.com
+DOMAIN-SUFFIX,jable.tv
+DOMAIN-SUFFIX,missav.com
+DOMAIN-SUFFIX,avgle.com
+DOMAIN-SUFFIX,tokyomotion.net
+DOMAIN-SUFFIX,thisav.com
+DOMAIN-SUFFIX,onlyfans.com
+DOMAIN-SUFFIX,fansly.com

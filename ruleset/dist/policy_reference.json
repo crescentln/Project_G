@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-02-21T23:47:08.371503+00:00",
+  "generated_at_utc": "2026-02-22T00:06:49.048019+00:00",
   "policy_path": "config/policy_map.json",
   "categories": [
     {
@@ -302,6 +302,13 @@
       "recommended_priority": 340,
       "recommended_note": "国际社交网络走代理",
       "rule_count": 631
+    },
+    {
+      "id": "anime",
+      "recommended_action": "PROXY",
+      "recommended_priority": 340,
+      "recommended_note": "海外动漫、漫画与成人站点走代理",
+      "rule_count": 45
     },
     {
       "id": "tiktok",

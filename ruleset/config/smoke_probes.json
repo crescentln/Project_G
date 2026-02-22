@@ -8,7 +8,8 @@
     "vowifi",
     "apns",
     "socialmedia",
-    "socialmedia_cn"
+    "socialmedia_cn",
+    "anime"
   ],
   "expect_rules": {
     "github": [
@@ -35,6 +36,11 @@
     ],
     "talkatone": [
       "DOMAIN-SUFFIX,talkatone.com"
+    ],
+    "anime": [
+      "DOMAIN-SUFFIX,mangadex.org",
+      "DOMAIN-SUFFIX,pornhub.com",
+      "DOMAIN-SUFFIX,91porn.com"
     ]
   }
 }

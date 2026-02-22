@@ -273,6 +273,12 @@ rule-providers:
     path: ./rule_provider/socialmedia.yaml
     url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/socialmedia.yaml
     interval: 86400
+  anime:
+    type: http
+    behavior: classical
+    path: ./rule_provider/anime.yaml
+    url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/anime.yaml
+    interval: 86400
   tiktok:
     type: http
     behavior: classical
@@ -362,6 +368,7 @@ rules:
   - RULE-SET,onedrive,PROXY
   - RULE-SET,forum,PROXY
   - RULE-SET,socialmedia,PROXY
+  - RULE-SET,anime,PROXY
   - RULE-SET,tiktok,PROXY
   - RULE-SET,apns,PROXY
   - RULE-SET,talkatone,PROXY

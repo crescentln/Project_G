@@ -221,6 +221,11 @@
       "priority": 340,
       "note": "国际社交网络走代理"
     },
+    "anime": {
+      "action": "PROXY",
+      "priority": 340,
+      "note": "海外动漫、漫画与成人站点走代理"
+    },
     "tiktok": {
       "action": "PROXY",
       "priority": 341,

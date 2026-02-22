@@ -1412,6 +1412,17 @@
       ]
     },
     {
+      "description": "Anime, manga, and adult sites (overseas)",
+      "id": "anime",
+      "sources": [
+        {
+          "authority": "owner-controlled",
+          "path": "manual/categories/anime.txt",
+          "type": "local_domain"
+        }
+      ]
+    },
+    {
       "description": "TikTok",
       "id": "tiktok",
       "sources": [

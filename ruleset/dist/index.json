@@ -1,8 +1,8 @@
 {
-  "generated_at_utc": "2026-02-21T23:47:08.370989+00:00",
+  "generated_at_utc": "2026-02-22T00:06:49.046306+00:00",
   "config_path": "config/sources.json",
   "policy_path": "config/policy_map.json",
-  "category_count": 53,
+  "category_count": 54,
   "conflict_count": 0,
   "cross_action_conflict_count": 0,
   "high_severity_conflict_count": 0,
@@ -2200,6 +2200,38 @@
           "ref": "manual/categories/socialmedia.txt",
           "used_cache": false,
           "rule_count": 8
+        }
+      ]
+    },
+    {
+      "id": "anime",
+      "description": "Anime, manga, and adult sites (overseas)",
+      "rule_count": 45,
+      "surge_path": "surge/anime.list",
+      "openclash_path": "openclash/anime.yaml",
+      "surge_non_ip_path": "surge/non_ip/anime.list",
+      "surge_ip_path": "surge/ip/anime.list",
+      "surge_domainset_path": "surge/domainset/anime.conf",
+      "openclash_non_ip_path": "openclash/non_ip/anime.yaml",
+      "openclash_ip_path": "openclash/ip/anime.yaml",
+      "openclash_domainset_path": "openclash/domainset/anime.txt",
+      "openclash_ipcidr_path": "openclash/ipcidr/anime.txt",
+      "compat_clash_non_ip_path": "compat/Clash/non_ip/anime.txt",
+      "compat_clash_ip_path": "compat/Clash/ip/anime.txt",
+      "compat_clash_domainset_path": "compat/Clash/domainset/anime.txt",
+      "compat_list_non_ip_path": "compat/List/non_ip/anime.conf",
+      "compat_list_ip_path": "compat/List/ip/anime.conf",
+      "compat_list_domainset_path": "compat/List/domainset/anime.conf",
+      "recommended_action": "PROXY",
+      "recommended_priority": 340,
+      "recommended_note": "海外动漫、漫画与成人站点走代理",
+      "sources": [
+        {
+          "type": "local_domain",
+          "authority": "owner-controlled",
+          "ref": "manual/categories/anime.txt",
+          "used_cache": false,
+          "rule_count": 45
         }
       ]
     },

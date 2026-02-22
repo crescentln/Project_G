@@ -46,7 +46,7 @@ Base URL:
 - `stream`（推荐整合）`stream_us` `stream_jp` `stream_hk` `stream_tw` `stream_global`
 - `google` `googlefcm` `microsoft`
 - `youtube` `abema` `apple_tv` `primevideo` `spotify` `twitch`
-- `paypal` `crypto` `ecommerce` `onedrive` `forum` `socialmedia` `tiktok`
+- `paypal` `crypto` `ecommerce` `onedrive` `forum` `socialmedia` `anime` `tiktok`
 - `gfw` `global` `tld_proxy`
 
 ## 高覆盖补充（可选）

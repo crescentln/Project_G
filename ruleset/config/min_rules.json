@@ -44,6 +44,7 @@
     "reject_drop": 3,
     "reject_no_drop": 3,
     "spotify": 15,
-    "twitch": 20
+    "twitch": 20,
+    "anime": 30
   }
 }
