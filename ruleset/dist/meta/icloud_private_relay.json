@@ -4,7 +4,7 @@
   "recommended_action": "PROXY",
   "recommended_priority": 321,
   "recommended_note": "iCloud Private Relay 推荐走代理（PROXY）",
-  "rule_count": 3,
+  "rule_count": 13363,
   "paths": {
     "surge": "surge/icloud_private_relay.list",
     "surge_non_ip": "surge/non_ip/icloud_private_relay.list",
@@ -24,10 +24,17 @@
   },
   "sources": [
     {
+      "type": "csv_cidr_first_column",
+      "authority": "official",
+      "ref": "https://mask-api.icloud.com/egress-ip-ranges.csv",
+      "used_cache": true,
+      "rule_count": 13358
+    },
+    {
       "type": "v2fly_dlc",
       "authority": "community-curated",
       "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/icloudprivaterelay",
-      "used_cache": false,
+      "used_cache": true,
       "rule_count": 3
     },
     {
@@ -35,7 +42,7 @@
       "authority": "owner-controlled",
       "ref": "manual/categories/icloud_private_relay.txt",
       "used_cache": false,
-      "rule_count": 2
+      "rule_count": 4
     }
   ]
 }

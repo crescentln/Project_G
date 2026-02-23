@@ -316,6 +316,52 @@ def parse_plain_cidr_text(text: str) -> set[str]:
     return rules
 
 
+def collapse_ip_networks(networks: list[ipaddress.IPv4Network | ipaddress.IPv6Network]) -> set[str]:
+    rules: set[str] = set()
+    ipv4: list[ipaddress.IPv4Network] = []
+    ipv6: list[ipaddress.IPv6Network] = []
+
+    for network in networks:
+        if isinstance(network, ipaddress.IPv4Network):
+            ipv4.append(network)
+        else:
+            ipv6.append(network)
+
+    for network in ipaddress.collapse_addresses(ipv4):
+        rules.add(format_ip_rule(network))
+    for network in ipaddress.collapse_addresses(ipv6):
+        rules.add(format_ip_rule(network))
+    return rules
+
+
+def parse_cidr_csv_first_column(text: str) -> set[str]:
+    rules: set[str] = set()
+    networks: list[ipaddress.IPv4Network | ipaddress.IPv6Network] = []
+    for raw in text.splitlines():
+        line = raw.strip()
+        if not line:
+            continue
+
+        token = line.split(",", 1)[0].strip()
+        if not token:
+            continue
+
+        explicit = parse_explicit_rule(token)
+        if explicit and explicit.startswith(("IP-CIDR,", "IP-CIDR6,")):
+            rules.add(explicit)
+            continue
+
+        try:
+            network = ipaddress.ip_network(token, strict=False)
+        except ValueError:
+            continue
+        if isinstance(network, (ipaddress.IPv4Network, ipaddress.IPv6Network)):
+            networks.append(network)
+
+    rules.update(collapse_ip_networks(networks))
+    return rules
+
+
 def parse_adblock_text(text: str) -> set[str]:
     rules: set[str] = set()
     for raw in text.splitlines():
@@ -673,6 +719,59 @@ def fetch_bytes(url: str, cache_dir: pathlib.Path, offline: bool = False) -> tup
         raise BuildError(f"fetch failed for {url}: {exc}") from exc
 
 
+def collect_source_urls(source: dict[str, Any]) -> list[str]:
+    urls: list[str] = []
+
+    primary_url = str(source.get("url", "")).strip()
+    if primary_url:
+        urls.append(primary_url)
+
+    raw_urls = source.get("urls")
+    if raw_urls is not None:
+        if not isinstance(raw_urls, list):
+            raise BuildError("source field 'urls' must be an array")
+        for item in raw_urls:
+            candidate = str(item).strip()
+            if candidate:
+                urls.append(candidate)
+
+    fallback_urls = source.get("fallback_urls")
+    if fallback_urls is not None:
+        if not isinstance(fallback_urls, list):
+            raise BuildError("source field 'fallback_urls' must be an array")
+        for item in fallback_urls:
+            candidate = str(item).strip()
+            if candidate:
+                urls.append(candidate)
+
+    deduped: list[str] = []
+    seen: set[str] = set()
+    for candidate in urls:
+        if candidate in seen:
+            continue
+        seen.add(candidate)
+        deduped.append(candidate)
+    return deduped
+
+
+def fetch_source_bytes(source: dict[str, Any], cache_dir: pathlib.Path, offline: bool) -> tuple[bytes, bool, str]:
+    candidates = collect_source_urls(source)
+    if not candidates:
+        raise BuildError("source requires at least one URL (url / urls / fallback_urls)")
+
+    errors: list[str] = []
+    for idx, candidate in enumerate(candidates):
+        try:
+            data, used_cache = fetch_bytes(candidate, cache_dir, offline=offline)
+            if idx > 0:
+                log(f"using fallback source URL: {candidate}")
+            return data, used_cache, candidate
+        except BuildError as exc:
+            errors.append(f"{candidate}: {exc}")
+
+    raise BuildError("all source URLs failed; " + " | ".join(errors))
+
+
 def decode_text(data: bytes) -> str:
     return data.decode("utf-8-sig", errors="ignore")
 
@@ -695,34 +794,32 @@ def load_source(
         text = path.read_text(encoding="utf-8")
         return SourceBuildResult(parse_local_domain_text(text), False, source_path.as_posix())
 
-    url = str(source.get("url", "")).strip()
-    if not url:
-        raise BuildError(f"source type {source_type} requires 'url'")
-
-    data, used_cache = fetch_bytes(url, cache_dir, offline=offline)
+    data, used_cache, source_ref = fetch_source_bytes(source, cache_dir, offline)
     text = decode_text(data)
 
     if source_type == "adblock":
-        return SourceBuildResult(parse_adblock_text(text), used_cache, url)
+        return SourceBuildResult(parse_adblock_text(text), used_cache, source_ref)
     if source_type == "plain_cidr":
-        return SourceBuildResult(parse_plain_cidr_text(text), used_cache, url)
+        return SourceBuildResult(parse_plain_cidr_text(text), used_cache, source_ref)
+    if source_type == "csv_cidr_first_column":
+        return SourceBuildResult(parse_cidr_csv_first_column(text), used_cache, source_ref)
     if source_type == "telegram_cidr":
-        return SourceBuildResult(parse_telegram_cidr_text(text), used_cache, url)
+        return SourceBuildResult(parse_telegram_cidr_text(text), used_cache, source_ref)
     if source_type == "apnic_country_cidr":
         country = str(source.get("country", "")).strip()
         if not country:
             raise BuildError(f"source type {source_type} requires 'country'")
-        return SourceBuildResult(parse_apnic_country_cidr(text, country), used_cache, url)
+        return SourceBuildResult(parse_apnic_country_cidr(text, country), used_cache, source_ref)
     if source_type == "iana_special_csv":
-        return SourceBuildResult(parse_iana_special_csv(text), used_cache, url)
+        return SourceBuildResult(parse_iana_special_csv(text), used_cache, source_ref)
     if source_type == "aws_ip_ranges":
         services = [str(item) for item in source.get("services", [])]
-        return SourceBuildResult(parse_aws_ip_ranges(data, services), used_cache, url)
+        return SourceBuildResult(parse_aws_ip_ranges(data, services), used_cache, source_ref)
     if source_type == "gcp_ip_ranges":
-        return SourceBuildResult(parse_gcp_ip_ranges(data), used_cache, url)
+        return SourceBuildResult(parse_gcp_ip_ranges(data), used_cache, source_ref)
     if source_type == "iana_tld_list":
         exclude_tlds = {str(item).strip().lower() for item in source.get("exclude_tlds", []) if str(item).strip()}
-        return SourceBuildResult(parse_iana_tld_list_text(text, exclude_tlds), used_cache, url)
+        return SourceBuildResult(parse_iana_tld_list_text(text, exclude_tlds), used_cache, source_ref)
     if source_type == "v2fly_dlc":
         include_attrs = {str(item).strip() for item in source.get("include_attrs", []) if str(item).strip()}
         exclude_attrs = {str(item).strip() for item in source.get("exclude_attrs", []) if str(item).strip()}
@@ -730,14 +827,14 @@ def load_source(
             str(item).strip() for item in source.get("exclude_includes", []) if str(item).strip()
         }
         rules, used_cache_only = parse_v2fly_dlc_source(
-            url,
+            source_ref,
             cache_dir=cache_dir,
             offline=offline,
             include_attrs=include_attrs,
             exclude_attrs=exclude_attrs,
             exclude_includes=exclude_includes,
         )
-        return SourceBuildResult(rules, used_cache_only, url)
+        return SourceBuildResult(rules, used_cache_only, source_ref)
 
     raise BuildError(f"unsupported source type: {source_type}")
 

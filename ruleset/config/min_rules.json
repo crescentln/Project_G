@@ -2,7 +2,7 @@
   "minimum_rule_counts": {
     "reject": 150000,
     "direct": 15000,
-    "domestic": 10000,
+    "domestic": 5000,
     "cncidr": 10000,
     "global": 20000,
     "cdn": 1000,
@@ -47,5 +47,28 @@
     "twitch": 20,
     "anime": 30,
     "icloud_private_relay": 2
+  },
+  "warning_rule_counts": {
+    "reject": 250000,
+    "direct": 17000,
+    "domestic": 6000,
+    "cncidr": 10500,
+    "global": 22000,
+    "cdn": 1200,
+    "tld_proxy": 1200,
+    "apple_services": 1300,
+    "stream": 400,
+    "stream_us": 300,
+    "stream_global": 240,
+    "socialmedia": 600,
+    "games": 700,
+    "google": 680,
+    "microsoft": 380,
+    "github": 40,
+    "ai": 100,
+    "vowifi": 22,
+    "socialmedia_cn": 100,
+    "download": 10,
+    "telegram": 28
   }
 }

@@ -29,12 +29,12 @@
     "domestic": {
       "action": "DIRECT",
       "priority": 210,
-      "note": "中国大陆业务优先直连"
+      "note": "中国大陆域名集合直连（domain-focused）"
     },
     "cncidr": {
       "action": "DIRECT",
       "priority": 220,
-      "note": "中国大陆 IP 段直连"
+      "note": "中国大陆 IP 段直连（IP-focused）"
     },
     "apple_cn": {
       "action": "DIRECT",
@@ -274,7 +274,7 @@
     "direct": {
       "action": "DIRECT",
       "priority": 205,
-      "note": "合并直连集合（简化部署）"
+      "note": "合并直连集合（含国内域名 + CN CIDR，简化部署）"
     }
   }
 }

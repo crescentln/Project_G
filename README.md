@@ -101,7 +101,7 @@
 
 ## 主要分类的数据来源（权威/主流）
 
-- `github`: v2fly `github` + `gitlab` + `gitee` + `codeberg` + `sourcehut`，外加本地可控补充
+- `github`: v2fly `github` + `gitlab` + `gitee` + `codeberg` + `sourcehut`，外加本地可控补充（`gitee` 与 `domestic` 有重叠，按直连优先）
 - `ai`: v2fly `category-ai-!cn` + `openai`、`anthropic`、`perplexity`、`google-gemini`、`github-copilot`
 - `stream`（整合流媒体）: v2fly `netflix`、`hulu`、`disney`、`hbo`、`discoveryplus`、`plutotv`、`roku`、`tubi`、`sling`、`showtimeanytime`、`nbcuniversal`、`abema`、`apple-tvplus`、`primevideo`、`mytvsuper`、`viu`、`now`、`bahamut`、`hamivideo`、`catchplay`、`litv`（已包含 Netflix）
 - `stream_us`: v2fly `netflix`、`hulu`、`disney` + `hbo`、`discoveryplus`、`plutotv`、`roku`、`tubi`、`sling`、`showtimeanytime`、`nbcuniversal`（可选细分）
@@ -112,7 +112,7 @@
 - `ecommerce`: v2fly `category-ecommerce`
 - `spotify` / `youtube` / `twitch`: v2fly 对应官方维护集合
 - `apple_proxy`: v2fly `icloud`（排除 `@cn`）+ 本地可控补充
-- `icloud_private_relay`: v2fly `icloudprivaterelay` + 本地可控补充，建议 `PROXY`
+- `icloud_private_relay`: Apple 官方 `mask-api.icloud.com` egress CIDR + v2fly `icloudprivaterelay` + 本地可控补充，建议 `PROXY`
 - `download`: v2fly `category-android-app-download` + 本地可控补充（非游戏平台）
 - `games`: v2fly `category-games-!cn` + `steam`、`epicgames`、`blizzard`、`origin`、`nintendo`、`xbox`、`playstation`、`ubisoft` + 本地可控补充
 - `vowifi`: 3GPP `pub.3gppnetwork.org` 命名体系 + 美国运营商优先（MCC 310~316）+ 仓库可控的 ePDG/IMS 增补
@@ -249,9 +249,9 @@
 ### `direct`（DIRECT）
 
 - IANA IPv4/IPv6 Special Registry
-- APNIC CN CIDR
+- APNIC CN CIDR（`cncidr`，IP-focused）
+- v2fly `geolocation-cn`（`domestic`，domain-focused）
 - Cloudflare / AWS / GCP 官方 IP 段
-- v2fly `geolocation-cn`
 - 本地可控补充（`ruleset/manual/categories/direct.txt` 及直连相关手工集合）
 
 ## 权威来源（大源）

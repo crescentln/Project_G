@@ -1,4 +1,5 @@
 # OpenClash direct-usable snippet
+# Mode: simplified (DIRECT uses only merged `direct` to avoid duplicate direct matches).
 # 1) Merge this into your config.yaml
 # 2) If your proxy group name is not PROXY, replace all trailing ',PROXY' in rules
 
@@ -334,19 +335,7 @@ rules:
   - RULE-SET,reject_drop,REJECT-DROP
   - RULE-SET,reject_no_drop,REJECT-NO-DROP
   - RULE-SET,httpdns,REJECT
-  - RULE-SET,lan,DIRECT
   - RULE-SET,direct,DIRECT
-  - RULE-SET,domestic,DIRECT
-  - RULE-SET,cncidr,DIRECT
-  - RULE-SET,apple_cn,DIRECT
-  - RULE-SET,apple_cdn,DIRECT
-  - RULE-SET,microsoft_cdn,DIRECT
-  - RULE-SET,socialmedia_cn,DIRECT
-  - RULE-SET,games_cn,DIRECT
-  - RULE-SET,douyin,DIRECT
-  - RULE-SET,dmca,DIRECT
-  - RULE-SET,cdn,DIRECT
-  - RULE-SET,download,DIRECT
   - RULE-SET,telegram,PROXY
   - RULE-SET,stream_us,PROXY
   - RULE-SET,stream_jp,PROXY

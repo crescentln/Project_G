@@ -4,15 +4,15 @@ This file defines the recommended action per category.
 
 | Category | Action | Priority | Rules | Note |
 |---|---:|---:|---:|---|
-| `reject` | `REJECT` | 100 | 331058 | 广告、追踪、恶意基础拦截规则 |
+| `reject` | `REJECT` | 100 | 331659 | 广告、追踪、恶意基础拦截规则 |
 | `reject_extra` | `REJECT` | 110 | 10 | 额外补充拦截规则（标准拒绝） |
 | `reject_drop` | `REJECT-DROP` | 120 | 5 | 静默丢弃拦截规则 |
 | `reject_no_drop` | `REJECT-NO-DROP` | 130 | 6 | 显式拒绝规则（不静默丢弃） |
 | `httpdns` | `REJECT` | 150 | 49 | HTTPDNS 常用于绕过本地 DNS 分流，默认建议拦截 |
 | `lan` | `DIRECT` | 200 | 33 | 局域网与特殊保留地址直连 |
-| `direct` | `DIRECT` | 205 | 18888 | 合并直连集合（简化部署） |
-| `domestic` | `DIRECT` | 210 | 10828 | 中国大陆业务优先直连 |
-| `cncidr` | `DIRECT` | 220 | 10828 | 中国大陆 IP 段直连 |
+| `direct` | `DIRECT` | 205 | 18890 | 合并直连集合（含国内域名 + CN CIDR，简化部署） |
+| `domestic` | `DIRECT` | 210 | 6727 | 中国大陆域名集合直连（domain-focused） |
+| `cncidr` | `DIRECT` | 220 | 10828 | 中国大陆 IP 段直连（IP-focused） |
 | `apple_cn` | `DIRECT` | 230 | 285 | Apple 中国区服务直连 |
 | `apple_cdn` | `DIRECT` | 231 | 31 | Apple 更新与 CDN 域名直连 |
 | `microsoft_cdn` | `DIRECT` | 232 | 171 | 微软中国区与更新/CDN 域名直连 |
@@ -21,7 +21,7 @@ This file defines the recommended action per category.
 | `douyin` | `DIRECT` | 242 | 65 | 抖音国内流量直连 |
 | `dmca` | `DIRECT` | 243 | 5 | 按你当前 Surge 配置作为直连类 |
 | `cdn` | `DIRECT` | 250 | 1285 | CDN 回源与就近访问优先直连 |
-| `download` | `DIRECT` | 251 | 10 | 安卓应用下载集合默认直连（游戏平台流量归 games） |
+| `download` | `DIRECT` | 251 | 12 | 安卓应用下载集合默认直连（游戏平台流量归 games） |
 | `telegram` | `PROXY` | 300 | 34 | Telegram 官方 CIDR + 域名集合走代理 |
 | `stream` | `PROXY` | 309 | 434 | 整合流媒体集合（含 Netflix），跨地区统一 |
 | `stream_us` | `PROXY` | 310 | 340 | 北美流媒体走代理（可选细分） |
@@ -31,7 +31,7 @@ This file defines the recommended action per category.
 | `stream_global` | `PROXY` | 314 | 288 | 国外流媒体高覆盖集合走代理（可选细分） |
 | `ai` | `PROXY` | 320 | 120 | AI 服务走代理 |
 | `apple_proxy` | `PROXY` | 321 | 50 | Apple 国际域名走代理（中国区见 apple_cn/apple_cdn 直连） |
-| `icloud_private_relay` | `PROXY` | 321 | 3 | iCloud Private Relay 推荐走代理（PROXY） |
+| `icloud_private_relay` | `PROXY` | 321 | 13363 | iCloud Private Relay 推荐走代理（PROXY） |
 | `apple_services` | `PROXY` | 322 | 1501 | Apple 国际服务走代理（中国区与更新流量优先直连） |
 | `apple_intelligence` | `PROXY` | 323 | 5 | Apple Intelligence 走代理 |
 | `microsoft` | `PROXY` | 324 | 422 | 微软国际服务走代理（中国区与更新/CDN 见 microsoft_cdn 直连） |

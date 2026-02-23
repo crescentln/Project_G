@@ -25,30 +25,50 @@ def read_json(path: pathlib.Path) -> dict[str, Any]:
         raise GateError(f"invalid json: {path}: {exc}") from exc
 
 
-def read_minimum_counts(path: pathlib.Path) -> dict[str, int]:
+def read_count_thresholds(path: pathlib.Path) -> tuple[dict[str, int], dict[str, int]]:
     payload = read_json(path)
-    raw: Any
-    if isinstance(payload.get("minimum_rule_counts"), dict):
-        raw = payload.get("minimum_rule_counts", {})
-    else:
-        raw = payload
 
-    if not isinstance(raw, dict):
+    minimum_raw: Any
+    if isinstance(payload.get("minimum_rule_counts"), dict):
+        minimum_raw = payload.get("minimum_rule_counts", {})
+    else:
+        minimum_raw = payload
+
+    if not isinstance(minimum_raw, dict):
         raise GateError(f"{path}: minimum counts must be an object")
 
-    out: dict[str, int] = {}
-    for key, value in raw.items():
-        category_id = str(key).strip()
-        if not category_id:
-            continue
-        try:
-            min_count = int(value)
-        except (TypeError, ValueError) as exc:
-            raise GateError(f"{path}: invalid minimum count for '{category_id}'") from exc
-        if min_count < 0:
-            raise GateError(f"{path}: minimum count for '{category_id}' must be >= 0")
-        out[category_id] = min_count
-    return out
+    warning_raw = payload.get("warning_rule_counts", {}) if isinstance(payload, dict) else {}
+    if warning_raw is None:
+        warning_raw = {}
+    if not isinstance(warning_raw, dict):
+        raise GateError(f"{path}: warning counts must be an object")
+
+    def parse_threshold_map(raw: dict[str, Any], *, field_name: str) -> dict[str, int]:
+        out: dict[str, int] = {}
+        for key, value in raw.items():
+            category_id = str(key).strip()
+            if not category_id:
+                continue
+            try:
+                count_value = int(value)
+            except (TypeError, ValueError) as exc:
+                raise GateError(f"{path}: invalid {field_name} for '{category_id}'") from exc
+            if count_value < 0:
+                raise GateError(f"{path}: {field_name} for '{category_id}' must be >= 0")
+            out[category_id] = count_value
+        return out
+
+    minimum_counts = parse_threshold_map(minimum_raw, field_name="minimum count")
+    warning_counts = parse_threshold_map(warning_raw, field_name="warning count")
+
+    for category_id, warn_value in warning_counts.items():
+        min_value = minimum_counts.get(category_id)
+        if min_value is not None and warn_value < min_value:
+            raise GateError(
+                f"{path}: warning count for '{category_id}' ({warn_value}) must be >= minimum ({min_value})"
+            )
+
+    return minimum_counts, warning_counts
 
 
 def parse_rule_counts(payload: dict[str, Any], source_path: pathlib.Path) -> dict[str, int]:
@@ -229,7 +249,7 @@ def main() -> int:
     log(f"current categories: {len(current_counts)}")
 
     if args.minimums is not None:
-        minimum_counts = read_minimum_counts(args.minimums)
+        minimum_counts, warning_counts = read_count_thresholds(args.minimums)
         log(f"minimum-count checks: {len(minimum_counts)} categories")
         for category_id in sorted(minimum_counts):
             minimum = minimum_counts[category_id]
@@ -238,6 +258,18 @@ def main() -> int:
                 violations.append(
                     f"minimum rule count not met: {category_id} current={current} required>={minimum}"
                 )
+
+        if warning_counts:
+            log(f"warning-count checks: {len(warning_counts)} categories")
+            for category_id in sorted(warning_counts):
+                warning_value = warning_counts[category_id]
+                current = current_counts.get(category_id, 0)
+                minimum = minimum_counts.get(category_id, 0)
+                if current < warning_value and current >= minimum:
+                    log(
+                        "warning threshold breached: "
+                        f"{category_id} current={current} warning>={warning_value}"
+                    )
 
     if args.baseline is None:
         log("baseline not provided, skip rule-count drift gate")

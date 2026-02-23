@@ -1,10 +1,10 @@
 {
   "id": "domestic",
-  "description": "Mainland China domains and IP ranges",
+  "description": "Mainland China domains (domain-focused direct set)",
   "recommended_action": "DIRECT",
   "recommended_priority": 210,
-  "recommended_note": "中国大陆业务优先直连",
-  "rule_count": 10828,
+  "recommended_note": "中国大陆域名集合直连（domain-focused）",
+  "rule_count": 6727,
   "paths": {
     "surge": "surge/domestic.list",
     "surge_non_ip": "surge/non_ip/domestic.list",
@@ -24,11 +24,11 @@
   },
   "sources": [
     {
-      "type": "apnic_country_cidr",
-      "authority": "official",
-      "ref": "https://ftp.apnic.net/stats/apnic/delegated-apnic-latest",
-      "used_cache": false,
-      "rule_count": 10828
+      "type": "v2fly_dlc",
+      "authority": "community-curated",
+      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/geolocation-cn",
+      "used_cache": true,
+      "rule_count": 6727
     },
     {
       "type": "local_domain",

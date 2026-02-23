@@ -1,6 +1,6 @@
-# domestic category rules
-# Supported formats:
-# - DOMAIN-SUFFIX,example.com
-# - DOMAIN,exact.example.com
-# - IP-CIDR,1.2.3.0/24,no-resolve
-# - plain domain token: example.com
+# Mainland China domain overrides (DIRECT).
+# This file is domain-focused.
+# Do NOT put CIDR/IP here; place IP overrides in cncidr.txt instead.
+# Supported examples:
+# DOMAIN-SUFFIX,example.cn
+# DOMAIN,exact.example.com

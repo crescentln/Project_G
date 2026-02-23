@@ -12,7 +12,7 @@
 
 - 来源配置：`ruleset/config/sources.json`
 - 动作映射：`ruleset/config/policy_map.json`
-- 最小条目闸门：`ruleset/config/min_rules.json`（含大集合与小集合防掉空阈值）
+- 最小条目闸门：`ruleset/config/min_rules.json`（含硬阈值 `minimum_rule_counts` 与告警阈值 `warning_rule_counts`）
 - 手工补充：`ruleset/manual/categories/*.txt`
 - 手工排除：`ruleset/manual/exclude/*.txt`
 - 手工放行：`ruleset/manual/allow/*.txt`（用于 reject* 降误杀）

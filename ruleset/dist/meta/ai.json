@@ -27,42 +27,42 @@
       "type": "v2fly_dlc",
       "authority": "community-curated",
       "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/openai",
-      "used_cache": false,
+      "used_cache": true,
       "rule_count": 17
     },
     {
       "type": "v2fly_dlc",
       "authority": "community-curated",
       "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/anthropic",
-      "used_cache": false,
+      "used_cache": true,
       "rule_count": 6
     },
     {
       "type": "v2fly_dlc",
       "authority": "community-curated",
       "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/perplexity",
-      "used_cache": false,
+      "used_cache": true,
       "rule_count": 4
     },
     {
       "type": "v2fly_dlc",
       "authority": "community-curated",
       "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/google-gemini",
-      "used_cache": false,
+      "used_cache": true,
       "rule_count": 36
     },
     {
       "type": "v2fly_dlc",
       "authority": "community-curated",
       "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/github-copilot",
-      "used_cache": false,
+      "used_cache": true,
       "rule_count": 1
     },
     {
       "type": "v2fly_dlc",
       "authority": "community-curated",
       "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-ai-!cn",
-      "used_cache": false,
+      "used_cache": true,
       "rule_count": 120
     },
     {

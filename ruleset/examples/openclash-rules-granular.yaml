@@ -1,4 +1,5 @@
 # OpenClash granular snippet (content-based names)
+# Mode: granular direct (do not include merged `direct`; keep direct-related categories separate).
 # Every PROXY category uses its own policy group for per-category node routing.
 # You must create matching proxy-groups, e.g. PROXY_AI, PROXY_MICROSOFT, PROXY_YOUTUBE.
 
@@ -335,7 +336,6 @@ rules:
   - RULE-SET,reject_no_drop,REJECT-NO-DROP
   - RULE-SET,httpdns,REJECT
   - RULE-SET,lan,DIRECT
-  - RULE-SET,direct,DIRECT
   - RULE-SET,domestic,DIRECT
   - RULE-SET,cncidr,DIRECT
   - RULE-SET,apple_cn,DIRECT

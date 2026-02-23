@@ -1,9 +1,9 @@
 {
   "id": "cncidr",
-  "description": "Mainland China IPv4/IPv6 only",
+  "description": "Mainland China IPv4/IPv6 CIDR only (IP-focused direct set)",
   "recommended_action": "DIRECT",
   "recommended_priority": 220,
-  "recommended_note": "中国大陆 IP 段直连",
+  "recommended_note": "中国大陆 IP 段直连（IP-focused）",
   "rule_count": 10828,
   "paths": {
     "surge": "surge/cncidr.list",
@@ -27,7 +27,7 @@
       "type": "apnic_country_cidr",
       "authority": "official",
       "ref": "https://ftp.apnic.net/stats/apnic/delegated-apnic-latest",
-      "used_cache": false,
+      "used_cache": true,
       "rule_count": 10828
     },
     {
