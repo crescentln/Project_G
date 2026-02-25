@@ -69,13 +69,6 @@ jobs:
             --surge-out ruleset/dist/recommended_surge.conf \
             --raw-base-url "https://raw.githubusercontent.com/${{ github.repository }}/main/ruleset/dist"
 
-      - name: Generate URL and source indexes
-        run: |
-          python3 ruleset/scripts/generate_reference_indexes.py \
-            --index ruleset/dist/index.json \
-            --raw-base-url "https://raw.githubusercontent.com/${{ github.repository }}/main/ruleset/dist" \
-            --urls-out ruleset/dist/url_catalog.md \
-            --sources-out ruleset/dist/source_authority.md
 
       - name: Validate output formats
         run: python3 ruleset/scripts/validate_rulesets.py

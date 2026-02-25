@@ -1445,17 +1445,6 @@ def build_all(
         encoding="utf-8",
     )
 
-    policy_reference_md = dist_dir / "policy_reference.md"
-    policy_reference_md.write_text(
-        render_policy_reference_markdown(metadata_categories),
-        encoding="utf-8",
-    )
-
-    rule_catalog_md = dist_dir / "rule_catalog.md"
-    rule_catalog_md.write_text(
-        render_rule_catalog_markdown(metadata_categories),
-        encoding="utf-8",
-    )
 
     log(f"build completed: {len(metadata_categories)} categories")
     log(

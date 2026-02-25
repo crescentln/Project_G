@@ -106,9 +106,8 @@ def main() -> int:
     out.append("")
     out.append("## Artifacts")
     out.append("")
-    out.append(f"- URL Catalog: `{raw_base}/url_catalog.md`")
-    out.append(f"- Source Authority: `{raw_base}/source_authority.md`")
-    out.append(f"- Rule Catalog: `{raw_base}/rule_catalog.md`")
+    out.append(f"- Index JSON: `{raw_base}/index.json`")
+    out.append(f"- Policy Reference JSON: `{raw_base}/policy_reference.json`")
     out.append(f"- Recommended OpenClash: `{raw_base}/recommended_openclash.yaml`")
     out.append(f"- Recommended Surge: `{raw_base}/recommended_surge.conf`")
 
