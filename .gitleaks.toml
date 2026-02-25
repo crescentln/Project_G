@@ -1,0 +1,8 @@
+title = "Project_G gitleaks config"
+
+[allowlist]
+description = "Ignore generated artifacts and cache files"
+paths = [
+  '''ruleset/dist/.*''',
+  '''ruleset/.cache/.*''',
+]
