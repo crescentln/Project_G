@@ -1023,6 +1023,7 @@ DOMAIN,time4.google.com
 DOMAIN,time5.facebook.com
 DOMAIN,tj-pod1-smp-device.apple.com
 DOMAIN,tmdb-image-prod.b-cdn.net
+DOMAIN,tmdb-web-image-prod.b-cdn.net
 DOMAIN,tools.google.com
 DOMAIN,tools.l.google.com
 DOMAIN,tp.louisvuitton.com
@@ -7322,6 +7323,7 @@ DOMAIN-SUFFIX,digitalcertvalidation.com
 DOMAIN-SUFFIX,digitaldesire.com
 DOMAIN-SUFFIX,digitalhub.com
 DOMAIN-SUFFIX,digitalid.ch
+DOMAIN-SUFFIX,digitalocean-ui.com
 DOMAIN-SUFFIX,digitalocean.com
 DOMAIN-SUFFIX,digitaloceanspaces.com
 DOMAIN-SUFFIX,digitalpack.com
@@ -16624,6 +16626,7 @@ DOMAIN-SUFFIX,okx-dns1.com
 DOMAIN-SUFFIX,okx-dns2.com
 DOMAIN-SUFFIX,okx.cab
 DOMAIN-SUFFIX,okx.com
+DOMAIN-SUFFIX,okx.com.cdn.cloudflare.net
 DOMAIN-SUFFIX,older-women-movies.com
 DOMAIN-SUFFIX,older-women-porn.com
 DOMAIN-SUFFIX,older.tube

@@ -132,7 +132,9 @@ DOMAIN-SUFFIX,wswebpic.com
 DOMAIN-SUFFIX,yunaq.com
 DOMAIN-REGEX,.+\.awsdns-cn-[0-9][0-9]\.(biz|com|net|top)$
 DOMAIN-REGEX,.+\.awsdns-cn-[0-9][a-e0-9]\.cn$
+IP-CIDR,1.178.172.0/23,no-resolve
 IP-CIDR,1.179.14.0/23,no-resolve
+IP-CIDR,1.179.60.0/23,no-resolve
 IP-CIDR,103.21.244.0/22,no-resolve
 IP-CIDR,103.22.200.0/22,no-resolve
 IP-CIDR,103.244.50.0/24,no-resolve
@@ -230,7 +232,6 @@ IP-CIDR,13.248.102.0/24,no-resolve
 IP-CIDR,13.248.103.0/24,no-resolve
 IP-CIDR,13.248.104.0/24,no-resolve
 IP-CIDR,13.248.105.0/24,no-resolve
-IP-CIDR,13.248.106.0/24,no-resolve
 IP-CIDR,13.248.107.0/24,no-resolve
 IP-CIDR,13.248.108.0/24,no-resolve
 IP-CIDR,13.248.109.0/24,no-resolve
@@ -390,6 +391,7 @@ IP-CIDR,205.251.249.0/24,no-resolve
 IP-CIDR,205.251.250.0/23,no-resolve
 IP-CIDR,205.251.252.0/23,no-resolve
 IP-CIDR,205.251.254.0/24,no-resolve
+IP-CIDR,207.175.0.0/16,no-resolve
 IP-CIDR,216.137.32.0/19,no-resolve
 IP-CIDR,23.228.212.0/24,no-resolve
 IP-CIDR,23.228.213.0/24,no-resolve
@@ -695,6 +697,7 @@ IP-CIDR,34.153.62.128/25,no-resolve
 IP-CIDR,34.153.63.0/24,no-resolve
 IP-CIDR,34.154.0.0/16,no-resolve
 IP-CIDR,34.155.0.0/16,no-resolve
+IP-CIDR,34.156.0.0/16,no-resolve
 IP-CIDR,34.157.0.0/21,no-resolve
 IP-CIDR,34.157.112.0/21,no-resolve
 IP-CIDR,34.157.12.0/22,no-resolve
@@ -833,6 +836,18 @@ IP-CIDR,34.183.58.0/24,no-resolve
 IP-CIDR,34.183.59.0/24,no-resolve
 IP-CIDR,34.183.6.0/23,no-resolve
 IP-CIDR,34.183.60.0/24,no-resolve
+IP-CIDR,34.183.61.0/24,no-resolve
+IP-CIDR,34.183.66.0/24,no-resolve
+IP-CIDR,34.183.67.0/24,no-resolve
+IP-CIDR,34.183.68.0/24,no-resolve
+IP-CIDR,34.183.69.0/24,no-resolve
+IP-CIDR,34.183.70.0/24,no-resolve
+IP-CIDR,34.183.71.0/24,no-resolve
+IP-CIDR,34.183.72.0/24,no-resolve
+IP-CIDR,34.183.73.0/24,no-resolve
+IP-CIDR,34.183.74.0/24,no-resolve
+IP-CIDR,34.183.75.0/24,no-resolve
+IP-CIDR,34.183.76.0/22,no-resolve
 IP-CIDR,34.183.8.0/23,no-resolve
 IP-CIDR,34.184.0.0/24,no-resolve
 IP-CIDR,34.184.1.0/24,no-resolve
@@ -859,6 +874,18 @@ IP-CIDR,34.184.56.0/23,no-resolve
 IP-CIDR,34.184.58.0/24,no-resolve
 IP-CIDR,34.184.59.0/24,no-resolve
 IP-CIDR,34.184.6.0/23,no-resolve
+IP-CIDR,34.184.64.0/24,no-resolve
+IP-CIDR,34.184.65.0/24,no-resolve
+IP-CIDR,34.184.66.0/24,no-resolve
+IP-CIDR,34.184.67.0/24,no-resolve
+IP-CIDR,34.184.68.0/24,no-resolve
+IP-CIDR,34.184.69.0/24,no-resolve
+IP-CIDR,34.184.70.0/24,no-resolve
+IP-CIDR,34.184.71.0/24,no-resolve
+IP-CIDR,34.184.72.0/24,no-resolve
+IP-CIDR,34.184.73.0/24,no-resolve
+IP-CIDR,34.184.74.0/24,no-resolve
+IP-CIDR,34.184.76.0/22,no-resolve
 IP-CIDR,34.184.8.0/23,no-resolve
 IP-CIDR,34.185.128.0/17,no-resolve
 IP-CIDR,34.186.0.0/19,no-resolve
@@ -1303,6 +1330,7 @@ IP-CIDR,8.231.128.0/17,no-resolve
 IP-CIDR,8.231.32.0/20,no-resolve
 IP-CIDR,8.231.48.0/20,no-resolve
 IP-CIDR,8.231.64.0/18,no-resolve
+IP-CIDR,8.232.0.0/15,no-resolve
 IP-CIDR,8.34.208.0/23,no-resolve
 IP-CIDR,8.34.210.0/24,no-resolve
 IP-CIDR,8.34.211.0/24,no-resolve
@@ -1466,7 +1494,6 @@ IP-CIDR6,2600:f0f0:5504::/46,no-resolve
 IP-CIDR6,2600:f0f0:601::/48,no-resolve
 IP-CIDR6,2600:f0f0:602::/47,no-resolve
 IP-CIDR6,2600:f0f1:14::/48,no-resolve
-IP-CIDR6,2600:f0f1:15::/48,no-resolve
 IP-CIDR6,2606:4700::/32,no-resolve
 IP-CIDR6,2803:f800::/32,no-resolve
 IP-CIDR6,2a04:4e40::/32,no-resolve
