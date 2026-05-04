@@ -3,3 +3,6 @@
 # - DOMAIN-SUFFIX,example.com
 # - DOMAIN,exact.example.com
 # - plain domains: example.com
+
+DOMAIN-SUFFIX,ping0.cc
+DOMAIN-SUFFIX,ping0.xyz

@@ -4,10 +4,10 @@
   "recommended_action": "DIRECT",
   "recommended_priority": 205,
   "recommended_note": "合并直连集合（含国内域名 + CN CIDR，简化部署）",
-  "rule_count": 19753,
-  "stash_rule_count": 19753,
+  "rule_count": 19767,
+  "stash_rule_count": 19767,
   "stash_classical_rule_count": 4,
-  "stash_domain_rule_count": 7539,
+  "stash_domain_rule_count": 7553,
   "stash_ipcidr_rule_count": 12210,
   "paths": {
     "stash": "stash/direct.list",
@@ -120,7 +120,7 @@
       "authority": "community-curated",
       "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/cn",
       "used_cache": false,
-      "rule_count": 6902
+      "rule_count": 6916
     },
     {
       "type": "v2fly_dlc",
