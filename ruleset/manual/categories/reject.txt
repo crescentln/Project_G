@@ -6,3 +6,10 @@
 
 DOMAIN-SUFFIX,ping0.cc
 DOMAIN-SUFFIX,ping0.xyz
+DOMAIN-SUFFIX,ip.sb
+DOMAIN-SUFFIX,ipify.org
+DOMAIN-SUFFIX,ipip.net
+DOMAIN-SUFFIX,upai.com
+DOMAIN-SUFFIX,upaiyun.com
+DOMAIN-SUFFIX,upcdn.net
+DOMAIN-SUFFIX,upyun.com

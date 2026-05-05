@@ -3896,7 +3896,6 @@ xtratime.qcomgeo2.com
 +.ipchaxun.com
 +.ipchaxun.net
 +.iphone-8.com.cn
-+.ipip.net
 +.iplaysoft.com
 +.ipod.com.cn
 +.ipplus360.com
@@ -6541,16 +6540,12 @@ xtratime.qcomgeo2.com
 +.uoko.com
 +.uonline-sh.com
 +.uonline-sh.net
-+.upai.com
-+.upaiyun.com
-+.upcdn.net
 +.updates-http.cdn-apple.com
 +.updates.cdn-apple.com
 +.upe.net
 +.upfos.cn
 +.upfos.com
 +.uptodown.com
-+.upyun.com
 +.urlqh.cn
 +.urselect.com
 +.urtc.com.cn

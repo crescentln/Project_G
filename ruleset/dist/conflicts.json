@@ -1,10 +1,10 @@
 {
-  "generated_at_utc": "2026-05-04T17:06:36.378934+00:00",
-  "conflict_count": 490,
+  "generated_at_utc": "2026-05-05T17:26:25.527190+00:00",
+  "conflict_count": 486,
   "cross_action_conflict_count": 0,
   "high_severity_conflict_count": 0,
   "medium_severity_conflict_count": 0,
-  "low_severity_conflict_count": 490,
+  "low_severity_conflict_count": 486,
   "conflicts": [
     {
       "rule": "DOMAIN,upos-hz-mirrorakam.akamaized.net",
@@ -8792,90 +8792,6 @@
         },
         {
           "category": "douyin",
-          "action": "DIRECT",
-          "action_family": "DIRECT"
-        }
-      ],
-      "type": "same_action_overlap",
-      "severity": "low"
-    },
-    {
-      "rule": "DOMAIN-SUFFIX,upai.com",
-      "categories": [
-        "cdn",
-        "domestic"
-      ],
-      "actions": [
-        {
-          "category": "cdn",
-          "action": "DIRECT",
-          "action_family": "DIRECT"
-        },
-        {
-          "category": "domestic",
-          "action": "DIRECT",
-          "action_family": "DIRECT"
-        }
-      ],
-      "type": "same_action_overlap",
-      "severity": "low"
-    },
-    {
-      "rule": "DOMAIN-SUFFIX,upaiyun.com",
-      "categories": [
-        "cdn",
-        "domestic"
-      ],
-      "actions": [
-        {
-          "category": "cdn",
-          "action": "DIRECT",
-          "action_family": "DIRECT"
-        },
-        {
-          "category": "domestic",
-          "action": "DIRECT",
-          "action_family": "DIRECT"
-        }
-      ],
-      "type": "same_action_overlap",
-      "severity": "low"
-    },
-    {
-      "rule": "DOMAIN-SUFFIX,upcdn.net",
-      "categories": [
-        "cdn",
-        "domestic"
-      ],
-      "actions": [
-        {
-          "category": "cdn",
-          "action": "DIRECT",
-          "action_family": "DIRECT"
-        },
-        {
-          "category": "domestic",
-          "action": "DIRECT",
-          "action_family": "DIRECT"
-        }
-      ],
-      "type": "same_action_overlap",
-      "severity": "low"
-    },
-    {
-      "rule": "DOMAIN-SUFFIX,upyun.com",
-      "categories": [
-        "cdn",
-        "domestic"
-      ],
-      "actions": [
-        {
-          "category": "cdn",
-          "action": "DIRECT",
-          "action_family": "DIRECT"
-        },
-        {
-          "category": "domestic",
           "action": "DIRECT",
           "action_family": "DIRECT"
         }

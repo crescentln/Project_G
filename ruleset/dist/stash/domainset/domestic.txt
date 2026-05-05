@@ -3365,7 +3365,6 @@ xtratime.qcomgeo2.com
 +.ipanda.net
 +.ipchaxun.com
 +.ipchaxun.net
-+.ipip.net
 +.iplaysoft.com
 +.ipplus360.com
 +.iprdp.net
@@ -5916,13 +5915,9 @@ xtratime.qcomgeo2.com
 +.uoko.com
 +.uonline-sh.com
 +.uonline-sh.net
-+.upai.com
-+.upaiyun.com
-+.upcdn.net
 +.upe.net
 +.upfos.cn
 +.upfos.com
-+.upyun.com
 +.urlqh.cn
 +.urselect.com
 +.urtc.com.cn

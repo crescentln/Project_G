@@ -110,6 +110,7 @@
     },
     {
       "description": "Mainland China domains (domain-focused direct set)",
+      "exclude_rules_path": "manual/exclude/privacy_reject_domains.txt",
       "id": "domestic",
       "sources": [
         {
@@ -178,6 +179,7 @@
     },
     {
       "description": "CDN domains and edge prefixes",
+      "exclude_rules_path": "manual/exclude/privacy_reject_domains.txt",
       "id": "cdn",
       "sources": [
         {
@@ -2225,6 +2227,7 @@
     },
     {
       "description": "Global fallback domain list",
+      "exclude_rules_path": "manual/exclude/privacy_reject_domains.txt",
       "id": "global",
       "sources": [
         {
@@ -2249,6 +2252,7 @@
     {
       "id": "direct",
       "description": "Merged direct rules for simplified deployment",
+      "exclude_rules_path": "manual/exclude/privacy_reject_domains.txt",
       "sources": [
         {
           "type": "iana_special_csv",
