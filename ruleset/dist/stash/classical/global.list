@@ -153,7 +153,6 @@ DOMAIN-REGEX,^chatgpt-async-webps-prod-\S+-\d+\.webpubsub\.azure\.com$
 DOMAIN-REGEX,^epicgames-download\d-\d+\.file\.myqcloud\.com$
 DOMAIN-REGEX,^epicgames-download\d\.akamaized\.net$
 DOMAIN-REGEX,^ewcdn[0-9]+\.nowe\.com$
-DOMAIN-REGEX,^github-production-release-asset-[0-9a-zA-Z]{6}\.s3\.amazonaws\.com$
 DOMAIN-REGEX,^gog-cdn-.+\.footprint\.net$
 DOMAIN-REGEX,^hses[1-7]?\.akamaized\.net$
 DOMAIN-REGEX,^images(-\d)?\.gog-statics\.com$

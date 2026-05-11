@@ -1,10 +1,10 @@
 {
-  "generated_at_utc": "2026-05-05T17:26:25.527190+00:00",
-  "conflict_count": 486,
+  "generated_at_utc": "2026-05-11T04:47:26.522481+00:00",
+  "conflict_count": 488,
   "cross_action_conflict_count": 0,
   "high_severity_conflict_count": 0,
   "medium_severity_conflict_count": 0,
-  "low_severity_conflict_count": 486,
+  "low_severity_conflict_count": 488,
   "conflicts": [
     {
       "rule": "DOMAIN,upos-hz-mirrorakam.akamaized.net",
@@ -625,6 +625,48 @@
           "category": "apple_intelligence",
           "action": "PROXY",
           "action_family": "PROXY"
+        }
+      ],
+      "type": "same_action_overlap",
+      "severity": "low"
+    },
+    {
+      "rule": "DOMAIN,end-api.shallow.ink",
+      "categories": [
+        "domestic",
+        "games_cn"
+      ],
+      "actions": [
+        {
+          "category": "domestic",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        },
+        {
+          "category": "games_cn",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        }
+      ],
+      "type": "same_action_overlap",
+      "severity": "low"
+    },
+    {
+      "rule": "DOMAIN,end.shallow.ink",
+      "categories": [
+        "domestic",
+        "games_cn"
+      ],
+      "actions": [
+        {
+          "category": "domestic",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        },
+        {
+          "category": "games_cn",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
         }
       ],
       "type": "same_action_overlap",

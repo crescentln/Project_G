@@ -200,6 +200,9 @@ DOMAIN,configuration.apple.com
 DOMAIN,configuration.apple.com.akadns.net
 DOMAIN,connectivitycheck.gstatic.com
 DOMAIN,content.googleadapis.com
+DOMAIN,copilot-proxy.githubusercontent.com
+DOMAIN,copilot-workspace.githubnext.com
+DOMAIN,copilotprodattachments.blob.core.windows.net
 DOMAIN,crashlyticsreports-pa.googleapis.com
 DOMAIN,crl-lb.apple.com.akadns.net
 DOMAIN,crl.apple.com
@@ -390,6 +393,11 @@ DOMAIN,gbxgateway.dell.com
 DOMAIN,gigabyte2.azureedge.net
 DOMAIN,github-api.arkoselabs.com
 DOMAIN,github-cloud.s3.amazonaws.com
+DOMAIN,github-production-release-asset-2e65be.s3.amazonaws.com
+DOMAIN,github-production-repository-file-5c1aeb.s3.amazonaws.com
+DOMAIN,github-production-repository-image-32fea6.s3.amazonaws.com
+DOMAIN,github-production-upload-manifest-file-7fdce7.s3.amazonaws.com
+DOMAIN,github-production-user-asset-6210df.s3.amazonaws.com
 DOMAIN,gitlab-assets.oss-cn-hongkong.aliyuncs.com
 DOMAIN,go.corp.google.com
 DOMAIN,gog-cdn-fastly.gog.com
@@ -716,6 +724,26 @@ DOMAIN,prod.databe.floonet.goog
 DOMAIN,prodforza.blob.core.windows.net
 DOMAIN,productcard.gog-statics.com
 DOMAIN,production-openaicom-storage.azureedge.net
+DOMAIN,productionresultssa0.blob.core.windows.net
+DOMAIN,productionresultssa1.blob.core.windows.net
+DOMAIN,productionresultssa10.blob.core.windows.net
+DOMAIN,productionresultssa11.blob.core.windows.net
+DOMAIN,productionresultssa12.blob.core.windows.net
+DOMAIN,productionresultssa13.blob.core.windows.net
+DOMAIN,productionresultssa14.blob.core.windows.net
+DOMAIN,productionresultssa15.blob.core.windows.net
+DOMAIN,productionresultssa16.blob.core.windows.net
+DOMAIN,productionresultssa17.blob.core.windows.net
+DOMAIN,productionresultssa18.blob.core.windows.net
+DOMAIN,productionresultssa19.blob.core.windows.net
+DOMAIN,productionresultssa2.blob.core.windows.net
+DOMAIN,productionresultssa3.blob.core.windows.net
+DOMAIN,productionresultssa4.blob.core.windows.net
+DOMAIN,productionresultssa5.blob.core.windows.net
+DOMAIN,productionresultssa6.blob.core.windows.net
+DOMAIN,productionresultssa7.blob.core.windows.net
+DOMAIN,productionresultssa8.blob.core.windows.net
+DOMAIN,productionresultssa9.blob.core.windows.net
 DOMAIN,proxyconfig.corp.google.com
 DOMAIN,psg-int-centralus.cloudapp.net
 DOMAIN,psg-int-eastus.cloudapp.net
@@ -2907,6 +2935,7 @@ DOMAIN-SUFFIX,anypornhd.com
 DOMAIN-SUFFIX,anypornsexxx.com
 DOMAIN-SUFFIX,anysex.com
 DOMAIN-SUFFIX,anyshemale.com
+DOMAIN-SUFFIX,anythingllm.com
 DOMAIN-SUFFIX,anyxxx.me
 DOMAIN-SUFFIX,anyxxx.pro
 DOMAIN-SUFFIX,ao3.org
@@ -4739,7 +4768,6 @@ DOMAIN-SUFFIX,blinkload.zone
 DOMAIN-SUFFIX,blizzak-juken.jp
 DOMAIN-SUFFIX,blizzard.com
 DOMAIN-SUFFIX,blizzardgearstore.com
-DOMAIN-SUFFIX,blob.core.windows.net
 DOMAIN-SUFFIX,blockchain.com
 DOMAIN-SUFFIX,blockfrost.io
 DOMAIN-SUFFIX,blog.descargasgay.com
@@ -5726,6 +5754,7 @@ DOMAIN-SUFFIX,calgon.tv
 DOMAIN-SUFFIX,calgoncarbon-china.com
 DOMAIN-SUFFIX,calgoncarbon.com
 DOMAIN-SUFFIX,calgonit.com
+DOMAIN-SUFFIX,calibre-ebook.com
 DOMAIN-SUFFIX,callabitch.org
 DOMAIN-SUFFIX,callbackkiller.com
 DOMAIN-SUFFIX,callersbane.com
@@ -10141,6 +10170,7 @@ DOMAIN-SUFFIX,gettyimages.no
 DOMAIN-SUFFIX,gettyimages.pt
 DOMAIN-SUFFIX,gettyimages.se
 DOMAIN-SUFFIX,getws1.com
+DOMAIN-SUFFIX,getwsj.com
 DOMAIN-SUFFIX,getwsone.com
 DOMAIN-SUFFIX,getzola.org
 DOMAIN-SUFFIX,gfacecbook.com
@@ -11847,6 +11877,7 @@ DOMAIN-SUFFIX,ibooksauthor.com
 DOMAIN-SUFFIX,ibradome.com
 DOMAIN-SUFFIX,ic.ac.uk
 DOMAIN-SUFFIX,icashpassport.com.mx
+DOMAIN-SUFFIX,iccf.com
 DOMAIN-SUFFIX,icegay.tv
 DOMAIN-SUFFIX,icegaytube.tv
 DOMAIN-SUFFIX,iceporn.com
@@ -12960,6 +12991,7 @@ DOMAIN-SUFFIX,javdoe.to
 DOMAIN-SUFFIX,javdove.com
 DOMAIN-SUFFIX,javdove8.xyz
 DOMAIN-SUFFIX,javextreme.net
+DOMAIN-SUFFIX,javfc2.xyz
 DOMAIN-SUFFIX,javfilms.com
 DOMAIN-SUFFIX,javfor.me
 DOMAIN-SUFFIX,javforme.ninja
@@ -13289,6 +13321,7 @@ DOMAIN-SUFFIX,justporno.sex
 DOMAIN-SUFFIX,justporno.tv
 DOMAIN-SUFFIX,justswallows.com
 DOMAIN-SUFFIX,justusboys.com
+DOMAIN-SUFFIX,justveryok.com
 DOMAIN-SUFFIX,juyangbee.xyz
 DOMAIN-SUFFIX,juyangto.info
 DOMAIN-SUFFIX,juzi-js.shop
@@ -13430,6 +13463,7 @@ DOMAIN-SUFFIX,kenyaraha.net
 DOMAIN-SUFFIX,kernel.org
 DOMAIN-SUFFIX,keybase.io
 DOMAIN-SUFFIX,keybaseapi.com
+DOMAIN-SUFFIX,keyboardmen.com
 DOMAIN-SUFFIX,keyhole.com
 DOMAIN-SUFFIX,keyporntube.com
 DOMAIN-SUFFIX,keytransparency.com
@@ -14469,6 +14503,7 @@ DOMAIN-SUFFIX,mcchcdn.com
 DOMAIN-SUFFIX,mcd-holdings.co.jp
 DOMAIN-SUFFIX,mcd.cn
 DOMAIN-SUFFIX,mcd.com
+DOMAIN-SUFFIX,mcdchina.net
 DOMAIN-SUFFIX,mcdelivery.co.id
 DOMAIN-SUFFIX,mcdelivery.co.in
 DOMAIN-SUFFIX,mcdelivery.co.kr
@@ -16636,7 +16671,15 @@ DOMAIN-SUFFIX,oculusforbusiness.com
 DOMAIN-SUFFIX,oculusrift.com
 DOMAIN-SUFFIX,oculusvr.com
 DOMAIN-SUFFIX,odkl.ru
+DOMAIN-SUFFIX,odnoklasniki.by
+DOMAIN-SUFFIX,odnoklasniki.ua
+DOMAIN-SUFFIX,odnoklassniki.am
+DOMAIN-SUFFIX,odnoklassniki.by
+DOMAIN-SUFFIX,odnoklassniki.co.ee
+DOMAIN-SUFFIX,odnoklassniki.eu
+DOMAIN-SUFFIX,odnoklassniki.lv
 DOMAIN-SUFFIX,odnoklassniki.ru
+DOMAIN-SUFFIX,odnoklassniki.tj
 DOMAIN-SUFFIX,odysee.com
 DOMAIN-SUFFIX,oecd-ilibrary.org
 DOMAIN-SUFFIX,oed.com
@@ -16743,6 +16786,7 @@ DOMAIN-SUFFIX,onamae.com
 DOMAIN-SUFFIX,onani-daisuki.com
 DOMAIN-SUFFIX,onbeatsbydresale.com
 DOMAIN-SUFFIX,oncars.in
+DOMAIN-SUFFIX,ondigitalocean.com
 DOMAIN-SUFFIX,one.one.one
 DOMAIN-SUFFIX,one889.app
 DOMAIN-SUFFIX,oneapi.com
@@ -16850,6 +16894,7 @@ DOMAIN-SUFFIX,opensea.io
 DOMAIN-SUFFIX,opensource.guide
 DOMAIN-SUFFIX,opensourceinsight.dev
 DOMAIN-SUFFIX,opensourceinsights.dev
+DOMAIN-SUFFIX,openspec.dev
 DOMAIN-SUFFIX,openssl.org
 DOMAIN-SUFFIX,openstreetmap.com
 DOMAIN-SUFFIX,openstreetmap.net
@@ -18431,6 +18476,7 @@ DOMAIN-SUFFIX,r18lu-avi.shop
 DOMAIN-SUFFIX,r18lu.com
 DOMAIN-SUFFIX,r2.dev
 DOMAIN-SUFFIX,r34porn.net
+DOMAIN-SUFFIX,rabbitcounter.com
 DOMAIN-SUFFIX,rabbitscams.com
 DOMAIN-SUFFIX,rabbitscams.sex
 DOMAIN-SUFFIX,rabbitsreviews.com
@@ -19057,6 +19103,7 @@ DOMAIN-SUFFIX,savitabhabhi.vip
 DOMAIN-SUFFIX,savitahd.net
 DOMAIN-SUFFIX,savoycomputing.com
 DOMAIN-SUFFIX,savvyshopper.net.au
+DOMAIN-SUFFIX,sayeasy.eu
 DOMAIN-SUFFIX,saynow.com
 DOMAIN-SUFFIX,sb-cd.com
 DOMAIN-SUFFIX,sb-mobile.jp
@@ -20478,6 +20525,7 @@ DOMAIN-SUFFIX,supjav.com
 DOMAIN-SUFFIX,supplybestjerseys.com
 DOMAIN-SUFFIX,support-uber.com
 DOMAIN-SUFFIX,supportfacebook.com
+DOMAIN-SUFFIX,supr.cl
 DOMAIN-SUFFIX,supremacy.com
 DOMAIN-SUFFIX,supremacy.net
 DOMAIN-SUFFIX,sureporn.com
@@ -21514,6 +21562,8 @@ DOMAIN-SUFFIX,twi-videos.net
 DOMAIN-SUFFIX,twidouga.net
 DOMAIN-SUFFIX,twidouga.tv
 DOMAIN-SUFFIX,twifuli.com
+DOMAIN-SUFFIX,twilio.com
+DOMAIN-SUFFIX,twilio.jp
 DOMAIN-SUFFIX,twimg.com
 DOMAIN-SUFFIX,twinkboyfriends.tv
 DOMAIN-SUFFIX,twinkspornos.com
@@ -21567,6 +21617,7 @@ DOMAIN-SUFFIX,typesquare.com
 DOMAIN-SUFFIX,typography.com
 DOMAIN-SUFFIX,tyre-cadcam.com
 DOMAIN-SUFFIX,tyrecadcam.com
+DOMAIN-SUFFIX,tytch.com
 DOMAIN-SUFFIX,tytng189.com
 DOMAIN-SUFFIX,tytporno.online
 DOMAIN-SUFFIX,u.nu
@@ -21730,7 +21781,9 @@ DOMAIN-SUFFIX,userapi.com
 DOMAIN-SUFFIX,userapi.ru
 DOMAIN-SUFFIX,usercentrics.eu
 DOMAIN-SUFFIX,usercontent.dev
+DOMAIN-SUFFIX,userdrive.org
 DOMAIN-SUFFIX,userpxt.io
+DOMAIN-SUFFIX,usersdrive.com
 DOMAIN-SUFFIX,usertrust.com
 DOMAIN-SUFFIX,usvimosquito.com
 DOMAIN-SUFFIX,usvimosquitoproject.com
@@ -22424,6 +22477,7 @@ DOMAIN-SUFFIX,vodafone.com.au
 DOMAIN-SUFFIX,vodafone.com.tr
 DOMAIN-SUFFIX,vodafone.de
 DOMAIN-SUFFIX,vodafone.it
+DOMAIN-SUFFIX,vodafone.nl
 DOMAIN-SUFFIX,vokevr.com
 DOMAIN-SUFFIX,vol.moe
 DOMAIN-SUFFIX,volvo-truck.nl

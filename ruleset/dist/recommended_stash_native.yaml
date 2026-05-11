@@ -165,11 +165,6 @@ rule-providers:
     behavior: domain-text
     url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/stash/domainset/github.txt
     interval: 86400
-  github-classical:
-    behavior: classical
-    format: text
-    url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/stash/classical/github.list
-    interval: 86400
   games-domain:
     behavior: domain-text
     url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/stash/domainset/games.txt
@@ -317,7 +312,6 @@ rules:
   - RULE-SET,apple_intelligence-domain,PROXY
   - RULE-SET,microsoft-domain,PROXY
   - RULE-SET,github-domain,PROXY
-  - RULE-SET,github-classical,PROXY
   - RULE-SET,games-domain,PROXY
   - RULE-SET,games-classical,PROXY
   - RULE-SET,youtube-domain,PROXY

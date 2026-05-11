@@ -4,10 +4,10 @@
   "recommended_action": "PROXY",
   "recommended_priority": 325,
   "recommended_note": "GitHub/GitLab/Gitee/Codeberg/SourceHut 等代码托管平台走代理",
-  "rule_count": 47,
-  "stash_rule_count": 47,
-  "stash_classical_rule_count": 1,
-  "stash_domain_rule_count": 46,
+  "rule_count": 73,
+  "stash_rule_count": 73,
+  "stash_classical_rule_count": 0,
+  "stash_domain_rule_count": 73,
   "stash_ipcidr_rule_count": 0,
   "paths": {
     "stash": "stash/github.list",
@@ -36,7 +36,7 @@
       "authority": "community-curated",
       "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/github",
       "used_cache": false,
-      "rule_count": 32
+      "rule_count": 58
     },
     {
       "type": "v2fly_dlc",
