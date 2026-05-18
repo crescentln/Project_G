@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-05-11T04:47:26.533571+00:00",
+  "generated_at_utc": "2026-05-18T04:52:12.713082+00:00",
   "policy_path": "config/policy_map.json",
   "categories": [
     {
@@ -7,7 +7,7 @@
       "recommended_action": "REJECT",
       "recommended_priority": 100,
       "recommended_note": "广告、追踪、恶意基础拦截规则",
-      "rule_count": 327276
+      "rule_count": 328660
     },
     {
       "id": "reject_extra",
@@ -42,14 +42,14 @@
       "recommended_action": "DIRECT",
       "recommended_priority": 210,
       "recommended_note": "中国大陆域名集合直连（domain-focused）",
-      "rule_count": 6970
+      "rule_count": 7018
     },
     {
       "id": "cncidr",
       "recommended_action": "DIRECT",
       "recommended_priority": 220,
       "recommended_note": "中国大陆 IP 段直连（IP-focused）",
-      "rule_count": 10828
+      "rule_count": 10829
     },
     {
       "id": "telegram",
@@ -63,7 +63,7 @@
       "recommended_action": "DIRECT",
       "recommended_priority": 250,
       "recommended_note": "CDN 回源与就近访问优先直连",
-      "rule_count": 1503
+      "rule_count": 1512
     },
     {
       "id": "download",
@@ -196,14 +196,14 @@
       "recommended_action": "DIRECT",
       "recommended_priority": 241,
       "recommended_note": "国内游戏服务直连",
-      "rule_count": 231
+      "rule_count": 234
     },
     {
       "id": "games",
       "recommended_action": "PROXY",
       "recommended_priority": 326,
       "recommended_note": "国际游戏服务走代理",
-      "rule_count": 806
+      "rule_count": 825
     },
     {
       "id": "youtube",
@@ -301,7 +301,7 @@
       "recommended_action": "DIRECT",
       "recommended_priority": 240,
       "recommended_note": "国内社交平台直连",
-      "rule_count": 125
+      "rule_count": 121
     },
     {
       "id": "socialmedia",
@@ -371,14 +371,14 @@
       "recommended_action": "PROXY",
       "recommended_priority": 900,
       "recommended_note": "兜底代理集合（应放在较后顺序）",
-      "rule_count": 24710
+      "rule_count": 24820
     },
     {
       "id": "direct",
       "recommended_action": "DIRECT",
       "recommended_priority": 205,
       "recommended_note": "合并直连集合（含国内域名 + CN CIDR，简化部署）",
-      "rule_count": 19824
+      "rule_count": 19882
     }
   ]
 }

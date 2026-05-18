@@ -1,10 +1,10 @@
 {
-  "generated_at_utc": "2026-05-11T04:47:26.522481+00:00",
-  "conflict_count": 488,
+  "generated_at_utc": "2026-05-18T04:52:12.702145+00:00",
+  "conflict_count": 487,
   "cross_action_conflict_count": 0,
   "high_severity_conflict_count": 0,
   "medium_severity_conflict_count": 0,
-  "low_severity_conflict_count": 488,
+  "low_severity_conflict_count": 487,
   "conflicts": [
     {
       "rule": "DOMAIN,upos-hz-mirrorakam.akamaized.net",
@@ -3613,27 +3613,6 @@
       "severity": "low"
     },
     {
-      "rule": "DOMAIN-SUFFIX,duowan.com",
-      "categories": [
-        "domestic",
-        "socialmedia_cn"
-      ],
-      "actions": [
-        {
-          "category": "domestic",
-          "action": "DIRECT",
-          "action_family": "DIRECT"
-        },
-        {
-          "category": "socialmedia_cn",
-          "action": "DIRECT",
-          "action_family": "DIRECT"
-        }
-      ],
-      "type": "same_action_overlap",
-      "severity": "low"
-    },
-    {
       "rule": "DOMAIN-SUFFIX,dwion.com",
       "categories": [
         "cdn",
@@ -3647,27 +3626,6 @@
         },
         {
           "category": "domestic",
-          "action": "DIRECT",
-          "action_family": "DIRECT"
-        }
-      ],
-      "type": "same_action_overlap",
-      "severity": "low"
-    },
-    {
-      "rule": "DOMAIN-SUFFIX,dwstatic.com",
-      "categories": [
-        "domestic",
-        "socialmedia_cn"
-      ],
-      "actions": [
-        {
-          "category": "domestic",
-          "action": "DIRECT",
-          "action_family": "DIRECT"
-        },
-        {
-          "category": "socialmedia_cn",
           "action": "DIRECT",
           "action_family": "DIRECT"
         }
@@ -7687,6 +7645,27 @@
       "severity": "low"
     },
     {
+      "rule": "DOMAIN-SUFFIX,sdo.com",
+      "categories": [
+        "domestic",
+        "games_cn"
+      ],
+      "actions": [
+        {
+          "category": "domestic",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        },
+        {
+          "category": "games_cn",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        }
+      ],
+      "type": "same_action_overlap",
+      "severity": "low"
+    },
+    {
       "rule": "DOMAIN-SUFFIX,sg.weibo.com",
       "categories": [
         "domestic",
@@ -7700,6 +7679,27 @@
         },
         {
           "category": "socialmedia_cn",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        }
+      ],
+      "type": "same_action_overlap",
+      "severity": "low"
+    },
+    {
+      "rule": "DOMAIN-SUFFIX,shengqugames.com",
+      "categories": [
+        "domestic",
+        "games_cn"
+      ],
+      "actions": [
+        {
+          "category": "domestic",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        },
+        {
+          "category": "games_cn",
           "action": "DIRECT",
           "action_family": "DIRECT"
         }
@@ -10186,48 +10186,6 @@
       "severity": "low"
     },
     {
-      "rule": "DOMAIN-SUFFIX,yy.com",
-      "categories": [
-        "domestic",
-        "socialmedia_cn"
-      ],
-      "actions": [
-        {
-          "category": "domestic",
-          "action": "DIRECT",
-          "action_family": "DIRECT"
-        },
-        {
-          "category": "socialmedia_cn",
-          "action": "DIRECT",
-          "action_family": "DIRECT"
-        }
-      ],
-      "type": "same_action_overlap",
-      "severity": "low"
-    },
-    {
-      "rule": "DOMAIN-SUFFIX,yystatic.com",
-      "categories": [
-        "domestic",
-        "socialmedia_cn"
-      ],
-      "actions": [
-        {
-          "category": "domestic",
-          "action": "DIRECT",
-          "action_family": "DIRECT"
-        },
-        {
-          "category": "socialmedia_cn",
-          "action": "DIRECT",
-          "action_family": "DIRECT"
-        }
-      ],
-      "type": "same_action_overlap",
-      "severity": "low"
-    },
-    {
       "rule": "DOMAIN-SUFFIX,yzyxgame.com",
       "categories": [
         "domestic",
@@ -10334,6 +10292,27 @@
     },
     {
       "rule": "DOMAIN-SUFFIX,zhuoyuegame.com",
+      "categories": [
+        "domestic",
+        "games_cn"
+      ],
+      "actions": [
+        {
+          "category": "domestic",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        },
+        {
+          "category": "games_cn",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        }
+      ],
+      "type": "same_action_overlap",
+      "severity": "low"
+    },
+    {
+      "rule": "DOMAIN-SUFFIX,zjshulong.com",
       "categories": [
         "domestic",
         "games_cn"
