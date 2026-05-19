@@ -2081,7 +2081,6 @@
     },
     {
       "description": "Anime, manga, and adult sites (overseas)",
-      "exclude_rules_path": "manual/exclude/anime.txt",
       "id": "anime",
       "sources": [
         {

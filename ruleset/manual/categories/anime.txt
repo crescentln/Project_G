@@ -19,6 +19,7 @@ DOMAIN-SUFFIX,webtoons.com
 DOMAIN-SUFFIX,tapas.io
 DOMAIN-SUFFIX,bato.to
 DOMAIN-SUFFIX,fanfox.net
+DOMAIN-SUFFIX,happymh.com
 DOMAIN-SUFFIX,nyaa.si
 DOMAIN,sukebei.nyaa.si
 
