@@ -1,0 +1,2 @@
+# Domains that should stay out of the anime proxy set.
+DOMAIN-SUFFIX,happymh.com
