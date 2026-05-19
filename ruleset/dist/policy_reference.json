@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-05-19T12:50:02.518314+00:00",
+  "generated_at_utc": "2026-05-19T18:04:24.707305+00:00",
   "policy_path": "config/policy_map.json",
   "categories": [
     {
@@ -7,7 +7,7 @@
       "recommended_action": "REJECT",
       "recommended_priority": 100,
       "recommended_note": "广告、追踪、恶意基础拦截规则",
-      "rule_count": 326613
+      "rule_count": 327034
     },
     {
       "id": "reject_extra",
@@ -42,14 +42,14 @@
       "recommended_action": "DIRECT",
       "recommended_priority": 210,
       "recommended_note": "中国大陆域名集合直连（domain-focused）",
-      "rule_count": 7018
+      "rule_count": 7031
     },
     {
       "id": "cncidr",
       "recommended_action": "DIRECT",
       "recommended_priority": 220,
       "recommended_note": "中国大陆 IP 段直连（IP-focused）",
-      "rule_count": 10829
+      "rule_count": 10826
     },
     {
       "id": "telegram",
@@ -63,7 +63,7 @@
       "recommended_action": "DIRECT",
       "recommended_priority": 250,
       "recommended_note": "CDN 回源与就近访问优先直连",
-      "rule_count": 1529
+      "rule_count": 1530
     },
     {
       "id": "download",
@@ -77,7 +77,7 @@
       "recommended_action": "PROXY",
       "recommended_priority": 309,
       "recommended_note": "整合流媒体集合（含 Netflix），跨地区统一",
-      "rule_count": 434
+      "rule_count": 439
     },
     {
       "id": "stream_us",
@@ -105,7 +105,7 @@
       "recommended_action": "PROXY",
       "recommended_priority": 313,
       "recommended_note": "台湾流媒体走代理（可选细分）",
-      "rule_count": 28
+      "rule_count": 33
     },
     {
       "id": "stream_global",
@@ -147,7 +147,7 @@
       "recommended_action": "PROXY",
       "recommended_priority": 321,
       "recommended_note": "iCloud Private Relay 推荐走代理（PROXY）",
-      "rule_count": 13589
+      "rule_count": 13591
     },
     {
       "id": "apple_services",
@@ -315,7 +315,7 @@
       "recommended_action": "PROXY",
       "recommended_priority": 340,
       "recommended_note": "海外动漫、漫画与成人站点走代理",
-      "rule_count": 49
+      "rule_count": 50
     },
     {
       "id": "tiktok",
@@ -371,14 +371,14 @@
       "recommended_action": "PROXY",
       "recommended_priority": 900,
       "recommended_note": "兜底代理集合（应放在较后顺序）",
-      "rule_count": 24820
+      "rule_count": 24800
     },
     {
       "id": "direct",
       "recommended_action": "DIRECT",
       "recommended_priority": 205,
       "recommended_note": "合并直连集合（含国内域名 + CN CIDR，简化部署）",
-      "rule_count": 19899
+      "rule_count": 19909
     }
   ]
 }

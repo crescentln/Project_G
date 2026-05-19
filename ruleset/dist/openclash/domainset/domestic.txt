@@ -93,6 +93,7 @@ xtratime.qcomgeo2.com
 +.12321.cn
 +.123245.com
 +.123254.com
++.123278.com
 +.123294.com
 +.1234567.com.cn
 +.123624.com
@@ -319,6 +320,7 @@ xtratime.qcomgeo2.com
 +.51kim.com
 +.51meishu.com
 +.51nod.com
++.51pptmoban.com
 +.51selling.com
 +.51sole.com
 +.51togic.com
@@ -663,6 +665,7 @@ xtratime.qcomgeo2.com
 +.amapauto.com
 +.amazonaws.cn
 +.amazonaws.com.cn
++.amazonwebservices.cn
 +.amazonwebservices.com.cn
 +.amazonworkdocs.cn
 +.amazonworkdocs.com.cn
@@ -700,6 +703,8 @@ xtratime.qcomgeo2.com
 +.anquan.org
 +.anquanke.com
 +.anruan.com
++.antafu.com
++.antaq.com
 +.antfin.com
 +.antfortune.com
 +.antgroup-inc.cn
@@ -2003,6 +2008,7 @@ xtratime.qcomgeo2.com
 +.dao123.com
 +.daocloud.io
 +.daocloud.vip
++.daodoc.com
 +.daojia.com
 +.daovoice.io
 +.data.pharmacodia.com
@@ -2792,6 +2798,7 @@ xtratime.qcomgeo2.com
 +.gogokid.com.cn
 +.goka.top
 +.gold678.com
++.goldhoe.com
 +.golink.com
 +.golinkapi.com
 +.golinkcn.com
@@ -3618,6 +3625,7 @@ xtratime.qcomgeo2.com
 +.jikipedia.com
 +.jin10.com
 +.jinantimes.com.cn
++.jinchutou.com
 +.jindidata.com
 +.jingdong.com
 +.jingdongjinrong.com
@@ -5137,6 +5145,7 @@ xtratime.qcomgeo2.com
 +.saduck.top
 +.saee.org.cn
 +.safeskill.cn
++.safewk.com
 +.sagemaker.com.cn
 +.saibo.com
 +.samasty.com
@@ -5516,6 +5525,7 @@ xtratime.qcomgeo2.com
 +.taobaocdn.com
 +.taobizhong.com
 +.taoche.com
++.taodocs.com
 +.taomee.com
 +.taopiaopiao.com
 +.taou.com
@@ -6276,6 +6286,7 @@ xtratime.qcomgeo2.com
 +.welltrend-edu.com
 +.wenjuan.com
 +.wenkeju.com
++.wenkub.com
 +.wenmingban.com
 +.wenshushu.cn
 +.wenshushu.com
@@ -6396,6 +6407,7 @@ xtratime.qcomgeo2.com
 +.wuuxiang.com
 +.wuximediaglobal.com
 +.wuyou.net
++.wxaurl.cn
 +.wxcloudrun.com
 +.wxdw.top
 +.wxgateway.com
@@ -6889,6 +6901,7 @@ xtratime.qcomgeo2.com
 +.zhihang100.com
 +.zhihu.com
 +.zhihuishu.com
++.zhijidoc.com
 +.zhiliaowenda.com.cn
 +.zhimg.com
 +.zhipin.com

@@ -8,6 +8,7 @@ payload:
   - 'DOMAIN-SUFFIX,aicdn.com'
   - 'DOMAIN-SUFFIX,amazonaws.cn'
   - 'DOMAIN-SUFFIX,amazonaws.com.cn'
+  - 'DOMAIN-SUFFIX,amazonwebservices.cn'
   - 'DOMAIN-SUFFIX,amazonwebservices.com.cn'
   - 'DOMAIN-SUFFIX,amazonworkdocs.cn'
   - 'DOMAIN-SUFFIX,amazonworkdocs.com.cn'

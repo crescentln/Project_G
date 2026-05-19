@@ -18,6 +18,7 @@ sukebei.nyaa.si
 +.funimation.com
 +.gelbooru.com
 +.hanime.tv
++.happymh.com
 +.hentaihaven.xxx
 +.hidive.com
 +.hitomi.la
