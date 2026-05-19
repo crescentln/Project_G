@@ -4,11 +4,11 @@
   "recommended_action": "DIRECT",
   "recommended_priority": 250,
   "recommended_note": "CDN 回源与就近访问优先直连",
-  "rule_count": 1512,
-  "stash_rule_count": 1512,
+  "rule_count": 1529,
+  "stash_rule_count": 1529,
   "stash_classical_rule_count": 2,
   "stash_domain_rule_count": 128,
-  "stash_ipcidr_rule_count": 1382,
+  "stash_ipcidr_rule_count": 1399,
   "paths": {
     "stash": "stash/cdn.list",
     "stash_classical": "stash/classical/cdn.list",
@@ -57,7 +57,7 @@
       "authority": "official",
       "ref": "https://www.gstatic.com/ipranges/cloud.json",
       "used_cache": false,
-      "rule_count": 950
+      "rule_count": 967
     },
     {
       "type": "fastly_public_ip_list",

@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-05-18T04:52:12.713082+00:00",
+  "generated_at_utc": "2026-05-19T03:31:06.162252+00:00",
   "policy_path": "config/policy_map.json",
   "categories": [
     {
@@ -7,7 +7,7 @@
       "recommended_action": "REJECT",
       "recommended_priority": 100,
       "recommended_note": "广告、追踪、恶意基础拦截规则",
-      "rule_count": 328660
+      "rule_count": 329501
     },
     {
       "id": "reject_extra",
@@ -63,7 +63,7 @@
       "recommended_action": "DIRECT",
       "recommended_priority": 250,
       "recommended_note": "CDN 回源与就近访问优先直连",
-      "rule_count": 1512
+      "rule_count": 1529
     },
     {
       "id": "download",
@@ -378,7 +378,7 @@
       "recommended_action": "DIRECT",
       "recommended_priority": 205,
       "recommended_note": "合并直连集合（含国内域名 + CN CIDR，简化部署）",
-      "rule_count": 19882
+      "rule_count": 19899
     }
   ]
 }
