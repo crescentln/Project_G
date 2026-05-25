@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-05-19T18:04:24.704216+00:00",
+  "generated_at_utc": "2026-05-25T04:56:29.670702+00:00",
   "config_path": "config/sources.json",
   "policy_path": "config/policy_map.json",
   "category_count": 54,
@@ -17,10 +17,10 @@
     {
       "id": "reject",
       "description": "Ads, trackers, and malware",
-      "rule_count": 327034,
-      "stash_rule_count": 327034,
+      "rule_count": 328102,
+      "stash_rule_count": 328102,
       "stash_classical_rule_count": 0,
-      "stash_domain_rule_count": 327034,
+      "stash_domain_rule_count": 328102,
       "stash_ipcidr_rule_count": 0,
       "surge_path": "surge/reject.list",
       "openclash_path": "openclash/reject.yaml",
@@ -50,28 +50,28 @@
           "authority": "curated-upstream",
           "ref": "https://easylist.to/easylist/easylist.txt",
           "used_cache": false,
-          "rule_count": 56177
+          "rule_count": 57141
         },
         {
           "type": "adblock",
           "authority": "curated-upstream",
           "ref": "https://easylist.to/easylist/easyprivacy.txt",
           "used_cache": false,
-          "rule_count": 47163
+          "rule_count": 47170
         },
         {
           "type": "adblock",
           "authority": "curated-upstream",
           "ref": "https://filters.adtidy.org/dns/filter_1.txt",
           "used_cache": false,
-          "rule_count": 161841
+          "rule_count": 162844
         },
         {
           "type": "adblock",
           "authority": "curated-upstream",
           "ref": "https://phishing.army/download/phishing_army_blocklist_extended.txt",
           "used_cache": false,
-          "rule_count": 146208
+          "rule_count": 146266
         },
         {
           "type": "local_domain",
@@ -1126,10 +1126,10 @@
     {
       "id": "ai",
       "description": "AI services",
-      "rule_count": 153,
-      "stash_rule_count": 153,
+      "rule_count": 155,
+      "stash_rule_count": 155,
       "stash_classical_rule_count": 1,
-      "stash_domain_rule_count": 152,
+      "stash_domain_rule_count": 154,
       "stash_ipcidr_rule_count": 0,
       "surge_path": "surge/ai.list",
       "openclash_path": "openclash/ai.yaml",
@@ -1208,7 +1208,7 @@
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-ai-!cn",
           "used_cache": false,
-          "rule_count": 146
+          "rule_count": 148
         },
         {
           "type": "local_domain",
@@ -1370,11 +1370,11 @@
     {
       "id": "icloud_private_relay",
       "description": "Apple iCloud Private Relay endpoints",
-      "rule_count": 13591,
-      "stash_rule_count": 13591,
+      "rule_count": 13592,
+      "stash_rule_count": 13592,
       "stash_classical_rule_count": 0,
       "stash_domain_rule_count": 5,
-      "stash_ipcidr_rule_count": 13586,
+      "stash_ipcidr_rule_count": 13587,
       "surge_path": "surge/icloud_private_relay.list",
       "openclash_path": "openclash/icloud_private_relay.yaml",
       "stash_path": "stash/icloud_private_relay.list",
@@ -1403,7 +1403,7 @@
           "authority": "official",
           "ref": "https://mask-api.icloud.com/egress-ip-ranges.csv",
           "used_cache": false,
-          "rule_count": 13586
+          "rule_count": 13587
         },
         {
           "type": "v2fly_dlc",
@@ -3091,10 +3091,10 @@
     {
       "id": "global",
       "description": "Global fallback domain list",
-      "rule_count": 24800,
-      "stash_rule_count": 24800,
+      "rule_count": 24804,
+      "stash_rule_count": 24804,
       "stash_classical_rule_count": 161,
-      "stash_domain_rule_count": 24639,
+      "stash_domain_rule_count": 24643,
       "stash_ipcidr_rule_count": 0,
       "surge_path": "surge/global.list",
       "openclash_path": "openclash/global.yaml",
@@ -3124,7 +3124,7 @@
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/geolocation-!cn",
           "used_cache": false,
-          "rule_count": 24801
+          "rule_count": 24805
         },
         {
           "type": "local_domain",
