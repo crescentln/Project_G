@@ -65,11 +65,7 @@
     "download": [
       "DOMAIN-SUFFIX,apkmirrorusercontent.com",
       "DOMAIN-SUFFIX,auroraoss.com",
-      "DOMAIN-SUFFIX,izzysoft.de",
-      "DOMAIN,registry-1.docker.io",
-      "DOMAIN,files.pythonhosted.org",
-      "DOMAIN,repo1.maven.org",
-      "DOMAIN-SUFFIX,cloudflarestorage.com"
+      "DOMAIN-SUFFIX,izzysoft.de"
     ],
     "ecommerce": [
       "DOMAIN-SUFFIX,newegg.com",

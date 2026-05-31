@@ -1,7 +1,6 @@
 # Owner-controlled download routing domains (non-game).
 # Game platform domains should be maintained in games.* categories.
 
-# Android app stores / APK mirrors
 DOMAIN-SUFFIX,apkcombo.com
 DOMAIN-SUFFIX,apkmirror.com
 DOMAIN-SUFFIX,apkpure.com
@@ -18,64 +17,3 @@ DOMAIN-SUFFIX,apkmonk.com
 DOMAIN-SUFFIX,apk.support
 DOMAIN-SUFFIX,apps.evozi.com
 DOMAIN-SUFFIX,apkfollow.com
-
-# Object storage and large file delivery
-DOMAIN-SUFFIX,cloud-object-storage.appdomain.cloud
-DOMAIN-SUFFIX,cloudflarestorage.com
-DOMAIN-SUFFIX,r2.dev
-DOMAIN-SUFFIX,s3.amazonaws.com
-DOMAIN-SUFFIX,s3-accelerate.amazonaws.com
-DOMAIN-SUFFIX,s3-global.amazonaws.com
-DOMAIN-SUFFIX,digitaloceanspaces.com
-DOMAIN-SUFFIX,vultrobjects.com
-DOMAIN-SUFFIX,linodeobjects.com
-DOMAIN-SUFFIX,backblazeb2.com
-DOMAIN-SUFFIX,cdn77-storage.com
-DOMAIN-SUFFIX,blob.core.windows.net
-DOMAIN-SUFFIX,file.core.windows.net
-DOMAIN,public.blob.vercel-storage.com
-DOMAIN-SUFFIX,vercel-storage.com
-
-# Package registries and language ecosystems
-DOMAIN,registry.npmjs.org
-DOMAIN,registry.npmjs.com
-DOMAIN,registry.yarnpkg.com
-DOMAIN-SUFFIX,yarnpkg.com
-DOMAIN,pypi.org
-DOMAIN,files.pythonhosted.org
-DOMAIN,index.rubygems.org
-DOMAIN,rubygems.org
-DOMAIN,static.rust-lang.org
-DOMAIN,crates.io
-DOMAIN,static.crates.io
-DOMAIN,repo.anaconda.com
-DOMAIN,conda.anaconda.org
-DOMAIN,repo1.maven.org
-DOMAIN,repo.maven.apache.org
-DOMAIN,maven.google.com
-DOMAIN,repo.gradle.org
-DOMAIN,plugins-artifacts.gradle.org
-DOMAIN,cdn.cocoapods.org
-DOMAIN,proxy.golang.org
-DOMAIN,index.golang.org
-DOMAIN,sum.golang.org
-DOMAIN,packagist.org
-DOMAIN,repo.packagist.org
-DOMAIN,registry.bower.io
-DOMAIN,npm.jsr.io
-DOMAIN,registry-cdn.wapm.io
-DOMAIN,binaries.prisma.sh
-
-# Docker / OCI package delivery
-DOMAIN,registry-1.docker.io
-DOMAIN,auth.docker.io
-DOMAIN,production.cloudflare.docker.com
-DOMAIN,download.docker.com
-DOMAIN,desktop.docker.com
-DOMAIN,packages.docker.com
-
-# OS package mirrors and software update downloads
-DOMAIN,archive.ubuntu.com
-DOMAIN,security.ubuntu.com
-DOMAIN,deb.debian.org
-DOMAIN,dl.google.com
