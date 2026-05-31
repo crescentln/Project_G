@@ -351,6 +351,7 @@ xtratime.qcomgeo2.com
 +.10099.com.cn
 +.100bt.com
 +.100offer.com
++.100tal.com
 +.101.100.in-addr.arpa
 +.10155.com
 +.102.100.in-addr.arpa
@@ -488,6 +489,7 @@ xtratime.qcomgeo2.com
 +.20.172.in-addr.arpa
 +.21.172.in-addr.arpa
 +.21cn.com
++.21cnjy.com
 +.21jingji.com
 +.21vbc.com
 +.21vbluecloud.com
@@ -778,6 +780,7 @@ xtratime.qcomgeo2.com
 +.88.100.in-addr.arpa
 +.885.com
 +.88cdn.com
++.88cha.com
 +.89.100.in-addr.arpa
 +.8btc.com
 +.8gcdp.cn
@@ -1092,6 +1095,7 @@ xtratime.qcomgeo2.com
 +.antgroup.com
 +.anticheatexpert.com
 +.antpcdn.com
++.antpedia.com
 +.antutu.com
 +.antutu.net
 +.anxia.com
@@ -1100,6 +1104,7 @@ xtratime.qcomgeo2.com
 +.anywlan.com
 +.anzhuo.cn
 +.ao-x.ac.cn
++.aoshu.com
 +.aotrip.net
 +.aoyou.com
 +.ap-bangkok.myqcloud.com
@@ -1377,6 +1382,7 @@ xtratime.qcomgeo2.com
 +.bbbcdns.com
 +.bbdc.cn
 +.bblmw.com
++.bbtnews.com.cn
 +.bbtv.cn
 +.bce-cdn.cn
 +.bce-cdn.com
@@ -1948,6 +1954,7 @@ xtratime.qcomgeo2.com
 +.cf-ns.site
 +.cf-ns.tech
 +.cfc108.com
++.cfgw.net.cn
 +.cfsc.com.cn
 +.cftest5.cn
 +.cftest6.cn
@@ -2013,10 +2020,12 @@ xtratime.qcomgeo2.com
 +.chinacloudapi.cn
 +.chinacloudapp.cn
 +.chinacloudsites.cn
++.chinadevelopment.com.cn
 +.chinadongchu.com
 +.chinadsl.net
 +.chinaepg.cn
 +.chinaexpressair.com
++.chinafix.com
 +.chinafph.com
 +.chinahr.com
 +.chinakaoyan.com
@@ -2303,6 +2312,7 @@ xtratime.qcomgeo2.com
 +.colinker.com
 +.coloros.com
 +.coloros.net
++.comfylink.com
 +.computeinit.com
 +.comsenz.com
 +.con-c-hybris.lenovo.com
@@ -2478,6 +2488,7 @@ xtratime.qcomgeo2.com
 +.cyagen.com
 +.cybtc.com
 +.cyol.com
++.cyol.net
 +.cyts.com
 +.cytxl.com.cn
 +.cyzone.cn
@@ -2644,6 +2655,7 @@ xtratime.qcomgeo2.com
 +.ditu.live.com
 +.divoiotcloud.com
 +.diyiyou.com
++.diyring.cc
 +.dj99.com
 +.djdjapp.com
 +.dji.com
@@ -2871,6 +2883,9 @@ xtratime.qcomgeo2.com
 +.eduapaashwc.com
 +.educoder.net
 +.eduei.com
++.eduu.com
++.eduuu.com
++.eeo.com.cn
 +.eeyy.com
 +.eflycloud.com
 +.efunds.com.cn
@@ -2936,6 +2951,7 @@ xtratime.qcomgeo2.com
 +.eufymake.com
 +.eufymake.com.cn
 +.everbright.com
++.ewdcloud.com
 +.ewww.com.cn
 +.excelbbx.net
 +.excelhome.net
@@ -3220,6 +3236,7 @@ xtratime.qcomgeo2.com
 +.ganjistatic1.com
 +.gaode.com
 +.gaodun.com
++.gaokao.com
 +.gaoshouyou.com
 +.gaoxiaojob.com
 +.gatzs.com.cn
@@ -4352,6 +4369,8 @@ xtratime.qcomgeo2.com
 +.keepcdn.com
 +.kejet.net
 +.kekeniu.com
++.kemen.cn
++.kepuchina.cn
 +.kesong.co
 +.ketangpai.com
 +.kexinshe.com
@@ -4475,6 +4494,9 @@ xtratime.qcomgeo2.com
 +.kuqin.com
 +.kurogames.com
 +.kuwo.cn
++.kuyin123.com
++.kuyinxiu.com
++.kuyinyun.com
 +.kuyiso.com
 +.kwaicdn.com
 +.kwaizt.com
@@ -4897,6 +4919,8 @@ xtratime.qcomgeo2.com
 +.mgtv.com
 +.mhystatic.com
 +.mhyurl.cn
++.mi-dun.com
++.mi-fds.com
 +.mi-idc.com
 +.mi-img.com
 +.mi.com
@@ -4957,6 +4981,7 @@ xtratime.qcomgeo2.com
 +.minhangshi.com
 +.minimaxi.com
 +.minitiao.com
++.mioffice.cn
 +.miot-spec.org
 +.mipay.com
 +.mipcdn.com
@@ -5779,6 +5804,7 @@ xtratime.qcomgeo2.com
 +.schoopia.com
 +.scid.cn
 +.sciencechina.cn
++.sckg.com
 +.scm121.cn
 +.scm121.com
 +.scoregg.com
@@ -6130,6 +6156,7 @@ xtratime.qcomgeo2.com
 +.taipingfund.com.cn
 +.tajiduo.com
 +.takungpao.com
++.tal.com
 +.talk-cloud.net
 +.talkingdata.com
 +.talkinggame.com
@@ -7145,6 +7172,7 @@ xtratime.qcomgeo2.com
 +.xiezuocat.com
 +.xiguaapp.cn
 +.xiguaapp.com
++.xiguacity.cn
 +.xiguashipin.cn
 +.xiguashipin.net
 +.xiguavideo.cn
@@ -7335,6 +7363,7 @@ xtratime.qcomgeo2.com
 +.youjiao.com
 +.youke.co
 +.youku.com
++.youlai.cn
 +.youlian.fun
 +.youpin.cn
 +.youpin.com.cn
@@ -7650,6 +7679,8 @@ xtratime.qcomgeo2.com
 +.zuodao.com
 +.zuowen.com
 +.zuowen8.com
++.zuowenjun.com
++.zuowenku.net
 +.zuowenwang.net
 +.zuoyebang.cc
 +.zuoyebang.com
