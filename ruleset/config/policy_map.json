@@ -79,7 +79,7 @@
     "download": {
       "action": "DIRECT",
       "priority": 251,
-      "note": "安卓应用下载集合默认直连（游戏平台流量归 games）"
+      "note": "应用下载、包管理与大文件分发默认直连（游戏平台流量归 games）"
     },
     "telegram": {
       "action": "PROXY",
