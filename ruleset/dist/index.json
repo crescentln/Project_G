@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-05-31T22:05:07.694513+00:00",
+  "generated_at_utc": "2026-06-01T05:05:16.652433+00:00",
   "config_path": "config/sources.json",
   "policy_path": "config/policy_map.json",
   "category_count": 54,
@@ -17,10 +17,10 @@
     {
       "id": "reject",
       "description": "Ads, trackers, and malware",
-      "rule_count": 329335,
-      "stash_rule_count": 329335,
+      "rule_count": 329171,
+      "stash_rule_count": 329171,
       "stash_classical_rule_count": 0,
-      "stash_domain_rule_count": 329335,
+      "stash_domain_rule_count": 329171,
       "stash_ipcidr_rule_count": 0,
       "surge_path": "surge/reject.list",
       "openclash_path": "openclash/reject.yaml",
@@ -50,28 +50,28 @@
           "authority": "curated-upstream",
           "ref": "https://easylist.to/easylist/easylist.txt",
           "used_cache": false,
-          "rule_count": 58896
+          "rule_count": 58984
         },
         {
           "type": "adblock",
           "authority": "curated-upstream",
           "ref": "https://easylist.to/easylist/easyprivacy.txt",
           "used_cache": false,
-          "rule_count": 46940
+          "rule_count": 46941
         },
         {
           "type": "adblock",
           "authority": "curated-upstream",
           "ref": "https://filters.adtidy.org/dns/filter_1.txt",
           "used_cache": false,
-          "rule_count": 164438
+          "rule_count": 164534
         },
         {
           "type": "adblock",
           "authority": "curated-upstream",
           "ref": "https://phishing.army/download/phishing_army_blocklist_extended.txt",
           "used_cache": false,
-          "rule_count": 145892
+          "rule_count": 145635
         },
         {
           "type": "local_domain",
