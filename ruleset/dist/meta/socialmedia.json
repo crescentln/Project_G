@@ -4,10 +4,10 @@
   "recommended_action": "PROXY",
   "recommended_priority": 340,
   "recommended_note": "国际社交网络走代理",
-  "rule_count": 662,
-  "stash_rule_count": 662,
+  "rule_count": 663,
+  "stash_rule_count": 663,
   "stash_classical_rule_count": 0,
-  "stash_domain_rule_count": 662,
+  "stash_domain_rule_count": 663,
   "stash_ipcidr_rule_count": 0,
   "paths": {
     "stash": "stash/socialmedia.list",
@@ -78,7 +78,7 @@
       "authority": "community-curated",
       "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/quora",
       "used_cache": false,
-      "rule_count": 5
+      "rule_count": 6
     },
     {
       "type": "v2fly_dlc",

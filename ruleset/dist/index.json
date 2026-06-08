@@ -1,9 +1,9 @@
 {
-  "generated_at_utc": "2026-06-01T05:05:16.652433+00:00",
+  "generated_at_utc": "2026-06-08T04:59:35.177471+00:00",
   "config_path": "config/sources.json",
   "policy_path": "config/policy_map.json",
   "category_count": 54,
-  "conflict_count": 487,
+  "conflict_count": 495,
   "cross_action_conflict_count": 0,
   "high_severity_conflict_count": 0,
   "fetch_report_path": "fetch_report.json",
@@ -17,10 +17,10 @@
     {
       "id": "reject",
       "description": "Ads, trackers, and malware",
-      "rule_count": 329171,
-      "stash_rule_count": 329171,
+      "rule_count": 324919,
+      "stash_rule_count": 324919,
       "stash_classical_rule_count": 0,
-      "stash_domain_rule_count": 329171,
+      "stash_domain_rule_count": 324919,
       "stash_ipcidr_rule_count": 0,
       "surge_path": "surge/reject.list",
       "openclash_path": "openclash/reject.yaml",
@@ -50,28 +50,28 @@
           "authority": "curated-upstream",
           "ref": "https://easylist.to/easylist/easylist.txt",
           "used_cache": false,
-          "rule_count": 58984
+          "rule_count": 55409
         },
         {
           "type": "adblock",
           "authority": "curated-upstream",
           "ref": "https://easylist.to/easylist/easyprivacy.txt",
           "used_cache": false,
-          "rule_count": 46941
+          "rule_count": 46956
         },
         {
           "type": "adblock",
           "authority": "curated-upstream",
           "ref": "https://filters.adtidy.org/dns/filter_1.txt",
           "used_cache": false,
-          "rule_count": 164534
+          "rule_count": 161019
         },
         {
           "type": "adblock",
           "authority": "curated-upstream",
           "ref": "https://phishing.army/download/phishing_army_blocklist_extended.txt",
           "used_cache": false,
-          "rule_count": 145635
+          "rule_count": 144845
         },
         {
           "type": "local_domain",
@@ -266,10 +266,10 @@
     {
       "id": "domestic",
       "description": "Mainland China domains (domain-focused direct set)",
-      "rule_count": 7062,
-      "stash_rule_count": 7062,
+      "rule_count": 7251,
+      "stash_rule_count": 7251,
       "stash_classical_rule_count": 3,
-      "stash_domain_rule_count": 7059,
+      "stash_domain_rule_count": 7248,
       "stash_ipcidr_rule_count": 0,
       "surge_path": "surge/domestic.list",
       "openclash_path": "openclash/domestic.yaml",
@@ -299,7 +299,7 @@
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/cn",
           "used_cache": false,
-          "rule_count": 7067
+          "rule_count": 7256
         },
         {
           "type": "local_domain",
@@ -313,11 +313,11 @@
     {
       "id": "cncidr",
       "description": "Mainland China IPv4/IPv6 CIDR only (IP-focused direct set)",
-      "rule_count": 10825,
-      "stash_rule_count": 10825,
+      "rule_count": 10826,
+      "stash_rule_count": 10826,
       "stash_classical_rule_count": 0,
       "stash_domain_rule_count": 0,
-      "stash_ipcidr_rule_count": 10825,
+      "stash_ipcidr_rule_count": 10826,
       "surge_path": "surge/cncidr.list",
       "openclash_path": "openclash/cncidr.yaml",
       "stash_path": "stash/cncidr.list",
@@ -346,7 +346,7 @@
           "authority": "official",
           "ref": "https://ftp.apnic.net/stats/apnic/delegated-apnic-latest",
           "used_cache": false,
-          "rule_count": 10825
+          "rule_count": 10826
         },
         {
           "type": "local_domain",
@@ -360,10 +360,10 @@
     {
       "id": "telegram",
       "description": "Telegram domains and official CIDRs",
-      "rule_count": 34,
-      "stash_rule_count": 34,
+      "rule_count": 35,
+      "stash_rule_count": 35,
       "stash_classical_rule_count": 0,
-      "stash_domain_rule_count": 20,
+      "stash_domain_rule_count": 21,
       "stash_ipcidr_rule_count": 14,
       "surge_path": "surge/telegram.list",
       "openclash_path": "openclash/telegram.yaml",
@@ -400,7 +400,7 @@
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/telegram",
           "used_cache": false,
-          "rule_count": 20
+          "rule_count": 21
         },
         {
           "type": "local_domain",
@@ -414,11 +414,11 @@
     {
       "id": "cdn",
       "description": "CDN domains and edge prefixes",
-      "rule_count": 1539,
-      "stash_rule_count": 1539,
+      "rule_count": 1549,
+      "stash_rule_count": 1549,
       "stash_classical_rule_count": 2,
-      "stash_domain_rule_count": 129,
-      "stash_ipcidr_rule_count": 1408,
+      "stash_domain_rule_count": 130,
+      "stash_ipcidr_rule_count": 1417,
       "surge_path": "surge/cdn.list",
       "openclash_path": "openclash/cdn.yaml",
       "stash_path": "stash/cdn.list",
@@ -461,7 +461,7 @@
           "authority": "official",
           "ref": "https://ip-ranges.amazonaws.com/ip-ranges.json",
           "used_cache": false,
-          "rule_count": 389
+          "rule_count": 398
         },
         {
           "type": "gcp_ip_ranges",
@@ -482,7 +482,7 @@
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-cdn-cn",
           "used_cache": false,
-          "rule_count": 91
+          "rule_count": 92
         },
         {
           "type": "v2fly_dlc",
@@ -1126,10 +1126,10 @@
     {
       "id": "ai",
       "description": "AI services",
-      "rule_count": 158,
-      "stash_rule_count": 158,
+      "rule_count": 162,
+      "stash_rule_count": 162,
       "stash_classical_rule_count": 1,
-      "stash_domain_rule_count": 157,
+      "stash_domain_rule_count": 161,
       "stash_ipcidr_rule_count": 0,
       "surge_path": "surge/ai.list",
       "openclash_path": "openclash/ai.yaml",
@@ -1159,14 +1159,14 @@
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/openai",
           "used_cache": false,
-          "rule_count": 17
+          "rule_count": 18
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/anthropic",
           "used_cache": false,
-          "rule_count": 7
+          "rule_count": 8
         },
         {
           "type": "v2fly_dlc",
@@ -1208,7 +1208,7 @@
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-ai-!cn",
           "used_cache": false,
-          "rule_count": 151
+          "rule_count": 155
         },
         {
           "type": "local_domain",
@@ -1222,10 +1222,10 @@
     {
       "id": "apple_cn",
       "description": "Apple China direct",
-      "rule_count": 291,
-      "stash_rule_count": 291,
+      "rule_count": 287,
+      "stash_rule_count": 287,
       "stash_classical_rule_count": 0,
-      "stash_domain_rule_count": 291,
+      "stash_domain_rule_count": 287,
       "stash_ipcidr_rule_count": 0,
       "surge_path": "surge/apple_cn.list",
       "openclash_path": "openclash/apple_cn.yaml",
@@ -1255,7 +1255,7 @@
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple",
           "used_cache": false,
-          "rule_count": 291
+          "rule_count": 287
         },
         {
           "type": "local_domain",
@@ -1269,10 +1269,10 @@
     {
       "id": "apple_cdn",
       "description": "Apple CDN direct",
-      "rule_count": 31,
-      "stash_rule_count": 31,
+      "rule_count": 29,
+      "stash_rule_count": 29,
       "stash_classical_rule_count": 0,
-      "stash_domain_rule_count": 31,
+      "stash_domain_rule_count": 29,
       "stash_ipcidr_rule_count": 0,
       "surge_path": "surge/apple_cdn.list",
       "openclash_path": "openclash/apple_cdn.yaml",
@@ -1309,7 +1309,7 @@
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple-pki",
           "used_cache": false,
-          "rule_count": 10
+          "rule_count": 8
         },
         {
           "type": "local_domain",
@@ -1762,10 +1762,10 @@
     {
       "id": "games_cn",
       "description": "China game services",
-      "rule_count": 234,
-      "stash_rule_count": 234,
+      "rule_count": 239,
+      "stash_rule_count": 239,
       "stash_classical_rule_count": 1,
-      "stash_domain_rule_count": 233,
+      "stash_domain_rule_count": 238,
       "stash_ipcidr_rule_count": 0,
       "surge_path": "surge/games_cn.list",
       "openclash_path": "openclash/games_cn.yaml",
@@ -1795,7 +1795,7 @@
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-games-cn",
           "used_cache": false,
-          "rule_count": 234
+          "rule_count": 239
         },
         {
           "type": "local_domain",
@@ -1809,10 +1809,10 @@
     {
       "id": "games",
       "description": "Global game services",
-      "rule_count": 825,
-      "stash_rule_count": 825,
+      "rule_count": 826,
+      "stash_rule_count": 826,
       "stash_classical_rule_count": 6,
-      "stash_domain_rule_count": 819,
+      "stash_domain_rule_count": 820,
       "stash_ipcidr_rule_count": 0,
       "surge_path": "surge/games.list",
       "openclash_path": "openclash/games.yaml",
@@ -1842,7 +1842,7 @@
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-games-!cn",
           "used_cache": false,
-          "rule_count": 825
+          "rule_count": 826
         },
         {
           "type": "v2fly_dlc",
@@ -2194,10 +2194,10 @@
     {
       "id": "google",
       "description": "Google services",
-      "rule_count": 731,
-      "stash_rule_count": 731,
+      "rule_count": 728,
+      "stash_rule_count": 728,
       "stash_classical_rule_count": 0,
-      "stash_domain_rule_count": 731,
+      "stash_domain_rule_count": 728,
       "stash_ipcidr_rule_count": 0,
       "surge_path": "surge/google.list",
       "openclash_path": "openclash/google.yaml",
@@ -2227,7 +2227,7 @@
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/google",
           "used_cache": false,
-          "rule_count": 730
+          "rule_count": 727
         },
         {
           "type": "local_domain",
@@ -2504,10 +2504,10 @@
     {
       "id": "forum",
       "description": "Forums",
-      "rule_count": 98,
-      "stash_rule_count": 98,
+      "rule_count": 99,
+      "stash_rule_count": 99,
       "stash_classical_rule_count": 0,
-      "stash_domain_rule_count": 98,
+      "stash_domain_rule_count": 99,
       "stash_ipcidr_rule_count": 0,
       "surge_path": "surge/forum.list",
       "openclash_path": "openclash/forum.yaml",
@@ -2537,7 +2537,7 @@
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-forums",
           "used_cache": false,
-          "rule_count": 98
+          "rule_count": 99
         },
         {
           "type": "local_domain",
@@ -2551,10 +2551,10 @@
     {
       "id": "socialmedia_cn",
       "description": "Domestic social media",
-      "rule_count": 121,
-      "stash_rule_count": 121,
+      "rule_count": 123,
+      "stash_rule_count": 123,
       "stash_classical_rule_count": 0,
-      "stash_domain_rule_count": 121,
+      "stash_domain_rule_count": 123,
       "stash_ipcidr_rule_count": 0,
       "surge_path": "surge/socialmedia_cn.list",
       "openclash_path": "openclash/socialmedia_cn.yaml",
@@ -2605,7 +2605,7 @@
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/bilibili",
           "used_cache": false,
-          "rule_count": 50
+          "rule_count": 52
         },
         {
           "type": "local_domain",
@@ -2619,10 +2619,10 @@
     {
       "id": "socialmedia",
       "description": "Global social media",
-      "rule_count": 662,
-      "stash_rule_count": 662,
+      "rule_count": 663,
+      "stash_rule_count": 663,
       "stash_classical_rule_count": 0,
-      "stash_domain_rule_count": 662,
+      "stash_domain_rule_count": 663,
       "stash_ipcidr_rule_count": 0,
       "surge_path": "surge/socialmedia.list",
       "openclash_path": "openclash/socialmedia.yaml",
@@ -2694,7 +2694,7 @@
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/quora",
           "used_cache": false,
-          "rule_count": 5
+          "rule_count": 6
         },
         {
           "type": "v2fly_dlc",
@@ -3091,10 +3091,10 @@
     {
       "id": "global",
       "description": "Global fallback domain list",
-      "rule_count": 24850,
-      "stash_rule_count": 24850,
+      "rule_count": 25088,
+      "stash_rule_count": 25088,
       "stash_classical_rule_count": 161,
-      "stash_domain_rule_count": 24689,
+      "stash_domain_rule_count": 24927,
       "stash_ipcidr_rule_count": 0,
       "surge_path": "surge/global.list",
       "openclash_path": "openclash/global.yaml",
@@ -3124,7 +3124,7 @@
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/geolocation-!cn",
           "used_cache": false,
-          "rule_count": 24851
+          "rule_count": 25089
         },
         {
           "type": "local_domain",
@@ -3138,11 +3138,11 @@
     {
       "id": "direct",
       "description": "Merged direct rules for simplified deployment",
-      "rule_count": 19948,
-      "stash_rule_count": 19948,
+      "rule_count": 20143,
+      "stash_rule_count": 20143,
       "stash_classical_rule_count": 4,
-      "stash_domain_rule_count": 7699,
-      "stash_ipcidr_rule_count": 12245,
+      "stash_domain_rule_count": 7884,
+      "stash_ipcidr_rule_count": 12255,
       "surge_path": "surge/direct.list",
       "openclash_path": "openclash/direct.yaml",
       "stash_path": "stash/direct.list",
@@ -3192,7 +3192,7 @@
           "authority": "official",
           "ref": "https://ftp.apnic.net/stats/apnic/delegated-apnic-latest",
           "used_cache": false,
-          "rule_count": 10825
+          "rule_count": 10826
         },
         {
           "type": "plain_cidr",
@@ -3213,7 +3213,7 @@
           "authority": "official",
           "ref": "https://ip-ranges.amazonaws.com/ip-ranges.json",
           "used_cache": false,
-          "rule_count": 389
+          "rule_count": 398
         },
         {
           "type": "gcp_ip_ranges",
@@ -3227,7 +3227,7 @@
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-cdn-cn",
           "used_cache": false,
-          "rule_count": 91
+          "rule_count": 92
         },
         {
           "type": "v2fly_dlc",
@@ -3255,14 +3255,14 @@
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/cn",
           "used_cache": false,
-          "rule_count": 7067
+          "rule_count": 7256
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple",
           "used_cache": false,
-          "rule_count": 291
+          "rule_count": 287
         },
         {
           "type": "v2fly_dlc",
@@ -3276,7 +3276,7 @@
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple-pki",
           "used_cache": false,
-          "rule_count": 10
+          "rule_count": 8
         },
         {
           "type": "v2fly_dlc",
@@ -3318,14 +3318,14 @@
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/bilibili",
           "used_cache": false,
-          "rule_count": 50
+          "rule_count": 52
         },
         {
           "type": "v2fly_dlc",
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-games-cn",
           "used_cache": false,
-          "rule_count": 234
+          "rule_count": 239
         },
         {
           "type": "v2fly_dlc",

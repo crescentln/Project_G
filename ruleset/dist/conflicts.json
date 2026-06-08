@@ -1,10 +1,10 @@
 {
-  "generated_at_utc": "2026-06-01T05:05:16.644612+00:00",
-  "conflict_count": 487,
+  "generated_at_utc": "2026-06-08T04:59:35.169371+00:00",
+  "conflict_count": 495,
   "cross_action_conflict_count": 0,
   "high_severity_conflict_count": 0,
   "medium_severity_conflict_count": 0,
-  "low_severity_conflict_count": 487,
+  "low_severity_conflict_count": 495,
   "conflicts": [
     {
       "rule": "DOMAIN,upos-hz-mirrorakam.akamaized.net",
@@ -1807,6 +1807,27 @@
       "severity": "low"
     },
     {
+      "rule": "DOMAIN-SUFFIX,aligames.com",
+      "categories": [
+        "domestic",
+        "games_cn"
+      ],
+      "actions": [
+        {
+          "category": "domestic",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        },
+        {
+          "category": "games_cn",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        }
+      ],
+      "type": "same_action_overlap",
+      "severity": "low"
+    },
+    {
       "rule": "DOMAIN-SUFFIX,amemv.cn",
       "categories": [
         "domestic",
@@ -1967,6 +1988,27 @@
         },
         {
           "category": "games_cn",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        }
+      ],
+      "type": "same_action_overlap",
+      "severity": "low"
+    },
+    {
+      "rule": "DOMAIN-SUFFIX,aocde.com",
+      "categories": [
+        "cdn",
+        "domestic"
+      ],
+      "actions": [
+        {
+          "category": "cdn",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        },
+        {
+          "category": "domestic",
           "action": "DIRECT",
           "action_family": "DIRECT"
         }
@@ -5398,6 +5440,48 @@
       "severity": "low"
     },
     {
+      "rule": "DOMAIN-SUFFIX,jiaoyimao.cn",
+      "categories": [
+        "domestic",
+        "games_cn"
+      ],
+      "actions": [
+        {
+          "category": "domestic",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        },
+        {
+          "category": "games_cn",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        }
+      ],
+      "type": "same_action_overlap",
+      "severity": "low"
+    },
+    {
+      "rule": "DOMAIN-SUFFIX,jiaoyimao.com",
+      "categories": [
+        "domestic",
+        "games_cn"
+      ],
+      "actions": [
+        {
+          "category": "domestic",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        },
+        {
+          "category": "games_cn",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        }
+      ],
+      "type": "same_action_overlap",
+      "severity": "low"
+    },
+    {
       "rule": "DOMAIN-SUFFIX,jiashule.com",
       "categories": [
         "cdn",
@@ -5566,6 +5650,27 @@
       "severity": "low"
     },
     {
+      "rule": "DOMAIN-SUFFIX,kurogames.net",
+      "categories": [
+        "domestic",
+        "games_cn"
+      ],
+      "actions": [
+        {
+          "category": "domestic",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        },
+        {
+          "category": "games_cn",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        }
+      ],
+      "type": "same_action_overlap",
+      "severity": "low"
+    },
+    {
       "rule": "DOMAIN-SUFFIX,labycore.cn",
       "categories": [
         "domestic",
@@ -5609,6 +5714,27 @@
     },
     {
       "rule": "DOMAIN-SUFFIX,ledu.com",
+      "categories": [
+        "domestic",
+        "games_cn"
+      ],
+      "actions": [
+        {
+          "category": "domestic",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        },
+        {
+          "category": "games_cn",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        }
+      ],
+      "type": "same_action_overlap",
+      "severity": "low"
+    },
+    {
+      "rule": "DOMAIN-SUFFIX,lingxigames.com",
       "categories": [
         "domestic",
         "games_cn"
@@ -5944,6 +6070,27 @@
       "severity": "low"
     },
     {
+      "rule": "DOMAIN-SUFFIX,maoer.com",
+      "categories": [
+        "domestic",
+        "socialmedia_cn"
+      ],
+      "actions": [
+        {
+          "category": "domestic",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        },
+        {
+          "category": "socialmedia_cn",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        }
+      ],
+      "type": "same_action_overlap",
+      "severity": "low"
+    },
+    {
       "rule": "DOMAIN-SUFFIX,mcadn.cn",
       "categories": [
         "cdn",
@@ -6230,6 +6377,27 @@
         },
         {
           "category": "games_cn",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        }
+      ],
+      "type": "same_action_overlap",
+      "severity": "low"
+    },
+    {
+      "rule": "DOMAIN-SUFFIX,missevan.com",
+      "categories": [
+        "domestic",
+        "socialmedia_cn"
+      ],
+      "actions": [
+        {
+          "category": "domestic",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        },
+        {
+          "category": "socialmedia_cn",
           "action": "DIRECT",
           "action_family": "DIRECT"
         }

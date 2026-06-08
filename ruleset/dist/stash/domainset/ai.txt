@@ -50,6 +50,7 @@ webchannel-alkalimakersuite-pa.clients6.google.com
 +.claude.ai
 +.claude.com
 +.claudemcpclient.com
++.claudemcpcontent.com
 +.claudeusercontent.com
 +.clawhub.ai
 +.clipdrop.co
@@ -123,6 +124,7 @@ webchannel-alkalimakersuite-pa.clients6.google.com
 +.notebooklm.google
 +.notebooklm.google.com
 +.oaistatic.com
++.oaistatsig.com
 +.oaiusercontent.com
 +.ollama.com
 +.opal.google
@@ -141,7 +143,9 @@ webchannel-alkalimakersuite-pa.clients6.google.com
 +.poecdn.net
 +.pplx.ai
 +.proactivebackend-pa.googleapis.com
++.qoder.com
 +.robinfrontend-pa.googleapis.com
++.sider.ai
 +.sora.com
 +.spicywriter.com
 +.stitch.withgoogle.com

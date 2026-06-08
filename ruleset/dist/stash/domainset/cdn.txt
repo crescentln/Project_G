@@ -15,6 +15,7 @@ upos-hz-mirrorakam.akamaized.net
 +.amzndns-cn.cn
 +.amzndns-cn.com
 +.amzndns-cn.net
++.aocde.com
 +.asfiovnxocqpcry.com.cn
 +.aws-border.cn
 +.aws-icp-domain-manager.cn

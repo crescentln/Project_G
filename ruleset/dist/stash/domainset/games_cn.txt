@@ -42,6 +42,7 @@ end.shallow.ink
 +.9xgame.com
 +.abdf002.com
 +.aki-game.com
++.aligames.com
 +.anticheatexpert.com
 +.appeeres.com
 +.arcaea.cn
@@ -105,11 +106,15 @@ end.shallow.ink
 +.ihykb.com
 +.img4399.com
 +.in.th
++.jiaoyimao.cn
++.jiaoyimao.com
 +.juequling.com
 +.kurogames.com
++.kurogames.net
 +.labycore.cn
 +.langrenclub.com
 +.ledu.com
++.lingxigames.com
 +.longtugame.com
 +.ludosuperstar.cn
 +.ludoworld.net
