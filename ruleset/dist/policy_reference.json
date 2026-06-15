@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-06-08T04:59:35.180467+00:00",
+  "generated_at_utc": "2026-06-15T05:03:38.321794+00:00",
   "policy_path": "config/policy_map.json",
   "categories": [
     {
@@ -7,7 +7,7 @@
       "recommended_action": "REJECT",
       "recommended_priority": 100,
       "recommended_note": "广告、追踪、恶意基础拦截规则",
-      "rule_count": 324919
+      "rule_count": 320857
     },
     {
       "id": "reject_extra",
@@ -42,7 +42,7 @@
       "recommended_action": "DIRECT",
       "recommended_priority": 210,
       "recommended_note": "中国大陆域名集合直连（domain-focused）",
-      "rule_count": 7251
+      "rule_count": 7341
     },
     {
       "id": "cncidr",
@@ -63,7 +63,7 @@
       "recommended_action": "DIRECT",
       "recommended_priority": 250,
       "recommended_note": "CDN 回源与就近访问优先直连",
-      "rule_count": 1549
+      "rule_count": 1553
     },
     {
       "id": "download",
@@ -182,7 +182,7 @@
       "recommended_action": "PROXY",
       "recommended_priority": 325,
       "recommended_note": "GitHub/GitLab/Gitee/Codeberg/SourceHut 等代码托管平台走代理",
-      "rule_count": 73
+      "rule_count": 74
     },
     {
       "id": "httpdns",
@@ -196,14 +196,14 @@
       "recommended_action": "DIRECT",
       "recommended_priority": 241,
       "recommended_note": "国内游戏服务直连",
-      "rule_count": 239
+      "rule_count": 262
     },
     {
       "id": "games",
       "recommended_action": "PROXY",
       "recommended_priority": 326,
       "recommended_note": "国际游戏服务走代理",
-      "rule_count": 826
+      "rule_count": 834
     },
     {
       "id": "youtube",
@@ -252,7 +252,7 @@
       "recommended_action": "PROXY",
       "recommended_priority": 333,
       "recommended_note": "Google 主服务走代理",
-      "rule_count": 728
+      "rule_count": 729
     },
     {
       "id": "googlefcm",
@@ -273,14 +273,14 @@
       "recommended_action": "PROXY",
       "recommended_priority": 336,
       "recommended_note": "加密交易站点走代理",
-      "rule_count": 75
+      "rule_count": 84
     },
     {
       "id": "ecommerce",
       "recommended_action": "PROXY",
       "recommended_priority": 337,
       "recommended_note": "跨境电商走代理",
-      "rule_count": 1224
+      "rule_count": 1249
     },
     {
       "id": "onedrive",
@@ -294,14 +294,14 @@
       "recommended_action": "PROXY",
       "recommended_priority": 339,
       "recommended_note": "国际论坛走代理",
-      "rule_count": 99
+      "rule_count": 101
     },
     {
       "id": "socialmedia_cn",
       "recommended_action": "DIRECT",
       "recommended_priority": 240,
       "recommended_note": "国内社交平台直连",
-      "rule_count": 123
+      "rule_count": 125
     },
     {
       "id": "socialmedia",
@@ -329,7 +329,7 @@
       "recommended_action": "DIRECT",
       "recommended_priority": 242,
       "recommended_note": "抖音国内流量直连",
-      "rule_count": 66
+      "rule_count": 67
     },
     {
       "id": "apns",
@@ -371,14 +371,14 @@
       "recommended_action": "PROXY",
       "recommended_priority": 900,
       "recommended_note": "兜底代理集合（应放在较后顺序）",
-      "rule_count": 25088
+      "rule_count": 25208
     },
     {
       "id": "direct",
       "recommended_action": "DIRECT",
       "recommended_priority": 205,
       "recommended_note": "合并直连集合（含国内域名 + CN CIDR，简化部署）",
-      "rule_count": 20143
+      "rule_count": 20236
     }
   ]
 }

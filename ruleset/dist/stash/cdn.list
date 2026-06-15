@@ -88,6 +88,7 @@ DOMAIN-SUFFIX,mcadn.cn
 DOMAIN-SUFFIX,mincdn.com
 DOMAIN-SUFFIX,mwcdns.com
 DOMAIN-SUFFIX,mwcloudcdn.com
+DOMAIN-SUFFIX,npsv6.com
 DOMAIN-SUFFIX,nwcdcloud.cn
 DOMAIN-SUFFIX,nwcdcloud.com.cn
 DOMAIN-SUFFIX,nwcddns.cn
@@ -290,13 +291,16 @@ IP-CIDR,136.116.0.0/16,no-resolve
 IP-CIDR,136.117.0.0/16,no-resolve
 IP-CIDR,136.118.0.0/16,no-resolve
 IP-CIDR,136.119.0.0/16,no-resolve
-IP-CIDR,136.23.64.0/19,no-resolve
+IP-CIDR,136.23.64.0/18,no-resolve
 IP-CIDR,136.64.0.0/15,no-resolve
 IP-CIDR,136.66.0.0/15,no-resolve
 IP-CIDR,136.68.0.0/16,no-resolve
 IP-CIDR,136.69.0.0/17,no-resolve
 IP-CIDR,136.69.128.0/17,no-resolve
 IP-CIDR,136.70.0.0/18,no-resolve
+IP-CIDR,136.70.128.0/17,no-resolve
+IP-CIDR,136.70.64.0/18,no-resolve
+IP-CIDR,136.71.0.0/16,no-resolve
 IP-CIDR,140.248.128.0/17,no-resolve
 IP-CIDR,140.248.64.0/18,no-resolve
 IP-CIDR,141.101.64.0/18,no-resolve

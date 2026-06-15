@@ -175,6 +175,7 @@ pchomeonline.com.tw
 +.airbnb.tools
 +.airbnb.travel
 +.airmax360.com
++.allkeyshop.com
 +.amazon.com
 +.appforebay.cn
 +.appsonebay.net
@@ -229,6 +230,7 @@ pchomeonline.com.tw
 +.besztbuy.com
 +.betternike.com
 +.bextbuy.com
++.bfads.net
 +.bidbay.com
 +.bidorbuyindia.com
 +.bienvenuechezbestbuy.ca
@@ -251,6 +253,7 @@ pchomeonline.com.tw
 +.buyitnow.tv
 +.buyitnowshop.net
 +.buynikechina.com
++.buyservices.com
 +.cafr.ca
 +.carebay.com
 +.cargigileads.com
@@ -307,6 +310,10 @@ pchomeonline.com.tw
 +.eachpay.net
 +.easynike.com
 +.ebahy.com
++.ebates.ca
++.ebates.kr
++.ebates.sg
++.ebatescanada.com
 +.ebay-authenticate.net
 +.ebay-confirm.com
 +.ebay-course.com
@@ -499,10 +506,13 @@ pchomeonline.com.tw
 +.ebayworlds.com
 +.ebayy.com
 +.ebuyer.com
++.ecbsn.com
 +.ecimg.tw
 +.edisebay.com
 +.eebay.com
 +.eenike.com
++.eneba.com
++.eneba.games
 +.epinions.com
 +.etradebook.ru
 +.etsy.com
@@ -518,6 +528,7 @@ pchomeonline.com.tw
 +.farfetch.net
 +.farfetch.net.cn
 +.fashionnike.com
++.fatwallet.com
 +.fflnk.net
 +.finenike.com
 +.foampositeshoes.com
@@ -541,6 +552,7 @@ pchomeonline.com.tw
 +.geeksquadservices.org
 +.geeksquadwebroot.org
 +.geobasket.ru
++.gg.deals
 +.ggsel.com
 +.ggsel.net
 +.gittigidiyor.net
@@ -687,6 +699,8 @@ pchomeonline.com.tw
 +.kijijiraps.ca
 +.kijji.ca
 +.kijjiji.ca
++.kinguin.net
++.kobo.com
 +.letsmoveforabetterworld.com
 +.liketwice.com
 +.listinganalytics.net
@@ -993,7 +1007,10 @@ pchomeonline.com.tw
 +.rakuten.com
 +.rakuten.com.tw
 +.rakuten.ne.jp
++.rakuten.tv
 +.rakuten.tw
++.rakutenadvertising.com
++.rakutengiftcards.ca
 +.rakuya.com.tw
 +.rclon.com
 +.readmoo.com
@@ -1005,6 +1022,7 @@ pchomeonline.com.tw
 +.rimg.com.tw
 +.rocketfishproducts.com
 +.rocketozon.by
++.rrcbsn.com
 +.runnike.com
 +.runningnike.com
 +.russoutdoor.ru
@@ -1013,6 +1031,7 @@ pchomeonline.com.tw
 +.rwbautomation.ru
 +.rwbautomation.tech
 +.rwbgeo.ru
++.s-bid.rmp.rakuten.com
 +.sale-nikeshoes.com
 +.shop.app
 +.shopadidas.ca
@@ -1091,9 +1110,15 @@ pchomeonline.com.tw
 +.unbrandedproducts.com
 +.vamo.com
 +.vamzakaz.ru
++.vbcdn.com
++.vbcdn.net
 +.velberis.ru
 +.vendu.com
 +.verygoodnike.com
++.viber.co
++.viber.com
++.viber.me
++.viki.com
 +.vildberis.ru
 +.vsemrabota.ru
 +.w-mt.co

@@ -88,6 +88,7 @@ upos-hz-mirrorakam.akamaized.net
 +.mincdn.com
 +.mwcdns.com
 +.mwcloudcdn.com
++.npsv6.com
 +.nwcdcloud.cn
 +.nwcdcloud.com.cn
 +.nwcddns.cn

@@ -61,6 +61,7 @@ steampipe-kr.akamaized.net
 steampipe-partner.akamaized.net
 steampipe.akamaized.net
 steamstore-a.akamaihd.net
+steamugcquincy.blob.core.windows.net
 steamusercontent-a.akamaihd.net
 steamuserimages-a.akamaihd.net
 steamvideo-a.akamaihd.net
@@ -205,6 +206,7 @@ xz.pphimalayanrt.com
 +.dodi-repacks.site
 +.donkeykongcountryreturns.com
 +.doom.com
++.dota2.com
 +.dota2.wmsj.cn
 +.dragonage.com
 +.dragonagekeep.com
@@ -247,8 +249,6 @@ xz.pphimalayanrt.com
 +.electronicarts.fr
 +.embark-studios.com
 +.embark.games
-+.eneba.com
-+.eneba.games
 +.enlisted.net
 +.epicgames.com
 +.epicgames.dev
@@ -260,6 +260,7 @@ xz.pphimalayanrt.com
 +.faceit-cdn.net
 +.faceit.com
 +.fanatical.com
++.ficgs.com
 +.fifastreet.com
 +.fifastreet3.com
 +.fire-emblem-heroes.com
@@ -283,6 +284,8 @@ xz.pphimalayanrt.com
 +.game-repack.site
 +.gamepass.com
 +.gamesfirsthelsinki.com
++.gamesplanet.com
++.gametap.com
 +.garena.co.id
 +.garena.co.th
 +.garena.com
@@ -303,6 +306,7 @@ xz.pphimalayanrt.com
 +.gog-statics.com
 +.gog.com
 +.gooblox.com
++.gpstatic.com
 +.gstore.val.manlaxy.com
 +.hackyourconsole.com
 +.hayday.com
@@ -440,7 +444,9 @@ xz.pphimalayanrt.com
 +.nexon.co.jp
 +.nexon.com
 +.nexon.io
++.nexon.net
 +.nexoncdn.co.kr
++.nexongames.co.kr
 +.nexus-cdn.com
 +.nexusmods.com
 +.nfsworld.com
@@ -676,6 +682,7 @@ xz.pphimalayanrt.com
 +.steam.tv
 +.steamchina.com
 +.steamcommunity.com
++.steamconnecttest.com
 +.steamcontent.com
 +.steamdb.info
 +.steamdeck.com
@@ -743,6 +750,7 @@ xz.pphimalayanrt.com
 +.uo.com
 +.uoherald.com
 +.uplay.com
++.valve.net
 +.valvesoftware.com
 +.vigorgame.com
 +.visceralgames.com

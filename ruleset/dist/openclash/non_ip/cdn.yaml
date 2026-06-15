@@ -89,6 +89,7 @@ payload:
   - 'DOMAIN-SUFFIX,mincdn.com'
   - 'DOMAIN-SUFFIX,mwcdns.com'
   - 'DOMAIN-SUFFIX,mwcloudcdn.com'
+  - 'DOMAIN-SUFFIX,npsv6.com'
   - 'DOMAIN-SUFFIX,nwcdcloud.cn'
   - 'DOMAIN-SUFFIX,nwcdcloud.com.cn'
   - 'DOMAIN-SUFFIX,nwcddns.cn'

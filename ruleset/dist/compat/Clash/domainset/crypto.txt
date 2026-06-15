@@ -1,6 +1,7 @@
 bybit-exchange.github.io
 bybit.ada.support
-+.appsflayer.com
+zftksc.cdn-settings.appsflyersdk.com
+zftksc.launches.appsflyersdk.com
 +.binance.cc
 +.binance.charity
 +.binance.cloud
@@ -30,9 +31,14 @@ bybit.ada.support
 +.binancezh.pro
 +.binancezh.sh
 +.binancezh.top
++.bmwweb.solutions
++.bnappweb.black
++.bnbchain.org
 +.bnbstatic.com
 +.bntrace.com
++.bsappapi.cc
 +.bsappapi.com
++.bscdnweb.com
 +.byabcde.com
 +.byapis.com
 +.byapps.net
@@ -66,10 +72,13 @@ bybit.ada.support
 +.okx-dns.com
 +.okx-dns1.com
 +.okx-dns2.com
++.okx.ac
 +.okx.cab
 +.okx.com
 +.okx.com.cdn.cloudflare.net
 +.saasexch.cc
 +.saasexch.co
 +.saasexch.com
++.saasexch.info
 +.saasexch.io
++.xlayer.tech
