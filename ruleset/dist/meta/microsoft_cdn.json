@@ -4,10 +4,10 @@
   "recommended_action": "DIRECT",
   "recommended_priority": 232,
   "recommended_note": "微软中国区与更新/CDN 域名直连",
-  "rule_count": 176,
-  "stash_rule_count": 176,
+  "rule_count": 199,
+  "stash_rule_count": 199,
   "stash_classical_rule_count": 0,
-  "stash_domain_rule_count": 176,
+  "stash_domain_rule_count": 199,
   "stash_ipcidr_rule_count": 0,
   "paths": {
     "stash": "stash/microsoft_cdn.list",
@@ -36,7 +36,7 @@
       "authority": "community-curated",
       "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/microsoft",
       "used_cache": false,
-      "rule_count": 168
+      "rule_count": 190
     },
     {
       "type": "v2fly_dlc",

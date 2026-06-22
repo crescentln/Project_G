@@ -29,6 +29,7 @@ DOMAIN,vscode-sync.trafficmanager.net
 DOMAIN,vscode.blob.core.windows.net
 DOMAIN,vscode.search.windows.net
 DOMAIN,vsmarketplacebadge.apphb.com
+DOMAIN,www.microsoft.com
 DOMAIN-SUFFIX,a-msedge.net
 DOMAIN-SUFFIX,aadrm.com
 DOMAIN-SUFFIX,adaptivecards.io

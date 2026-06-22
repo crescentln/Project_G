@@ -4,11 +4,11 @@
   "recommended_action": "DIRECT",
   "recommended_priority": 250,
   "recommended_note": "CDN 回源与就近访问优先直连",
-  "rule_count": 1553,
-  "stash_rule_count": 1553,
+  "rule_count": 1569,
+  "stash_rule_count": 1569,
   "stash_classical_rule_count": 2,
-  "stash_domain_rule_count": 131,
-  "stash_ipcidr_rule_count": 1420,
+  "stash_domain_rule_count": 130,
+  "stash_ipcidr_rule_count": 1437,
   "paths": {
     "stash": "stash/cdn.list",
     "stash_classical": "stash/classical/cdn.list",
@@ -57,7 +57,7 @@
       "authority": "official",
       "ref": "https://www.gstatic.com/ipranges/cloud.json",
       "used_cache": false,
-      "rule_count": 979
+      "rule_count": 996
     },
     {
       "type": "fastly_public_ip_list",
@@ -71,7 +71,7 @@
       "authority": "community-curated",
       "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-cdn-cn",
       "used_cache": false,
-      "rule_count": 93
+      "rule_count": 92
     },
     {
       "type": "v2fly_dlc",

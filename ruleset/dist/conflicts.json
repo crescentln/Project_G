@@ -1,10 +1,10 @@
 {
-  "generated_at_utc": "2026-06-15T05:03:38.309877+00:00",
-  "conflict_count": 522,
+  "generated_at_utc": "2026-06-22T05:02:12.315631+00:00",
+  "conflict_count": 526,
   "cross_action_conflict_count": 0,
   "high_severity_conflict_count": 0,
   "medium_severity_conflict_count": 0,
-  "low_severity_conflict_count": 522,
+  "low_severity_conflict_count": 526,
   "conflicts": [
     {
       "rule": "DOMAIN,upos-hz-mirrorakam.akamaized.net",
@@ -5671,6 +5671,48 @@
       "severity": "low"
     },
     {
+      "rule": "DOMAIN-SUFFIX,ixiaochuan.cn",
+      "categories": [
+        "domestic",
+        "socialmedia_cn"
+      ],
+      "actions": [
+        {
+          "category": "domestic",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        },
+        {
+          "category": "socialmedia_cn",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        }
+      ],
+      "type": "same_action_overlap",
+      "severity": "low"
+    },
+    {
+      "rule": "DOMAIN-SUFFIX,izuiyou.com",
+      "categories": [
+        "domestic",
+        "socialmedia_cn"
+      ],
+      "actions": [
+        {
+          "category": "domestic",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        },
+        {
+          "category": "socialmedia_cn",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        }
+      ],
+      "type": "same_action_overlap",
+      "severity": "low"
+    },
+    {
       "rule": "DOMAIN-SUFFIX,jiaoyimao.cn",
       "categories": [
         "domestic",
@@ -6029,6 +6071,27 @@
     },
     {
       "rule": "DOMAIN-SUFFIX,langrenclub.com",
+      "categories": [
+        "domestic",
+        "games_cn"
+      ],
+      "actions": [
+        {
+          "category": "domestic",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        },
+        {
+          "category": "games_cn",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        }
+      ],
+      "type": "same_action_overlap",
+      "severity": "low"
+    },
+    {
+      "rule": "DOMAIN-SUFFIX,laohu.com",
       "categories": [
         "domestic",
         "games_cn"
@@ -10060,6 +10123,27 @@
       "severity": "low"
     },
     {
+      "rule": "DOMAIN-SUFFIX,wmupd.com",
+      "categories": [
+        "domestic",
+        "games_cn"
+      ],
+      "actions": [
+        {
+          "category": "domestic",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        },
+        {
+          "category": "games_cn",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        }
+      ],
+      "type": "same_action_overlap",
+      "severity": "low"
+    },
+    {
       "rule": "DOMAIN-SUFFIX,wo1wan.com",
       "categories": [
         "domestic",
@@ -10501,6 +10585,27 @@
       "severity": "low"
     },
     {
+      "rule": "DOMAIN-SUFFIX,xiaochuankeji.cn",
+      "categories": [
+        "domestic",
+        "socialmedia_cn"
+      ],
+      "actions": [
+        {
+          "category": "domestic",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        },
+        {
+          "category": "socialmedia_cn",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        }
+      ],
+      "type": "same_action_overlap",
+      "severity": "low"
+    },
+    {
       "rule": "DOMAIN-SUFFIX,xiaohongshu.com",
       "categories": [
         "domestic",
@@ -10766,27 +10871,6 @@
         },
         {
           "category": "games_cn",
-          "action": "DIRECT",
-          "action_family": "DIRECT"
-        }
-      ],
-      "type": "same_action_overlap",
-      "severity": "low"
-    },
-    {
-      "rule": "DOMAIN-SUFFIX,yunaq.com",
-      "categories": [
-        "cdn",
-        "domestic"
-      ],
-      "actions": [
-        {
-          "category": "cdn",
-          "action": "DIRECT",
-          "action_family": "DIRECT"
-        },
-        {
-          "category": "domestic",
           "action": "DIRECT",
           "action_family": "DIRECT"
         }

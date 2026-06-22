@@ -2,6 +2,7 @@ DOMAIN,abematv.akamaized.net
 DOMAIN,api.viu.now.com
 DOMAIN,apl-hamivideo.cdn.hinet.net
 DOMAIN,apple-tv-plus-press.apple.com
+DOMAIN,chatscc-hamivideo2.cdn.hinet.net
 DOMAIN,d1k2us671qcoau.cloudfront.net
 DOMAIN,d1v5ir2lpwr8os.cloudfront.net
 DOMAIN,d22qjgkvxw22r6.cloudfront.net
@@ -12,6 +13,7 @@ DOMAIN,dfp6rglgjqszk.cloudfront.net
 DOMAIN,dmqdd6hw24ucf.cloudfront.net
 DOMAIN,ds-linear-abematv.akamaized.net
 DOMAIN,ds-vod-abematv.akamaized.net
+DOMAIN,efe8f8a4-abd5-44c9-bf5c-cd217442c52f.t.ssp.hinet.net
 DOMAIN,espn.api.edge.bamgrid.com
 DOMAIN,espn.hb.omtrdc.net
 DOMAIN,espndotcom.tt.omtrdc.net
@@ -20,6 +22,7 @@ DOMAIN,gamer-cds.cdn.hinet.net
 DOMAIN,gamer2-cds.cdn.hinet.net
 DOMAIN,hamivideo.hinet.net
 DOMAIN,hls-amt.itunes.apple.com
+DOMAIN,hls-hamivideo.cdn.hinet.net
 DOMAIN,hls.itunes.apple.com
 DOMAIN,hulu.playback.edge.bamgrid.com
 DOMAIN,images-eu.ssl-images-amazon.com
@@ -41,9 +44,11 @@ DOMAIN,ntdofifreetv-tgc.cdn.hinet.net
 DOMAIN,ntdofifreevcpc-tgc.cdn.hinet.net
 DOMAIN,play-edge.itunes.apple.com
 DOMAIN,pvr-hamivideo.cdn.hinet.net
+DOMAIN,scc-hamivideo.cdn.hinet.net
 DOMAIN,scc.ott.hinet.net
 DOMAIN,static-hamivideo.cdn.hinet.net
 DOMAIN,static.siege-amazon.com
+DOMAIN,t.ssp.hinet.net
 DOMAIN,thumbnail-hamivideo.cdn.hinet.net
 DOMAIN,tlmr-hamivideo2.cdn.hinet.net
 DOMAIN,tv.applemusic.com
@@ -51,6 +56,7 @@ DOMAIN,tvcastlive-hamivideo.cdn.hinet.net
 DOMAIN,uts-api.itunes.apple.com
 DOMAIN,vod-abematv.akamaized.net
 DOMAIN,weblive-hamivideo.cdn.hinet.net
+DOMAIN,weblivea-hamivideo.cdn.hinet.net
 DOMAIN,webvodad-hamivideo.cdn.hinet.net
 DOMAIN-SUFFIX,112263.com
 DOMAIN-SUFFIX,20thcenturystudios.com.au

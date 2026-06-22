@@ -97,6 +97,10 @@ DOMAIN,avatargarenanow-a.akamaihd.net
 DOMAIN,az764295.vo.msecnd.net
 DOMAIN,azure.microsoft.com
 DOMAIN,azuremarketplace.microsoft.com
+DOMAIN,azuremigrate.download.prss.microsoft.com
+DOMAIN,azuremigratetest.download.prss.microsoft.com
+DOMAIN,azurestackhub.download.prss.microsoft.com
+DOMAIN,azurestackhubuat.download.prss.microsoft.com
 DOMAIN,b.c2r.ts.cdn.office.net
 DOMAIN,bag-cdn.itunes-apple.com.akadns.net
 DOMAIN,bag.itunes.apple.com
@@ -109,8 +113,6 @@ DOMAIN,beacons2.gvt2.com
 DOMAIN,beacons3.gvt2.com
 DOMAIN,beatselectronicsllc.tt.omtrdc.net
 DOMAIN,beck-online.beck.de
-DOMAIN,bg.v4.a.dl.ws.microsoft.com
-DOMAIN,bg4.v4.a.dl.ws.microsoft.com
 DOMAIN,bingsettingssearch.trafficmanager.net
 DOMAIN,bj1.api.bing.com
 DOMAIN,blizzard.nefficient.co.kr
@@ -124,7 +126,6 @@ DOMAIN,bnetproduct-a.akamaihd.net
 DOMAIN,bnetshopus.akamaized.net
 DOMAIN,bookkeeper.itunes.apple.com
 DOMAIN,brightcove.imgix.net
-DOMAIN,build.microsoft.com
 DOMAIN,bybit-exchange.github.io
 DOMAIN,bybit.ada.support
 DOMAIN,c.admob.com
@@ -133,6 +134,7 @@ DOMAIN,c.pki.goog
 DOMAIN,c.ppy.sh
 DOMAIN,cache-management-prod.google.com
 DOMAIN,cache.pack.google.com
+DOMAIN,cbdstest.download.prss.microsoft.com
 DOMAIN,cbsi.live.ott.irdeto.com
 DOMAIN,cbsplaylistserver.aws.syncbak.com
 DOMAIN,cbsservice.aws.syncbak.com
@@ -146,7 +148,6 @@ DOMAIN,cdn.ampproject.org
 DOMAIN,cdn.apple-mapkit.com
 DOMAIN,cdn.globalsigncdn.com.cdn.cloudflare.net
 DOMAIN,cdn.js7k.com
-DOMAIN,cdn.marketplaceimages.windowsphone.com
 DOMAIN,cdn1.apple-mapkit.com
 DOMAIN,cdn2.apple-mapkit.com
 DOMAIN,cdn3.apple-mapkit.com
@@ -158,6 +159,7 @@ DOMAIN,cds.apple.com.akadns.net
 DOMAIN,cdsassets.apple.com
 DOMAIN,certs-lb.apple.com.akadns.net
 DOMAIN,certs.apple.com
+DOMAIN,chatscc-hamivideo2.cdn.hinet.net
 DOMAIN,checkin.gstatic.com
 DOMAIN,chinapower.csis.org
 DOMAIN,cisco.evergage.com
@@ -193,6 +195,8 @@ DOMAIN,cn-smp-paymentservices.apple.com
 DOMAIN,cn.download.nvidia.com
 DOMAIN,cn.widevine.com
 DOMAIN,cn.windowssearch.com
+DOMAIN,collaborate.download.prss.microsoft.com
+DOMAIN,collaborateppe.download.prss.microsoft.com
 DOMAIN,communities.apple.com
 DOMAIN,configuration-lb.ls-apple.com.akadns.net
 DOMAIN,configuration.apple.com
@@ -265,7 +269,6 @@ DOMAIN,dejavu.apple.com
 DOMAIN,dell.my.site.com
 DOMAIN,deribit.cdn.prismic.io
 DOMAIN,deutschewelle.h-cdn.com
-DOMAIN,devblogs.microsoft.com
 DOMAIN,developer.microsoft.com
 DOMAIN,developers.facebook.com
 DOMAIN,devimages-cdn.apple.com
@@ -304,7 +307,6 @@ DOMAIN,dnl-18.geo.kaspersky.com
 DOMAIN,dnl-19.geo.kaspersky.com
 DOMAIN,docker-images-prod.6aa30f8b08e16409b46e0173d6de2f56.r2.cloudflarestorage.com
 DOMAIN,docker-pinata-support.s3.amazonaws.com
-DOMAIN,docs.microsoft.com
 DOMAIN,doubleclick-cn.net
 DOMAIN,doubleclick.net
 DOMAIN,download.developer.apple.com
@@ -315,6 +317,8 @@ DOMAIN,download.visualstudio.microsoft.com
 DOMAIN,downloaddispatch.itunes.apple.com
 DOMAIN,dqd0jw5gvbchn.cloudfront.net
 DOMAIN,dqrpb9wgowsf5.cloudfront.net
+DOMAIN,dreamspark.download.prss.microsoft.com
+DOMAIN,dreamsparkuat.download.prss.microsoft.com
 DOMAIN,ds-linear-abematv.akamaized.net
 DOMAIN,ds-vod-abematv.akamaized.net
 DOMAIN,ds0h3roq6wcgc.cloudfront.net
@@ -331,6 +335,7 @@ DOMAIN,ecapi-pchome.cdn.hinet.net
 DOMAIN,edge.geo.kaspersky.com
 DOMAIN,edu.tinkoff.ru
 DOMAIN,education.tbank.ru
+DOMAIN,efe8f8a4-abd5-44c9-bf5c-cd217442c52f.t.ssp.hinet.net
 DOMAIN,elib.maruzen.co.jp
 DOMAIN,emoi-cncdn.bing.com
 DOMAIN,epc-de-agent-proxy.germanywestcentral.cloudapp.azure.com
@@ -373,7 +378,6 @@ DOMAIN,fonts.googleapis.com
 DOMAIN,fonts.gstatic.com
 DOMAIN,fontshop-prod-responsive-images.s3.amazonaws.com
 DOMAIN,foxnewsplayer-a.akamaihd.net
-DOMAIN,fs.microsoft.com
 DOMAIN,fta.dell.com
 DOMAIN,ftaapj.dell.com
 DOMAIN,ftaemea.dell.com
@@ -396,10 +400,9 @@ DOMAIN,github-production-repository-image-32fea6.s3.amazonaws.com
 DOMAIN,github-production-upload-manifest-file-7fdce7.s3.amazonaws.com
 DOMAIN,github-production-user-asset-6210df.s3.amazonaws.com
 DOMAIN,gitlab-assets.oss-cn-hongkong.aliyuncs.com
-DOMAIN,gog-cdn-fastly.gog.com
+DOMAIN,gog-cdn-lumen.secure2.footprint.net
 DOMAIN,gog-cdn.akamaized.net
 DOMAIN,gog.qtlglb.com
-DOMAIN,gogalaxy.gog-statics.com
 DOMAIN,gonglchuangl.net
 DOMAIN,gongyichuangyi.net
 DOMAIN,google-analytics-cn.com
@@ -458,6 +461,7 @@ DOMAIN,himalaya-exchange.zendesk.com
 DOMAIN,hl2rcv.adobe.com
 DOMAIN,hlrcv.stage.adobe.com
 DOMAIN,hls-amt.itunes.apple.com
+DOMAIN,hls-hamivideo.cdn.hinet.net
 DOMAIN,hls.itunes.apple.com
 DOMAIN,holoxx.f5.si
 DOMAIN,homebrew.bintray.com
@@ -510,6 +514,8 @@ DOMAIN,is4-ssl.mzstatic.com
 DOMAIN,is4.mzstatic.com
 DOMAIN,is5-ssl.mzstatic.com
 DOMAIN,is5.mzstatic.com
+DOMAIN,itacademy.download.prss.microsoft.com
+DOMAIN,itacademyuat.download.prss.microsoft.com
 DOMAIN,itunes-apple.com.akadns.net
 DOMAIN,itunes.apple.com
 DOMAIN,itunesconnect.apple.com
@@ -542,7 +548,8 @@ DOMAIN,ksn-verdict-geo.kaspersky-labs.com
 DOMAIN,ksn-verdict.geoksn.kaspersky.com
 DOMAIN,lastfm.freetls.fastly.net
 DOMAIN,lazer.ppy.sh
-DOMAIN,learn.microsoft.com
+DOMAIN,lex.download.prss.microsoft.com
+DOMAIN,lexuat.download.prss.microsoft.com
 DOMAIN,lgcscc-hamivideo2.cdn.hinet.net
 DOMAIN,lgelectronics.122.2o7.net
 DOMAIN,licdn.cn.cdn20.com
@@ -557,11 +564,12 @@ DOMAIN,lolstatic-a.akamaihd.net
 DOMAIN,lv.queniujq.cn
 DOMAIN,m1.ppy.sh
 DOMAIN,maps.apple.com
+DOMAIN,mbs.download.prss.microsoft.com
 DOMAIN,mdn.mozillademos.org
 DOMAIN,mdr.ksn.kaspersky-labs.com
 DOMAIN,media-rockstargames-com.akamaized.net
 DOMAIN,medone-education.thieme.com
-DOMAIN,menu-static.gog-statics.com
+DOMAIN,mensura.cdn-apple.com
 DOMAIN,mesu-cdn.apple.com.akadns.net
 DOMAIN,mesu-china.apple.com.akadns.net
 DOMAIN,mesu.apple.com
@@ -570,8 +578,14 @@ DOMAIN,misc-assets.itunes.apple.com
 DOMAIN,ml.cdn-apple.com
 DOMAIN,mobilelive-hamivideo.cdn.hinet.net
 DOMAIN,mozilla-ohttp.fastly-edge.com
+DOMAIN,mpnbenefits.download.prss.microsoft.com
+DOMAIN,mpnbenefitsrtl.download.prss.microsoft.com
+DOMAIN,mpnbenefitsrtluat.download.prss.microsoft.com
 DOMAIN,mscrl.microsoft.com
+DOMAIN,msdn.download.prss.microsoft.com
+DOMAIN,msdprod-ad.download.prss.microsoft.com
 DOMAIN,msh.amazon.co.uk
+DOMAIN,msproduct.download.prss.microsoft.com
 DOMAIN,mtalk-dev.google.com
 DOMAIN,mtalk-staging.google.com
 DOMAIN,mtalk.google.com
@@ -643,8 +657,11 @@ DOMAIN,ocsp.microsoft.com
 DOMAIN,ocsp.pki.goog
 DOMAIN,ocsp2.apple.com
 DOMAIN,oemsoc.download.prss.microsoft.com
+DOMAIN,oemsocuat.download.prss.microsoft.com
 DOMAIN,officecdn-microsoft-com.akamaized.net
 DOMAIN,officecdn.microsoft.com
+DOMAIN,officemkt.download.prss.microsoft.com
+DOMAIN,officemktuat.download.prss.microsoft.com
 DOMAIN,onekey.zendesk.com
 DOMAIN,oneocsp.microsoft.com
 DOMAIN,ood.opsource.net
@@ -656,6 +673,7 @@ DOMAIN,opgg-static.akamaized.net
 DOMAIN,origin-a.akamaihd.net
 DOMAIN,oscdn.apple.com
 DOMAIN,oscdn.origin-apple.com.akadns.net
+DOMAIN,osrelease.download.prss.microsoft.com
 DOMAIN,osu.ppy.sh
 DOMAIN,osxapps.itunes.apple.com
 DOMAIN,osxapps.itunes.g.aaplimg.com
@@ -712,7 +730,6 @@ DOMAIN,prod-databe.floonet.goog
 DOMAIN,prod-support.apple-support.akadns.net
 DOMAIN,prod.databe.floonet.goog
 DOMAIN,prodforza.blob.core.windows.net
-DOMAIN,productcard.gog-statics.com
 DOMAIN,production-openaicom-storage.azureedge.net
 DOMAIN,productionresultssa0.blob.core.windows.net
 DOMAIN,productionresultssa1.blob.core.windows.net
@@ -759,8 +776,6 @@ DOMAIN,redirector.offline-maps.gvt1.com
 DOMAIN,redirector.snap.gvt1.com
 DOMAIN,redirector.xn--ngstr-lra8j.com
 DOMAIN,refresh-bkg.activation-v2.kaspersky.com
-DOMAIN,res-1.cdn.office.net
-DOMAIN,res.cdn.office.net
 DOMAIN,rink.hockeyapp.net
 DOMAIN,roblox-load-generator-configuration.s3.us-east-2.amazonaws.com
 DOMAIN,roblox-poc.global.ssl.fastly.net
@@ -769,6 +784,7 @@ DOMAIN,roovza-launches.appsflyersdk.com
 DOMAIN,roovza.inapps.appsflyersdk.com
 DOMAIN,roovza.launches.appsflyersdk.com
 DOMAIN,roovza.skadsdk.appsflyersdk.com
+DOMAIN,rsm.download.prss.microsoft.com
 DOMAIN,rss.4040940.xyz
 DOMAIN,rss.datuan.dev
 DOMAIN,rss.littlebaby.life
@@ -816,6 +832,7 @@ DOMAIN,sa78gs.wpc.edgecastcdn.net
 DOMAIN,safebrowsing-cache.google.com
 DOMAIN,safebrowsing.googleapis.com
 DOMAIN,sberpro.vedomosti.ru
+DOMAIN,scc-hamivideo.cdn.hinet.net
 DOMAIN,scc.ott.hinet.net
 DOMAIN,scene7-cdn.dell.com
 DOMAIN,scholar.google.ae
@@ -933,7 +950,6 @@ DOMAIN,staging.databe.floonet.goog
 DOMAIN,standchartbank.sc.omtrdc.net
 DOMAIN,standchartbank.tt.omtrdc.net
 DOMAIN,static-hamivideo.cdn.hinet.net
-DOMAIN,static-login.gog-statics.com
 DOMAIN,static.gc.apple.com
 DOMAIN,static.siege-amazon.com
 DOMAIN,statics-marketingsites-eas-ms-com.akamaized.net
@@ -961,13 +977,18 @@ DOMAIN,store.apple.com.edgekey.net
 DOMAIN,store.apple.com.edgekey.net.globalredir.akadns.net
 DOMAIN,store.storeimages.apple.com.akadns.net
 DOMAIN,store.storeimages.cdn-apple.com
+DOMAIN,storecorefulfillment.download.prss.microsoft.com
+DOMAIN,storeedge.microsoft.com
 DOMAIN,storeedgefd.dsx.mp.microsoft.com
 DOMAIN,straitsx-826709081262441084-b790f87a2ae6fd417434295.freshchat.com
 DOMAIN,streamingaudio.itunes.apple.com
 DOMAIN,su.itunes.apple.com
+DOMAIN,supercell.helpshift.com
+DOMAIN,supercell.zendesk.com
 DOMAIN,support-china.apple-support.akadns.net
 DOMAIN,support.apple.com
 DOMAIN,supportassist.dell.com
+DOMAIN,surface.download.prss.microsoft.com
 DOMAIN,surface.downloads.prss.microsoft.com
 DOMAIN,swallow-apple-com.v.aaplimg.com
 DOMAIN,swallow.apple.com
@@ -981,6 +1002,7 @@ DOMAIN,swscan-cdn.apple.com.akadns.net
 DOMAIN,swscan.apple.com
 DOMAIN,sylvan.apple.com
 DOMAIN,sync.itunes.apple.com
+DOMAIN,t.ssp.hinet.net
 DOMAIN,t21.nikkei.co.jp
 DOMAIN,t21ipau.nikkei.co.jp
 DOMAIN,tac.googleapis.com
@@ -1081,6 +1103,7 @@ DOMAIN,ve-dash-uk-live.akamaized.net
 DOMAIN,ve-uhd-push-uk-live.akamaized.net
 DOMAIN,venmo.s3.amazonaws.com
 DOMAIN,videos-rockstargames-com.akamaized.net
+DOMAIN,vlportal.download.prss.microsoft.com
 DOMAIN,vmware.tt.omtrdc.net
 DOMAIN,vod-abematv.akamaized.net
 DOMAIN,vod-dash-uk-live.akamaized.net
@@ -1089,6 +1112,7 @@ DOMAIN,vod-hls-uk-live.akamaized.net
 DOMAIN,vod-sub-uk-live.akamaized.net
 DOMAIN,vod-thumb-uk-live.akamaized.net
 DOMAIN,vod-thumb-ww-live.akamaized.net
+DOMAIN,volic.download.prss.microsoft.com
 DOMAIN,vs-cmaf-push-uk-live.akamaized.net
 DOMAIN,vs-cmaf-pushb-ww-live.akamaized.net
 DOMAIN,vs-hls-push-uk-live.akamaized.net
@@ -1109,8 +1133,10 @@ DOMAIN,weather-map2.apple.com
 DOMAIN,weatherkit.apple.com
 DOMAIN,webchannel-alkalimakersuite-pa.clients6.google.com
 DOMAIN,weblive-hamivideo.cdn.hinet.net
+DOMAIN,weblivea-hamivideo.cdn.hinet.net
 DOMAIN,webvodad-hamivideo.cdn.hinet.net
 DOMAIN,widgets.stripst.com
+DOMAIN,windbg.download.prss.microsoft.com
 DOMAIN,wip.adobe.com
 DOMAIN,wip1.adobe.com
 DOMAIN,wip2.adobe.com
@@ -1118,8 +1144,6 @@ DOMAIN,wip3.adobe.com
 DOMAIN,wip4.adobe.com
 DOMAIN,wrds-www.wharton.upenn.edu
 DOMAIN,ws.audioscrobbler.com
-DOMAIN,wscont1.apps.microsoft.com
-DOMAIN,wscont2.apps.microsoft.com
 DOMAIN,wwis-dubc1-vip100.adobe.com
 DOMAIN,wwis-dubc1-vip101.adobe.com
 DOMAIN,wwis-dubc1-vip102.adobe.com
@@ -1233,7 +1257,6 @@ DOMAIN,www.quora.com.cdn.cloudflare.net
 DOMAIN,www.recaptcha-cn.net
 DOMAIN,www.recaptcha.net
 DOMAIN,www.support.apple.com
-DOMAIN,www4-static.gog-statics.com
 DOMAIN,xp.apple.com
 DOMAIN,xtratime.qcomgeo2.com
 DOMAIN,xz.pphimalayanrt.com
@@ -2979,6 +3002,7 @@ DOMAIN-SUFFIX,appbridge.io
 DOMAIN-SUFFIX,appbridge.it
 DOMAIN-SUFFIX,appcenter.ms
 DOMAIN-SUFFIX,appcloud.com
+DOMAIN-SUFFIX,appconsent.io
 DOMAIN-SUFFIX,appdomain.cloud
 DOMAIN-SUFFIX,appdynamics.co.uk
 DOMAIN-SUFFIX,appdynamics.com
@@ -3871,6 +3895,7 @@ DOMAIN-SUFFIX,awwcn.buzz
 DOMAIN-SUFFIX,awwcn.xyz
 DOMAIN-SUFFIX,awxcdn.com
 DOMAIN-SUFFIX,axbdoll.com.tw
+DOMAIN-SUFFIX,axept.io
 DOMAIN-SUFFIX,axios.com
 DOMAIN-SUFFIX,ayabank.com
 DOMAIN-SUFFIX,ayshdade.info
@@ -3934,6 +3959,7 @@ DOMAIN-SUFFIX,azure-dns.com
 DOMAIN-SUFFIX,azure-dns.info
 DOMAIN-SUFFIX,azure-dns.net
 DOMAIN-SUFFIX,azure-dns.org
+DOMAIN-SUFFIX,azure-mobile.cn
 DOMAIN-SUFFIX,azure-mobile.net
 DOMAIN-SUFFIX,azure-sphere.com
 DOMAIN-SUFFIX,azure-test.net
@@ -6032,6 +6058,7 @@ DOMAIN-SUFFIX,ccstatic.org
 DOMAIN-SUFFIX,cdkworkshop.com
 DOMAIN-SUFFIX,cdmatech.com
 DOMAIN-SUFFIX,cdn-apple.com
+DOMAIN-SUFFIX,cdn-cookieyes.com
 DOMAIN-SUFFIX,cdn-telegram.org
 DOMAIN-SUFFIX,cdn-terapeak.com
 DOMAIN-SUFFIX,cdn-tinkoff.ru
@@ -6060,6 +6087,7 @@ DOMAIN-SUFFIX,celebforum.co
 DOMAIN-SUFFIX,celebgramme.com
 DOMAIN-SUFFIX,celebmasta.live
 DOMAIN-SUFFIX,celebritygay.com
+DOMAIN-SUFFIX,celebritymoviearchive.com
 DOMAIN-SUFFIX,celebritynakeds.com
 DOMAIN-SUFFIX,celebrityslips.com
 DOMAIN-SUFFIX,celebritystorysite.com
@@ -6658,6 +6686,7 @@ DOMAIN-SUFFIX,conoha.jp
 DOMAIN-SUFFIX,conquerwithcharacter.com
 DOMAIN-SUFFIX,conscrypt.com
 DOMAIN-SUFFIX,conscrypt.org
+DOMAIN-SUFFIX,consentmanager.net
 DOMAIN-SUFFIX,consentpro.com
 DOMAIN-SUFFIX,constructware.com
 DOMAIN-SUFFIX,consul.io
@@ -6668,9 +6697,11 @@ DOMAIN-SUFFIX,content-ause1-ur-discovery1.uplynk.com
 DOMAIN-SUFFIX,contentful.com
 DOMAIN-SUFFIX,contest.com
 DOMAIN-SUFFIX,convrgencegame.com
+DOMAIN-SUFFIX,cookiebot.com
 DOMAIN-SUFFIX,cookiechoices.org
 DOMAIN-SUFFIX,cookielaw.org
 DOMAIN-SUFFIX,cookiepro.com
+DOMAIN-SUFFIX,cookieyes.com
 DOMAIN-SUFFIX,cool-comics.com
 DOMAIN-SUFFIX,cool18.com
 DOMAIN-SUFFIX,cool3c.com
@@ -6818,6 +6849,7 @@ DOMAIN-SUFFIX,csc3-2009-aia.verisign.com
 DOMAIN-SUFFIX,csc3-2009-crl.verisign.com
 DOMAIN-SUFFIX,csc3-2010-aia.verisign.com
 DOMAIN-SUFFIX,csc3-2010-crl.verisign.com
+DOMAIN-SUFFIX,csgo.com.cn
 DOMAIN-SUFFIX,csgo.wmsj.cn
 DOMAIN-SUFFIX,cshive.com
 DOMAIN-SUFFIX,csifund.org
@@ -7377,6 +7409,7 @@ DOMAIN-SUFFIX,devtools-paypal.com
 DOMAIN-SUFFIX,dewitwithdurex.com
 DOMAIN-SUFFIX,dexterhorn.com
 DOMAIN-SUFFIX,dezyred.com
+DOMAIN-SUFFIX,dfvpn.com
 DOMAIN-SUFFIX,dgaqp.com
 DOMAIN-SUFFIX,dgg.gg
 DOMAIN-SUFFIX,dgwav.com
@@ -7748,6 +7781,7 @@ DOMAIN-SUFFIX,doseofporn.com
 DOMAIN-SUFFIX,dot-mac.de
 DOMAIN-SUFFIX,dot.net
 DOMAIN-SUFFIX,dota2.com
+DOMAIN-SUFFIX,dota2.com.cn
 DOMAIN-SUFFIX,dota2.wmsj.cn
 DOMAIN-SUFFIX,dotcernpilot.info
 DOMAIN-SUFFIX,dotdeb.org
@@ -7775,7 +7809,6 @@ DOMAIN-SUFFIX,douzinnsi-eromannga.com
 DOMAIN-SUFFIX,dowjones.com
 DOMAIN-SUFFIX,dowjones.io
 DOMAIN-SUFFIX,dowjoneson.com
-DOMAIN-SUFFIX,download-cdn.jetbrains.com.cn
 DOMAIN-SUFFIX,download.com
 DOMAIN-SUFFIX,download.windowsupdate.com
 DOMAIN-SUFFIX,downloadpass.com
@@ -9753,6 +9786,7 @@ DOMAIN-SUFFIX,foxtvdvd.com
 DOMAIN-SUFFIX,foxuv.com
 DOMAIN-SUFFIX,foxweatherwatch.com
 DOMAIN-SUFFIX,fpacebook.com
+DOMAIN-SUFFIX,fpo.xxx
 DOMAIN-SUFFIX,fptolia.com
 DOMAIN-SUFFIX,fqcebook.com
 DOMAIN-SUFFIX,fr-beatsbydrestore.com
@@ -9843,6 +9877,8 @@ DOMAIN-SUFFIX,freeuseporn.com
 DOMAIN-SUFFIX,freeviewplus.net.au
 DOMAIN-SUFFIX,freewechat.com
 DOMAIN-SUFFIX,freeweibo.com
+DOMAIN-SUFFIX,freexh.blog
+DOMAIN-SUFFIX,freexh.live
 DOMAIN-SUFFIX,freexvideos.org
 DOMAIN-SUFFIX,freexxx.best
 DOMAIN-SUFFIX,freexxx.win
@@ -10058,6 +10094,7 @@ DOMAIN-SUFFIX,gamesplanet.com
 DOMAIN-SUFFIX,gamesstack.com
 DOMAIN-SUFFIX,gametap.com
 DOMAIN-SUFFIX,gameuxmasterguide.com
+DOMAIN-SUFFIX,gamewtb.com
 DOMAIN-SUFFIX,gaming-notebooks.com
 DOMAIN-SUFFIX,gandhara.ru
 DOMAIN-SUFFIX,gandi.net
@@ -10511,6 +10548,7 @@ DOMAIN-SUFFIX,gobuildx.net
 DOMAIN-SUFFIX,gobuyonlinestore.net
 DOMAIN-SUFFIX,gockhuatviet.com
 DOMAIN-SUFFIX,godaddy.com
+DOMAIN-SUFFIX,godaddy.net
 DOMAIN-SUFFIX,godbolt.org
 DOMAIN-SUFFIX,godoc.org
 DOMAIN-SUFFIX,goduckgo.com
@@ -10518,8 +10556,10 @@ DOMAIN-SUFFIX,gofile.me
 DOMAIN-SUFFIX,gofucker.com
 DOMAIN-SUFFIX,gofuckmenow.com
 DOMAIN-SUFFIX,gofundme.com
+DOMAIN-SUFFIX,gog-services.com
 DOMAIN-SUFFIX,gog-statics.com
 DOMAIN-SUFFIX,gog.com
+DOMAIN-SUFFIX,gogalaxy.com
 DOMAIN-SUFFIX,gogettaxi.org
 DOMAIN-SUFFIX,gogle.com
 DOMAIN-SUFFIX,gogo-load.com
@@ -13269,6 +13309,7 @@ DOMAIN-SUFFIX,jessicaturner.com
 DOMAIN-SUFFIX,jetbrains.ai
 DOMAIN-SUFFIX,jetbrains.cloud
 DOMAIN-SUFFIX,jetbrains.com
+DOMAIN-SUFFIX,jetbrains.com.cn
 DOMAIN-SUFFIX,jetbrains.net
 DOMAIN-SUFFIX,jetbrains.space
 DOMAIN-SUFFIX,jetbrains.team
@@ -17772,6 +17813,7 @@ DOMAIN-SUFFIX,pikpak.me
 DOMAIN-SUFFIX,pikpakdrive.com
 DOMAIN-SUFFIX,pillbeatsblackfridaysale.com
 DOMAIN-SUFFIX,pimg.tw
+DOMAIN-SUFFIX,pimpbunny.com
 DOMAIN-SUFFIX,pin.it
 DOMAIN-SUFFIX,pincong.rocks
 DOMAIN-SUFFIX,pinduck.com
@@ -18402,6 +18444,7 @@ DOMAIN-SUFFIX,powershape.com
 DOMAIN-SUFFIX,powershellgallery.com
 DOMAIN-SUFFIX,powersrv.de
 DOMAIN-SUFFIX,powersunitedvr.com
+DOMAIN-SUFFIX,powfans.com
 DOMAIN-SUFFIX,pp-soc.com
 DOMAIN-SUFFIX,pp6.info
 DOMAIN-SUFFIX,ppaypal.com
@@ -19688,6 +19731,7 @@ DOMAIN-SUFFIX,seqingwangzhan.pro
 DOMAIN-SUFFIX,seqingx.com
 DOMAIN-SUFFIX,sequence.com
 DOMAIN-SUFFIX,ser7.cc
+DOMAIN-SUFFIX,serakon.com
 DOMAIN-SUFFIX,serbiporno.net
 DOMAIN-SUFFIX,serialssolutions.com
 DOMAIN-SUFFIX,serlucap.lol
@@ -20465,6 +20509,10 @@ DOMAIN-SUFFIX,sourcingforebay.net
 DOMAIN-SUFFIX,sourcingforebay.tv
 DOMAIN-SUFFIX,south-plus.net
 DOMAIN-SUFFIX,southfloridamini.com
+DOMAIN-SUFFIX,sovcloud-mx.cn
+DOMAIN-SUFFIX,sovcloud-static.cn
+DOMAIN-SUFFIX,sovcloud-usercontent.cn
+DOMAIN-SUFFIX,sovcloud.cn
 DOMAIN-SUFFIX,sovcombank.ru
 DOMAIN-SUFFIX,sovec.net
 DOMAIN-SUFFIX,soyinyj.top
@@ -20896,7 +20944,6 @@ DOMAIN-SUFFIX,supadou.blogism.jp
 DOMAIN-SUFFIX,supanimegames.com
 DOMAIN-SUFFIX,superadultgames.com
 DOMAIN-SUFFIX,supercell.com
-DOMAIN-SUFFIX,supercell.helpshift.com
 DOMAIN-SUFFIX,supercell.net
 DOMAIN-SUFFIX,supercellcreators.com
 DOMAIN-SUFFIX,supercellgames.com
@@ -21158,6 +21205,7 @@ DOMAIN-SUFFIX,taxitax.org
 DOMAIN-SUFFIX,taylorandfrancis.com
 DOMAIN-SUFFIX,taylorfrancis.com
 DOMAIN-SUFFIX,tb-esim.ru
+DOMAIN-SUFFIX,tb.pro
 DOMAIN-SUFFIX,tbank-online.com
 DOMAIN-SUFFIX,tbank.ru
 DOMAIN-SUFFIX,tbib.org
@@ -21272,6 +21320,7 @@ DOMAIN-SUFFIX,terapeak.info
 DOMAIN-SUFFIX,teraperk.com
 DOMAIN-SUFFIX,terk.nl
 DOMAIN-SUFFIX,termius.com
+DOMAIN-SUFFIX,termly.io
 DOMAIN-SUFFIX,termux.com
 DOMAIN-SUFFIX,termux.dev
 DOMAIN-SUFFIX,termux.org
@@ -21527,6 +21576,7 @@ DOMAIN-SUFFIX,thumbnailseries.com
 DOMAIN-SUFFIX,thumbzilla.com
 DOMAIN-SUFFIX,thunderbird.net
 DOMAIN-SUFFIX,thunderbolttechnology.net
+DOMAIN-SUFFIX,thundermail.com
 DOMAIN-SUFFIX,thz7.net
 DOMAIN-SUFFIX,thzu.cc
 DOMAIN-SUFFIX,tiandixing.org
@@ -21813,6 +21863,7 @@ DOMAIN-SUFFIX,truenas.com
 DOMAIN-SUFFIX,trunest.com
 DOMAIN-SUFFIX,trust-provider.cn
 DOMAIN-SUFFIX,trust-provider.com
+DOMAIN-SUFFIX,trustarc.com
 DOMAIN-SUFFIX,trustcenter.cn
 DOMAIN-SUFFIX,trustcor.ca
 DOMAIN-SUFFIX,trustcor.com
@@ -22149,7 +22200,6 @@ DOMAIN-SUFFIX,unisat.io
 DOMAIN-SUFFIX,uniswap.org
 DOMAIN-SUFFIX,unity.com
 DOMAIN-SUFFIX,unity3d.com
-DOMAIN-SUFFIX,unity3dcloud.cn
 DOMAIN-SUFFIX,universalorlando.com
 DOMAIN-SUFFIX,universalpictures.com
 DOMAIN-SUFFIX,universalpicturesinternational.com
@@ -23135,6 +23185,7 @@ DOMAIN-SUFFIX,vscode-cdn.net
 DOMAIN-SUFFIX,vscode-unpkg.net
 DOMAIN-SUFFIX,vscode.dev
 DOMAIN-SUFFIX,vsemrabota.ru
+DOMAIN-SUFFIX,vsex.in
 DOMAIN-SUFFIX,vsezoo.com
 DOMAIN-SUFFIX,vsphere.com
 DOMAIN-SUFFIX,vsphere.net
@@ -23663,6 +23714,7 @@ DOMAIN-SUFFIX,wrenchead.com
 DOMAIN-SUFFIX,ws-blau.com
 DOMAIN-SUFFIX,ws-tcg.com
 DOMAIN-SUFFIX,ws.symantec.com
+DOMAIN-SUFFIX,wsimg.com
 DOMAIN-SUFFIX,wsj.com
 DOMAIN-SUFFIX,wsj.jobs
 DOMAIN-SUFFIX,wsj.net
@@ -23827,6 +23879,7 @@ DOMAIN-SUFFIX,xhamster19.com
 DOMAIN-SUFFIX,xhamster2.com
 DOMAIN-SUFFIX,xhamster3.com
 DOMAIN-SUFFIX,xhamsterlive.com
+DOMAIN-SUFFIX,xhapp.live
 DOMAIN-SUFFIX,xhcdn.com
 DOMAIN-SUFFIX,xhnews.live
 DOMAIN-SUFFIX,xhot.pro
