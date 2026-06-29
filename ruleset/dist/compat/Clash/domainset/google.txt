@@ -229,6 +229,7 @@ webchannel-alkalimakersuite-pa.clients6.google.com
 +.chromebook.com
 +.chromecast.com
 +.chromeos.dev
++.chromestatus.com
 +.chromium.org
 +.chronicle.security
 +.chroniclesec.com

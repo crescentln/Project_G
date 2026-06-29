@@ -7,6 +7,7 @@ spotify.com.edgesuite.net
 spotify.map.fastly.net
 spotify.map.fastlylb.net
 +.byspotify.com
++.lifeatspotify.com
 +.pscdn.co
 +.scdn.co
 +.spoti.fi
@@ -19,5 +20,6 @@ spotify.map.fastlylb.net
 +.spotifycharts.com
 +.spotifycodes.com
 +.spotifyforbrands.com
++.spotifyforvendors.com
 +.spotifyjobs.com
 +.tospotify.com

@@ -1,10 +1,10 @@
 {
-  "generated_at_utc": "2026-06-22T05:02:12.315631+00:00",
-  "conflict_count": 526,
+  "generated_at_utc": "2026-06-29T05:00:29.645105+00:00",
+  "conflict_count": 527,
   "cross_action_conflict_count": 0,
   "high_severity_conflict_count": 0,
   "medium_severity_conflict_count": 0,
-  "low_severity_conflict_count": 526,
+  "low_severity_conflict_count": 527,
   "conflicts": [
     {
       "rule": "DOMAIN,upos-hz-mirrorakam.akamaized.net",
@@ -5903,6 +5903,27 @@
     },
     {
       "rule": "DOMAIN-SUFFIX,kurobbs.com",
+      "categories": [
+        "domestic",
+        "games_cn"
+      ],
+      "actions": [
+        {
+          "category": "domestic",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        },
+        {
+          "category": "games_cn",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        }
+      ],
+      "type": "same_action_overlap",
+      "severity": "low"
+    },
+    {
+      "rule": "DOMAIN-SUFFIX,kurogame-service.com",
       "categories": [
         "domestic",
         "games_cn"

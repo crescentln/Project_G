@@ -15,6 +15,7 @@ a4.mzstatic.com
 a4e8s8k3.map2.ssl.hwcdn.net
 a5.mzstatic.com
 abematv.akamaized.net
+account-cn.alibabacloud.com
 activate-sea.adobe.com
 activate-sjc0.adobe.com
 activate.activation-v2.kaspersky.com
@@ -68,6 +69,7 @@ aod-ssl.itunes.apple.com
 aod.itunes.apple.com
 api-edge.apps.apple.com
 api-p.videomarket.jp
+api.alibabacloud.com
 api.viu.now.com
 apkmirror.disqus.com
 apl-hamivideo.cdn.hinet.net
@@ -192,6 +194,7 @@ cloudcode-pa.googleapis.com
 cloudsync-prod.s3.amazonaws.com
 cma.itunes.apple.com
 cn-smp-paymentservices.apple.com
+cn.alibabacloud.com
 cn.download.nvidia.com
 cn.widevine.com
 cn.windowssearch.com
@@ -956,6 +959,7 @@ statics-marketingsites-eas-ms-com.akamaized.net
 statics-marketingsites-eus-ms-com.akamaized.net
 statics-marketingsites-wcus-ms-com.akamaized.net
 statics.teams.cdn.office.net
+status.alibabacloud.com
 steambroadcast.akamaized.net
 steamcdn-a.akamaihd.net
 steamcloudsweden.blob.core.windows.net
@@ -2576,6 +2580,7 @@ zftksc.launches.appsflyersdk.com
 +.allspyclips.com
 +.allswingersclubs.org
 +.allthefallen.moe
++.almalinux.org
 +.alohatube.com
 +.alotporn.com
 +.alphabet.asia
@@ -3284,6 +3289,7 @@ zftksc.launches.appsflyersdk.com
 +.applereach.com
 +.applereach.net
 +.apples-msk.ru
++.appleschoolcontent.com
 +.applescreensavers.com
 +.applescript.info
 +.appleshare.info
@@ -3380,6 +3386,7 @@ zftksc.launches.appsflyersdk.com
 +.apture.com
 +.apyarstorybooks.blogspot.com
 +.apyle.com
++.apzones.com
 +.aqdlt.net
 +.arabianchicks.com
 +.arabicrt.ru
@@ -3897,6 +3904,7 @@ zftksc.launches.appsflyersdk.com
 +.axbdoll.com.tw
 +.axept.io
 +.axios.com
++.axm-usercontent-apple.com
 +.ayabank.com
 +.ayshdade.info
 +.ayshdee.xyz
@@ -5698,6 +5706,7 @@ zftksc.launches.appsflyersdk.com
 +.bustynudebabes.com
 +.bustyoldsluts.com
 +.bustysammieblack.com
++.busybox.net
 +.buy-from-shanghai.com
 +.buyaapl.com
 +.buyaapl.net
@@ -6293,6 +6302,7 @@ zftksc.launches.appsflyersdk.com
 +.chromebook.com
 +.chromecast.com
 +.chromeos.dev
++.chromestatus.com
 +.chromium.org
 +.chronicle.security
 +.chroniclesec.com
@@ -6999,6 +7009,8 @@ zftksc.launches.appsflyersdk.com
 +.damduc.org
 +.damplips.com
 +.dandalinvoa.com
++.dandanplay.com
++.dandanplay.net
 +.dandanzan.cc
 +.danemarket.com
 +.danmarkbeatsbydrdre.com
@@ -8814,6 +8826,7 @@ zftksc.launches.appsflyersdk.com
 +.exoav.com
 +.exotic-ghana.com
 +.exoticuganda.com
++.exp-tas.com
 +.experience-vmware.com
 +.experiencebillmelater.com
 +.expertmaker.com
@@ -10422,6 +10435,7 @@ zftksc.launches.appsflyersdk.com
 +.gitgud.io
 +.github.ai
 +.github.blog
++.github.career
 +.github.com
 +.github.community
 +.github.dev
@@ -12071,6 +12085,7 @@ zftksc.launches.appsflyersdk.com
 +.ichineseporn.com
 +.icloud-apple.cn
 +.icloud-content.com
++.icloud-content.com.cn
 +.icloud-isupport.com
 +.icloud-sandbox.com
 +.icloud.ch
@@ -14024,6 +14039,7 @@ zftksc.launches.appsflyersdk.com
 +.licensebuttons.net
 +.licenseparser.com
 +.life-global.org
++.lifeatspotify.com
 +.lifeselector.com
 +.lifestyle-tec.ru
 +.lifewire.com
@@ -14490,6 +14506,7 @@ zftksc.launches.appsflyersdk.com
 +.manhwa24h.com
 +.manhwahentai.me
 +.maniakey.homes
++.manjaro.org
 +.manorama.com
 +.manoramanews.com
 +.manoramaonline.com
@@ -19213,6 +19230,7 @@ zftksc.launches.appsflyersdk.com
 +.rocksextube.com
 +.rockstargames.com
 +.rockstarnorth.com
++.rockylinux.org
 +.roku.com
 +.rokutime.com
 +.rolfoundation.org
@@ -19448,13 +19466,16 @@ zftksc.launches.appsflyersdk.com
 +.samebags.com
 +.samokat.ru
 +.samsung.com
++.samsung.com.cn
 +.samsungapps.com
 +.samsungcloud.com
++.samsungcloudcn.com
 +.samsungconsent.com
 +.samsungdm.com
 +.samsungeshop.com.cn
 +.samsunggalaxyfriends.com
 +.samsunghealth.com
++.samsunghealthcn.com
 +.samsungiotcloud.com
 +.samsungiots.com
 +.samsungknox.com
@@ -20585,6 +20606,7 @@ zftksc.launches.appsflyersdk.com
 +.spotifycharts.com
 +.spotifycodes.com
 +.spotifyforbrands.com
++.spotifyforvendors.com
 +.spotifyjobs.com
 +.spraynwash.com
 +.spreadprivacy.com
@@ -21842,6 +21864,7 @@ zftksc.launches.appsflyersdk.com
 +.tribler.org
 +.trikepatrol.com
 +.triokini.com
++.tripo3d.ai
 +.tristatebmw.com
 +.trithucvn.net
 +.trithucvn.org
@@ -22214,6 +22237,7 @@ zftksc.launches.appsflyersdk.com
 +.unraveltwo.com
 +.unrealengine.com
 +.unrealtournament.com
++.unsplash.com
 +.unstyle.us
 +.unusualporn.net
 +.unwire.hk
@@ -23183,7 +23207,10 @@ zftksc.launches.appsflyersdk.com
 +.vscale.ru
 +.vscode-cdn.net
 +.vscode-unpkg.net
++.vscode-webview.net
 +.vscode.dev
++.vscodeedu.app
++.vscodeedu.com
 +.vsemrabota.ru
 +.vsex.in
 +.vsezoo.com
