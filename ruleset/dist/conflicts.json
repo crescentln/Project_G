@@ -1,10 +1,10 @@
 {
-  "generated_at_utc": "2026-06-29T05:00:29.645105+00:00",
-  "conflict_count": 527,
+  "generated_at_utc": "2026-07-06T04:50:05.076795+00:00",
+  "conflict_count": 533,
   "cross_action_conflict_count": 0,
   "high_severity_conflict_count": 0,
   "medium_severity_conflict_count": 0,
-  "low_severity_conflict_count": 527,
+  "low_severity_conflict_count": 533,
   "conflicts": [
     {
       "rule": "DOMAIN,upos-hz-mirrorakam.akamaized.net",
@@ -1535,6 +1535,27 @@
     },
     {
       "rule": "DOMAIN-SUFFIX,5wyxi.com",
+      "categories": [
+        "domestic",
+        "games_cn"
+      ],
+      "actions": [
+        {
+          "category": "domestic",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        },
+        {
+          "category": "games_cn",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        }
+      ],
+      "type": "same_action_overlap",
+      "severity": "low"
+    },
+    {
+      "rule": "DOMAIN-SUFFIX,66rpg.com",
       "categories": [
         "domestic",
         "games_cn"
@@ -3164,6 +3185,27 @@
         },
         {
           "category": "domestic",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        }
+      ],
+      "type": "same_action_overlap",
+      "severity": "low"
+    },
+    {
+      "rule": "DOMAIN-SUFFIX,cgyouxi.com",
+      "categories": [
+        "domestic",
+        "games_cn"
+      ],
+      "actions": [
+        {
+          "category": "domestic",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        },
+        {
+          "category": "games_cn",
           "action": "DIRECT",
           "action_family": "DIRECT"
         }
@@ -7057,6 +7099,27 @@
       "severity": "low"
     },
     {
+      "rule": "DOMAIN-SUFFIX,nalrer.cn",
+      "categories": [
+        "domestic",
+        "games_cn"
+      ],
+      "actions": [
+        {
+          "category": "domestic",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        },
+        {
+          "category": "games_cn",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        }
+      ],
+      "type": "same_action_overlap",
+      "severity": "low"
+    },
+    {
       "rule": "DOMAIN-SUFFIX,nextstudios.com",
       "categories": [
         "domestic",
@@ -7217,6 +7280,27 @@
         },
         {
           "category": "domestic",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        }
+      ],
+      "type": "same_action_overlap",
+      "severity": "low"
+    },
+    {
+      "rule": "DOMAIN-SUFFIX,open-douyin.com",
+      "categories": [
+        "domestic",
+        "douyin"
+      ],
+      "actions": [
+        {
+          "category": "domestic",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        },
+        {
+          "category": "douyin",
           "action": "DIRECT",
           "action_family": "DIRECT"
         }
@@ -10816,6 +10900,27 @@
       "severity": "low"
     },
     {
+      "rule": "DOMAIN-SUFFIX,yjwujian.cn",
+      "categories": [
+        "domestic",
+        "games_cn"
+      ],
+      "actions": [
+        {
+          "category": "domestic",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        },
+        {
+          "category": "games_cn",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        }
+      ],
+      "type": "same_action_overlap",
+      "severity": "low"
+    },
+    {
       "rule": "DOMAIN-SUFFIX,yo9.com",
       "categories": [
         "domestic",
@@ -11006,6 +11111,27 @@
     },
     {
       "rule": "DOMAIN-SUFFIX,yxwsgame.com",
+      "categories": [
+        "domestic",
+        "games_cn"
+      ],
+      "actions": [
+        {
+          "category": "domestic",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        },
+        {
+          "category": "games_cn",
+          "action": "DIRECT",
+          "action_family": "DIRECT"
+        }
+      ],
+      "type": "same_action_overlap",
+      "severity": "low"
+    },
+    {
+      "rule": "DOMAIN-SUFFIX,yysls.cn",
       "categories": [
         "domestic",
         "games_cn"

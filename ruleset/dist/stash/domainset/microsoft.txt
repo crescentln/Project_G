@@ -42,6 +42,7 @@ www.microsoft.com
 +.aria.ms
 +.asp.net
 +.aspnetcdn.com
++.azure-api.net
 +.azure-devices-int.net
 +.azure-devices.net
 +.azure-dns.com
@@ -78,6 +79,7 @@ www.microsoft.com
 +.azureserviceprofiler.com
 +.azuresmartspaces.net
 +.azurestackvalidation.com
++.azurestaticapps.net
 +.azurewebsites.net
 +.binads.com
 +.bing.com
@@ -104,6 +106,8 @@ www.microsoft.com
 +.cloudapp.net
 +.cloudappsecurity.com
 +.codethemicrobit.com
++.copilot.cloud.microsoft
++.copilot.com
 +.copilot.microsoft.com
 +.cortanaanalytics.com
 +.cortanaskills.com

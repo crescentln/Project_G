@@ -75,8 +75,10 @@ devstreaming-cdn.apple.com
 discussionschinese.apple.com
 download.developer.apple.com
 downloaddispatch.itunes.apple.com
+entitlements-edge.itunes.apple.com
 experiments.apple.com
 fides-pol.apple.com
+fpinit.itunes.apple.com
 gs-loc-cn.apple.com
 gs-loc.apple.com
 gsp10-ssl-cn.ls.apple.com

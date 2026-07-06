@@ -4,10 +4,10 @@
   "recommended_action": "PROXY",
   "recommended_priority": 324,
   "recommended_note": "微软国际服务走代理（中国区与更新/CDN 见 microsoft_cdn 直连）",
-  "rule_count": 429,
-  "stash_rule_count": 429,
+  "rule_count": 433,
+  "stash_rule_count": 433,
   "stash_classical_rule_count": 0,
-  "stash_domain_rule_count": 429,
+  "stash_domain_rule_count": 433,
   "stash_ipcidr_rule_count": 0,
   "paths": {
     "stash": "stash/microsoft.list",
@@ -36,21 +36,21 @@
       "authority": "community-curated",
       "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/microsoft",
       "used_cache": false,
-      "rule_count": 426
+      "rule_count": 430
     },
     {
       "type": "v2fly_dlc",
       "authority": "community-curated",
       "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/azure",
       "used_cache": false,
-      "rule_count": 58
+      "rule_count": 60
     },
     {
       "type": "v2fly_dlc",
       "authority": "community-curated",
       "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/bing",
       "used_cache": false,
-      "rule_count": 27
+      "rule_count": 29
     },
     {
       "type": "v2fly_dlc",
