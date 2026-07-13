@@ -1326,6 +1326,7 @@ www-cdn.icloud.com.akadns.net
 +.moreheadphones.com
 +.mr-apple.com.tw
 +.ms4dre.com
++.music.apple.com
 +.musickit.net
 +.myappleid.com
 +.mybeatsbydrestudio.com
@@ -1376,6 +1377,7 @@ www-cdn.icloud.com.akadns.net
 +.pillbeatsblackfridaysale.com
 +.playgrounds-cdn.apple.com
 +.pocketbiketrader.com
++.podcasts.apple.com
 +.powerbeats2wireless.com
 +.powerbeatsbydrdre.com
 +.powerbeatsbydre.com

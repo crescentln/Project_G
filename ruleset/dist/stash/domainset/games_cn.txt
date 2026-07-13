@@ -1,5 +1,7 @@
 end-api.shallow.ink
 end.shallow.ink
++.17173.com
++.17173cdn.com
 +.17roco.com
 +.3304399.com
 +.3304399.net
@@ -77,6 +79,9 @@ end.shallow.ink
 +.cowlevel.net
 +.cy.com
 +.dobest.com
++.duoyi.com
++.duoyigroup.cn
++.duoyiwangluo.com
 +.edu4399.com
 +.feihuo.com
 +.ffbuddy.com
@@ -104,6 +109,7 @@ end.shallow.ink
 +.gtgres.com
 +.guoping123.com
 +.haohaowan.net
++.happyelements.com
 +.happyhlddz.com
 +.haydaypop.cn
 +.hdyxgame.com
@@ -132,6 +138,7 @@ end.shallow.ink
 +.langrenclub.com
 +.laohu.com
 +.ledu.com
++.leyuansu.com
 +.lingxigames.com
 +.longtugame.com
 +.ludosuperstar.cn
@@ -164,7 +171,11 @@ end.shallow.ink
 +.nalrer.cn
 +.nextstudios.com
 +.nextworkshop.net
++.nikkigames.cn
++.nikkigames.com.cn
 +.nzsiteres.com
++.papegames.cn
++.papegames.com
 +.phira.cn
 +.playcool.com
 +.proximabeta.com
@@ -198,6 +209,7 @@ end.shallow.ink
 +.supercellcommunity.cn
 +.supercellsupport.cn
 +.syxlgame.com
++.tanwan.com
 +.tapapks.com
 +.tapimg.com
 +.tapimg.net
@@ -220,6 +232,8 @@ end.shallow.ink
 +.timibase.com
 +.tuer123.com
 +.tuyoo.com
++.twyx.cn
++.twyxh.com
 +.videoxiaoyouxi.com
 +.vrzwk.cn
 +.vrzwk.com
@@ -250,6 +264,9 @@ end.shallow.ink
 +.xoyo.com
 +.xoyocdn.com
 +.ycgame.com
++.yeyou.com
++.yeyoucdn.com
++.ygduoyi.com
 +.yingxiong.com
 +.yjwujian.cn
 +.yokaverse.com
@@ -267,3 +284,4 @@ end.shallow.ink
 +.zhuoyou.com
 +.zhuoyuegame.com
 +.zjshulong.com
++.zx.com

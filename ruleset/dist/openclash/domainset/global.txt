@@ -60,6 +60,7 @@ amp-api-updates.apps.apple.com
 amp-api.apps.apple.com
 amp-api.media.apple.com
 amp-api.music.apple.com
+amp-api.podcasts.apple.com
 amp.akamaized.net
 android.googlesource.com
 angle.com.tw
@@ -95,7 +96,6 @@ asahishimbun.sc.omtrdc.net
 assets.ppy.sh
 audio-ak-spotify-com.akamaized.net
 audio4-ak-spotify-com.akamaized.net
-auth.music.apple.com
 avail.googleflights.net
 avatargarenanow-a.akamaihd.net
 az764295.vo.msecnd.net
@@ -721,6 +721,8 @@ pki.google.com
 play-edge.itunes.apple.com
 play.itunes.apple.com
 play.music.apple.com
+podcasts.apple.com
+podcasts.itunes.apple.com
 poshtestgallery.cloudapp.net
 ppl-ai-file-upload.s3.amazonaws.com
 pplx-res.cloudinary.com
@@ -4563,6 +4565,9 @@ zftksc.launches.appsflyersdk.com
 +.bestbuytradein.com
 +.bestbuyus.com
 +.bestcamsites.net
++.bestchange.com
++.bestchange.net
++.bestchange.ru
 +.bestclouddrive.com
 +.bestdori.com
 +.besterpornos.com
@@ -6175,6 +6180,7 @@ zftksc.launches.appsflyersdk.com
 +.chatango.com
 +.chatgpt.com
 +.chatgpt.livekit.cloud
++.chatgpt.site
 +.chatgptvideo.xyz
 +.chatgptvideob.buzz
 +.chatsex.xxx
@@ -6835,6 +6841,7 @@ zftksc.launches.appsflyersdk.com
 +.crl.verisign.com
 +.crmdynint-gcc.com
 +.crmdynint.com
++.crocoblock.com
 +.crocotube.com
 +.cromite.org
 +.crossborderexpansion.com
@@ -7151,6 +7158,7 @@ zftksc.launches.appsflyersdk.com
 +.delcamtv.com
 +.delcamuniversity.com
 +.delcamusa.com
++.delets.online
 +.delicious.com.au
 +.dell-alw.com
 +.dell-brand.com
@@ -8742,7 +8750,9 @@ zftksc.launches.appsflyersdk.com
 +.esmatube.com
 +.esopworld.com
 +.esp32.com
++.esp8266.cn
 +.esp8266.com
++.esp8266.com.cn
 +.espadoldettol.com.ar
 +.esperanzagomez.org
 +.espn.co.uk
@@ -8752,7 +8762,9 @@ zftksc.launches.appsflyersdk.com
 +.espnqa.com
 +.esports.gg
 +.esposasymaridos.com
++.espressif.cn
 +.espressif.com
++.espressif.com.cn
 +.esri.com
 +.esrt.online
 +.esrt.press
@@ -9566,6 +9578,8 @@ zftksc.launches.appsflyersdk.com
 +.flowfront.com
 +.flowfront.net
 +.flowtype.org
++.flowwow-images.com
++.flowwow.com
 +.fluffychat.im
 +.fluidfxapp.com
 +.fluidpreview.com
@@ -10009,6 +10023,8 @@ zftksc.launches.appsflyersdk.com
 +.funimation.com
 +.funnyfacebook.org
 +.funnyordie.com
++.funpay.com
++.funpay.ru
 +.funshemale.com
 +.fuq.com
 +.fuqqt.com
@@ -10322,6 +10338,7 @@ zftksc.launches.appsflyersdk.com
 +.getporn.tv
 +.getprintersupports.com
 +.getscorecash.com
++.getsentry.com
 +.getsexgames.com
 +.getsynapse.io
 +.gettr.com
@@ -11104,6 +11121,8 @@ zftksc.launches.appsflyersdk.com
 +.hao62.xyz
 +.haori888.com
 +.haplorrhini.com
++.happ.info
++.happ.su
 +.happymeal.co.nz
 +.happymeal.com
 +.happymeal.com.au
@@ -15668,6 +15687,7 @@ zftksc.launches.appsflyersdk.com
 +.motiongraphicsandmore.com
 +.motionpictureser.com
 +.moto.com
++.motocms.com
 +.motolia.com
 +.motopress.com
 +.motorola.ca
@@ -15874,6 +15894,7 @@ zftksc.launches.appsflyersdk.com
 +.musclegirlflix.com
 +.mushroomtrack.com
 +.mushymush.tv
++.music.apple.com
 +.musical.ly
 +.musicbay.net
 +.musicbrainz.org
@@ -17154,6 +17175,7 @@ zftksc.launches.appsflyersdk.com
 +.onekey.so
 +.onekeycn.com
 +.oneme.ru
++.onemoment.cc
 +.onemozilla.org
 +.onenote.com
 +.onenote.net
@@ -17503,6 +17525,7 @@ zftksc.launches.appsflyersdk.com
 +.paxlicense.org
 +.paydiant.com
 +.payecom.ru
++.payget.pro
 +.paygonline.com
 +.payhulu.com
 +.paylike.com
@@ -17975,6 +17998,7 @@ zftksc.launches.appsflyersdk.com
 +.platform.dell.com
 +.platiecom.ru
 +.platinumlinks.org
++.platov.co
 +.play-bmm.shop
 +.play-bmmer.buzz
 +.play-fe.googleapis.com
@@ -18050,6 +18074,7 @@ zftksc.launches.appsflyersdk.com
 +.pocketcasts.com
 +.pod-15-sunco-ws.zendesk.com
 +.podcast.apple.com
++.podcasts.apple.com
 +.poe.com
 +.poecdn.net
 +.pogo.com
@@ -18883,6 +18908,8 @@ zftksc.launches.appsflyersdk.com
 +.rakutenadvertising.com
 +.rakutengiftcards.ca
 +.rakuya.com.tw
++.ramon.cash
++.ramon.money
 +.randyblue.com
 +.rapefilms.net
 +.rapetube.me
@@ -19762,6 +19789,7 @@ zftksc.launches.appsflyersdk.com
 +.sensualmothers.com
 +.sensueel.net
 +.sentry-cdn.com
++.sentry.dev
 +.sentry.io
 +.senzuritv.net
 +.seo-dash.net
@@ -19981,6 +20009,7 @@ zftksc.launches.appsflyersdk.com
 +.sferum.ru
 +.sfmcompile.club
 +.sforce.com
++.sfunpay.com
 +.sfx.ms
 +.sg120.me
 +.sg1lib.org
@@ -21345,6 +21374,7 @@ zftksc.launches.appsflyersdk.com
 +.tellmewhygame.com
 +.temetube.xyz
 +.temp-mail.org
++.templatemonster.com
 +.tenbin.ai
 +.tenbyfotolia.com
 +.tenor.com
@@ -21668,6 +21698,7 @@ zftksc.launches.appsflyersdk.com
 +.tilda.ws
 +.tildaapi.com
 +.tildacdn.com
++.tildacdn.net
 +.tiltbrush.com
 +.time-messenger.ru
 +.time.gov
@@ -23353,6 +23384,7 @@ zftksc.launches.appsflyersdk.com
 +.wbautomation.ru
 +.wbautomation.tech
 +.wbbasket.ru
++.wbcontent.net
 +.wbd.ms
 +.wbdnbo.net
 +.wbdubna.ru

@@ -4,10 +4,10 @@
   "recommended_action": "PROXY",
   "recommended_priority": 320,
   "recommended_note": "AI 服务走代理（含 Apple Intelligence 聚合）",
-  "rule_count": 166,
-  "stash_rule_count": 166,
+  "rule_count": 167,
+  "stash_rule_count": 167,
   "stash_classical_rule_count": 1,
-  "stash_domain_rule_count": 165,
+  "stash_domain_rule_count": 166,
   "stash_ipcidr_rule_count": 0,
   "paths": {
     "stash": "stash/ai.list",
@@ -36,7 +36,7 @@
       "authority": "community-curated",
       "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/openai",
       "used_cache": false,
-      "rule_count": 19
+      "rule_count": 20
     },
     {
       "type": "v2fly_dlc",
@@ -85,7 +85,7 @@
       "authority": "community-curated",
       "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-ai-!cn",
       "used_cache": false,
-      "rule_count": 159
+      "rule_count": 160
     },
     {
       "type": "local_domain",

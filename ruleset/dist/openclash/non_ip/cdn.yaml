@@ -77,6 +77,7 @@ payload:
   - 'DOMAIN-SUFFIX,globalcdn.cn'
   - 'DOMAIN-SUFFIX,hdslb.com'
   - 'DOMAIN-SUFFIX,hdslb.org'
+  - 'DOMAIN-SUFFIX,hydun.com'
   - 'DOMAIN-SUFFIX,jiashule.com'
   - 'DOMAIN-SUFFIX,jiasule.com'
   - 'DOMAIN-SUFFIX,lxdns.cn'
