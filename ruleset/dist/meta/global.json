@@ -4,10 +4,10 @@
   "recommended_action": "PROXY",
   "recommended_priority": 900,
   "recommended_note": "兜底代理集合（应放在较后顺序）",
-  "rule_count": 25338,
-  "stash_rule_count": 25338,
+  "rule_count": 25372,
+  "stash_rule_count": 25372,
   "stash_classical_rule_count": 158,
-  "stash_domain_rule_count": 25180,
+  "stash_domain_rule_count": 25214,
   "stash_ipcidr_rule_count": 0,
   "paths": {
     "stash": "stash/global.list",
@@ -36,7 +36,7 @@
       "authority": "community-curated",
       "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/geolocation-!cn",
       "used_cache": false,
-      "rule_count": 25339
+      "rule_count": 25373
     },
     {
       "type": "local_domain",

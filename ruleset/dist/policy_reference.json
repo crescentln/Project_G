@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-07-13T06:35:26.956201+00:00",
+  "generated_at_utc": "2026-07-15T17:49:11.425633+00:00",
   "policy_path": "config/policy_map.json",
   "categories": [
     {
@@ -7,7 +7,7 @@
       "recommended_action": "REJECT",
       "recommended_priority": 100,
       "recommended_note": "广告、追踪、恶意基础拦截规则",
-      "rule_count": 319660
+      "rule_count": 320352
     },
     {
       "id": "reject_extra",
@@ -42,14 +42,14 @@
       "recommended_action": "DIRECT",
       "recommended_priority": 210,
       "recommended_note": "中国大陆域名集合直连（domain-focused）",
-      "rule_count": 7758
+      "rule_count": 7768
     },
     {
       "id": "cncidr",
       "recommended_action": "DIRECT",
       "recommended_priority": 220,
       "recommended_note": "中国大陆 IP 段直连（IP-focused）",
-      "rule_count": 10826
+      "rule_count": 10825
     },
     {
       "id": "telegram",
@@ -63,7 +63,7 @@
       "recommended_action": "DIRECT",
       "recommended_priority": 250,
       "recommended_note": "CDN 回源与就近访问优先直连",
-      "rule_count": 1628
+      "rule_count": 1633
     },
     {
       "id": "download",
@@ -119,7 +119,7 @@
       "recommended_action": "PROXY",
       "recommended_priority": 320,
       "recommended_note": "AI 服务走代理（含 Apple Intelligence 聚合）",
-      "rule_count": 167
+      "rule_count": 169
     },
     {
       "id": "apple_cn",
@@ -168,7 +168,7 @@
       "recommended_action": "PROXY",
       "recommended_priority": 324,
       "recommended_note": "微软国际服务走代理（中国区与更新/CDN 见 microsoft_cdn 直连）",
-      "rule_count": 433
+      "rule_count": 435
     },
     {
       "id": "microsoft_cdn",
@@ -252,7 +252,7 @@
       "recommended_action": "PROXY",
       "recommended_priority": 333,
       "recommended_note": "Google 主服务走代理",
-      "rule_count": 730
+      "rule_count": 731
     },
     {
       "id": "googlefcm",
@@ -371,14 +371,14 @@
       "recommended_action": "PROXY",
       "recommended_priority": 900,
       "recommended_note": "兜底代理集合（应放在较后顺序）",
-      "rule_count": 25338
+      "rule_count": 25372
     },
     {
       "id": "direct",
       "recommended_action": "DIRECT",
       "recommended_priority": 205,
       "recommended_note": "合并直连集合（含国内域名 + CN CIDR，简化部署）",
-      "rule_count": 20758
+      "rule_count": 20772
     }
   ]
 }

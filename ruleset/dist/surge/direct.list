@@ -3009,6 +3009,7 @@ DOMAIN-SUFFIX,duifene.com
 DOMAIN-SUFFIX,duiopen.com
 DOMAIN-SUFFIX,duiou.com.cn
 DOMAIN-SUFFIX,duitang.com
+DOMAIN-SUFFIX,dulupay.com
 DOMAIN-SUFFIX,dumate.cn
 DOMAIN-SUFFIX,duoduocdn.com
 DOMAIN-SUFFIX,duokan.com
@@ -3479,6 +3480,7 @@ DOMAIN-SUFFIX,ganjiangvpn.com
 DOMAIN-SUFFIX,ganjistatic1.com
 DOMAIN-SUFFIX,gaode.com
 DOMAIN-SUFFIX,gaodun.com
+DOMAIN-SUFFIX,gaojidata.com
 DOMAIN-SUFFIX,gaokao.com
 DOMAIN-SUFFIX,gaoshouyou.com
 DOMAIN-SUFFIX,gaoxiaojob.com
@@ -3683,6 +3685,7 @@ DOMAIN-SUFFIX,gxtv.cn
 DOMAIN-SUFFIX,gxxmt.com
 DOMAIN-SUFFIX,gyzq.com.cn
 DOMAIN-SUFFIX,gz.file.myqcloud.com
+DOMAIN-SUFFIX,gzasc.com
 DOMAIN-SUFFIX,gzcqs.com
 DOMAIN-SUFFIX,gzctyiptv.cn
 DOMAIN-SUFFIX,gzlzfm.com
@@ -6126,6 +6129,8 @@ DOMAIN-SUFFIX,qunarzz.com
 DOMAIN-SUFFIX,qunjielong.com
 DOMAIN-SUFFIX,qunliao.info
 DOMAIN-SUFFIX,quyaoya.com
+DOMAIN-SUFFIX,qwapp.top
+DOMAIN-SUFFIX,qwdjapp.com
 DOMAIN-SUFFIX,qweather.com
 DOMAIN-SUFFIX,qweather.net
 DOMAIN-SUFFIX,qweatherapi.com
@@ -6193,6 +6198,8 @@ DOMAIN-SUFFIX,router.ctc
 DOMAIN-SUFFIX,routewize.com
 DOMAIN-SUFFIX,rqnoj.cn
 DOMAIN-SUFFIX,rrmj.plus
+DOMAIN-SUFFIX,rrsp.app
+DOMAIN-SUFFIX,rrsp.com.cn
 DOMAIN-SUFFIX,rsproxy.cn
 DOMAIN-SUFFIX,rsscc.cn
 DOMAIN-SUFFIX,rt-mart.com.cn
@@ -7575,6 +7582,7 @@ DOMAIN-SUFFIX,webankcdn.net
 DOMAIN-SUFFIX,webgame163.com
 DOMAIN-SUFFIX,webmasterhome.cn
 DOMAIN-SUFFIX,webnovel.com
+DOMAIN-SUFFIX,weboss.hk
 DOMAIN-SUFFIX,webportal.top
 DOMAIN-SUFFIX,webterren.com
 DOMAIN-SUFFIX,wechat.com
@@ -7998,6 +8006,7 @@ DOMAIN-SUFFIX,yhd.com
 DOMAIN-SUFFIX,yhfund.com.cn
 DOMAIN-SUFFIX,yicai.com
 DOMAIN-SUFFIX,yiche.com
+DOMAIN-SUFFIX,yichengwlkj.com
 DOMAIN-SUFFIX,yidianliulan.cn
 DOMAIN-SUFFIX,yidianliulan.com
 DOMAIN-SUFFIX,yigao.com
@@ -8195,6 +8204,7 @@ DOMAIN-SUFFIX,yystatic.com
 DOMAIN-SUFFIX,yystv.cn
 DOMAIN-SUFFIX,yytcdn.com
 DOMAIN-SUFFIX,yzcdn.cn
+DOMAIN-SUFFIX,yzsgo.com
 DOMAIN-SUFFIX,yzwb.net
 DOMAIN-SUFFIX,yzyxgame.com
 DOMAIN-SUFFIX,z-bank.com
@@ -15966,6 +15976,7 @@ IP-CIDR,34.128.224.0/20,no-resolve
 IP-CIDR,34.128.32.0/22,no-resolve
 IP-CIDR,34.128.36.0/24,no-resolve
 IP-CIDR,34.128.37.0/24,no-resolve
+IP-CIDR,34.128.4.0/22,no-resolve
 IP-CIDR,34.128.42.0/23,no-resolve
 IP-CIDR,34.128.44.0/23,no-resolve
 IP-CIDR,34.128.46.0/23,no-resolve
@@ -15998,6 +16009,7 @@ IP-CIDR,34.142.0.0/17,no-resolve
 IP-CIDR,34.142.128.0/17,no-resolve
 IP-CIDR,34.143.128.0/17,no-resolve
 IP-CIDR,34.143.64.0/21,no-resolve
+IP-CIDR,34.144.172.0/22,no-resolve
 IP-CIDR,34.144.176.0/20,no-resolve
 IP-CIDR,34.144.192.0/18,no-resolve
 IP-CIDR,34.145.0.0/17,no-resolve
@@ -16154,6 +16166,7 @@ IP-CIDR,34.174.0.0/16,no-resolve
 IP-CIDR,34.175.0.0/16,no-resolve
 IP-CIDR,34.176.0.0/16,no-resolve
 IP-CIDR,34.177.112.0/21,no-resolve
+IP-CIDR,34.177.120.0/22,no-resolve
 IP-CIDR,34.177.32.0/22,no-resolve
 IP-CIDR,34.177.36.0/23,no-resolve
 IP-CIDR,34.177.40.0/21,no-resolve
@@ -16607,6 +16620,7 @@ IP-CIDR,35.234.240.0/20,no-resolve
 IP-CIDR,35.234.64.0/18,no-resolve
 IP-CIDR,35.235.0.0/20,no-resolve
 IP-CIDR,35.235.16.0/20,no-resolve
+IP-CIDR,35.235.172.0/22,no-resolve
 IP-CIDR,35.235.216.0/21,no-resolve
 IP-CIDR,35.235.32.0/20,no-resolve
 IP-CIDR,35.235.48.0/20,no-resolve
@@ -18515,6 +18529,8 @@ IP-CIDR,8.234.128.0/17,no-resolve
 IP-CIDR,8.234.16.0/24,no-resolve
 IP-CIDR,8.234.17.0/24,no-resolve
 IP-CIDR,8.234.2.0/24,no-resolve
+IP-CIDR,8.234.20.0/22,no-resolve
+IP-CIDR,8.234.24.0/21,no-resolve
 IP-CIDR,8.234.3.0/24,no-resolve
 IP-CIDR,8.234.32.0/19,no-resolve
 IP-CIDR,8.234.4.0/22,no-resolve
@@ -18626,7 +18642,6 @@ IP-CIDR6,2001:df1:c80::/48,no-resolve
 IP-CIDR6,2001:df1:d180::/48,no-resolve
 IP-CIDR6,2001:df1:da00::/48,no-resolve
 IP-CIDR6,2001:df1:f480::/48,no-resolve
-IP-CIDR6,2001:df1:fd80::/48,no-resolve
 IP-CIDR6,2001:df2:5780::/48,no-resolve
 IP-CIDR6,2001:df2:8bc0::/48,no-resolve
 IP-CIDR6,2001:df2:a580::/48,no-resolve
@@ -20739,7 +20754,6 @@ IP-CIDR6,2600:9000:fff::/48,no-resolve
 IP-CIDR6,2600:f0f0:5504::/46,no-resolve
 IP-CIDR6,2600:f0f0:601::/48,no-resolve
 IP-CIDR6,2600:f0f0:602::/47,no-resolve
-IP-CIDR6,2600:f0f0:92::/48,no-resolve
 IP-CIDR6,2606:4700::/32,no-resolve
 IP-CIDR6,2803:f800::/32,no-resolve
 IP-CIDR6,2a06:98c0::/29,no-resolve
