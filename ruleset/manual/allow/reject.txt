@@ -32,6 +32,7 @@ DOMAIN-SUFFIX,neweggimages.com
 DOMAIN-SUFFIX,pf.newegg.com
 DOMAIN-SUFFIX,ih.newegg.com
 DOMAIN-SUFFIX,imk.neweggimages.com
+DOMAIN-SUFFIX,pexels.com
 
 # False-positive guardrails for browser updates and messaging calls
 DOMAIN-SUFFIX,mozilla.org
