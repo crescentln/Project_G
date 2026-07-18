@@ -76,6 +76,24 @@ def parse_dist_rules(path: pathlib.Path) -> set[str]:
     return rules
 
 
+def parse_openclash_rules(path: pathlib.Path) -> set[str]:
+    rules: set[str] = set()
+    if not path.exists():
+        return rules
+
+    for raw in path.read_text(encoding="utf-8").splitlines():
+        line = raw.strip()
+        if not line or line == "payload:" or line.startswith("#"):
+            continue
+        if line == "payload: []" or not line.startswith("- "):
+            continue
+        value = line[2:].strip()
+        if value.startswith("'") and value.endswith("'") and len(value) >= 2:
+            value = value[1:-1].replace("''", "'")
+        rules.add(value)
+    return rules
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Ensure allowlists are effective in built outputs.")
     parser.add_argument(
@@ -95,6 +113,18 @@ def parse_args() -> argparse.Namespace:
         type=pathlib.Path,
         default=pathlib.Path("ruleset/dist/surge"),
         help="surge dist directory",
+    )
+    parser.add_argument(
+        "--stash-dir",
+        type=pathlib.Path,
+        default=pathlib.Path("ruleset/dist/stash"),
+        help="stash dist directory",
+    )
+    parser.add_argument(
+        "--openclash-dir",
+        type=pathlib.Path,
+        default=pathlib.Path("ruleset/dist/openclash"),
+        help="openclash dist directory",
     )
     return parser.parse_args()
 
@@ -122,18 +152,27 @@ def main() -> int:
         if not allow_rules:
             continue
 
-        dist_file = args.surge_dir / f"{category_id}.list"
-        dist_rules = parse_dist_rules(dist_file)
-        checked += 1
+        outputs = (
+            ("surge", args.surge_dir / f"{category_id}.list", parse_dist_rules),
+            ("stash", args.stash_dir / f"{category_id}.list", parse_dist_rules),
+            ("openclash", args.openclash_dir / f"{category_id}.yaml", parse_openclash_rules),
+        )
+        for output_name, dist_file, parser_fn in outputs:
+            if not dist_file.exists():
+                violations.append(f"{category_id}/{output_name}: missing output -> {dist_file}")
+                continue
 
-        leftovers = sorted(allow_rules & dist_rules)
-        if leftovers:
-            for item in leftovers[:20]:
-                violations.append(f"{category_id}: allowlisted rule still exists -> {item}")
-            if len(leftovers) > 20:
-                violations.append(
-                    f"{category_id}: ... and {len(leftovers) - 20} more allowlist leftovers"
-                )
+            checked += 1
+            leftovers = sorted(allow_rules & parser_fn(dist_file))
+            if leftovers:
+                for item in leftovers[:20]:
+                    violations.append(
+                        f"{category_id}/{output_name}: allowlisted rule still exists -> {item}"
+                    )
+                if len(leftovers) > 20:
+                    violations.append(
+                        f"{category_id}/{output_name}: ... and {len(leftovers) - 20} more allowlist leftovers"
+                    )
 
     if violations:
         log(f"FAILED with {len(violations)} violation(s)")

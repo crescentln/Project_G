@@ -68,8 +68,15 @@
       "DOMAIN-SUFFIX,izzysoft.de"
     ],
     "ecommerce": [
+      "DOMAIN-SUFFIX,ebay.com",
+      "DOMAIN-SUFFIX,ebayrtm.com",
+      "DOMAIN-SUFFIX,ebaystatic.com",
       "DOMAIN-SUFFIX,newegg.com",
       "DOMAIN-SUFFIX,neweggimages.com"
+    ],
+    "paypal": [
+      "DOMAIN-SUFFIX,paypal.com",
+      "DOMAIN-SUFFIX,paypalobjects.com"
     ],
     "google": [
       "DOMAIN,voice.telephony.goog"
@@ -181,7 +188,12 @@
       "DOMAIN-SUFFIX,neweggimages.com",
       "DOMAIN-SUFFIX,pf.newegg.com",
       "DOMAIN-SUFFIX,ih.newegg.com",
-      "DOMAIN-SUFFIX,imk.neweggimages.com"
+      "DOMAIN-SUFFIX,imk.neweggimages.com",
+      "DOMAIN-SUFFIX,ebay.com",
+      "DOMAIN-SUFFIX,ebayrtm.com",
+      "DOMAIN-SUFFIX,ebaystatic.com",
+      "DOMAIN-SUFFIX,paypal.com",
+      "DOMAIN-SUFFIX,paypalobjects.com"
     ],
     "reject_extra": [
       "DOMAIN-SUFFIX,yahoo.com",
