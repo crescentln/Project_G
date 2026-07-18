@@ -33,6 +33,11 @@ DOMAIN-SUFFIX,pf.newegg.com
 DOMAIN-SUFFIX,ih.newegg.com
 DOMAIN-SUFFIX,imk.neweggimages.com
 DOMAIN-SUFFIX,pexels.com
+DOMAIN-SUFFIX,ebay.com
+DOMAIN-SUFFIX,ebayrtm.com
+DOMAIN-SUFFIX,ebaystatic.com
+DOMAIN-SUFFIX,paypal.com
+DOMAIN-SUFFIX,paypalobjects.com
 
 # False-positive guardrails for browser updates and messaging calls
 DOMAIN-SUFFIX,mozilla.org
