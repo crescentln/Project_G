@@ -21,6 +21,7 @@ DOMAIN,aod-ssl.itunes.apple.com
 DOMAIN,aod.itunes.apple.com
 DOMAIN,api-edge.apps.apple.com
 DOMAIN,api.alibabacloud.com
+DOMAIN,api.blipsandchitz.me
 DOMAIN,apkmirror.disqus.com
 DOMAIN,app-site-association.cdn-apple.com
 DOMAIN,appldnld.apple.com
@@ -3892,6 +3893,7 @@ DOMAIN-SUFFIX,hqdoc.com
 DOMAIN-SUFFIX,hqpcb.com
 DOMAIN-SUFFIX,hr-welink.com
 DOMAIN-SUFFIX,hrsec.com.cn
+DOMAIN-SUFFIX,hrsecn.com
 DOMAIN-SUFFIX,hsbc.com.cn
 DOMAIN-SUFFIX,hsbcinsurance.com.cn
 DOMAIN-SUFFIX,hsbcqh.com.cn

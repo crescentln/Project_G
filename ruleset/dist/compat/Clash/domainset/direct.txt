@@ -21,6 +21,7 @@ aod-ssl.itunes.apple.com
 aod.itunes.apple.com
 api-edge.apps.apple.com
 api.alibabacloud.com
+api.blipsandchitz.me
 apkmirror.disqus.com
 app-site-association.cdn-apple.com
 appldnld.apple.com
@@ -3892,6 +3893,7 @@ xtratime.qcomgeo2.com
 +.hqpcb.com
 +.hr-welink.com
 +.hrsec.com.cn
++.hrsecn.com
 +.hsbc.com.cn
 +.hsbcinsurance.com.cn
 +.hsbcqh.com.cn

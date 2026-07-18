@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-07-15T17:49:11.422672+00:00",
+  "generated_at_utc": "2026-07-18T02:04:23.577640+00:00",
   "config_path": "config/sources.json",
   "policy_path": "config/policy_map.json",
   "category_count": 54,
@@ -17,10 +17,10 @@
     {
       "id": "reject",
       "description": "Ads, trackers, and malware",
-      "rule_count": 320352,
-      "stash_rule_count": 320352,
+      "rule_count": 323411,
+      "stash_rule_count": 323411,
       "stash_classical_rule_count": 0,
-      "stash_domain_rule_count": 320352,
+      "stash_domain_rule_count": 323411,
       "stash_ipcidr_rule_count": 0,
       "surge_path": "surge/reject.list",
       "openclash_path": "openclash/reject.yaml",
@@ -50,28 +50,28 @@
           "authority": "curated-upstream",
           "ref": "https://easylist.to/easylist/easylist.txt",
           "used_cache": false,
-          "rule_count": 49802
+          "rule_count": 50418
         },
         {
           "type": "adblock",
           "authority": "curated-upstream",
           "ref": "https://easylist.to/easylist/easyprivacy.txt",
           "used_cache": false,
-          "rule_count": 47014
+          "rule_count": 47024
         },
         {
           "type": "adblock",
           "authority": "curated-upstream",
           "ref": "https://filters.adtidy.org/dns/filter_1.txt",
           "used_cache": false,
-          "rule_count": 156833
+          "rule_count": 157433
         },
         {
           "type": "adblock",
           "authority": "curated-upstream",
           "ref": "https://phishing.army/download/phishing_army_blocklist_extended.txt",
           "used_cache": false,
-          "rule_count": 145097
+          "rule_count": 147490
         },
         {
           "type": "local_domain",
@@ -266,10 +266,10 @@
     {
       "id": "domestic",
       "description": "Mainland China domains (domain-focused direct set)",
-      "rule_count": 7768,
-      "stash_rule_count": 7768,
+      "rule_count": 7770,
+      "stash_rule_count": 7770,
       "stash_classical_rule_count": 3,
-      "stash_domain_rule_count": 7765,
+      "stash_domain_rule_count": 7767,
       "stash_ipcidr_rule_count": 0,
       "surge_path": "surge/domestic.list",
       "openclash_path": "openclash/domestic.yaml",
@@ -299,7 +299,7 @@
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/cn",
           "used_cache": false,
-          "rule_count": 7773
+          "rule_count": 7775
         },
         {
           "type": "local_domain",
@@ -3091,10 +3091,10 @@
     {
       "id": "global",
       "description": "Global fallback domain list",
-      "rule_count": 25372,
-      "stash_rule_count": 25372,
+      "rule_count": 25375,
+      "stash_rule_count": 25375,
       "stash_classical_rule_count": 158,
-      "stash_domain_rule_count": 25214,
+      "stash_domain_rule_count": 25217,
       "stash_ipcidr_rule_count": 0,
       "surge_path": "surge/global.list",
       "openclash_path": "openclash/global.yaml",
@@ -3124,7 +3124,7 @@
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/geolocation-!cn",
           "used_cache": false,
-          "rule_count": 25373
+          "rule_count": 25376
         },
         {
           "type": "local_domain",
@@ -3138,10 +3138,10 @@
     {
       "id": "direct",
       "description": "Merged direct rules for simplified deployment",
-      "rule_count": 20772,
-      "stash_rule_count": 20772,
+      "rule_count": 20774,
+      "stash_rule_count": 20774,
       "stash_classical_rule_count": 4,
-      "stash_domain_rule_count": 8431,
+      "stash_domain_rule_count": 8433,
       "stash_ipcidr_rule_count": 12337,
       "surge_path": "surge/direct.list",
       "openclash_path": "openclash/direct.yaml",
@@ -3255,7 +3255,7 @@
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/cn",
           "used_cache": false,
-          "rule_count": 7773
+          "rule_count": 7775
         },
         {
           "type": "v2fly_dlc",

@@ -1,17 +1,8 @@
 {
-  "generated_at_utc": "2026-07-15T17:49:11.422566+00:00",
+  "generated_at_utc": "2026-07-18T02:04:23.577543+00:00",
   "url_count": 1430,
-  "network_success_count": 1428,
+  "network_success_count": 1430,
   "offline_cache_count": 0,
-  "fallback_cache_count": 2,
-  "fallback_events": [
-    {
-      "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/citic",
-      "error": "HTTP Error 503: first byte timeout"
-    },
-    {
-      "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/mihoyo-cn",
-      "error": "HTTP Error 503: first byte timeout"
-    }
-  ]
+  "fallback_cache_count": 0,
+  "fallback_events": []
 }
