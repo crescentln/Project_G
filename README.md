@@ -17,6 +17,7 @@
 
 ## 常用入口
 
+- OpenClash `wechat`（应置于 `reject` 之前）: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/wechat.yaml`
 - OpenClash `reject`: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/reject.yaml`
 - OpenClash `direct`: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/direct.yaml`
 - Surge `reject`: `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/surge/reject.list`
@@ -29,3 +30,14 @@
   - `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/stash/domainset/direct.txt`
   - `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/stash/ipcidr/direct.txt`
   - `https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/stash/classical/direct.list`
+
+## 本地验证
+
+```bash
+python3 -m unittest discover -s ruleset/tests -v
+python3 ruleset/scripts/validate_rulesets.py
+python3 ruleset/scripts/check_smoke_probes.py
+python3 ruleset/scripts/check_allowlist_effective.py
+```
+
+`wechat` 是一个刻意放在拒绝类规则之前的窄范围直连例外，用于保护微信核心、媒体上传和服务 DNS；不要用整个 `qq.com` 作为替代。

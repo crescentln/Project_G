@@ -1,0 +1,8 @@
+# Xbox China belongs to the DIRECT games_cn/Microsoft China path.
+DOMAIN-SUFFIX,xboxlive.cn
+
+# Mainland China Steam/Perfect World accelerator endpoints stay DIRECT.
+DOMAIN-SUFFIX,steampowered.com.8686c.com
+DOMAIN-SUFFIX,steamstatic.com.8686c.com
+DOMAIN-SUFFIX,csgo.wmsj.cn
+DOMAIN-SUFFIX,dota2.wmsj.cn

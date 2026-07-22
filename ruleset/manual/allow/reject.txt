@@ -38,6 +38,8 @@ DOMAIN-SUFFIX,ebayrtm.com
 DOMAIN-SUFFIX,ebaystatic.com
 DOMAIN-SUFFIX,paypal.com
 DOMAIN-SUFFIX,paypalobjects.com
+DOMAIN-SUFFIX,up-hl.3g.qq.com
+DOMAIN-SUFFIX,yun-hl.3g.qq.com
 
 # False-positive guardrails for browser updates and messaging calls
 DOMAIN-SUFFIX,mozilla.org

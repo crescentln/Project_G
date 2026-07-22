@@ -1,6 +1,11 @@
 {
   "version": 1,
   "categories": {
+    "wechat": {
+      "action": "DIRECT",
+      "priority": 90,
+      "note": "微信核心、媒体上传与服务 DNS 直连，并位于拦截规则之前"
+    },
     "reject": {
       "action": "REJECT",
       "priority": 100,
@@ -74,7 +79,7 @@
     "cdn": {
       "action": "DIRECT",
       "priority": 250,
-      "note": "CDN 回源与就近访问优先直连"
+      "note": "仅中国大陆 CDN 域名与可证明的境内边缘服务直连"
     },
     "download": {
       "action": "DIRECT",

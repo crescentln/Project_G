@@ -387,7 +387,16 @@ def parse_cidr_csv_first_column(text: str) -> set[str]:
 
 
 def parse_adblock_text(text: str) -> set[str]:
+    """Convert only DNS-safe adblock rules into whole-domain rules.
+
+    Browser filter syntax can scope a rule to a URL path, resource type,
+    first/third-party context, or a particular embedding domain.  Those rules
+    cannot be represented by DNS/domain rulesets without broadening their
+    meaning, so they must be skipped instead of being promoted to a root-domain
+    block.
+    """
     rules: set[str] = set()
+    exceptions: set[str] = set()
     for raw in text.splitlines():
         line = raw.strip()
         if not line:
@@ -395,12 +404,19 @@ def parse_adblock_text(text: str) -> set[str]:
         if line.startswith(("!", "[", "#", ";")):
             continue
         if line.startswith("@@"):
+            exception = line[2:].strip()
+            match = re.fullmatch(r"\|\|([A-Za-z0-9._-]+)\^", exception)
+            if match:
+                domain = normalize_domain(match.group(1))
+                if domain:
+                    exceptions.add(f"DOMAIN-SUFFIX,{domain}")
             continue
         if "##" in line or "#@#" in line or "#?#" in line:
             continue
 
-        line = line.split("$", 1)[0].strip()
-        if not line:
+        # Any browser/resource modifier changes the rule's scope.  Do not turn
+        # it into an unconditional DNS block.
+        if "$" in line:
             continue
 
         explicit = parse_explicit_rule(line)
@@ -409,7 +425,9 @@ def parse_adblock_text(text: str) -> set[str]:
             continue
 
         if line.startswith(("|http://", "|https://")):
-            url = line.lstrip("|")
+            url = line[1:]
+            if url.endswith("|"):
+                url = url[:-1]
             try:
                 parsed_url = urllib.parse.urlparse(url)
             except ValueError:
@@ -425,13 +443,10 @@ def parse_adblock_text(text: str) -> set[str]:
             continue
 
         if line.startswith("||"):
-            token = line[2:].split("^", 1)[0]
-            if "/" in token:
-                host, path = token.split("/", 1)
-                if path.strip("/"):
-                    continue
-                token = host
-            domain = normalize_domain(token)
+            match = re.fullmatch(r"\|\|([A-Za-z0-9._-]+)\^", line)
+            if match is None:
+                continue
+            domain = normalize_domain(match.group(1))
             if domain:
                 rules.add(f"DOMAIN-SUFFIX,{domain}")
             continue
@@ -443,9 +458,21 @@ def parse_adblock_text(text: str) -> set[str]:
                 rules.add(f"DOMAIN,{domain}")
             continue
 
-        parsed = parse_domain_or_ip_token(line)
-        if parsed:
-            rules.add(parsed)
+        # Plain DNS blocklists and phishing feeds are also accepted by this
+        # source type.  Require an exact domain/IP token; normalize_domain()
+        # deliberately strips paths and therefore is too permissive here.
+        plain = line.rstrip(".").lower()
+        domain = normalize_domain(plain)
+        if domain and domain == plain:
+            rules.add(f"DOMAIN-SUFFIX,{domain}")
+            continue
+        try:
+            network = ipaddress.ip_network(line, strict=False)
+        except ValueError:
+            continue
+        rules.add(format_ip_rule(network))
+
+    rules.difference_update(exceptions)
     return rules
 
 
@@ -621,11 +648,28 @@ def parse_v2fly_attrs(payload: str) -> tuple[str, set[str]]:
     return value, attrs
 
 
+def split_v2fly_include_selectors(attrs: set[str]) -> tuple[set[str], set[str]]:
+    """Return required and excluded rule attributes for an include line.
+
+    v2fly defines ``include:list @attr @-other`` as selecting rules that have
+    ``@attr`` and do not have ``@other``.
+    """
+    required: set[str] = set()
+    excluded: set[str] = set()
+    for attr in attrs:
+        if attr.startswith("@-") and len(attr) > 2:
+            excluded.add(f"@{attr[2:]}")
+        elif attr.startswith("@") and len(attr) > 1:
+            required.add(attr)
+    return required, excluded
+
+
 def parse_v2fly_dlc_text(
     text: str,
     *,
     include_attrs: set[str],
     exclude_attrs: set[str],
+    required_attrs: set[str],
     include_handler: Any,
 ) -> set[str]:
     rules: set[str] = set()
@@ -649,9 +693,10 @@ def parse_v2fly_dlc_text(
                 payload = rest.strip()
 
         if line_type == "include":
-            include_name, _ = parse_v2fly_attrs(payload)
+            include_name, include_selectors = parse_v2fly_attrs(payload)
             if include_name:
-                rules.update(include_handler(include_name))
+                required, excluded = split_v2fly_include_selectors(include_selectors)
+                rules.update(include_handler(include_name, required, excluded))
             continue
 
         value, attrs = parse_v2fly_attrs(payload)
@@ -659,6 +704,8 @@ def parse_v2fly_dlc_text(
             continue
 
         if include_attrs and not (attrs & include_attrs):
+            continue
+        if required_attrs and not required_attrs.issubset(attrs):
             continue
         if exclude_attrs and (attrs & exclude_attrs):
             continue
@@ -701,7 +748,7 @@ def parse_v2fly_dlc_source(
     if not source_urls:
         raise BuildError("v2fly_dlc source requires at least one URL")
 
-    visited: set[str] = set()
+    visited: set[tuple[str, frozenset[str], frozenset[str]]] = set()
     rules: set[str] = set()
     used_cache_only = True
     base_urls = [candidate.rsplit("/", 1)[0] for candidate in source_urls]
@@ -713,12 +760,27 @@ def parse_v2fly_dlc_source(
         source = {"url": candidates[0], "fallback_urls": candidates[1:]}
         return fetch_source_bytes(source, cache_dir, offline)
 
-    def walk(name: str) -> set[str]:
+    def walk(
+        name: str,
+        required_attrs: set[str] | None = None,
+        inherited_exclude_attrs: set[str] | None = None,
+    ) -> set[str]:
         nonlocal used_cache_only
         nonlocal resolved_root_url
-        if name in visited:
+        required_attrs = set(required_attrs or set())
+        effective_exclude_attrs = set(exclude_attrs)
+        effective_exclude_attrs.update(inherited_exclude_attrs or set())
+        visit_key = (
+            name,
+            frozenset(required_attrs),
+            frozenset(effective_exclude_attrs),
+        )
+        if visit_key in visited:
             return set()
-        visited.add(name)
+        visited.add(visit_key)
+
+        if required_attrs & effective_exclude_attrs:
+            return set()
 
         data, used_cache, chosen_url = fetch_relative(name)
         if name == root_name:
@@ -726,15 +788,24 @@ def parse_v2fly_dlc_source(
         used_cache_only = used_cache_only and used_cache
         text = decode_text(data)
 
-        def include_handler(include_name: str) -> set[str]:
+        def include_handler(
+            include_name: str,
+            include_required: set[str],
+            include_excluded: set[str],
+        ) -> set[str]:
             if include_name in exclude_includes:
                 return set()
-            return walk(include_name)
+            return walk(
+                include_name,
+                required_attrs=required_attrs | include_required,
+                inherited_exclude_attrs=effective_exclude_attrs | include_excluded,
+            )
 
         return parse_v2fly_dlc_text(
             text,
             include_attrs=include_attrs,
-            exclude_attrs=exclude_attrs,
+            exclude_attrs=effective_exclude_attrs,
+            required_attrs=required_attrs,
             include_handler=include_handler,
         )
 
@@ -1074,6 +1145,238 @@ def load_ignored_rule_conflicts(config: dict[str, Any]) -> dict[str, set[frozens
     return ignored
 
 
+def canonical_conflict_categories(
+    category_ids: set[str],
+    category_actions: dict[str, str],
+) -> set[str]:
+    """Remove aggregate/overlay noise while retaining concrete conflicts."""
+    category_set = set(category_ids)
+    overlay_categories = {"gfw", "global", "tld_proxy"}
+
+    # direct is an aggregate convenience set.  Prefer concrete DIRECT
+    # categories when they are present, but retain direct when it is the only
+    # DIRECT side of a real conflict (for example direct vs tiktok).
+    if "direct" in category_set:
+        has_explicit_direct = any(
+            category_id != "direct"
+            and category_actions.get(category_id, "UNSPECIFIED") == "DIRECT"
+            for category_id in category_set
+        )
+        if has_explicit_direct:
+            category_set.discard("direct")
+
+    concrete = category_set - overlay_categories
+    if len(concrete) >= 2:
+        category_set = concrete
+    elif category_set & overlay_categories:
+        # One concrete category plus a broad proxy overlay is intentional and
+        # does not provide enough information for an actionable conflict.
+        return concrete
+
+    return category_set
+
+
+def classify_action_conflict(actions: dict[str, str]) -> tuple[str, str]:
+    families = {action_family(action) for action in actions.values()}
+    if len(families) <= 1:
+        return "same_action_overlap", "low"
+    if "DIRECT" in families and "REJECT" in families:
+        return "direct_reject_conflict", "high"
+    if "DIRECT" in families and "PROXY" in families:
+        return "direct_proxy_conflict", "high"
+    if "PROXY" in families and "REJECT" in families:
+        return "proxy_reject_conflict", "medium"
+    return "cross_action_conflict", "medium"
+
+
+def build_conflict_record(
+    *,
+    rule: str,
+    category_set: set[str],
+    category_actions: dict[str, str],
+    category_priorities: dict[str, int],
+    conflict_type: str | None = None,
+    severity: str | None = None,
+    gated: bool = True,
+    covering_rule: str | None = None,
+) -> dict[str, Any]:
+    actions = {category_id: category_actions.get(category_id, "UNSPECIFIED") for category_id in category_set}
+    default_type, default_severity = classify_action_conflict(actions)
+    record: dict[str, Any] = {
+        "rule": rule,
+        "categories": sorted(category_set),
+        "actions": [
+            {
+                "category": category_id,
+                "action": actions[category_id],
+                "action_family": action_family(actions[category_id]),
+                "priority": category_priorities.get(category_id, 9999),
+            }
+            for category_id in sorted(category_set)
+        ],
+        "type": conflict_type or default_type,
+        "severity": severity or default_severity,
+        "gated": gated,
+    }
+    if covering_rule is not None:
+        record["covering_rule"] = covering_rule
+    return record
+
+
+def detect_rule_conflicts(
+    rules_by_category: dict[str, list[str]],
+    category_actions: dict[str, str],
+    category_priorities: dict[str, int],
+    ignored_conflict_sets: set[frozenset[str]],
+    ignored_rule_conflicts: dict[str, set[frozenset[str]]],
+) -> list[dict[str, Any]]:
+    rule_index: dict[str, set[str]] = defaultdict(set)
+    for category_id, rules in rules_by_category.items():
+        for rule in rules:
+            rule_index[rule].add(category_id)
+
+    conflicts: list[dict[str, Any]] = []
+
+    def ignored(rule: str, category_set: set[str], other_rule: str | None = None) -> bool:
+        frozen_set = frozenset(category_set)
+        if frozen_set in ignored_conflict_sets:
+            return True
+        if frozen_set in ignored_rule_conflicts.get(rule, set()):
+            return True
+        if other_rule is not None and frozen_set in ignored_rule_conflicts.get(other_rule, set()):
+            return True
+        return False
+
+    # Exact duplicates remain useful even when they are same-action; unlike
+    # the old implementation, reject and overlay presence does not erase a
+    # concrete conflict between the remaining categories.
+    for rule, category_ids in rule_index.items():
+        category_set = canonical_conflict_categories(category_ids, category_actions)
+        if len(category_set) <= 1 or ignored(rule, category_set):
+            continue
+        conflict_type, _severity = classify_action_conflict(
+            {category_id: category_actions.get(category_id, "UNSPECIFIED") for category_id in category_set}
+        )
+        earliest_priority = min(category_priorities.get(category_id, 9999) for category_id in category_set)
+        earliest_families = {
+            action_family(category_actions.get(category_id, "UNSPECIFIED"))
+            for category_id in category_set
+            if category_priorities.get(category_id, 9999) == earliest_priority
+        }
+        gated = conflict_type != "same_action_overlap" and earliest_families != {"REJECT"}
+        conflicts.append(
+            build_conflict_record(
+                rule=rule,
+                category_set=category_set,
+                category_actions=category_actions,
+                category_priorities=category_priorities,
+                conflict_type=(
+                    f"expected_reject_override_{conflict_type}"
+                    if conflict_type != "same_action_overlap" and not gated
+                    else conflict_type
+                ),
+                severity="low" if conflict_type != "same_action_overlap" and not gated else None,
+                gated=gated,
+            )
+        )
+
+    # DOMAIN-SUFFIX parents also overlap more-specific DOMAIN/SUFFIX rules.
+    # Report all cross-action overlaps, but gate only when the earlier rule is
+    # the broader parent.  A more-specific early rule overriding a later broad
+    # category is a normal exception pattern and remains informational.
+    suffix_index: dict[str, set[str]] = defaultdict(set)
+    domain_entries: list[tuple[str, str, set[str]]] = []
+    for rule, category_ids in rule_index.items():
+        if rule.startswith("DOMAIN-SUFFIX,"):
+            domain = rule.split(",", 1)[1]
+            suffix_index[domain].update(category_ids)
+            domain_entries.append((rule, domain, category_ids))
+        elif rule.startswith("DOMAIN,"):
+            domain_entries.append((rule, rule.split(",", 1)[1], category_ids))
+
+    seen_hierarchy: set[tuple[str, str, frozenset[str]]] = set()
+    for child_rule, child_domain, child_categories in domain_entries:
+        labels = child_domain.split(".")
+        for index in range(1, len(labels)):
+            parent_domain = ".".join(labels[index:])
+            parent_categories = suffix_index.get(parent_domain)
+            if not parent_categories:
+                continue
+            parent_rule = f"DOMAIN-SUFFIX,{parent_domain}"
+            if parent_rule == child_rule:
+                continue
+
+            for parent_category in parent_categories:
+                for child_category in child_categories:
+                    if parent_category == child_category:
+                        continue
+                    category_set = canonical_conflict_categories(
+                        {parent_category, child_category}, category_actions
+                    )
+                    if len(category_set) <= 1 or ignored(child_rule, category_set, parent_rule):
+                        continue
+                    actions = {
+                        category_id: category_actions.get(category_id, "UNSPECIFIED")
+                        for category_id in category_set
+                    }
+                    base_type, base_severity = classify_action_conflict(actions)
+                    if base_type == "same_action_overlap":
+                        continue
+
+                    key = (parent_rule, child_rule, frozenset(category_set))
+                    if key in seen_hierarchy:
+                        continue
+                    seen_hierarchy.add(key)
+
+                    parent_order = (
+                        category_priorities.get(parent_category, 9999),
+                        parent_category,
+                    )
+                    child_order = (
+                        category_priorities.get(child_category, 9999),
+                        child_category,
+                    )
+                    parent_shadows_child = parent_order < child_order
+                    parent_family = action_family(
+                        category_actions.get(parent_category, "UNSPECIFIED")
+                    )
+                    expected_reject_override = parent_shadows_child and parent_family == "REJECT"
+                    if expected_reject_override:
+                        conflict_type = f"expected_reject_override_{base_type}"
+                        severity = "low"
+                    elif parent_shadows_child:
+                        conflict_type = f"parent_{base_type}"
+                        severity = base_severity
+                    else:
+                        conflict_type = f"specific_override_{base_type}"
+                        severity = "low"
+
+                    conflicts.append(
+                        build_conflict_record(
+                            rule=child_rule,
+                            covering_rule=parent_rule,
+                            category_set=category_set,
+                            category_actions=category_actions,
+                            category_priorities=category_priorities,
+                            conflict_type=conflict_type,
+                            severity=severity,
+                            gated=parent_shadows_child and not expected_reject_override,
+                        )
+                    )
+
+    severity_weight = {"high": 0, "medium": 1, "low": 2}
+    conflicts.sort(
+        key=lambda item: (
+            not bool(item.get("gated", True)),
+            severity_weight.get(str(item.get("severity", "low")), 3),
+            len(item["categories"]) * -1,
+            str(item.get("covering_rule", "")),
+            item["rule"],
+        )
+    )
+    return conflicts
+
+
 def render_policy_reference_markdown(categories: list[dict[str, Any]]) -> str:
     lines = [
         "# Ruleset Policy Reference",
@@ -1264,6 +1567,7 @@ def build_all(
 
     rules_by_category: dict[str, list[str]] = {}
     category_actions: dict[str, str] = {}
+    category_priorities: dict[str, int] = {}
     metadata_categories: list[dict[str, Any]] = []
     missing_policy: list[str] = []
 
@@ -1282,6 +1586,7 @@ def build_all(
             raise BuildError(f"policy map: invalid action '{action}' for category '{category_id}'")
         category_actions[category_id] = action
         priority = int(policy_entry.get("priority", 9999))
+        category_priorities[category_id] = priority
         note = str(policy_entry.get("note", "")).strip()
         if action == "UNSPECIFIED":
             missing_policy.append(category_id)
@@ -1401,105 +1706,29 @@ def build_all(
             encoding="utf-8",
         )
 
-    rule_index: dict[str, list[str]] = defaultdict(list)
-    for category_id, rules in rules_by_category.items():
-        for rule in rules:
-            rule_index[rule].append(category_id)
-
-    reject_like = {"reject", "reject_extra", "reject_drop", "reject_no_drop"}
-    overlay_categories = {"gfw", "global", "tld_proxy"}
-
-    conflicts: list[dict[str, Any]] = []
-    for rule, category_ids in rule_index.items():
-        category_set = set(category_ids)
-        if len(category_set) <= 1:
-            continue
-
-        # "direct" is an aggregate convenience set. If this rule is also present in
-        # other explicit DIRECT categories, evaluate conflicts on concrete categories first.
-        if "direct" in category_set:
-            has_explicit_direct = any(
-                cid != "direct" and category_actions.get(cid, "UNSPECIFIED") == "DIRECT" for cid in category_set
-            )
-            if has_explicit_direct:
-                category_set.discard("direct")
-
-        if len(category_set) <= 1:
-            continue
-
-        frozen_set = frozenset(category_set)
-        if frozen_set in ignored_conflict_sets:
-            continue
-
-        by_rule = ignored_rule_conflicts.get(rule, set())
-        if frozen_set in by_rule:
-            continue
-
-        actions = {category_id: category_actions.get(category_id, "UNSPECIFIED") for category_id in category_set}
-        families = {action_family(v) for v in actions.values()}
-
-        # reject/reject_extra/reject_drop/reject_no_drop are intentionally split layers.
-        if category_set.issubset(reject_like):
-            continue
-
-        # Reject-family overlap with other categories is expected in ad/tracker feeds.
-        if category_set & reject_like:
-            continue
-
-        # direct is an aggregate of direct-like categories; same-action overlap is expected.
-        if "direct" in category_set:
-            non_direct_actions = {action for cid, action in actions.items() if cid != "direct"}
-            if non_direct_actions and all(action == "DIRECT" for action in non_direct_actions):
-                continue
-
-        # global/gfw/tld_proxy are overlay sets and intentionally overlap.
-        if category_set & overlay_categories:
-            continue
-
-        if len(families) <= 1:
-            conflict_type = "same_action_overlap"
-            severity = "low"
-        elif "DIRECT" in families and "PROXY" in families:
-            conflict_type = "direct_proxy_conflict"
-            severity = "high"
-        elif "DIRECT" in families and "REJECT" in families:
-            conflict_type = "direct_reject_conflict"
-            severity = "high"
-        elif "PROXY" in families and "REJECT" in families:
-            conflict_type = "proxy_reject_conflict"
-            severity = "medium"
-        else:
-            conflict_type = "cross_action_conflict"
-            severity = "medium"
-
-        conflicts.append(
-            {
-                "rule": rule,
-                "categories": sorted(category_set),
-                "actions": [
-                    {
-                        "category": cid,
-                        "action": actions[cid],
-                        "action_family": action_family(actions[cid]),
-                    }
-                    for cid in sorted(category_set)
-                ],
-                "type": conflict_type,
-                "severity": severity,
-            }
-        )
-
-    severity_weight = {"high": 0, "medium": 1, "low": 2}
-    conflicts.sort(
-        key=lambda item: (
-            severity_weight.get(str(item.get("severity", "low")), 3),
-            len(item["categories"]) * -1,
-            item["rule"],
-        )
+    conflicts = detect_rule_conflicts(
+        rules_by_category=rules_by_category,
+        category_actions=category_actions,
+        category_priorities=category_priorities,
+        ignored_conflict_sets=ignored_conflict_sets,
+        ignored_rule_conflicts=ignored_rule_conflicts,
     )
-    cross_action_conflict_count = sum(1 for item in conflicts if item["type"] != "same_action_overlap")
-    high_severity_conflict_count = sum(1 for item in conflicts if item["severity"] == "high")
-    medium_severity_conflict_count = sum(1 for item in conflicts if item["severity"] == "medium")
+    cross_action_conflict_count = sum(
+        1
+        for item in conflicts
+        if item.get("gated", True) and item["type"] != "same_action_overlap"
+    )
+    informational_cross_action_conflict_count = sum(
+        1
+        for item in conflicts
+        if not item.get("gated", True) and item["type"] != "same_action_overlap"
+    )
+    high_severity_conflict_count = sum(
+        1 for item in conflicts if item.get("gated", True) and item["severity"] == "high"
+    )
+    medium_severity_conflict_count = sum(
+        1 for item in conflicts if item.get("gated", True) and item["severity"] == "medium"
+    )
     low_severity_conflict_count = sum(1 for item in conflicts if item["severity"] == "low")
 
     conflicts_file = dist_dir / "conflicts.json"
@@ -1509,6 +1738,7 @@ def build_all(
                 "generated_at_utc": dt.datetime.now(dt.timezone.utc).isoformat(),
                 "conflict_count": len(conflicts),
                 "cross_action_conflict_count": cross_action_conflict_count,
+                "informational_cross_action_conflict_count": informational_cross_action_conflict_count,
                 "high_severity_conflict_count": high_severity_conflict_count,
                 "medium_severity_conflict_count": medium_severity_conflict_count,
                 "low_severity_conflict_count": low_severity_conflict_count,
@@ -1535,6 +1765,7 @@ def build_all(
         "category_count": len(metadata_categories),
         "conflict_count": len(conflicts),
         "cross_action_conflict_count": cross_action_conflict_count,
+        "informational_cross_action_conflict_count": informational_cross_action_conflict_count,
         "high_severity_conflict_count": high_severity_conflict_count,
         "fetch_report_path": str(fetch_report_file.relative_to(dist_dir)),
         "recommended_templates": {
@@ -1612,6 +1843,7 @@ def build_all_staged(
     This avoids sync-conflict duplicate artifacts (e.g. '* 2.list') in
     cloud-synced folders by preventing in-place multi-file rewrites.
     """
+    dist_dir = validate_dist_target(dist_dir)
     dist_parent = dist_dir.parent
     dist_parent.mkdir(parents=True, exist_ok=True)
     staging_dir = pathlib.Path(
@@ -1652,6 +1884,36 @@ def build_all_staged(
     finally:
         if staging_dir.exists():
             shutil.rmtree(staging_dir, ignore_errors=True)
+
+
+def validate_dist_target(dist_dir: pathlib.Path) -> pathlib.Path:
+    """Constrain recursive replacement to the canonical or OS temp tree."""
+    if dist_dir.exists() and dist_dir.is_symlink():
+        raise BuildError(f"refusing symlink dist target: {dist_dir}")
+
+    resolved = dist_dir.expanduser().resolve(strict=False)
+    canonical = DEFAULT_DIST_DIR.resolve(strict=False)
+    temp_root = pathlib.Path(tempfile.gettempdir()).resolve(strict=False)
+    if resolved == canonical:
+        return resolved
+    try:
+        resolved.relative_to(temp_root)
+    except ValueError as exc:
+        raise BuildError(
+            "custom --dist-dir must be inside the operating-system temporary directory"
+        ) from exc
+    if resolved == temp_root:
+        raise BuildError("refusing to replace the temporary-directory root")
+    if resolved.exists():
+        if not resolved.is_dir():
+            raise BuildError(f"custom dist target is not a directory: {resolved}")
+        entries = list(resolved.iterdir())
+        generated_markers = {"index.json", "policy_reference.json"}
+        if entries and not generated_markers.issubset({entry.name for entry in entries}):
+            raise BuildError(
+                "refusing to replace a non-empty temporary directory without ruleset markers"
+            )
+    return resolved
 
 
 def parse_args() -> argparse.Namespace:

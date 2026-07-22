@@ -1,5 +1,6 @@
 {
   "require_non_empty": [
+    "wechat",
     "reject",
     "direct",
     "github",
@@ -35,6 +36,13 @@
     "icloud_private_relay"
   ],
   "expect_rules": {
+    "wechat": [
+      "DOMAIN-SUFFIX,weixin.qq.com",
+      "DOMAIN-SUFFIX,qpic.cn",
+      "DOMAIN-SUFFIX,up-hl.3g.qq.com",
+      "DOMAIN-SUFFIX,yun-hl.3g.qq.com",
+      "DOMAIN,aedns.weixin.qq.com"
+    ],
     "github": [
       "DOMAIN-SUFFIX,github.com"
     ],
@@ -95,8 +103,7 @@
       "DOMAIN-SUFFIX,twitch.tv"
     ],
     "httpdns": [
-      "DOMAIN-SUFFIX,httpdns-api.aliyuncs.com",
-      "DOMAIN,aedns.weixin.qq.com"
+      "DOMAIN-SUFFIX,httpdns-api.aliyuncs.com"
     ],
     "stream_us": [
       "DOMAIN-SUFFIX,hulu.com"
@@ -178,6 +185,8 @@
   },
   "forbid_rules": {
     "reject": [
+      "DOMAIN-SUFFIX,up-hl.3g.qq.com",
+      "DOMAIN-SUFFIX,yun-hl.3g.qq.com",
       "DOMAIN-SUFFIX,yahoo.com",
       "DOMAIN-SUFFIX,yahoo.net",
       "DOMAIN-SUFFIX,yahooapis.com",
@@ -194,6 +203,13 @@
       "DOMAIN-SUFFIX,ebaystatic.com",
       "DOMAIN-SUFFIX,paypal.com",
       "DOMAIN-SUFFIX,paypalobjects.com"
+    ],
+    "httpdns": [
+      "DOMAIN,aedns.weixin.qq.com",
+      "DOMAIN-SUFFIX,dns.wechat.com",
+      "DOMAIN-SUFFIX,dns.weixin.qq.com",
+      "DOMAIN-SUFFIX,dns.weixin.qq.com.cn",
+      "DOMAIN-SUFFIX,udns.weixin.qq.com"
     ],
     "reject_extra": [
       "DOMAIN-SUFFIX,yahoo.com",

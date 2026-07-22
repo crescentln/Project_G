@@ -1,0 +1,12 @@
+# Domains intentionally removed from DIRECT categories.
+# Privacy endpoints remain governed by the earlier reject layer.
+DOMAIN-SUFFIX,ip.sb
+DOMAIN-SUFFIX,ipify.org
+DOMAIN-SUFFIX,ipip.net
+DOMAIN-SUFFIX,upai.com
+DOMAIN-SUFFIX,upaiyun.com
+DOMAIN-SUFFIX,upcdn.net
+DOMAIN-SUFFIX,upyun.com
+
+# LinkedIn's cdn20-backed endpoint follows the social-media proxy category.
+DOMAIN-SUFFIX,cdn20.com

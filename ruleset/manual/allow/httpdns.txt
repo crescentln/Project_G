@@ -1,0 +1,8 @@
+# WeChat uses these service-DNS endpoints for core and media operations.
+# Keep them out of the generic HTTPDNS reject layer; the dedicated wechat
+# category routes them DIRECT before reject providers.
+DOMAIN,aedns.weixin.qq.com
+DOMAIN-SUFFIX,dns.wechat.com
+DOMAIN-SUFFIX,dns.weixin.qq.com
+DOMAIN-SUFFIX,dns.weixin.qq.com.cn
+DOMAIN-SUFFIX,udns.weixin.qq.com

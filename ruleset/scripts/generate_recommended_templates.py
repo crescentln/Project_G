@@ -10,6 +10,25 @@ from typing import Any
 STREAM_SPLIT_IDS = {"stream_us", "stream_jp", "stream_hk", "stream_tw", "stream_global"}
 
 
+def simplify_recommended_categories(rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Avoid loading aggregate direct and all of its component providers.
+
+    Pre-reject DIRECT exception categories (priority below 100) remain explicit;
+    the merged ``direct`` category covers the ordinary DIRECT categories.
+    Granular examples remain available under ruleset/examples.
+    """
+    category_ids = {str(item["id"]) for item in rows}
+    if "direct" not in category_ids:
+        return rows
+    return [
+        item
+        for item in rows
+        if str(item["action"]) != "DIRECT"
+        or str(item["id"]) == "direct"
+        or int(item["priority"]) < 100
+    ]
+
+
 def load_categories(policy_reference_path: pathlib.Path) -> list[dict[str, Any]]:
     payload = json.loads(policy_reference_path.read_text(encoding="utf-8"))
     categories = payload.get("categories", [])
@@ -41,7 +60,7 @@ def load_categories(policy_reference_path: pathlib.Path) -> list[dict[str, Any]]
     if "stream" in category_ids:
         rows = [item for item in rows if str(item["id"]) not in STREAM_SPLIT_IDS]
 
-    return rows
+    return simplify_recommended_categories(rows)
 
 
 def load_index_categories(index_path: pathlib.Path) -> list[dict[str, Any]]:
@@ -79,11 +98,14 @@ def load_index_categories(index_path: pathlib.Path) -> list[dict[str, Any]]:
     if "stream" in category_ids:
         rows = [item for item in rows if str(item["id"]) not in STREAM_SPLIT_IDS]
 
-    return rows
+    return simplify_recommended_categories(rows)
 
 
-def normalize_policy(action: str, proxy_policy: str) -> str:
+def normalize_policy(action: str, proxy_policy: str, client: str) -> str:
     action = str(action).upper().strip()
+    client = client.lower().strip()
+    if action == "REJECT-NO-DROP" and client in {"openclash", "stash"}:
+        return "REJECT"
     if action in {"DIRECT", "REJECT", "REJECT-DROP", "REJECT-NO-DROP"}:
         return action
     if action == "PROXY":
@@ -119,7 +141,7 @@ def render_openclash_template(
     lines.append("rules:")
     for row in categories:
         category_id = str(row["id"])
-        policy = normalize_policy(str(row["action"]), proxy_policy)
+        policy = normalize_policy(str(row["action"]), proxy_policy, "openclash")
         lines.append(f"  - RULE-SET,{category_id},{policy}")
     lines.append(f"  - MATCH,{proxy_policy}")
     lines.append("")
@@ -139,7 +161,7 @@ def render_surge_template(
     ]
     for row in categories:
         category_id = str(row["id"])
-        policy = normalize_policy(str(row["action"]), proxy_policy)
+        policy = normalize_policy(str(row["action"]), proxy_policy, "surge")
         lines.append(
             f"RULE-SET,{raw_base_url}/surge/{category_id}.list,{policy},update-interval={interval}"
         )
@@ -175,7 +197,7 @@ def render_stash_template(
     lines.append("rules:")
     for row in categories:
         category_id = str(row["id"])
-        policy = normalize_policy(str(row["action"]), proxy_policy)
+        policy = normalize_policy(str(row["action"]), proxy_policy, "stash")
         lines.append(f"  - RULE-SET,{category_id},{policy}")
     lines.append(f"  - MATCH,{proxy_policy}")
     lines.append("")
@@ -229,7 +251,7 @@ def render_stash_native_template(
     lines.append("rules:")
     for row in categories:
         category_id = str(row["id"])
-        policy = normalize_policy(str(row["action"]), proxy_policy)
+        policy = normalize_policy(str(row["action"]), proxy_policy, "stash")
         if int(row.get("stash_domain_rule_count", 0)) > 0:
             lines.append(f"  - RULE-SET,{category_id}-domain,{policy}")
         if int(row.get("stash_classical_rule_count", 0)) > 0:

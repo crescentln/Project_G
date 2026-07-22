@@ -129,7 +129,8 @@ def main() -> int:
         (
             "- Conflict Summary: "
             f"`total={int(conflicts.get('conflict_count', 0))}, "
-            f"cross_action={int(conflicts.get('cross_action_conflict_count', 0))}, "
+            f"gated_cross_action={int(conflicts.get('cross_action_conflict_count', 0))}, "
+            f"informational_cross_action={int(conflicts.get('informational_cross_action_conflict_count', 0))}, "
             f"high={int(conflicts.get('high_severity_conflict_count', 0))}, "
             f"medium={int(conflicts.get('medium_severity_conflict_count', 0))}, "
             f"low={int(conflicts.get('low_severity_conflict_count', 0))}`"

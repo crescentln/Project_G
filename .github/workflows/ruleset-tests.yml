@@ -1,0 +1,44 @@
+name: Ruleset Tests
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - ".github/workflows/**"
+      - ".gitleaks.toml"
+      - "ruleset/config/**"
+      - "ruleset/manual/**"
+      - "ruleset/scripts/**"
+      - "ruleset/tests/**"
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/**"
+      - ".gitleaks.toml"
+      - "ruleset/config/**"
+      - "ruleset/manual/**"
+      - "ruleset/scripts/**"
+      - "ruleset/tests/**"
+
+permissions:
+  contents: read
+
+jobs:
+  unit-and-config:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+
+      - name: Setup Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.11"
+
+      - name: Compile Python scripts
+        run: python3 -m compileall -q ruleset/scripts ruleset/tests
+
+      - name: Run unit and configuration tests
+        run: python3 -m unittest discover -s ruleset/tests -v

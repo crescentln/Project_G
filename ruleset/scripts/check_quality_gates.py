@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import pathlib
 import sys
@@ -23,6 +24,65 @@ def read_json(path: pathlib.Path) -> dict[str, Any]:
         raise GateError(f"missing file: {path}") from exc
     except json.JSONDecodeError as exc:
         raise GateError(f"invalid json: {path}: {exc}") from exc
+
+
+def sha256_file(path: pathlib.Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def read_approved_drift(
+    path: pathlib.Path,
+    baseline_path: pathlib.Path,
+) -> dict[str, dict[str, Any]]:
+    payload = read_json(path)
+    expected_hash = str(payload.get("baseline_policy_sha256", "")).strip().lower()
+    if len(expected_hash) != 64 or any(ch not in "0123456789abcdef" for ch in expected_hash):
+        raise GateError(f"{path}: baseline_policy_sha256 must be a lowercase SHA-256 digest")
+
+    actual_hash = sha256_file(baseline_path)
+    if actual_hash != expected_hash:
+        log(
+            "approved drift is inactive because the baseline hash changed: "
+            f"expected={expected_hash} actual={actual_hash}"
+        )
+        return {}
+
+    raw_approvals = payload.get("approvals")
+    if not isinstance(raw_approvals, list):
+        raise GateError(f"{path}: approvals must be an array")
+
+    approvals: dict[str, dict[str, Any]] = {}
+    for idx, raw in enumerate(raw_approvals):
+        if not isinstance(raw, dict):
+            raise GateError(f"{path}: approvals[{idx}] must be an object")
+        category_id = str(raw.get("category", "")).strip()
+        reason = str(raw.get("reason", "")).strip()
+        if not category_id or not reason:
+            raise GateError(f"{path}: approvals[{idx}] requires category and reason")
+        if category_id in approvals:
+            raise GateError(f"{path}: duplicate approval for category '{category_id}'")
+        try:
+            before = int(raw["before"])
+            after_min = int(raw["after_min"])
+            after_max = int(raw["after_max"])
+        except (KeyError, TypeError, ValueError) as exc:
+            raise GateError(
+                f"{path}: approvals[{idx}] requires integer before, after_min, and after_max"
+            ) from exc
+        if min(before, after_min, after_max) < 0 or after_min > after_max:
+            raise GateError(f"{path}: invalid count bounds for category '{category_id}'")
+        approvals[category_id] = {
+            "before": before,
+            "after_min": after_min,
+            "after_max": after_max,
+            "reason": reason,
+        }
+
+    return approvals
 
 
 def read_count_thresholds(path: pathlib.Path) -> tuple[dict[str, int], dict[str, int]]:
@@ -97,6 +157,7 @@ def compute_count_drift(
     max_change_pct: float,
     min_abs_delta: int,
     min_baseline_rules: int,
+    approved_drift: dict[str, dict[str, Any]] | None = None,
 ) -> tuple[list[dict[str, Any]], list[str]]:
     changes: list[dict[str, Any]] = []
     violations: list[str] = []
@@ -124,6 +185,17 @@ def compute_count_drift(
         if abs_delta < min_abs_delta:
             continue
         if pct > max_change_pct:
+            approval = (approved_drift or {}).get(category_id)
+            if (
+                approval is not None
+                and before == int(approval["before"])
+                and int(approval["after_min"]) <= after <= int(approval["after_max"])
+            ):
+                log(
+                    "approved count drift: "
+                    f"{category_id} before={before} after={after} reason={approval['reason']}"
+                )
+                continue
             violations.append(
                 f"rule count drift too large: {category_id} before={before} after={after} "
                 f"delta={delta:+d} ({pct:.2f}%)"
@@ -139,6 +211,10 @@ def compute_count_drift(
 
 
 def resolve_conflict_counts(payload: dict[str, Any]) -> tuple[int, int]:
+    has_explicit_counts = (
+        "cross_action_conflict_count" in payload
+        or "high_severity_conflict_count" in payload
+    )
     try:
         cross_action_conflicts = int(payload.get("cross_action_conflict_count", 0))
     except (TypeError, ValueError):
@@ -148,7 +224,7 @@ def resolve_conflict_counts(payload: dict[str, Any]) -> tuple[int, int]:
     except (TypeError, ValueError):
         high_severity_conflicts = 0
 
-    if cross_action_conflicts or high_severity_conflicts:
+    if has_explicit_counts:
         return cross_action_conflicts, high_severity_conflicts
 
     raw_conflicts = payload.get("conflicts", [])
@@ -237,6 +313,15 @@ def parse_args() -> argparse.Namespace:
         default=None,
         help="JSON file defining minimum rule counts per category.",
     )
+    parser.add_argument(
+        "--approved-drift",
+        type=pathlib.Path,
+        default=None,
+        help=(
+            "Optional one-time drift approval bound to the exact baseline policy SHA-256 "
+            "and per-category before/after counts."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -278,12 +363,16 @@ def main() -> int:
     else:
         baseline_payload = read_json(args.baseline)
         baseline_counts = parse_rule_counts(baseline_payload, args.baseline)
+        approved_drift: dict[str, dict[str, Any]] = {}
+        if args.approved_drift is not None:
+            approved_drift = read_approved_drift(args.approved_drift, args.baseline)
         changes, drift_violations = compute_count_drift(
             baseline_counts=baseline_counts,
             current_counts=current_counts,
             max_change_pct=args.max_change_pct,
             min_abs_delta=args.min_abs_delta,
             min_baseline_rules=args.min_baseline_rules,
+            approved_drift=approved_drift,
         )
         top_changes = sorted(changes, key=lambda x: abs(int(x["delta"])), reverse=True)[:8]
         for item in top_changes:

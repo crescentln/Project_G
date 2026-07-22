@@ -1,0 +1,4 @@
+# These Apple edge endpoints are explicitly tagged for mainland China.
+# Remove duplicate proxy-category copies so the earlier DIRECT decision is unambiguous.
+DOMAIN,np-edge.itunes.apple.com
+DOMAIN,play-edge.itunes.apple.com

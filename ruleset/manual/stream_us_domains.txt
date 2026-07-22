@@ -1,7 +1,0 @@
-# Owner-controlled North America stream domains.
-netflix.com
-nflxvideo.net
-hulu.com
-disneyplus.com
-max.com
-paramountplus.com

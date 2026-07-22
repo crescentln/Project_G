@@ -81,13 +81,16 @@ def main() -> int:
     category_count = int(index_payload.get("category_count", 0))
     conflict_count = int(conflicts_payload.get("conflict_count", 0))
     cross_action = int(conflicts_payload.get("cross_action_conflict_count", 0))
+    informational_cross_action = int(
+        conflicts_payload.get("informational_cross_action_conflict_count", 0)
+    )
     high_severity = int(conflicts_payload.get("high_severity_conflict_count", 0))
 
     network = int(fetch_payload.get("network_success_count", 0))
     offline_cache = int(fetch_payload.get("offline_cache_count", 0))
     fallback_cache = int(fetch_payload.get("fallback_cache_count", 0))
 
-    raw_base = f"https://raw.githubusercontent.com/{args.repo}/main/ruleset/dist"
+    raw_base = f"https://raw.githubusercontent.com/{args.repo}/{args.tag}/ruleset/dist"
 
     out: list[str] = []
     out.append(f"# Ruleset Snapshot `{args.tag}`")
@@ -97,7 +100,8 @@ def main() -> int:
     out.append(f"- Category Count: `{category_count}`")
     out.append(
         "- Conflict Summary: "
-        f"`total={conflict_count}, cross_action={cross_action}, high={high_severity}`"
+        f"`total={conflict_count}, gated_cross_action={cross_action}, "
+        f"informational_cross_action={informational_cross_action}, high={high_severity}`"
     )
     out.append(
         "- Fetch Summary: "

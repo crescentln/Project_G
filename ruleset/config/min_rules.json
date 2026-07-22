@@ -1,11 +1,12 @@
 {
   "minimum_rule_counts": {
+    "wechat": 20,
     "reject": 150000,
     "direct": 18000,
     "domestic": 6500,
     "cncidr": 10000,
     "global": 20000,
-    "cdn": 1400,
+    "cdn": 100,
     "tld_proxy": 1000,
     "apple_services": 1000,
     "ecommerce": 900,
@@ -56,12 +57,13 @@
     "icloud_private_relay": 11000
   },
   "warning_rule_counts": {
+    "wechat": 24,
     "reject": 250000,
-    "direct": 19000,
+    "direct": 18500,
     "domestic": 6700,
     "cncidr": 10500,
     "global": 22000,
-    "cdn": 1450,
+    "cdn": 120,
     "tld_proxy": 1200,
     "apple_services": 1300,
     "stream": 400,
@@ -82,7 +84,7 @@
     "httpdns": 50,
     "apns": 10,
     "lan": 140,
-    "apple_tv": 7,
+    "apple_tv": 6,
     "crypto": 60,
     "forum": 85,
     "games_cn": 180,

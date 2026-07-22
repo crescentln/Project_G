@@ -116,7 +116,8 @@ def main() -> int:
     entry_lines.append(
         "- Conflict Summary: "
         f"total={int(conflict_payload.get('conflict_count', 0))}, "
-        f"cross_action={int(conflict_payload.get('cross_action_conflict_count', 0))}, "
+        f"gated_cross_action={int(conflict_payload.get('cross_action_conflict_count', 0))}, "
+        f"informational_cross_action={int(conflict_payload.get('informational_cross_action_conflict_count', 0))}, "
         f"high={int(conflict_payload.get('high_severity_conflict_count', 0))}"
     )
     entry_lines.append(

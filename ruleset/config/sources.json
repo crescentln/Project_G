@@ -76,6 +76,17 @@
       ]
     },
     {
+      "description": "WeChat core, media upload, and service DNS endpoints",
+      "id": "wechat",
+      "sources": [
+        {
+          "authority": "owner-controlled",
+          "path": "manual/categories/wechat.txt",
+          "type": "local_domain"
+        }
+      ]
+    },
+    {
       "description": "LAN and non-globally-reachable special-use networks",
       "id": "lan",
       "sources": [
@@ -110,7 +121,7 @@
     },
     {
       "description": "Mainland China domains (domain-focused direct set)",
-      "exclude_rules_path": "manual/exclude/privacy_reject_domains.txt",
+      "exclude_rules_path": "manual/exclude/direct_route_conflicts.txt",
       "id": "domestic",
       "sources": [
         {
@@ -178,39 +189,10 @@
       ]
     },
     {
-      "description": "CDN domains and edge prefixes",
-      "exclude_rules_path": "manual/exclude/privacy_reject_domains.txt",
+      "description": "Mainland China CDN domains and edge services",
+      "exclude_rules_path": "manual/exclude/direct_route_conflicts.txt",
       "id": "cdn",
       "sources": [
-        {
-          "authority": "official",
-          "type": "plain_cidr",
-          "url": "https://www.cloudflare.com/ips-v4"
-        },
-        {
-          "authority": "official",
-          "type": "plain_cidr",
-          "url": "https://www.cloudflare.com/ips-v6"
-        },
-        {
-          "authority": "official",
-          "services": [
-            "CLOUDFRONT",
-            "GLOBALACCELERATOR"
-          ],
-          "type": "aws_ip_ranges",
-          "url": "https://ip-ranges.amazonaws.com/ip-ranges.json"
-        },
-        {
-          "authority": "official",
-          "type": "gcp_ip_ranges",
-          "url": "https://www.gstatic.com/ipranges/cloud.json"
-        },
-        {
-          "authority": "official",
-          "type": "fastly_public_ip_list",
-          "url": "https://api.fastly.com/public-ip-list"
-        },
         {
           "authority": "community-curated",
           "exclude_attrs": [
@@ -291,6 +273,7 @@
     },
     {
       "description": "Unified streaming services (all regions, high coverage)",
+      "exclude_rules_path": "manual/exclude/apple_direct_endpoints.txt",
       "id": "stream",
       "sources": [
         {
@@ -826,6 +809,7 @@
     },
     {
       "description": "Global streaming services (high coverage)",
+      "exclude_rules_path": "manual/exclude/apple_direct_endpoints.txt",
       "id": "stream_global",
       "sources": [
         {
@@ -1132,6 +1116,7 @@
     },
     {
       "description": "Apple services routing",
+      "exclude_rules_path": "manual/exclude/apple_direct_endpoints.txt",
       "id": "apple_services",
       "sources": [
         {
@@ -1359,6 +1344,7 @@
       ]
     },
     {
+      "allow_rules_path": "manual/allow/httpdns.txt",
       "description": "HTTPDNS and related endpoints",
       "id": "httpdns",
       "sources": [
@@ -1406,6 +1392,7 @@
     },
     {
       "description": "Global game services",
+      "exclude_rules_path": "manual/exclude/games.txt",
       "id": "games",
       "sources": [
         {
@@ -1571,6 +1558,7 @@
     },
     {
       "description": "Apple TV",
+      "exclude_rules_path": "manual/exclude/apple_direct_endpoints.txt",
       "id": "apple_tv",
       "sources": [
         {
@@ -2252,7 +2240,7 @@
     {
       "id": "direct",
       "description": "Merged direct rules for simplified deployment",
-      "exclude_rules_path": "manual/exclude/privacy_reject_domains.txt",
+      "exclude_rules_path": "manual/exclude/direct_route_conflicts.txt",
       "sources": [
         {
           "type": "iana_special_csv",
@@ -2280,30 +2268,6 @@
           "type": "apnic_country_cidr",
           "url": "https://ftp.apnic.net/stats/apnic/delegated-apnic-latest",
           "country": "CN",
-          "authority": "official"
-        },
-        {
-          "type": "plain_cidr",
-          "url": "https://www.cloudflare.com/ips-v4",
-          "authority": "official"
-        },
-        {
-          "type": "plain_cidr",
-          "url": "https://www.cloudflare.com/ips-v6",
-          "authority": "official"
-        },
-        {
-          "type": "aws_ip_ranges",
-          "url": "https://ip-ranges.amazonaws.com/ip-ranges.json",
-          "services": [
-            "CLOUDFRONT",
-            "GLOBALACCELERATOR"
-          ],
-          "authority": "official"
-        },
-        {
-          "type": "gcp_ip_ranges",
-          "url": "https://www.gstatic.com/ipranges/cloud.json",
           "authority": "official"
         },
         {
@@ -2552,6 +2516,11 @@
         {
           "type": "local_domain",
           "path": "manual/categories/socialmedia_cn.txt",
+          "authority": "owner-controlled"
+        },
+        {
+          "type": "local_domain",
+          "path": "manual/categories/wechat.txt",
           "authority": "owner-controlled"
         },
         {

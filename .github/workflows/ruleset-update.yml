@@ -6,43 +6,50 @@ on:
     - cron: "17 3 * * 1"
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
-  group: ruleset-auto-update-${{ github.ref }}
+  group: ruleset-auto-update-main
   cancel-in-progress: false
 
 jobs:
-  build-and-publish:
+  build-validate:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 90
     env:
       MAX_FETCH_FALLBACKS: "30"
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
+      - name: Checkout source
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
-          fetch-depth: 0
+          fetch-depth: 1
 
       - name: Setup Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: "3.11"
 
       - name: Cache source downloads
-        uses: actions/cache@v5
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
         with:
           path: ruleset/.cache
-          key: ruleset-source-cache-${{ runner.os }}-${{ github.ref_name }}-${{ github.run_id }}
+          key: ruleset-source-cache-${{ runner.os }}-${{ hashFiles('ruleset/config/sources.json') }}-${{ github.run_id }}
           restore-keys: |
-            ruleset-source-cache-${{ runner.os }}-${{ github.ref_name }}-
+            ruleset-source-cache-${{ runner.os }}-${{ hashFiles('ruleset/config/sources.json') }}-
             ruleset-source-cache-${{ runner.os }}-
 
-      - name: Snapshot previous rule counts baseline
+      - name: Prepare immutable build inputs
         run: |
+          set -euo pipefail
+          mkdir -p .workflow-artifacts
+          git rev-parse HEAD > .workflow-artifacts/source-sha.txt
           if [ -f ruleset/dist/policy_reference.json ]; then
-            cp ruleset/dist/policy_reference.json /tmp/policy_reference.before.json
+            cp ruleset/dist/policy_reference.json .workflow-artifacts/policy_reference.before.json
           fi
+
+      - name: Run unit and configuration tests
+        run: python3 -m unittest discover -s ruleset/tests -v
 
       - name: Build rulesets
         timeout-minutes: 45
@@ -50,14 +57,21 @@ jobs:
           set -euo pipefail
           for attempt in 1 2 3; do
             echo "Build attempt ${attempt}/3"
-            if python3 ruleset/scripts/build_rulesets.py --fail-on-cross-action-conflicts; then
+            set +e
+            python3 ruleset/scripts/build_rulesets.py --fail-on-cross-action-conflicts
+            build_status=$?
+            set -e
+            if [ "$build_status" -eq 0 ]; then
               exit 0
             fi
-            if [ "${attempt}" -eq 3 ]; then
-              echo "Build failed after 3 attempts."
-              exit 1
+            if [ "$build_status" -eq 3 ]; then
+              echo "Semantic conflict gate failed; retrying network fetches cannot fix it."
+              exit 3
             fi
-            echo "Retrying in 20 seconds..."
+            if [ "${attempt}" -eq 3 ]; then
+              echo "Build failed after 3 attempts (last status: $build_status)."
+              exit "$build_status"
+            fi
             sleep 20
           done
 
@@ -69,114 +83,121 @@ jobs:
             --surge-out ruleset/dist/recommended_surge.conf \
             --raw-base-url "https://raw.githubusercontent.com/${{ github.repository }}/main/ruleset/dist"
 
-
       - name: Validate output formats
         run: python3 ruleset/scripts/validate_rulesets.py
 
-      - name: Smoke probes
+      - name: Run smoke probes
         run: python3 ruleset/scripts/check_smoke_probes.py
 
-      - name: Allowlist effectiveness
+      - name: Verify allowlist effectiveness
         run: python3 ruleset/scripts/check_allowlist_effective.py
 
-      - name: Quality gates
+      - name: Enforce quality gates
         run: |
-          if [ -f /tmp/policy_reference.before.json ]; then
-            python3 ruleset/scripts/check_quality_gates.py \
-              --current ruleset/dist/policy_reference.json \
-              --baseline /tmp/policy_reference.before.json \
-              --fetch-report ruleset/dist/fetch_report.json \
-              --conflicts ruleset/dist/conflicts.json \
-              --max-change-pct 20 \
-              --min-abs-delta 50 \
-              --min-baseline-rules 100 \
-              --minimums ruleset/config/min_rules.json \
-              --max-fetch-fallbacks "${MAX_FETCH_FALLBACKS}" \
-              --max-cross-action-conflicts 0 \
-              --max-high-severity-conflicts 0
-          else
-            python3 ruleset/scripts/check_quality_gates.py \
-              --current ruleset/dist/policy_reference.json \
-              --fetch-report ruleset/dist/fetch_report.json \
-              --conflicts ruleset/dist/conflicts.json \
-              --max-change-pct 20 \
-              --min-abs-delta 50 \
-              --min-baseline-rules 100 \
-              --minimums ruleset/config/min_rules.json \
-              --max-fetch-fallbacks "${MAX_FETCH_FALLBACKS}" \
-              --max-cross-action-conflicts 0 \
-              --max-high-severity-conflicts 0
+          set -euo pipefail
+          baseline_args=()
+          drift_args=()
+          if [ -f .workflow-artifacts/policy_reference.before.json ]; then
+            baseline_args=(--baseline .workflow-artifacts/policy_reference.before.json)
+            if [ -f ruleset/config/approved_count_drift.json ]; then
+              drift_args=(--approved-drift ruleset/config/approved_count_drift.json)
+            fi
           fi
+          python3 ruleset/scripts/check_quality_gates.py \
+            --current ruleset/dist/policy_reference.json \
+            "${baseline_args[@]}" \
+            "${drift_args[@]}" \
+            --fetch-report ruleset/dist/fetch_report.json \
+            --conflicts ruleset/dist/conflicts.json \
+            --max-change-pct 20 \
+            --min-abs-delta 50 \
+            --min-baseline-rules 100 \
+            --minimums ruleset/config/min_rules.json \
+            --max-fetch-fallbacks "${MAX_FETCH_FALLBACKS}" \
+            --max-cross-action-conflicts 0 \
+            --max-high-severity-conflicts 0
 
       - name: Update dist changelog
         run: |
+          set -euo pipefail
           if [ -z "$(git status --porcelain ruleset/dist)" ]; then
             echo "No ruleset changes before changelog update."
             exit 0
           fi
-
-          if [ -f /tmp/policy_reference.before.json ]; then
-            python3 ruleset/scripts/update_dist_changelog.py \
-              --current-policy ruleset/dist/policy_reference.json \
-              --baseline-policy /tmp/policy_reference.before.json \
-              --conflicts ruleset/dist/conflicts.json \
-              --fetch-report ruleset/dist/fetch_report.json \
-              --output ruleset/dist/CHANGELOG.md
-          else
-            python3 ruleset/scripts/update_dist_changelog.py \
-              --current-policy ruleset/dist/policy_reference.json \
-              --conflicts ruleset/dist/conflicts.json \
-              --fetch-report ruleset/dist/fetch_report.json \
-              --output ruleset/dist/CHANGELOG.md
+          baseline_args=()
+          if [ -f .workflow-artifacts/policy_reference.before.json ]; then
+            baseline_args=(--baseline-policy .workflow-artifacts/policy_reference.before.json)
           fi
+          python3 ruleset/scripts/update_dist_changelog.py \
+            --current-policy ruleset/dist/policy_reference.json \
+            "${baseline_args[@]}" \
+            --conflicts ruleset/dist/conflicts.json \
+            --fetch-report ruleset/dist/fetch_report.json \
+            --output ruleset/dist/CHANGELOG.md
 
-      - name: Secret scan before publish
+      - name: Scan source and generated dist for secrets
         run: |
+          set -euo pipefail
+          report_dir="${RUNNER_TEMP}/gitleaks-build"
+          mkdir -p "$report_dir"
           docker run --rm \
-            -v "$PWD:/repo" \
-            ghcr.io/gitleaks/gitleaks:v8.24.2 \
+            -v "$PWD:/repo:ro" \
+            -v "$report_dir:/reports" \
+            ghcr.io/gitleaks/gitleaks@sha256:b5918eb91b8d2473cec722f066abb4352e4ffdc4ec9f4283ec143aba9ec9ebc4 \
             detect \
             --source /repo \
             --no-git \
             --config /repo/.gitleaks.toml \
             --redact \
             --report-format sarif \
-            --report-path /repo/gitleaks-ruleset-update.sarif
+            --report-path /reports/gitleaks.sarif
+          cp "$report_dir/gitleaks.sarif" .workflow-artifacts/gitleaks-ruleset-update.sarif
 
       - name: Generate workflow summary
         if: always()
         run: |
           set -euo pipefail
-
-          if [ ! -f ruleset/dist/policy_reference.json ] || [ ! -f ruleset/dist/fetch_report.json ] || [ ! -f ruleset/dist/conflicts.json ]; then
+          if [ ! -f ruleset/dist/policy_reference.json ] || \
+             [ ! -f ruleset/dist/fetch_report.json ] || \
+             [ ! -f ruleset/dist/conflicts.json ]; then
             echo "Ruleset summary unavailable: required outputs are missing." >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
-
-          if [ -f /tmp/policy_reference.before.json ]; then
-            python3 ruleset/scripts/generate_run_summary.py \
-              --current-policy ruleset/dist/policy_reference.json \
-              --baseline-policy /tmp/policy_reference.before.json \
-              --conflicts ruleset/dist/conflicts.json \
-              --fetch-report ruleset/dist/fetch_report.json \
-              --minimums ruleset/config/min_rules.json \
-              --output /tmp/ruleset-workflow-summary.md
-          else
-            python3 ruleset/scripts/generate_run_summary.py \
-              --current-policy ruleset/dist/policy_reference.json \
-              --conflicts ruleset/dist/conflicts.json \
-              --fetch-report ruleset/dist/fetch_report.json \
-              --minimums ruleset/config/min_rules.json \
-              --output /tmp/ruleset-workflow-summary.md
+          baseline_args=()
+          if [ -f .workflow-artifacts/policy_reference.before.json ]; then
+            baseline_args=(--baseline-policy .workflow-artifacts/policy_reference.before.json)
           fi
+          python3 ruleset/scripts/generate_run_summary.py \
+            --current-policy ruleset/dist/policy_reference.json \
+            "${baseline_args[@]}" \
+            --conflicts ruleset/dist/conflicts.json \
+            --fetch-report ruleset/dist/fetch_report.json \
+            --minimums ruleset/config/min_rules.json \
+            --output .workflow-artifacts/ruleset-workflow-summary.md
+          cat .workflow-artifacts/ruleset-workflow-summary.md >> "$GITHUB_STEP_SUMMARY"
 
-          cat /tmp/ruleset-workflow-summary.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Package validated dist
+        run: |
+          set -euo pipefail
+          tar -czf .workflow-artifacts/ruleset-dist.tar.gz -C ruleset dist
+          (
+            cd .workflow-artifacts
+            sha256sum ruleset-dist.tar.gz > ruleset-dist.sha256
+          )
 
-      - name: Upload run reports
-        if: always()
-        uses: actions/upload-artifact@v7
+      - name: Upload validated publish bundle
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
-          name: ruleset-run-${{ github.run_id }}
+          name: ruleset-publish-${{ github.run_id }}
+          if-no-files-found: error
+          retention-days: 14
+          path: .workflow-artifacts/
+
+      - name: Upload diagnostics on failure
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: ruleset-debug-${{ github.run_id }}
           if-no-files-found: ignore
           retention-days: 14
           path: |
@@ -184,117 +205,214 @@ jobs:
             ruleset/dist/conflicts.json
             ruleset/dist/fetch_report.json
             ruleset/dist/policy_reference.json
-            gitleaks-ruleset-update.sarif
-            /tmp/ruleset-workflow-summary.md
+            .workflow-artifacts/ruleset-workflow-summary.md
 
-      - name: Commit dist changes
-        id: commit_dist
+  publish:
+    if: github.ref == 'refs/heads/main'
+    needs: build-validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      MAX_FETCH_FALLBACKS: "30"
+    steps:
+      - name: Checkout exact source revision
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.11"
+
+      - name: Download validated publish bundle
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: ruleset-publish-${{ github.run_id }}
+          path: .workflow-artifacts
+
+      - name: Verify artifact and source freshness
         run: |
           set -euo pipefail
+          (
+            cd .workflow-artifacts
+            sha256sum -c ruleset-dist.sha256
+          )
+          source_sha="$(tr -d '[:space:]' < .workflow-artifacts/source-sha.txt)"
+          git fetch --no-tags origin main
+          remote_sha="$(git rev-parse origin/main)"
+          checkout_sha="$(git rev-parse HEAD)"
+          if [ "$source_sha" != "$remote_sha" ] || [ "$checkout_sha" != "$remote_sha" ]; then
+            echo "Source moved after validation; refusing to publish stale output."
+            echo "validated=$source_sha remote=$remote_sha checkout=$checkout_sha"
+            exit 1
+          fi
 
+      - name: Repair a missing release for an existing snapshot tag
+        env:
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          existing_tag="$(git tag --points-at HEAD --list 'ruleset-*' | sort | tail -n 1)"
+          if [ -z "$existing_tag" ] || gh release view "$existing_tag" --repo "$REPOSITORY" >/dev/null 2>&1; then
+            exit 0
+          fi
+          reconcile_dir="${RUNNER_TEMP}/ruleset-reconcile"
+          mkdir -p "$reconcile_dir"
+          tar -czf "$reconcile_dir/ruleset-dist.tar.gz" -C ruleset dist
+          (
+            cd "$reconcile_dir"
+            sha256sum ruleset-dist.tar.gz > ruleset-dist.sha256
+          )
+          python3 ruleset/scripts/generate_release_notes.py \
+            --repo "$REPOSITORY" \
+            --tag "$existing_tag" \
+            --changelog ruleset/dist/CHANGELOG.md \
+            --index ruleset/dist/index.json \
+            --conflicts ruleset/dist/conflicts.json \
+            --fetch-report ruleset/dist/fetch_report.json \
+            --output "$reconcile_dir/release-notes.md"
+          gh release create "$existing_tag" \
+            --repo "$REPOSITORY" \
+            --title "Ruleset Snapshot $existing_tag" \
+            --notes-file "$reconcile_dir/release-notes.md" \
+            "$reconcile_dir/ruleset-dist.tar.gz" \
+            "$reconcile_dir/ruleset-dist.sha256"
+
+      - name: Apply and validate the publish bundle
+        run: |
+          set -euo pipefail
+          extract_dir="${RUNNER_TEMP}/ruleset-publish"
+          mkdir -p "$extract_dir"
+          python3 - <<'PY'
+          import pathlib
+          import tarfile
+
+          archive = pathlib.Path(".workflow-artifacts/ruleset-dist.tar.gz")
+          with tarfile.open(archive, "r:gz") as bundle:
+              for member in bundle.getmembers():
+                  path = pathlib.PurePosixPath(member.name)
+                  if (
+                      path.is_absolute()
+                      or ".." in path.parts
+                      or not path.parts
+                      or path.parts[0] != "dist"
+                      or member.issym()
+                      or member.islnk()
+                      or not (member.isfile() or member.isdir())
+                  ):
+                      raise SystemExit(f"unsafe archive member: {member.name}")
+          PY
+          tar -xzf .workflow-artifacts/ruleset-dist.tar.gz -C "$extract_dir"
+          rsync -a --delete "$extract_dir/dist/" ruleset/dist/
+          python3 ruleset/scripts/validate_rulesets.py
+          python3 ruleset/scripts/check_smoke_probes.py
+          python3 ruleset/scripts/check_allowlist_effective.py
+          drift_args=()
+          if [ -f ruleset/config/approved_count_drift.json ]; then
+            drift_args=(--approved-drift ruleset/config/approved_count_drift.json)
+          fi
+          python3 ruleset/scripts/check_quality_gates.py \
+            --current ruleset/dist/policy_reference.json \
+            --baseline .workflow-artifacts/policy_reference.before.json \
+            "${drift_args[@]}" \
+            --fetch-report ruleset/dist/fetch_report.json \
+            --conflicts ruleset/dist/conflicts.json \
+            --max-change-pct 20 \
+            --min-abs-delta 50 \
+            --min-baseline-rules 100 \
+            --minimums ruleset/config/min_rules.json \
+            --max-fetch-fallbacks "${MAX_FETCH_FALLBACKS}" \
+            --max-cross-action-conflicts 0 \
+            --max-high-severity-conflicts 0
+
+      - name: Scan final publish tree for secrets
+        run: |
+          set -euo pipefail
+          report_dir="${RUNNER_TEMP}/gitleaks-publish"
+          mkdir -p "$report_dir"
+          docker run --rm \
+            -v "$PWD:/repo:ro" \
+            -v "$report_dir:/reports" \
+            ghcr.io/gitleaks/gitleaks@sha256:b5918eb91b8d2473cec722f066abb4352e4ffdc4ec9f4283ec143aba9ec9ebc4 \
+            detect \
+            --source /repo \
+            --no-git \
+            --config /repo/.gitleaks.toml \
+            --redact \
+            --report-format sarif \
+            --report-path /reports/gitleaks.sarif
+
+      - name: Commit and atomically publish branch plus tag
+        id: publish_snapshot
+        run: |
+          set -euo pipefail
           if [ -z "$(git status --porcelain ruleset/dist)" ]; then
             echo "No ruleset changes."
             echo "committed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
-
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add ruleset/dist
-          git commit -m "chore(ruleset): auto update $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
-
-          for attempt in 1 2 3; do
-            echo "Push attempt ${attempt}/3"
-            if git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}"; then
-              echo "committed=true" >> "$GITHUB_OUTPUT"
-              exit 0
-            fi
-            if [ "${attempt}" -eq 3 ]; then
-              echo "Push failed after 3 attempts."
-              exit 1
-            fi
-            sleep 10
-          done
-
-      - name: Tag snapshot for rollback
-        id: tag_snapshot
-        if: steps.commit_dist.outputs.committed == 'true'
-        run: |
-          set -euo pipefail
-
-          TAG="ruleset-$(date -u +'%Y%m%dT%H%M%SZ')"
-          if git ls-remote --exit-code --tags origin "refs/tags/${TAG}" >/dev/null 2>&1; then
-            TAG="${TAG}-${GITHUB_RUN_ID}"
+          unexpected="$(git diff --cached --name-only | grep -Ev '^ruleset/dist/' || true)"
+          if [ -n "$unexpected" ]; then
+            echo "Refusing to publish unexpected staged paths:"
+            echo "$unexpected"
+            exit 1
           fi
+          git commit -m "chore(ruleset): auto update $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+          source_sha="$(tr -d '[:space:]' < .workflow-artifacts/source-sha.txt)"
+          git fetch --no-tags origin main
+          remote_sha="$(git rev-parse origin/main)"
+          if [ "$source_sha" != "$remote_sha" ]; then
+            echo "Source moved before push; refusing to rebase generated output."
+            exit 1
+          fi
+          epoch="$(git show -s --format=%ct HEAD)"
+          short_sha="$(git rev-parse --short=12 HEAD)"
+          tag="ruleset-$(date -u -d "@$epoch" +'%Y%m%dT%H%M%SZ')-$short_sha"
+          if git ls-remote --exit-code --tags origin "refs/tags/$tag" >/dev/null 2>&1; then
+            echo "Snapshot tag already exists: $tag"
+            exit 1
+          fi
+          git tag -a "$tag" -m "ruleset snapshot $tag"
+          git push --atomic origin "HEAD:refs/heads/main" "refs/tags/$tag:refs/tags/$tag"
+          echo "committed=true" >> "$GITHUB_OUTPUT"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
 
-          git tag -a "$TAG" -m "ruleset snapshot $TAG"
-          for attempt in 1 2 3; do
-            if git push origin "$TAG"; then
-              break
-            fi
-            if [ "${attempt}" -eq 3 ]; then
-              echo "Tag push failed after 3 attempts."
-              exit 1
-            fi
-            sleep 10
-          done
-
-          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
-
-      - name: Generate release notes
-        if: steps.commit_dist.outputs.committed == 'true'
+      - name: Generate tag-pinned release notes
+        if: steps.publish_snapshot.outputs.committed == 'true'
+        env:
+          REPOSITORY: ${{ github.repository }}
+          SNAPSHOT_TAG: ${{ steps.publish_snapshot.outputs.tag }}
         run: |
           python3 ruleset/scripts/generate_release_notes.py \
-            --repo "${{ github.repository }}" \
-            --tag "${{ steps.tag_snapshot.outputs.tag }}" \
+            --repo "$REPOSITORY" \
+            --tag "$SNAPSHOT_TAG" \
             --changelog ruleset/dist/CHANGELOG.md \
             --index ruleset/dist/index.json \
             --conflicts ruleset/dist/conflicts.json \
             --fetch-report ruleset/dist/fetch_report.json \
-            --output /tmp/ruleset-release-notes.md
+            --output .workflow-artifacts/release-notes.md
 
-      - name: Publish GitHub release
-        if: steps.commit_dist.outputs.committed == 'true'
+      - name: Create immutable-style release with rollback assets
+        if: steps.publish_snapshot.outputs.committed == 'true'
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPOSITORY: ${{ github.repository }}
+          SNAPSHOT_TAG: ${{ steps.publish_snapshot.outputs.tag }}
         run: |
           set -euo pipefail
-          TAG="${{ steps.tag_snapshot.outputs.tag }}"
-          TITLE="Ruleset Snapshot ${TAG}"
-
-          for attempt in 1 2 3; do
-            echo "Release publish attempt ${attempt}/3"
-            if gh release view "$TAG" --repo "${{ github.repository }}" >/dev/null 2>&1; then
-              if gh release edit "$TAG" \
-                --repo "${{ github.repository }}" \
-                --title "$TITLE" \
-                --notes-file /tmp/ruleset-release-notes.md; then
-                exit 0
-              fi
-            else
-              if gh release create "$TAG" \
-                --repo "${{ github.repository }}" \
-                --title "$TITLE" \
-                --notes-file /tmp/ruleset-release-notes.md; then
-                exit 0
-              fi
-            fi
-
-            if [ "${attempt}" -eq 3 ]; then
-              echo "Release publish failed after 3 attempts."
-              exit 1
-            fi
-            sleep 10
-          done
-
-      - name: Upload diagnostics on failure
-        if: failure()
-        uses: actions/upload-artifact@v7
-        with:
-          name: ruleset-debug-${{ github.run_id }}
-          if-no-files-found: ignore
-          path: |
-            ruleset/dist/conflicts.json
-            ruleset/dist/fetch_report.json
-            ruleset/dist/policy_reference.json
-            ruleset/dist/CHANGELOG.md
+          if gh release view "$SNAPSHOT_TAG" --repo "$REPOSITORY" >/dev/null 2>&1; then
+            echo "Release already exists; refusing to edit a published snapshot."
+            exit 1
+          fi
+          gh release create "$SNAPSHOT_TAG" \
+            --repo "$REPOSITORY" \
+            --title "Ruleset Snapshot $SNAPSHOT_TAG" \
+            --notes-file .workflow-artifacts/release-notes.md \
+            .workflow-artifacts/ruleset-dist.tar.gz \
+            .workflow-artifacts/ruleset-dist.sha256

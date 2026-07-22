@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "baseline_policy_sha256": "c9720f50c6ec24b84b6a764c982263c71c9e1efce9b23a98027a5da237956150",
+  "approvals": [
+    {
+      "category": "cdn",
+      "before": 1633,
+      "after_min": 120,
+      "after_max": 160,
+      "reason": "remove global shared cloud and anycast ranges from mainland-China DIRECT routing"
+    }
+  ]
+}
