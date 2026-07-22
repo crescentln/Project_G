@@ -24,6 +24,7 @@ class WorkflowIntegrityTests(unittest.TestCase):
         workflow = (WORKFLOW_ROOT / "ruleset-update.yml").read_text(encoding="utf-8")
         self.assertIn("git push --atomic", workflow)
         self.assertIn("Source moved before push", workflow)
+        self.assertIn("include-hidden-files: true", workflow)
         self.assertNotIn("pull --rebase", workflow)
         self.assertNotIn("gh release edit", workflow)
 

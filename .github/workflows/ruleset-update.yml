@@ -190,6 +190,7 @@ jobs:
         with:
           name: ruleset-publish-${{ github.run_id }}
           if-no-files-found: error
+          include-hidden-files: true
           retention-days: 14
           path: .workflow-artifacts/
 
@@ -199,6 +200,7 @@ jobs:
         with:
           name: ruleset-debug-${{ github.run_id }}
           if-no-files-found: ignore
+          include-hidden-files: true
           retention-days: 14
           path: |
             ruleset/dist/CHANGELOG.md
