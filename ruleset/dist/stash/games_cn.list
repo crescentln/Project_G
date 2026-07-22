@@ -49,9 +49,7 @@ DOMAIN-SUFFIX,9game.cn
 DOMAIN-SUFFIX,9xgame.com
 DOMAIN-SUFFIX,abdf002.com
 DOMAIN-SUFFIX,aki-game.com
-DOMAIN-SUFFIX,aki-game.net
 DOMAIN-SUFFIX,aki-game2.com
-DOMAIN-SUFFIX,aki-game2.net
 DOMAIN-SUFFIX,aligames.com
 DOMAIN-SUFFIX,anticheatexpert.com
 DOMAIN-SUFFIX,appeeres.com
@@ -128,12 +126,9 @@ DOMAIN-SUFFIX,jiaoyimao.cn
 DOMAIN-SUFFIX,jiaoyimao.com
 DOMAIN-SUFFIX,juequling.com
 DOMAIN-SUFFIX,kurobbs.com
-DOMAIN-SUFFIX,kurogame-service.com
 DOMAIN-SUFFIX,kurogame.com
-DOMAIN-SUFFIX,kurogame.net
 DOMAIN-SUFFIX,kurogame.xyz
 DOMAIN-SUFFIX,kurogames.com
-DOMAIN-SUFFIX,kurogames.net
 DOMAIN-SUFFIX,labycore.cn
 DOMAIN-SUFFIX,langrenclub.com
 DOMAIN-SUFFIX,laohu.com
@@ -215,7 +210,6 @@ DOMAIN-SUFFIX,tapimg.com
 DOMAIN-SUFFIX,tapimg.net
 DOMAIN-SUFFIX,taptap.cn
 DOMAIN-SUFFIX,taptap.com
-DOMAIN-SUFFIX,taptap.io
 DOMAIN-SUFFIX,taptapdada.com
 DOMAIN-SUFFIX,tcfmglobal.com
 DOMAIN-SUFFIX,tencent-gcloud.com
@@ -253,6 +247,7 @@ DOMAIN-SUFFIX,wmsj.cn
 DOMAIN-SUFFIX,wmupd.com
 DOMAIN-SUFFIX,wo1wan.com
 DOMAIN-SUFFIX,wutheringwaves.cn
+DOMAIN-SUFFIX,xboxlive.cn
 DOMAIN-SUFFIX,xd.cn
 DOMAIN-SUFFIX,xd.com
 DOMAIN-SUFFIX,xdcdn.net

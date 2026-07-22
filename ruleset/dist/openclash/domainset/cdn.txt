@@ -36,7 +36,6 @@ upos-hz-mirrorakam.akamaized.net
 +.bootcdn.net
 +.bootcss.com
 +.bsclink.cn
-+.cdn20.com
 +.cdn30.org
 +.cdnmg.com
 +.cf-china.info

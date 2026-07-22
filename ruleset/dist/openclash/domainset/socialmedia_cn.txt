@@ -83,9 +83,6 @@ upos-hz-mirrorakam.akamaized.net
 +.picself.cn
 +.procg.cn
 +.redelight.cn
-+.rednote.com
-+.rednote.com.my
-+.rednotecdn.com
 +.ruguoapp.com
 +.sg.weibo.com
 +.shihuo.cn

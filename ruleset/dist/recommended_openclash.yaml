@@ -1,6 +1,12 @@
 # Generated file: recommended OpenClash template (rule-providers + rules)
 # If your proxy policy group name is not PROXY, replace it in rules below.
 rule-providers:
+  wechat:
+    type: http
+    behavior: classical
+    path: ./rule_provider/wechat.yaml
+    url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/wechat.yaml
+    interval: 86400
   reject:
     type: http
     behavior: classical
@@ -31,83 +37,11 @@ rule-providers:
     path: ./rule_provider/httpdns.yaml
     url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/httpdns.yaml
     interval: 86400
-  lan:
-    type: http
-    behavior: classical
-    path: ./rule_provider/lan.yaml
-    url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/lan.yaml
-    interval: 86400
   direct:
     type: http
     behavior: classical
     path: ./rule_provider/direct.yaml
     url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/direct.yaml
-    interval: 86400
-  domestic:
-    type: http
-    behavior: classical
-    path: ./rule_provider/domestic.yaml
-    url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/domestic.yaml
-    interval: 86400
-  cncidr:
-    type: http
-    behavior: classical
-    path: ./rule_provider/cncidr.yaml
-    url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/cncidr.yaml
-    interval: 86400
-  apple_cn:
-    type: http
-    behavior: classical
-    path: ./rule_provider/apple_cn.yaml
-    url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/apple_cn.yaml
-    interval: 86400
-  apple_cdn:
-    type: http
-    behavior: classical
-    path: ./rule_provider/apple_cdn.yaml
-    url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/apple_cdn.yaml
-    interval: 86400
-  microsoft_cdn:
-    type: http
-    behavior: classical
-    path: ./rule_provider/microsoft_cdn.yaml
-    url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/microsoft_cdn.yaml
-    interval: 86400
-  socialmedia_cn:
-    type: http
-    behavior: classical
-    path: ./rule_provider/socialmedia_cn.yaml
-    url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/socialmedia_cn.yaml
-    interval: 86400
-  games_cn:
-    type: http
-    behavior: classical
-    path: ./rule_provider/games_cn.yaml
-    url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/games_cn.yaml
-    interval: 86400
-  douyin:
-    type: http
-    behavior: classical
-    path: ./rule_provider/douyin.yaml
-    url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/douyin.yaml
-    interval: 86400
-  dmca:
-    type: http
-    behavior: classical
-    path: ./rule_provider/dmca.yaml
-    url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/dmca.yaml
-    interval: 86400
-  cdn:
-    type: http
-    behavior: classical
-    path: ./rule_provider/cdn.yaml
-    url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/cdn.yaml
-    interval: 86400
-  download:
-    type: http
-    behavior: classical
-    path: ./rule_provider/download.yaml
-    url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/download.yaml
     interval: 86400
   telegram:
     type: http
@@ -296,24 +230,13 @@ rule-providers:
     url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/openclash/global.yaml
     interval: 86400
 rules:
+  - RULE-SET,wechat,DIRECT
   - RULE-SET,reject,REJECT
   - RULE-SET,reject_extra,REJECT
   - RULE-SET,reject_drop,REJECT-DROP
-  - RULE-SET,reject_no_drop,REJECT-NO-DROP
+  - RULE-SET,reject_no_drop,REJECT
   - RULE-SET,httpdns,REJECT
-  - RULE-SET,lan,DIRECT
   - RULE-SET,direct,DIRECT
-  - RULE-SET,domestic,DIRECT
-  - RULE-SET,cncidr,DIRECT
-  - RULE-SET,apple_cn,DIRECT
-  - RULE-SET,apple_cdn,DIRECT
-  - RULE-SET,microsoft_cdn,DIRECT
-  - RULE-SET,socialmedia_cn,DIRECT
-  - RULE-SET,games_cn,DIRECT
-  - RULE-SET,douyin,DIRECT
-  - RULE-SET,dmca,DIRECT
-  - RULE-SET,cdn,DIRECT
-  - RULE-SET,download,DIRECT
   - RULE-SET,telegram,PROXY
   - RULE-SET,stream,PROXY
   - RULE-SET,ai,PROXY

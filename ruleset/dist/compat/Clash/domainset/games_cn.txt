@@ -49,9 +49,7 @@ end.shallow.ink
 +.9xgame.com
 +.abdf002.com
 +.aki-game.com
-+.aki-game.net
 +.aki-game2.com
-+.aki-game2.net
 +.aligames.com
 +.anticheatexpert.com
 +.appeeres.com
@@ -128,12 +126,9 @@ end.shallow.ink
 +.jiaoyimao.com
 +.juequling.com
 +.kurobbs.com
-+.kurogame-service.com
 +.kurogame.com
-+.kurogame.net
 +.kurogame.xyz
 +.kurogames.com
-+.kurogames.net
 +.labycore.cn
 +.langrenclub.com
 +.laohu.com
@@ -215,7 +210,6 @@ end.shallow.ink
 +.tapimg.net
 +.taptap.cn
 +.taptap.com
-+.taptap.io
 +.taptapdada.com
 +.tcfmglobal.com
 +.tencent-gcloud.com
@@ -253,6 +247,7 @@ end.shallow.ink
 +.wmupd.com
 +.wo1wan.com
 +.wutheringwaves.cn
++.xboxlive.cn
 +.xd.cn
 +.xd.com
 +.xdcdn.net

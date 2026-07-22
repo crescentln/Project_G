@@ -177,7 +177,6 @@ xz.pphimalayanrt.com
 +.crsed.net
 +.crysis.jp
 +.csgo.com.cn
-+.csgo.wmsj.cn
 +.cubicmotion.com
 +.cubicodyssey.game
 +.curseforge.com
@@ -206,7 +205,6 @@ xz.pphimalayanrt.com
 +.doom.com
 +.dota2.com
 +.dota2.com.cn
-+.dota2.wmsj.cn
 +.dragonage.com
 +.dragonagekeep.com
 +.dragonagemovie.com
@@ -690,10 +688,8 @@ xz.pphimalayanrt.com
 +.steamgames.com
 +.steaminventoryhelper.com
 +.steampowered.com
-+.steampowered.com.8686c.com
 +.steamserver.net
 +.steamstatic.com
-+.steamstatic.com.8686c.com
 +.steamunlocked.net
 +.steamusercontent.com
 +.stellasora.global
@@ -798,7 +794,6 @@ xz.pphimalayanrt.com
 +.xboxab.com
 +.xboxgamepass.com
 +.xboxgamestudios.com
-+.xboxlive.cn
 +.xboxlive.com
 +.xboxone.co
 +.xboxone.com

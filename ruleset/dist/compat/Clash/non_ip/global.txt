@@ -1080,6 +1080,7 @@ DOMAIN,tmdb-image-prod.b-cdn.net
 DOMAIN,tmdb-web-image-prod.b-cdn.net
 DOMAIN,tools.google.com
 DOMAIN,tp.louisvuitton.com
+DOMAIN,trojan-gfw.github.io
 DOMAIN,tv.applemusic.com
 DOMAIN,tvcastlive-hamivideo.cdn.hinet.net
 DOMAIN,ubisoft-orbit-savegames.s3.amazonaws.com
@@ -1285,6 +1286,7 @@ DOMAIN,www.recaptcha-cn.net
 DOMAIN,www.recaptcha.net
 DOMAIN,www.support.apple.com
 DOMAIN,xp.apple.com
+DOMAIN,xtls.github.io
 DOMAIN,xtratime.qcomgeo2.com
 DOMAIN,xz.pphimalayanrt.com
 DOMAIN,yangzhi.app
@@ -4545,6 +4547,7 @@ DOMAIN-SUFFIX,berkanawireless.com
 DOMAIN-SUFFIX,berkeley.edu
 DOMAIN-SUFFIX,berlincompanions.com
 DOMAIN-SUFFIX,best-sex-games.com
+DOMAIN-SUFFIX,best2pay.net
 DOMAIN-SUFFIX,best4bim.com
 DOMAIN-SUFFIX,bestbeats4u.com
 DOMAIN-SUFFIX,bestbhy.com
@@ -6440,6 +6443,7 @@ DOMAIN-SUFFIX,clashmini.com
 DOMAIN-SUFFIX,clashofclans.com
 DOMAIN-SUFFIX,clashroyale.com
 DOMAIN-SUFFIX,clashroyaleapp.com
+DOMAIN-SUFFIX,clashyun.com
 DOMAIN-SUFFIX,clasporno.org
 DOMAIN-SUFFIX,classicnike.com
 DOMAIN-SUFFIX,classymomsex.com
@@ -8770,9 +8774,7 @@ DOMAIN-SUFFIX,esmarthealth.com
 DOMAIN-SUFFIX,esmatube.com
 DOMAIN-SUFFIX,esopworld.com
 DOMAIN-SUFFIX,esp32.com
-DOMAIN-SUFFIX,esp8266.cn
 DOMAIN-SUFFIX,esp8266.com
-DOMAIN-SUFFIX,esp8266.com.cn
 DOMAIN-SUFFIX,espadoldettol.com.ar
 DOMAIN-SUFFIX,esperanzagomez.org
 DOMAIN-SUFFIX,espn.co.uk
@@ -8782,9 +8784,7 @@ DOMAIN-SUFFIX,espncdn.com
 DOMAIN-SUFFIX,espnqa.com
 DOMAIN-SUFFIX,esports.gg
 DOMAIN-SUFFIX,esposasymaridos.com
-DOMAIN-SUFFIX,espressif.cn
 DOMAIN-SUFFIX,espressif.com
-DOMAIN-SUFFIX,espressif.com.cn
 DOMAIN-SUFFIX,esri.com
 DOMAIN-SUFFIX,esrt.online
 DOMAIN-SUFFIX,esrt.press
@@ -8897,6 +8897,8 @@ DOMAIN-SUFFIX,f-dro1d.org
 DOMAIN-SUFFIX,f-droid.com
 DOMAIN-SUFFIX,f-droid.org
 DOMAIN-SUFFIX,f-secure.com
+DOMAIN-SUFFIX,f1.com
+DOMAIN-SUFFIX,f1tv.com
 DOMAIN-SUFFIX,f5pf.com
 DOMAIN-SUFFIX,f6.dev
 DOMAIN-SUFFIX,f6.ru
@@ -9644,6 +9646,7 @@ DOMAIN-SUFFIX,forgecdn.net
 DOMAIN-SUFFIX,forhertube.com
 DOMAIN-SUFFIX,formit360.com
 DOMAIN-SUFFIX,formitfactory.com
+DOMAIN-SUFFIX,formula1.com
 DOMAIN-SUFFIX,forpojie.pics
 DOMAIN-SUFFIX,forshtadt.ru
 DOMAIN-SUFFIX,fortawesome.com
@@ -12059,6 +12062,7 @@ DOMAIN-SUFFIX,hussiepass.com
 DOMAIN-SUFFIX,hustler.com
 DOMAIN-SUFFIX,hutao.cloud
 DOMAIN-SUFFIX,hutpromos.com
+DOMAIN-SUFFIX,hva.im
 DOMAIN-SUFFIX,hwgo.com
 DOMAIN-SUFFIX,hwslabs.com
 DOMAIN-SUFFIX,hxcsxs.pro
@@ -19003,8 +19007,10 @@ DOMAIN-SUFFIX,rbmavericks.com
 DOMAIN-SUFFIX,rbnainternational.com
 DOMAIN-SUFFIX,rbplc.com
 DOMAIN-SUFFIX,rbrandlibrary.com
+DOMAIN-SUFFIX,rbsgate.com
 DOMAIN-SUFFIX,rbsgr.com
 DOMAIN-SUFFIX,rbspeakup.com
+DOMAIN-SUFFIX,rbsuat.com
 DOMAIN-SUFFIX,rbth.com
 DOMAIN-SUFFIX,rbx.com
 DOMAIN-SUFFIX,rbxcdn.com
@@ -21958,7 +21964,6 @@ DOMAIN-SUFFIX,trithucvn.org
 DOMAIN-SUFFIX,trixhentai.com
 DOMAIN-SUFFIX,trmini.com
 DOMAIN-SUFFIX,troisrivieresmini.com
-DOMAIN-SUFFIX,trojan-gfw.github.io
 DOMAIN-SUFFIX,tropictube.com
 DOMAIN-SUFFIX,trpger.us
 DOMAIN-SUFFIX,trueamateurmodels.com
@@ -24247,7 +24252,6 @@ DOMAIN-SUFFIX,xsvod.xyz
 DOMAIN-SUFFIX,xsz-av.com
 DOMAIN-SUFFIX,xtapes.to
 DOMAIN-SUFFIX,xtegvk.xyz
-DOMAIN-SUFFIX,xtls.github.io
 DOMAIN-SUFFIX,xtom.au
 DOMAIN-SUFFIX,xtom.com
 DOMAIN-SUFFIX,xtom.de

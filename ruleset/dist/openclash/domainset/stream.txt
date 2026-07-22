@@ -33,7 +33,6 @@ linear-abematv.akamaized.net
 mobilelive-hamivideo.cdn.hinet.net
 msh.amazon.co.uk
 netflix.com.edgesuite.net
-np-edge.itunes.apple.com
 ntdfreemobile-tgc.cdn.hinet.net
 ntdfreepc-tgc.cdn.hinet.net
 ntdfreetv-tgc.cdn.hinet.net
@@ -42,7 +41,6 @@ ntdofifreemobile-tgc.cdn.hinet.net
 ntdofifreepc-tgc.cdn.hinet.net
 ntdofifreetv-tgc.cdn.hinet.net
 ntdofifreevcpc-tgc.cdn.hinet.net
-play-edge.itunes.apple.com
 pvr-hamivideo.cdn.hinet.net
 scc-hamivideo.cdn.hinet.net
 scc.ott.hinet.net

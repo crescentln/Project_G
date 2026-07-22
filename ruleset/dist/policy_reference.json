@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-07-20T06:31:14.737241+00:00",
+  "generated_at_utc": "2026-07-22T14:14:41.945652+00:00",
   "policy_path": "config/policy_map.json",
   "categories": [
     {
@@ -7,7 +7,7 @@
       "recommended_action": "REJECT",
       "recommended_priority": 100,
       "recommended_note": "广告、追踪、恶意基础拦截规则",
-      "rule_count": 324988
+      "rule_count": 326060
     },
     {
       "id": "reject_extra",
@@ -31,6 +31,13 @@
       "rule_count": 6
     },
     {
+      "id": "wechat",
+      "recommended_action": "DIRECT",
+      "recommended_priority": 90,
+      "recommended_note": "微信核心、媒体上传与服务 DNS 直连，并位于拦截规则之前",
+      "rule_count": 34
+    },
+    {
       "id": "lan",
       "recommended_action": "DIRECT",
       "recommended_priority": 200,
@@ -42,7 +49,7 @@
       "recommended_action": "DIRECT",
       "recommended_priority": 210,
       "recommended_note": "中国大陆域名集合直连（domain-focused）",
-      "rule_count": 7770
+      "rule_count": 7390
     },
     {
       "id": "cncidr",
@@ -62,8 +69,8 @@
       "id": "cdn",
       "recommended_action": "DIRECT",
       "recommended_priority": 250,
-      "recommended_note": "CDN 回源与就近访问优先直连",
-      "rule_count": 1633
+      "recommended_note": "仅中国大陆 CDN 域名与可证明的境内边缘服务直连",
+      "rule_count": 132
     },
     {
       "id": "download",
@@ -77,7 +84,7 @@
       "recommended_action": "PROXY",
       "recommended_priority": 309,
       "recommended_note": "整合流媒体集合（含 Netflix），跨地区统一",
-      "rule_count": 445
+      "rule_count": 443
     },
     {
       "id": "stream_us",
@@ -112,7 +119,7 @@
       "recommended_action": "PROXY",
       "recommended_priority": 314,
       "recommended_note": "国外流媒体高覆盖集合走代理（可选细分）",
-      "rule_count": 288
+      "rule_count": 286
     },
     {
       "id": "ai",
@@ -154,7 +161,7 @@
       "recommended_action": "PROXY",
       "recommended_priority": 322,
       "recommended_note": "Apple 国际服务走代理（中国区与更新流量优先直连）",
-      "rule_count": 1507
+      "rule_count": 1505
     },
     {
       "id": "apple_intelligence",
@@ -189,21 +196,21 @@
       "recommended_action": "REJECT",
       "recommended_priority": 150,
       "recommended_note": "HTTPDNS 常用于绕过本地 DNS 分流，默认建议拦截",
-      "rule_count": 57
+      "rule_count": 55
     },
     {
       "id": "games_cn",
       "recommended_action": "DIRECT",
       "recommended_priority": 241,
       "recommended_note": "国内游戏服务直连",
-      "rule_count": 288
+      "rule_count": 283
     },
     {
       "id": "games",
       "recommended_action": "PROXY",
       "recommended_priority": 326,
       "recommended_note": "国际游戏服务走代理",
-      "rule_count": 831
+      "rule_count": 826
     },
     {
       "id": "youtube",
@@ -224,7 +231,7 @@
       "recommended_action": "PROXY",
       "recommended_priority": 329,
       "recommended_note": "Apple TV+ 走代理",
-      "rule_count": 8
+      "rule_count": 6
     },
     {
       "id": "primevideo",
@@ -301,7 +308,7 @@
       "recommended_action": "DIRECT",
       "recommended_priority": 240,
       "recommended_note": "国内社交平台直连",
-      "rule_count": 130
+      "rule_count": 127
     },
     {
       "id": "socialmedia",
@@ -364,21 +371,21 @@
       "recommended_action": "PROXY",
       "recommended_priority": 346,
       "recommended_note": "GFW 列表走代理",
-      "rule_count": 117
+      "rule_count": 118
     },
     {
       "id": "global",
       "recommended_action": "PROXY",
       "recommended_priority": 900,
       "recommended_note": "兜底代理集合（应放在较后顺序）",
-      "rule_count": 25375
+      "rule_count": 25379
     },
     {
       "id": "direct",
       "recommended_action": "DIRECT",
       "recommended_priority": 205,
       "recommended_note": "合并直连集合（含国内域名 + CN CIDR，简化部署）",
-      "rule_count": 20774
+      "rule_count": 18947
     }
   ]
 }

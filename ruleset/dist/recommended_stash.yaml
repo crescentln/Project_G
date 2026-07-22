@@ -1,6 +1,11 @@
 # Generated file: recommended Stash template (classical rule-providers)
 # For Stash-native optimized usage, prefer ruleset/dist/stash/domainset + ipcidr + classical split paths.
 rule-providers:
+  wechat:
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/stash/wechat.list
+    interval: 86400
   reject:
     behavior: classical
     format: text
@@ -26,70 +31,10 @@ rule-providers:
     format: text
     url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/stash/httpdns.list
     interval: 86400
-  lan:
-    behavior: classical
-    format: text
-    url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/stash/lan.list
-    interval: 86400
   direct:
     behavior: classical
     format: text
     url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/stash/direct.list
-    interval: 86400
-  domestic:
-    behavior: classical
-    format: text
-    url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/stash/domestic.list
-    interval: 86400
-  cncidr:
-    behavior: classical
-    format: text
-    url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/stash/cncidr.list
-    interval: 86400
-  apple_cn:
-    behavior: classical
-    format: text
-    url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/stash/apple_cn.list
-    interval: 86400
-  apple_cdn:
-    behavior: classical
-    format: text
-    url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/stash/apple_cdn.list
-    interval: 86400
-  microsoft_cdn:
-    behavior: classical
-    format: text
-    url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/stash/microsoft_cdn.list
-    interval: 86400
-  socialmedia_cn:
-    behavior: classical
-    format: text
-    url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/stash/socialmedia_cn.list
-    interval: 86400
-  games_cn:
-    behavior: classical
-    format: text
-    url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/stash/games_cn.list
-    interval: 86400
-  douyin:
-    behavior: classical
-    format: text
-    url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/stash/douyin.list
-    interval: 86400
-  dmca:
-    behavior: classical
-    format: text
-    url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/stash/dmca.list
-    interval: 86400
-  cdn:
-    behavior: classical
-    format: text
-    url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/stash/cdn.list
-    interval: 86400
-  download:
-    behavior: classical
-    format: text
-    url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/stash/download.list
     interval: 86400
   telegram:
     behavior: classical
@@ -247,24 +192,13 @@ rule-providers:
     url: https://raw.githubusercontent.com/crescentln/Project_G/main/ruleset/dist/stash/global.list
     interval: 86400
 rules:
+  - RULE-SET,wechat,DIRECT
   - RULE-SET,reject,REJECT
   - RULE-SET,reject_extra,REJECT
   - RULE-SET,reject_drop,REJECT-DROP
-  - RULE-SET,reject_no_drop,REJECT-NO-DROP
+  - RULE-SET,reject_no_drop,REJECT
   - RULE-SET,httpdns,REJECT
-  - RULE-SET,lan,DIRECT
   - RULE-SET,direct,DIRECT
-  - RULE-SET,domestic,DIRECT
-  - RULE-SET,cncidr,DIRECT
-  - RULE-SET,apple_cn,DIRECT
-  - RULE-SET,apple_cdn,DIRECT
-  - RULE-SET,microsoft_cdn,DIRECT
-  - RULE-SET,socialmedia_cn,DIRECT
-  - RULE-SET,games_cn,DIRECT
-  - RULE-SET,douyin,DIRECT
-  - RULE-SET,dmca,DIRECT
-  - RULE-SET,cdn,DIRECT
-  - RULE-SET,download,DIRECT
   - RULE-SET,telegram,PROXY
   - RULE-SET,stream,PROXY
   - RULE-SET,ai,PROXY
