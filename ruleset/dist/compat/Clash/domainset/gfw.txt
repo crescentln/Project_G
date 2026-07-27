@@ -21,6 +21,7 @@ xtls.github.io
 +.crustwebsites.net
 +.dat.foundation
 +.democracy.earth
++.docs.rw
 +.dweb.link
 +.eff.org
 +.epicbrowser.com
@@ -59,6 +60,7 @@ xtls.github.io
 +.jitsi.org
 +.jorropo.net
 +.lantern.io
++.log.rw
 +.lokinet.org
 +.metacubex.one
 +.nftstorage.link
@@ -98,6 +100,7 @@ xtls.github.io
 +.telex.cc
 +.torproject.org
 +.tribler.org
++.try.rw
 +.ts.net
 +.tunsafe.com
 +.turkeyblocks.org

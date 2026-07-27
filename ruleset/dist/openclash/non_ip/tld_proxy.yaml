@@ -1232,6 +1232,7 @@ payload:
   - 'DOMAIN-SUFFIX,watches'
   - 'DOMAIN-SUFFIX,weather'
   - 'DOMAIN-SUFFIX,weatherchannel'
+  - 'DOMAIN-SUFFIX,web'
   - 'DOMAIN-SUFFIX,webcam'
   - 'DOMAIN-SUFFIX,weber'
   - 'DOMAIN-SUFFIX,website'

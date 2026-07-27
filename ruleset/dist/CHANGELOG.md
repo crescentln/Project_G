@@ -2,24 +2,16 @@
 
 Auto-generated summary for `ruleset/dist` updates.
 
-## 2026-07-22T14:14:48+00:00
+## 2026-07-27T06:50:26+00:00
 
 - Category Count: 55
 - Conflict Summary: total=4875, gated_cross_action=0, informational_cross_action=3971, high=0
-- Fetch Summary: network=1426, offline_cache=0, fallback_cache=0
+- Fetch Summary: network=1427, offline_cache=0, fallback_cache=0
 - Top Rule Count Changes:
-- `direct`: 20774 -> 18947 (-1827)
-- `cdn`: 1633 -> 132 (-1501)
-- `reject`: 324988 -> 326060 (+1072)
-- `domestic`: 7770 -> 7390 (-380)
-- `wechat`: 0 -> 34 (+34)
-- `games`: 831 -> 826 (-5)
-- `games_cn`: 288 -> 283 (-5)
-- `global`: 25375 -> 25379 (+4)
-- `socialmedia_cn`: 130 -> 127 (-3)
-- `apple_services`: 1507 -> 1505 (-2)
-- `apple_tv`: 8 -> 6 (-2)
-- `httpdns`: 57 -> 55 (-2)
-- `stream`: 445 -> 443 (-2)
-- `stream_global`: 288 -> 286 (-2)
-- `gfw`: 117 -> 118 (+1)
+- `reject`: 326060 -> 328704 (+2644)
+- `gfw`: 118 -> 121 (+3)
+- `global`: 25379 -> 25382 (+3)
+- `cncidr`: 10825 -> 10827 (+2)
+- `direct`: 18947 -> 18949 (+2)
+- `icloud_private_relay`: 13590 -> 13588 (-2)
+- `tld_proxy`: 1434 -> 1435 (+1)

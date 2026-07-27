@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-07-22T14:14:41.945652+00:00",
+  "generated_at_utc": "2026-07-27T06:50:19.833824+00:00",
   "policy_path": "config/policy_map.json",
   "categories": [
     {
@@ -7,7 +7,7 @@
       "recommended_action": "REJECT",
       "recommended_priority": 100,
       "recommended_note": "广告、追踪、恶意基础拦截规则",
-      "rule_count": 326060
+      "rule_count": 328704
     },
     {
       "id": "reject_extra",
@@ -56,7 +56,7 @@
       "recommended_action": "DIRECT",
       "recommended_priority": 220,
       "recommended_note": "中国大陆 IP 段直连（IP-focused）",
-      "rule_count": 10825
+      "rule_count": 10827
     },
     {
       "id": "telegram",
@@ -154,7 +154,7 @@
       "recommended_action": "PROXY",
       "recommended_priority": 321,
       "recommended_note": "iCloud Private Relay 推荐走代理（PROXY）",
-      "rule_count": 13590
+      "rule_count": 13588
     },
     {
       "id": "apple_services",
@@ -364,28 +364,28 @@
       "recommended_action": "PROXY",
       "recommended_priority": 345,
       "recommended_note": "需要强制代理的 TLD 集",
-      "rule_count": 1434
+      "rule_count": 1435
     },
     {
       "id": "gfw",
       "recommended_action": "PROXY",
       "recommended_priority": 346,
       "recommended_note": "GFW 列表走代理",
-      "rule_count": 118
+      "rule_count": 121
     },
     {
       "id": "global",
       "recommended_action": "PROXY",
       "recommended_priority": 900,
       "recommended_note": "兜底代理集合（应放在较后顺序）",
-      "rule_count": 25379
+      "rule_count": 25382
     },
     {
       "id": "direct",
       "recommended_action": "DIRECT",
       "recommended_priority": 205,
       "recommended_note": "合并直连集合（含国内域名 + CN CIDR，简化部署）",
-      "rule_count": 18947
+      "rule_count": 18949
     }
   ]
 }

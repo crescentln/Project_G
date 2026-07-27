@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-07-22T14:14:41.942561+00:00",
+  "generated_at_utc": "2026-07-27T06:50:19.830776+00:00",
   "config_path": "config/sources.json",
   "policy_path": "config/policy_map.json",
   "category_count": 55,
@@ -18,10 +18,10 @@
     {
       "id": "reject",
       "description": "Ads, trackers, and malware",
-      "rule_count": 326060,
-      "stash_rule_count": 326060,
+      "rule_count": 328704,
+      "stash_rule_count": 328704,
       "stash_classical_rule_count": 0,
-      "stash_domain_rule_count": 326060,
+      "stash_domain_rule_count": 328704,
       "stash_ipcidr_rule_count": 0,
       "surge_path": "surge/reject.list",
       "openclash_path": "openclash/reject.yaml",
@@ -51,28 +51,28 @@
           "authority": "curated-upstream",
           "ref": "https://easylist.to/easylist/easylist.txt",
           "used_cache": false,
-          "rule_count": 48758
+          "rule_count": 49998
         },
         {
           "type": "adblock",
           "authority": "curated-upstream",
           "ref": "https://easylist.to/easylist/easyprivacy.txt",
           "used_cache": false,
-          "rule_count": 42661
+          "rule_count": 42676
         },
         {
           "type": "adblock",
           "authority": "curated-upstream",
           "ref": "https://filters.adtidy.org/dns/filter_1.txt",
           "used_cache": false,
-          "rule_count": 158298
+          "rule_count": 159617
         },
         {
           "type": "adblock",
           "authority": "curated-upstream",
           "ref": "https://phishing.army/download/phishing_army_blocklist_extended.txt",
           "used_cache": false,
-          "rule_count": 152251
+          "rule_count": 153565
         },
         {
           "type": "local_domain",
@@ -354,11 +354,11 @@
     {
       "id": "cncidr",
       "description": "Mainland China IPv4/IPv6 CIDR only (IP-focused direct set)",
-      "rule_count": 10825,
-      "stash_rule_count": 10825,
+      "rule_count": 10827,
+      "stash_rule_count": 10827,
       "stash_classical_rule_count": 0,
       "stash_domain_rule_count": 0,
-      "stash_ipcidr_rule_count": 10825,
+      "stash_ipcidr_rule_count": 10827,
       "surge_path": "surge/cncidr.list",
       "openclash_path": "openclash/cncidr.yaml",
       "stash_path": "stash/cncidr.list",
@@ -387,7 +387,7 @@
           "authority": "official",
           "ref": "https://ftp.apnic.net/stats/apnic/delegated-apnic-latest",
           "used_cache": false,
-          "rule_count": 10825
+          "rule_count": 10827
         },
         {
           "type": "local_domain",
@@ -1376,11 +1376,11 @@
     {
       "id": "icloud_private_relay",
       "description": "Apple iCloud Private Relay endpoints",
-      "rule_count": 13590,
-      "stash_rule_count": 13590,
+      "rule_count": 13588,
+      "stash_rule_count": 13588,
       "stash_classical_rule_count": 0,
       "stash_domain_rule_count": 5,
-      "stash_ipcidr_rule_count": 13585,
+      "stash_ipcidr_rule_count": 13583,
       "surge_path": "surge/icloud_private_relay.list",
       "openclash_path": "openclash/icloud_private_relay.yaml",
       "stash_path": "stash/icloud_private_relay.list",
@@ -1409,7 +1409,7 @@
           "authority": "official",
           "ref": "https://mask-api.icloud.com/egress-ip-ranges.csv",
           "used_cache": false,
-          "rule_count": 13585
+          "rule_count": 13583
         },
         {
           "type": "v2fly_dlc",
@@ -2996,10 +2996,10 @@
     {
       "id": "tld_proxy",
       "description": "Proxy-specific TLD set",
-      "rule_count": 1434,
-      "stash_rule_count": 1434,
+      "rule_count": 1435,
+      "stash_rule_count": 1435,
       "stash_classical_rule_count": 0,
-      "stash_domain_rule_count": 1434,
+      "stash_domain_rule_count": 1435,
       "stash_ipcidr_rule_count": 0,
       "surge_path": "surge/tld_proxy.list",
       "openclash_path": "openclash/tld_proxy.yaml",
@@ -3029,7 +3029,7 @@
           "authority": "official",
           "ref": "https://data.iana.org/TLD/tlds-alpha-by-domain.txt",
           "used_cache": false,
-          "rule_count": 1434
+          "rule_count": 1435
         },
         {
           "type": "local_domain",
@@ -3043,10 +3043,10 @@
     {
       "id": "gfw",
       "description": "GFW-related domains",
-      "rule_count": 118,
-      "stash_rule_count": 118,
+      "rule_count": 121,
+      "stash_rule_count": 121,
       "stash_classical_rule_count": 0,
-      "stash_domain_rule_count": 118,
+      "stash_domain_rule_count": 121,
       "stash_ipcidr_rule_count": 0,
       "surge_path": "surge/gfw.list",
       "openclash_path": "openclash/gfw.yaml",
@@ -3076,7 +3076,7 @@
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-anticensorship",
           "used_cache": false,
-          "rule_count": 98
+          "rule_count": 101
         },
         {
           "type": "v2fly_dlc",
@@ -3097,10 +3097,10 @@
     {
       "id": "global",
       "description": "Global fallback domain list",
-      "rule_count": 25379,
-      "stash_rule_count": 25379,
+      "rule_count": 25382,
+      "stash_rule_count": 25382,
       "stash_classical_rule_count": 158,
-      "stash_domain_rule_count": 25221,
+      "stash_domain_rule_count": 25224,
       "stash_ipcidr_rule_count": 0,
       "surge_path": "surge/global.list",
       "openclash_path": "openclash/global.yaml",
@@ -3130,7 +3130,7 @@
           "authority": "community-curated",
           "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/geolocation-!cn",
           "used_cache": false,
-          "rule_count": 25380
+          "rule_count": 25383
         },
         {
           "type": "local_domain",
@@ -3144,11 +3144,11 @@
     {
       "id": "direct",
       "description": "Merged direct rules for simplified deployment",
-      "rule_count": 18947,
-      "stash_rule_count": 18947,
+      "rule_count": 18949,
+      "stash_rule_count": 18949,
       "stash_classical_rule_count": 4,
       "stash_domain_rule_count": 8085,
-      "stash_ipcidr_rule_count": 10858,
+      "stash_ipcidr_rule_count": 10860,
       "surge_path": "surge/direct.list",
       "openclash_path": "openclash/direct.yaml",
       "stash_path": "stash/direct.list",
@@ -3198,7 +3198,7 @@
           "authority": "official",
           "ref": "https://ftp.apnic.net/stats/apnic/delegated-apnic-latest",
           "used_cache": false,
-          "rule_count": 10825
+          "rule_count": 10827
         },
         {
           "type": "v2fly_dlc",
