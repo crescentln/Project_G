@@ -3,27 +3,9 @@ name: Ruleset Tests
 on:
   workflow_dispatch:
   pull_request:
-    paths:
-      - "README.md"
-      - ".github/**"
-      - ".gitleaks.toml"
-      - "ruleset/config/**"
-      - "ruleset/manual/**"
-      - "ruleset/scripts/**"
-      - "ruleset/tests/**"
-      - "ruleset/dist/**"
   push:
     branches:
       - main
-    paths:
-      - "README.md"
-      - ".github/**"
-      - ".gitleaks.toml"
-      - "ruleset/config/**"
-      - "ruleset/manual/**"
-      - "ruleset/scripts/**"
-      - "ruleset/tests/**"
-      - "ruleset/dist/**"
 
 permissions:
   contents: read
