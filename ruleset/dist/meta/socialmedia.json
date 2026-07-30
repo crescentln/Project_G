@@ -5,6 +5,10 @@
   "recommended_priority": 340,
   "recommended_note": "国际社交网络走代理",
   "rule_count": 663,
+  "openclash_rule_count": 663,
+  "surge_rule_count": 663,
+  "surge_lost_rule_count": 0,
+  "surge_lost_rule_types": {},
   "stash_rule_count": 663,
   "stash_classical_rule_count": 0,
   "stash_domain_rule_count": 663,
@@ -30,88 +34,212 @@
     "compat_list_ip": "compat/List/ip/socialmedia.conf",
     "compat_list_domainset": "compat/List/domainset/socialmedia.conf"
   },
+  "contract": {
+    "max_add": 2000,
+    "max_remove": 2000,
+    "max_pct": 25,
+    "max_new_apex": 500,
+    "max_new_regex": 50,
+    "max_new_cidr": 500,
+    "max_informational_overlap_delta": 1000,
+    "allowed_source_tiers": [
+      "owner",
+      "official",
+      "curated",
+      "community",
+      "derived"
+    ],
+    "allowed_rule_types": [
+      "DOMAIN",
+      "DOMAIN-SUFFIX",
+      "DOMAIN-KEYWORD",
+      "DOMAIN-WILDCARD",
+      "DOMAIN-REGEX",
+      "IP-CIDR",
+      "IP-CIDR6"
+    ],
+    "required_action": null,
+    "aggregate_of": null,
+    "must_be_disjoint_from": [],
+    "must_precede": [],
+    "must_follow": [],
+    "auto_promotion_policy": "low-risk",
+    "per_client_support": {
+      "openclash": {
+        "max_loss_count": 0,
+        "max_loss_pct": 0,
+        "supported_rule_types": [
+          "DOMAIN",
+          "DOMAIN-SUFFIX",
+          "DOMAIN-KEYWORD",
+          "DOMAIN-WILDCARD",
+          "DOMAIN-REGEX",
+          "IP-CIDR",
+          "IP-CIDR6"
+        ]
+      },
+      "surge": {
+        "max_loss_count": 1000,
+        "max_loss_pct": 50,
+        "supported_rule_types": [
+          "DOMAIN",
+          "DOMAIN-SUFFIX",
+          "DOMAIN-KEYWORD",
+          "DOMAIN-WILDCARD",
+          "IP-CIDR",
+          "IP-CIDR6"
+        ],
+        "unsupported_rule_types": [
+          "DOMAIN-REGEX"
+        ]
+      },
+      "stash": {
+        "max_loss_count": 0,
+        "max_loss_pct": 0,
+        "supported_rule_types": [
+          "DOMAIN",
+          "DOMAIN-SUFFIX",
+          "DOMAIN-KEYWORD",
+          "DOMAIN-WILDCARD",
+          "DOMAIN-REGEX",
+          "IP-CIDR",
+          "IP-CIDR6"
+        ]
+      }
+    },
+    "category": "socialmedia",
+    "action": "PROXY"
+  },
   "sources": [
     {
+      "source_id": "socialmedia:00:v2fly_dlc:889703b2ba17",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-social-media-!cn",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/category-social-media-!cn",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
       "rule_count": 605
     },
     {
+      "source_id": "socialmedia:01:v2fly_dlc:cc11083bb7d5",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/facebook",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/facebook",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
       "rule_count": 394
     },
     {
+      "source_id": "socialmedia:02:v2fly_dlc:5491232712a4",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/instagram",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/instagram",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
       "rule_count": 72
     },
     {
+      "source_id": "socialmedia:03:v2fly_dlc:f1050e5b2c2f",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/twitter",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/twitter",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
       "rule_count": 23
     },
     {
+      "source_id": "socialmedia:04:v2fly_dlc:888e65a14b2b",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/discord",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/discord",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
       "rule_count": 28
     },
     {
+      "source_id": "socialmedia:05:v2fly_dlc:73c5401c393d",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/reddit",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/reddit",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
       "rule_count": 12
     },
     {
+      "source_id": "socialmedia:06:v2fly_dlc:efd90d924d98",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/quora",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/quora",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
       "rule_count": 6
     },
     {
+      "source_id": "socialmedia:07:v2fly_dlc:c827fe4cd5dd",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/medium",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/medium",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
       "rule_count": 2
     },
     {
+      "source_id": "socialmedia:08:v2fly_dlc:aebe6c8a440c",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/signal",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/signal",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
       "rule_count": 8
     },
     {
+      "source_id": "socialmedia:09:v2fly_dlc:bb447d4e2014",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/linkedin",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/linkedin",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
       "rule_count": 10
     },
     {
+      "source_id": "socialmedia:10:v2fly_dlc:7db929768de6",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/bluesky",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/bluesky",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
       "rule_count": 3
     },
     {
+      "source_id": "socialmedia:11:local_domain:058017962aa8",
       "type": "local_domain",
       "authority": "owner-controlled",
+      "trust_tier": "owner",
       "ref": "manual/categories/socialmedia.txt",
+      "resolved_revision": null,
+      "content_sha256": "cd50507cccd265e93b953f05e5e7a482ca9e85c48c5e1c99a1b9b4efc98d1d77",
       "used_cache": false,
       "rule_count": 17
     }

@@ -5,6 +5,10 @@
   "recommended_priority": 90,
   "recommended_note": "微信核心、媒体上传与服务 DNS 直连，并位于拦截规则之前",
   "rule_count": 34,
+  "openclash_rule_count": 34,
+  "surge_rule_count": 34,
+  "surge_lost_rule_count": 0,
+  "surge_lost_rule_types": {},
   "stash_rule_count": 34,
   "stash_classical_rule_count": 0,
   "stash_domain_rule_count": 34,
@@ -30,11 +34,93 @@
     "compat_list_ip": "compat/List/ip/wechat.conf",
     "compat_list_domainset": "compat/List/domainset/wechat.conf"
   },
+  "contract": {
+    "max_add": 5,
+    "max_remove": 2,
+    "max_pct": 20,
+    "max_new_apex": 1,
+    "max_new_regex": 1,
+    "max_new_cidr": 0,
+    "max_informational_overlap_delta": 20,
+    "allowed_source_tiers": [
+      "owner",
+      "official",
+      "curated",
+      "community",
+      "derived"
+    ],
+    "allowed_rule_types": [
+      "DOMAIN",
+      "DOMAIN-SUFFIX",
+      "DOMAIN-KEYWORD",
+      "DOMAIN-WILDCARD",
+      "DOMAIN-REGEX",
+      "IP-CIDR",
+      "IP-CIDR6"
+    ],
+    "required_action": null,
+    "aggregate_of": null,
+    "must_be_disjoint_from": [],
+    "must_precede": [
+      "reject"
+    ],
+    "must_follow": [],
+    "auto_promotion_policy": "manual",
+    "per_client_support": {
+      "openclash": {
+        "max_loss_count": 0,
+        "max_loss_pct": 0,
+        "supported_rule_types": [
+          "DOMAIN",
+          "DOMAIN-SUFFIX",
+          "DOMAIN-KEYWORD",
+          "DOMAIN-WILDCARD",
+          "DOMAIN-REGEX",
+          "IP-CIDR",
+          "IP-CIDR6"
+        ]
+      },
+      "surge": {
+        "max_loss_count": 1000,
+        "max_loss_pct": 50,
+        "supported_rule_types": [
+          "DOMAIN",
+          "DOMAIN-SUFFIX",
+          "DOMAIN-KEYWORD",
+          "DOMAIN-WILDCARD",
+          "IP-CIDR",
+          "IP-CIDR6"
+        ],
+        "unsupported_rule_types": [
+          "DOMAIN-REGEX"
+        ]
+      },
+      "stash": {
+        "max_loss_count": 0,
+        "max_loss_pct": 0,
+        "supported_rule_types": [
+          "DOMAIN",
+          "DOMAIN-SUFFIX",
+          "DOMAIN-KEYWORD",
+          "DOMAIN-WILDCARD",
+          "DOMAIN-REGEX",
+          "IP-CIDR",
+          "IP-CIDR6"
+        ]
+      }
+    },
+    "category": "wechat",
+    "action": "DIRECT"
+  },
   "sources": [
     {
+      "source_id": "wechat:00:local_domain:a319628c0479",
       "type": "local_domain",
       "authority": "owner-controlled",
+      "trust_tier": "owner",
       "ref": "manual/categories/wechat.txt",
+      "resolved_revision": null,
+      "content_sha256": "c0caa99b5862660f38945c9fb82d35713d6553db0d4748d372295357b781b21e",
       "used_cache": false,
       "rule_count": 34
     }

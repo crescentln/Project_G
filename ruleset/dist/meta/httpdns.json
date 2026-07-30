@@ -5,6 +5,10 @@
   "recommended_priority": 150,
   "recommended_note": "HTTPDNS 常用于绕过本地 DNS 分流，默认建议拦截",
   "rule_count": 55,
+  "openclash_rule_count": 55,
+  "surge_rule_count": 55,
+  "surge_lost_rule_count": 0,
+  "surge_lost_rule_types": {},
   "stash_rule_count": 55,
   "stash_classical_rule_count": 0,
   "stash_domain_rule_count": 55,
@@ -30,18 +34,102 @@
     "compat_list_ip": "compat/List/ip/httpdns.conf",
     "compat_list_domainset": "compat/List/domainset/httpdns.conf"
   },
+  "contract": {
+    "max_add": 15000,
+    "max_remove": 15000,
+    "max_pct": 10,
+    "max_new_apex": 5000,
+    "max_new_regex": 0,
+    "max_new_cidr": 0,
+    "max_informational_overlap_delta": 5000,
+    "allowed_source_tiers": [
+      "owner",
+      "official",
+      "curated",
+      "community",
+      "derived"
+    ],
+    "allowed_rule_types": [
+      "DOMAIN",
+      "DOMAIN-SUFFIX",
+      "DOMAIN-KEYWORD",
+      "DOMAIN-WILDCARD",
+      "DOMAIN-REGEX",
+      "IP-CIDR",
+      "IP-CIDR6"
+    ],
+    "required_action": null,
+    "aggregate_of": null,
+    "must_be_disjoint_from": [],
+    "must_precede": [],
+    "must_follow": [],
+    "auto_promotion_policy": "review",
+    "per_client_support": {
+      "openclash": {
+        "max_loss_count": 0,
+        "max_loss_pct": 0,
+        "supported_rule_types": [
+          "DOMAIN",
+          "DOMAIN-SUFFIX",
+          "DOMAIN-KEYWORD",
+          "DOMAIN-WILDCARD",
+          "DOMAIN-REGEX",
+          "IP-CIDR",
+          "IP-CIDR6"
+        ]
+      },
+      "surge": {
+        "max_loss_count": 1000,
+        "max_loss_pct": 50,
+        "supported_rule_types": [
+          "DOMAIN",
+          "DOMAIN-SUFFIX",
+          "DOMAIN-KEYWORD",
+          "DOMAIN-WILDCARD",
+          "IP-CIDR",
+          "IP-CIDR6"
+        ],
+        "unsupported_rule_types": [
+          "DOMAIN-REGEX"
+        ]
+      },
+      "stash": {
+        "max_loss_count": 0,
+        "max_loss_pct": 0,
+        "supported_rule_types": [
+          "DOMAIN",
+          "DOMAIN-SUFFIX",
+          "DOMAIN-KEYWORD",
+          "DOMAIN-WILDCARD",
+          "DOMAIN-REGEX",
+          "IP-CIDR",
+          "IP-CIDR6"
+        ]
+      }
+    },
+    "category": "httpdns",
+    "action": "REJECT"
+  },
   "sources": [
     {
+      "source_id": "httpdns:00:v2fly_dlc:a37f1986eec8",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-httpdns-cn",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/category-httpdns-cn",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
       "rule_count": 50
     },
     {
+      "source_id": "httpdns:01:local_domain:6d5ffbcd7c08",
       "type": "local_domain",
       "authority": "owner-controlled",
+      "trust_tier": "owner",
       "ref": "manual/categories/httpdns.txt",
+      "resolved_revision": null,
+      "content_sha256": "501c4220dcb3fb82624166b3b9b7cd5d226d1f6964ba3ff2d64912963c963523",
       "used_cache": false,
       "rule_count": 21
     }

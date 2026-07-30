@@ -5,6 +5,10 @@
   "recommended_priority": 130,
   "recommended_note": "显式拒绝规则（不静默丢弃）",
   "rule_count": 6,
+  "openclash_rule_count": 6,
+  "surge_rule_count": 6,
+  "surge_lost_rule_count": 0,
+  "surge_lost_rule_types": {},
   "stash_rule_count": 6,
   "stash_classical_rule_count": 0,
   "stash_domain_rule_count": 6,
@@ -30,11 +34,91 @@
     "compat_list_ip": "compat/List/ip/reject_no_drop.conf",
     "compat_list_domainset": "compat/List/domainset/reject_no_drop.conf"
   },
+  "contract": {
+    "max_add": 3,
+    "max_remove": 3,
+    "max_pct": 50,
+    "max_new_apex": 3,
+    "max_new_regex": 0,
+    "max_new_cidr": 0,
+    "max_informational_overlap_delta": 5000,
+    "allowed_source_tiers": [
+      "owner",
+      "official",
+      "curated",
+      "community",
+      "derived"
+    ],
+    "allowed_rule_types": [
+      "DOMAIN",
+      "DOMAIN-SUFFIX",
+      "DOMAIN-KEYWORD",
+      "DOMAIN-WILDCARD",
+      "DOMAIN-REGEX",
+      "IP-CIDR",
+      "IP-CIDR6"
+    ],
+    "required_action": null,
+    "aggregate_of": null,
+    "must_be_disjoint_from": [],
+    "must_precede": [],
+    "must_follow": [],
+    "auto_promotion_policy": "manual",
+    "per_client_support": {
+      "openclash": {
+        "max_loss_count": 0,
+        "max_loss_pct": 0,
+        "supported_rule_types": [
+          "DOMAIN",
+          "DOMAIN-SUFFIX",
+          "DOMAIN-KEYWORD",
+          "DOMAIN-WILDCARD",
+          "DOMAIN-REGEX",
+          "IP-CIDR",
+          "IP-CIDR6"
+        ]
+      },
+      "surge": {
+        "max_loss_count": 1000,
+        "max_loss_pct": 50,
+        "supported_rule_types": [
+          "DOMAIN",
+          "DOMAIN-SUFFIX",
+          "DOMAIN-KEYWORD",
+          "DOMAIN-WILDCARD",
+          "IP-CIDR",
+          "IP-CIDR6"
+        ],
+        "unsupported_rule_types": [
+          "DOMAIN-REGEX"
+        ]
+      },
+      "stash": {
+        "max_loss_count": 0,
+        "max_loss_pct": 0,
+        "supported_rule_types": [
+          "DOMAIN",
+          "DOMAIN-SUFFIX",
+          "DOMAIN-KEYWORD",
+          "DOMAIN-WILDCARD",
+          "DOMAIN-REGEX",
+          "IP-CIDR",
+          "IP-CIDR6"
+        ]
+      }
+    },
+    "category": "reject_no_drop",
+    "action": "REJECT-NO-DROP"
+  },
   "sources": [
     {
+      "source_id": "reject_no_drop:00:local_domain:9473924a0d0d",
       "type": "local_domain",
       "authority": "owner-controlled",
+      "trust_tier": "owner",
       "ref": "manual/categories/reject_no_drop.txt",
+      "resolved_revision": null,
+      "content_sha256": "404fcfa28b0fb9b6cf9c736c5f6ef5d07b1e7301ee89afd3f5d86510db5546d5",
       "used_cache": false,
       "rule_count": 6
     }

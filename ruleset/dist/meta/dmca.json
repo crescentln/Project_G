@@ -5,6 +5,10 @@
   "recommended_priority": 243,
   "recommended_note": "按你当前 Surge 配置作为直连类",
   "rule_count": 5,
+  "openclash_rule_count": 5,
+  "surge_rule_count": 5,
+  "surge_lost_rule_count": 0,
+  "surge_lost_rule_types": {},
   "stash_rule_count": 5,
   "stash_classical_rule_count": 0,
   "stash_domain_rule_count": 5,
@@ -30,11 +34,91 @@
     "compat_list_ip": "compat/List/ip/dmca.conf",
     "compat_list_domainset": "compat/List/domainset/dmca.conf"
   },
+  "contract": {
+    "max_add": 3,
+    "max_remove": 3,
+    "max_pct": 25,
+    "max_new_apex": 1,
+    "max_new_regex": 0,
+    "max_new_cidr": 0,
+    "max_informational_overlap_delta": 750,
+    "allowed_source_tiers": [
+      "owner",
+      "official",
+      "curated",
+      "community",
+      "derived"
+    ],
+    "allowed_rule_types": [
+      "DOMAIN",
+      "DOMAIN-SUFFIX",
+      "DOMAIN-KEYWORD",
+      "DOMAIN-WILDCARD",
+      "DOMAIN-REGEX",
+      "IP-CIDR",
+      "IP-CIDR6"
+    ],
+    "required_action": null,
+    "aggregate_of": null,
+    "must_be_disjoint_from": [],
+    "must_precede": [],
+    "must_follow": [],
+    "auto_promotion_policy": "manual",
+    "per_client_support": {
+      "openclash": {
+        "max_loss_count": 0,
+        "max_loss_pct": 0,
+        "supported_rule_types": [
+          "DOMAIN",
+          "DOMAIN-SUFFIX",
+          "DOMAIN-KEYWORD",
+          "DOMAIN-WILDCARD",
+          "DOMAIN-REGEX",
+          "IP-CIDR",
+          "IP-CIDR6"
+        ]
+      },
+      "surge": {
+        "max_loss_count": 1000,
+        "max_loss_pct": 50,
+        "supported_rule_types": [
+          "DOMAIN",
+          "DOMAIN-SUFFIX",
+          "DOMAIN-KEYWORD",
+          "DOMAIN-WILDCARD",
+          "IP-CIDR",
+          "IP-CIDR6"
+        ],
+        "unsupported_rule_types": [
+          "DOMAIN-REGEX"
+        ]
+      },
+      "stash": {
+        "max_loss_count": 0,
+        "max_loss_pct": 0,
+        "supported_rule_types": [
+          "DOMAIN",
+          "DOMAIN-SUFFIX",
+          "DOMAIN-KEYWORD",
+          "DOMAIN-WILDCARD",
+          "DOMAIN-REGEX",
+          "IP-CIDR",
+          "IP-CIDR6"
+        ]
+      }
+    },
+    "category": "dmca",
+    "action": "DIRECT"
+  },
   "sources": [
     {
+      "source_id": "dmca:00:local_domain:e529cac7913d",
       "type": "local_domain",
       "authority": "owner-controlled",
+      "trust_tier": "owner",
       "ref": "manual/categories/dmca.txt",
+      "resolved_revision": null,
+      "content_sha256": "1a7f18e77b77089d3ac1bd7cde58a3cc45e9b4d6709ba537527b8622de6b2a79",
       "used_cache": false,
       "rule_count": 5
     }

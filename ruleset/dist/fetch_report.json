@@ -1,8 +1,89 @@
 {
-  "generated_at_utc": "2026-07-27T06:50:19.830669+00:00",
-  "url_count": 1427,
-  "network_success_count": 1427,
+  "generated_at_utc": "2026-07-30T16:43:42.463103+00:00",
+  "url_count": 11,
+  "network_success_count": 11,
+  "primary_success_count": 11,
+  "mirror_success_count": 0,
   "offline_cache_count": 0,
   "fallback_cache_count": 0,
-  "fallback_events": []
+  "fallback_events": [],
+  "attempts": [
+    {
+      "url": "https://easylist.to/easylist/easylist.txt",
+      "outcome": "network_success",
+      "content_sha256": "e374326d47172e4aaf043f68c1ad4799d70f5d0dc679c00da339639ac056578d",
+      "byte_count": 2213986,
+      "final_url": "https://easylist.to/easylist/easylist.txt"
+    },
+    {
+      "url": "https://easylist.to/easylist/easyprivacy.txt",
+      "outcome": "network_success",
+      "content_sha256": "86b6ae3431535ced75ab2572dc52e5f58977b4a42483b22e451624ca82fcaabd",
+      "byte_count": 1491547,
+      "final_url": "https://easylist.to/easylist/easyprivacy.txt"
+    },
+    {
+      "url": "https://filters.adtidy.org/dns/filter_1.txt",
+      "outcome": "network_success",
+      "content_sha256": "38f48cd9bbd2a51324118fa318b226dc9e3c625146da6fc5350bc93281a6c56c",
+      "byte_count": 3824604,
+      "final_url": "https://filters.adtidy.org/dns/filter_1.txt"
+    },
+    {
+      "url": "https://phishing.army/download/phishing_army_blocklist_extended.txt",
+      "outcome": "network_success",
+      "content_sha256": "f23fe79989cb4985d4fe074bb21749e0f04ae4eb7e330f297964c4027620b981",
+      "byte_count": 3214484,
+      "final_url": "https://phishing.army/download/phishing_army_blocklist_extended.txt"
+    },
+    {
+      "url": "https://www.iana.org/assignments/iana-ipv4-special-registry/iana-ipv4-special-registry-1.csv",
+      "outcome": "network_success",
+      "content_sha256": "e3e39e76d00b1677335db8e9a805c7b9480ea2f4dc9e33f0b93cd3a905128d73",
+      "byte_count": 2423,
+      "final_url": "https://www.iana.org/assignments/iana-ipv4-special-registry/iana-ipv4-special-registry-1.csv"
+    },
+    {
+      "url": "https://www.iana.org/assignments/iana-ipv6-special-registry/iana-ipv6-special-registry-1.csv",
+      "outcome": "network_success",
+      "content_sha256": "775feea0621dec8735a44fbf30f762e721e8f0a1b3ab7eb341961a88cfce2139",
+      "byte_count": 2289,
+      "final_url": "https://www.iana.org/assignments/iana-ipv6-special-registry/iana-ipv6-special-registry-1.csv"
+    },
+    {
+      "url": "https://api.github.com/repos/v2fly/domain-list-community/tarball/cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "outcome": "network_success",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
+      "byte_count": 327941,
+      "final_url": "https://codeload.github.com/v2fly/domain-list-community/legacy.tar.gz/cd541f32c61a02e9242f4cd7169467d72c78804a"
+    },
+    {
+      "url": "https://ftp.apnic.net/stats/apnic/delegated-apnic-latest",
+      "outcome": "network_success",
+      "content_sha256": "634ec421b1e78f9a45a4ff608d8b25abdfef8e1fb34e9069b82e59539184d1b6",
+      "byte_count": 4307772,
+      "final_url": "https://ftp.apnic.net/stats/apnic/delegated-apnic-latest"
+    },
+    {
+      "url": "https://core.telegram.org/resources/cidr.txt",
+      "outcome": "network_success",
+      "content_sha256": "3ecd072cedf72eceee6961b18a51e37f905d5ce4a656a5d24cf5fea63e6ec651",
+      "byte_count": 227,
+      "final_url": "https://core.telegram.org/resources/cidr.txt"
+    },
+    {
+      "url": "https://mask-api.icloud.com/egress-ip-ranges.csv",
+      "outcome": "network_success",
+      "content_sha256": "be8b8fe5ef79ef6a243faddb9ddfd637e0418347ebf9353a62de812d73a41d99",
+      "byte_count": 12131565,
+      "final_url": "https://mask-api.icloud.com/egress-ip-ranges.csv"
+    },
+    {
+      "url": "https://data.iana.org/TLD/tlds-alpha-by-domain.txt",
+      "outcome": "network_success",
+      "content_sha256": "283b91044fda9e3a849c88c48c2250b1e2f7df6a7263615be076cba1e87f752e",
+      "byte_count": 9536,
+      "final_url": "https://data.iana.org/TLD/tlds-alpha-by-domain.txt"
+    }
+  ]
 }

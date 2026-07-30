@@ -4,10 +4,16 @@
   "recommended_action": "PROXY",
   "recommended_priority": 320,
   "recommended_note": "AI 服务走代理（含 Apple Intelligence 聚合）",
-  "rule_count": 169,
-  "stash_rule_count": 169,
+  "rule_count": 170,
+  "openclash_rule_count": 170,
+  "surge_rule_count": 169,
+  "surge_lost_rule_count": 1,
+  "surge_lost_rule_types": {
+    "DOMAIN-REGEX": 1
+  },
+  "stash_rule_count": 170,
   "stash_classical_rule_count": 1,
-  "stash_domain_rule_count": 168,
+  "stash_domain_rule_count": 169,
   "stash_ipcidr_rule_count": 0,
   "paths": {
     "stash": "stash/ai.list",
@@ -30,67 +36,179 @@
     "compat_list_ip": "compat/List/ip/ai.conf",
     "compat_list_domainset": "compat/List/domainset/ai.conf"
   },
+  "contract": {
+    "max_add": 2000,
+    "max_remove": 2000,
+    "max_pct": 25,
+    "max_new_apex": 500,
+    "max_new_regex": 50,
+    "max_new_cidr": 500,
+    "max_informational_overlap_delta": 1000,
+    "allowed_source_tiers": [
+      "owner",
+      "official",
+      "curated",
+      "community",
+      "derived"
+    ],
+    "allowed_rule_types": [
+      "DOMAIN",
+      "DOMAIN-SUFFIX",
+      "DOMAIN-KEYWORD",
+      "DOMAIN-WILDCARD",
+      "DOMAIN-REGEX",
+      "IP-CIDR",
+      "IP-CIDR6"
+    ],
+    "required_action": null,
+    "aggregate_of": null,
+    "must_be_disjoint_from": [],
+    "must_precede": [],
+    "must_follow": [],
+    "auto_promotion_policy": "low-risk",
+    "per_client_support": {
+      "openclash": {
+        "max_loss_count": 0,
+        "max_loss_pct": 0,
+        "supported_rule_types": [
+          "DOMAIN",
+          "DOMAIN-SUFFIX",
+          "DOMAIN-KEYWORD",
+          "DOMAIN-WILDCARD",
+          "DOMAIN-REGEX",
+          "IP-CIDR",
+          "IP-CIDR6"
+        ]
+      },
+      "surge": {
+        "max_loss_count": 1000,
+        "max_loss_pct": 50,
+        "supported_rule_types": [
+          "DOMAIN",
+          "DOMAIN-SUFFIX",
+          "DOMAIN-KEYWORD",
+          "DOMAIN-WILDCARD",
+          "IP-CIDR",
+          "IP-CIDR6"
+        ],
+        "unsupported_rule_types": [
+          "DOMAIN-REGEX"
+        ]
+      },
+      "stash": {
+        "max_loss_count": 0,
+        "max_loss_pct": 0,
+        "supported_rule_types": [
+          "DOMAIN",
+          "DOMAIN-SUFFIX",
+          "DOMAIN-KEYWORD",
+          "DOMAIN-WILDCARD",
+          "DOMAIN-REGEX",
+          "IP-CIDR",
+          "IP-CIDR6"
+        ]
+      }
+    },
+    "category": "ai",
+    "action": "PROXY"
+  },
   "sources": [
     {
+      "source_id": "ai:00:v2fly_dlc:3c77969d920f",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/openai",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/openai",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
       "rule_count": 20
     },
     {
+      "source_id": "ai:01:v2fly_dlc:017ff9a15b15",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/anthropic",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/anthropic",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
       "rule_count": 8
     },
     {
+      "source_id": "ai:02:v2fly_dlc:4d79f9653218",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/perplexity",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/perplexity",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
       "rule_count": 5
     },
     {
+      "source_id": "ai:03:v2fly_dlc:a01647b75143",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/google-gemini",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/google-gemini",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
       "rule_count": 40
     },
     {
+      "source_id": "ai:04:v2fly_dlc:8d3f72d9457c",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/github-copilot",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/github-copilot",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
       "rule_count": 4
     },
     {
+      "source_id": "ai:05:v2fly_dlc:51b4afff7740",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple-intelligence",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/apple-intelligence",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
       "rule_count": 5
     },
     {
+      "source_id": "ai:06:v2fly_dlc:897008b83839",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/bytedance-ai-!cn",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/bytedance-ai-!cn",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
       "rule_count": 7
     },
     {
+      "source_id": "ai:07:v2fly_dlc:15b0c7c4bd49",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-ai-!cn",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/category-ai-!cn",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
-      "rule_count": 162
+      "rule_count": 163
     },
     {
+      "source_id": "ai:08:local_domain:e7b476a0af3c",
       "type": "local_domain",
       "authority": "owner-controlled",
+      "trust_tier": "owner",
       "ref": "manual/categories/ai.txt",
+      "resolved_revision": null,
+      "content_sha256": "2a0e2cb9909cf3ccfbe02ce323558bd92d7e148ae0348c6829d1d8d94682a76d",
       "used_cache": false,
       "rule_count": 13
     }

@@ -5,6 +5,12 @@
   "recommended_priority": 310,
   "recommended_note": "北美流媒体走代理（可选细分）",
   "rule_count": 340,
+  "openclash_rule_count": 340,
+  "surge_rule_count": 335,
+  "surge_lost_rule_count": 5,
+  "surge_lost_rule_types": {
+    "DOMAIN-REGEX": 5
+  },
   "stash_rule_count": 340,
   "stash_classical_rule_count": 5,
   "stash_domain_rule_count": 335,
@@ -30,88 +36,212 @@
     "compat_list_ip": "compat/List/ip/stream_us.conf",
     "compat_list_domainset": "compat/List/domainset/stream_us.conf"
   },
+  "contract": {
+    "max_add": 2000,
+    "max_remove": 2000,
+    "max_pct": 25,
+    "max_new_apex": 500,
+    "max_new_regex": 50,
+    "max_new_cidr": 500,
+    "max_informational_overlap_delta": 1000,
+    "allowed_source_tiers": [
+      "owner",
+      "official",
+      "curated",
+      "community",
+      "derived"
+    ],
+    "allowed_rule_types": [
+      "DOMAIN",
+      "DOMAIN-SUFFIX",
+      "DOMAIN-KEYWORD",
+      "DOMAIN-WILDCARD",
+      "DOMAIN-REGEX",
+      "IP-CIDR",
+      "IP-CIDR6"
+    ],
+    "required_action": null,
+    "aggregate_of": null,
+    "must_be_disjoint_from": [],
+    "must_precede": [],
+    "must_follow": [],
+    "auto_promotion_policy": "low-risk",
+    "per_client_support": {
+      "openclash": {
+        "max_loss_count": 0,
+        "max_loss_pct": 0,
+        "supported_rule_types": [
+          "DOMAIN",
+          "DOMAIN-SUFFIX",
+          "DOMAIN-KEYWORD",
+          "DOMAIN-WILDCARD",
+          "DOMAIN-REGEX",
+          "IP-CIDR",
+          "IP-CIDR6"
+        ]
+      },
+      "surge": {
+        "max_loss_count": 1000,
+        "max_loss_pct": 50,
+        "supported_rule_types": [
+          "DOMAIN",
+          "DOMAIN-SUFFIX",
+          "DOMAIN-KEYWORD",
+          "DOMAIN-WILDCARD",
+          "IP-CIDR",
+          "IP-CIDR6"
+        ],
+        "unsupported_rule_types": [
+          "DOMAIN-REGEX"
+        ]
+      },
+      "stash": {
+        "max_loss_count": 0,
+        "max_loss_pct": 0,
+        "supported_rule_types": [
+          "DOMAIN",
+          "DOMAIN-SUFFIX",
+          "DOMAIN-KEYWORD",
+          "DOMAIN-WILDCARD",
+          "DOMAIN-REGEX",
+          "IP-CIDR",
+          "IP-CIDR6"
+        ]
+      }
+    },
+    "category": "stream_us",
+    "action": "PROXY"
+  },
   "sources": [
     {
+      "source_id": "stream_us:00:v2fly_dlc:79448d0a9634",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/netflix",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/netflix",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
       "rule_count": 28
     },
     {
+      "source_id": "stream_us:01:v2fly_dlc:1e3079ea23df",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/hulu",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/hulu",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
       "rule_count": 48
     },
     {
+      "source_id": "stream_us:02:v2fly_dlc:d61393883184",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/disney",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/disney",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
       "rule_count": 160
     },
     {
+      "source_id": "stream_us:03:v2fly_dlc:fee6c32fc519",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/hbo",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/hbo",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
       "rule_count": 63
     },
     {
+      "source_id": "stream_us:04:v2fly_dlc:bc0afb6848b5",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/discoveryplus",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/discoveryplus",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
       "rule_count": 3
     },
     {
+      "source_id": "stream_us:05:v2fly_dlc:f799bc9dbdcd",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/plutotv",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/plutotv",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
       "rule_count": 2
     },
     {
+      "source_id": "stream_us:06:v2fly_dlc:50f4479c6b4f",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/roku",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/roku",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
       "rule_count": 6
     },
     {
+      "source_id": "stream_us:07:v2fly_dlc:328b7bde0dd1",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/tubi",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/tubi",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
       "rule_count": 4
     },
     {
+      "source_id": "stream_us:08:v2fly_dlc:1088fd476e2c",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/sling",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/sling",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
       "rule_count": 5
     },
     {
+      "source_id": "stream_us:09:v2fly_dlc:8284af6c1ac0",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/showtimeanytime",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/showtimeanytime",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
       "rule_count": 2
     },
     {
+      "source_id": "stream_us:10:v2fly_dlc:7d733e760c05",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/nbcuniversal",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/nbcuniversal",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
       "rule_count": 17
     },
     {
+      "source_id": "stream_us:11:local_domain:21dde02e4fc2",
       "type": "local_domain",
       "authority": "owner-controlled",
+      "trust_tier": "owner",
       "ref": "manual/categories/stream_us.txt",
+      "resolved_revision": null,
+      "content_sha256": "230ab6b72869327a1794d8c5085a814bef523bcc2a7e73fda0743919c1382cbe",
       "used_cache": false,
       "rule_count": 10
     }

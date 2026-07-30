@@ -177,12 +177,16 @@ pchomeonline.com.tw
 +.airmax360.com
 +.allkeyshop.com
 +.amazon.com
++.apiauto.ru
 +.appforebay.cn
 +.appsonebay.net
 +.asebay.com
++.auto.ru
 +.automobile.fr
++.autoru.me
 +.avito.ru
 +.avito.st
++.avto.ru
 +.axbdoll.com.tw
 +.baazee.com
 +.bby.com
@@ -263,7 +267,11 @@ pchomeonline.com.tw
 +.cheapnikedunks.com
 +.cheapnikeoutlet.com
 +.chimeforchange.org
++.cian.ru
++.cian.site
++.ciangroup.ru
 +.classicnike.com
++.cm.expert
 +.cnnikebrand.com
 +.collective99.com
 +.commerceos.com
@@ -296,6 +304,7 @@ pchomeonline.com.tw
 +.didce.com
 +.digital-wb.ru
 +.digitalwb.ru
++.dmir.ru
 +.dmm-extension.com
 +.dmm.co.jp
 +.dmm.com
@@ -303,6 +312,7 @@ pchomeonline.com.tw
 +.dmmrex.com
 +.douya.org
 +.dreamtoplay.com
++.drom.ru
 +.e-bay.com
 +.e-bay.it
 +.e-bay.net
@@ -996,6 +1006,7 @@ pchomeonline.com.tw
 +.pcstore.com.tw
 +.piapp.com.tw
 +.pornhubapparel.com
++.poudobnee.com
 +.premobay.com
 +.privatemarketplaces.net
 +.privatemarketplaces.us
@@ -1018,6 +1029,7 @@ pchomeonline.com.tw
 +.rakutengiftcards.ca
 +.rakuya.com.tw
 +.rclon.com
++.rdrom.ru
 +.readmoo.com
 +.rebates.jp
 +.redino.tw
@@ -1239,6 +1251,8 @@ pchomeonline.com.tw
 +.xn--74q035i.xn--hxt814e
 +.xn--7hv594h.com
 +.xn--7hvy28f.cn
++.xn--80aaafbpzn5blfby1p.xn--p1ai
++.xn--80aaeib8abrryx4k.xn--p1ai
 +.xn--80aafgovrgbc7am.xn--p1ai
 +.xn--80acbjgmges7ca.xn--p1ai
 +.xn--80acbjgsdq2cl.xn--p1ai

@@ -4,10 +4,14 @@
   "recommended_action": "PROXY",
   "recommended_priority": 325,
   "recommended_note": "GitHub/GitLab/Gitee/Codeberg/SourceHut 等代码托管平台走代理",
-  "rule_count": 75,
-  "stash_rule_count": 75,
+  "rule_count": 76,
+  "openclash_rule_count": 76,
+  "surge_rule_count": 76,
+  "surge_lost_rule_count": 0,
+  "surge_lost_rule_types": {},
+  "stash_rule_count": 76,
   "stash_classical_rule_count": 0,
-  "stash_domain_rule_count": 75,
+  "stash_domain_rule_count": 76,
   "stash_ipcidr_rule_count": 0,
   "paths": {
     "stash": "stash/github.list",
@@ -30,46 +34,146 @@
     "compat_list_ip": "compat/List/ip/github.conf",
     "compat_list_domainset": "compat/List/domainset/github.conf"
   },
+  "contract": {
+    "max_add": 2000,
+    "max_remove": 2000,
+    "max_pct": 25,
+    "max_new_apex": 500,
+    "max_new_regex": 50,
+    "max_new_cidr": 500,
+    "max_informational_overlap_delta": 1000,
+    "allowed_source_tiers": [
+      "owner",
+      "official",
+      "curated",
+      "community",
+      "derived"
+    ],
+    "allowed_rule_types": [
+      "DOMAIN",
+      "DOMAIN-SUFFIX",
+      "DOMAIN-KEYWORD",
+      "DOMAIN-WILDCARD",
+      "DOMAIN-REGEX",
+      "IP-CIDR",
+      "IP-CIDR6"
+    ],
+    "required_action": null,
+    "aggregate_of": null,
+    "must_be_disjoint_from": [],
+    "must_precede": [],
+    "must_follow": [],
+    "auto_promotion_policy": "low-risk",
+    "per_client_support": {
+      "openclash": {
+        "max_loss_count": 0,
+        "max_loss_pct": 0,
+        "supported_rule_types": [
+          "DOMAIN",
+          "DOMAIN-SUFFIX",
+          "DOMAIN-KEYWORD",
+          "DOMAIN-WILDCARD",
+          "DOMAIN-REGEX",
+          "IP-CIDR",
+          "IP-CIDR6"
+        ]
+      },
+      "surge": {
+        "max_loss_count": 1000,
+        "max_loss_pct": 50,
+        "supported_rule_types": [
+          "DOMAIN",
+          "DOMAIN-SUFFIX",
+          "DOMAIN-KEYWORD",
+          "DOMAIN-WILDCARD",
+          "IP-CIDR",
+          "IP-CIDR6"
+        ],
+        "unsupported_rule_types": [
+          "DOMAIN-REGEX"
+        ]
+      },
+      "stash": {
+        "max_loss_count": 0,
+        "max_loss_pct": 0,
+        "supported_rule_types": [
+          "DOMAIN",
+          "DOMAIN-SUFFIX",
+          "DOMAIN-KEYWORD",
+          "DOMAIN-WILDCARD",
+          "DOMAIN-REGEX",
+          "IP-CIDR",
+          "IP-CIDR6"
+        ]
+      }
+    },
+    "category": "github",
+    "action": "PROXY"
+  },
   "sources": [
     {
+      "source_id": "github:00:v2fly_dlc:08593a1a1431",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/github",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/github",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
-      "rule_count": 60
+      "rule_count": 61
     },
     {
+      "source_id": "github:01:v2fly_dlc:c7deabcad8f9",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/gitlab",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/gitlab",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
       "rule_count": 5
     },
     {
+      "source_id": "github:02:v2fly_dlc:f438d9bc5328",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/gitee",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/gitee",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
       "rule_count": 2
     },
     {
+      "source_id": "github:03:v2fly_dlc:a12be1d5180c",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/codeberg",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/codeberg",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
       "rule_count": 2
     },
     {
+      "source_id": "github:04:v2fly_dlc:7fc98290adb9",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/sourcehut",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/sourcehut",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
       "rule_count": 2
     },
     {
+      "source_id": "github:05:local_domain:ab0d5da37c28",
       "type": "local_domain",
       "authority": "owner-controlled",
+      "trust_tier": "owner",
       "ref": "manual/categories/github.txt",
+      "resolved_revision": null,
+      "content_sha256": "a7a8c0ce3d99969ce71a8eb77b4ca538dabd45006b8ebc3abe31f06bf844398d",
       "used_cache": false,
       "rule_count": 14
     }

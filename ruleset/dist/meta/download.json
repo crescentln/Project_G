@@ -5,6 +5,10 @@
   "recommended_priority": 251,
   "recommended_note": "安卓应用下载集合默认直连（游戏平台流量归 games）",
   "rule_count": 23,
+  "openclash_rule_count": 23,
+  "surge_rule_count": 23,
+  "surge_lost_rule_count": 0,
+  "surge_lost_rule_types": {},
   "stash_rule_count": 23,
   "stash_classical_rule_count": 0,
   "stash_domain_rule_count": 23,
@@ -30,18 +34,101 @@
     "compat_list_ip": "compat/List/ip/download.conf",
     "compat_list_domainset": "compat/List/domainset/download.conf"
   },
+  "contract": {
+    "max_add": 3,
+    "max_remove": 3,
+    "max_pct": 20,
+    "max_new_apex": 1,
+    "max_new_regex": 0,
+    "max_new_cidr": 0,
+    "max_informational_overlap_delta": 25,
+    "allowed_source_tiers": [
+      "owner",
+      "official",
+      "curated",
+      "community",
+      "derived"
+    ],
+    "allowed_rule_types": [
+      "DOMAIN",
+      "DOMAIN-SUFFIX"
+    ],
+    "required_action": "DIRECT",
+    "aggregate_of": null,
+    "must_be_disjoint_from": [
+      "games",
+      "games_cn"
+    ],
+    "must_precede": [],
+    "must_follow": [],
+    "auto_promotion_policy": "review",
+    "per_client_support": {
+      "openclash": {
+        "max_loss_count": 0,
+        "max_loss_pct": 0,
+        "supported_rule_types": [
+          "DOMAIN",
+          "DOMAIN-SUFFIX",
+          "DOMAIN-KEYWORD",
+          "DOMAIN-WILDCARD",
+          "DOMAIN-REGEX",
+          "IP-CIDR",
+          "IP-CIDR6"
+        ]
+      },
+      "surge": {
+        "max_loss_count": 1000,
+        "max_loss_pct": 50,
+        "supported_rule_types": [
+          "DOMAIN",
+          "DOMAIN-SUFFIX",
+          "DOMAIN-KEYWORD",
+          "DOMAIN-WILDCARD",
+          "IP-CIDR",
+          "IP-CIDR6"
+        ],
+        "unsupported_rule_types": [
+          "DOMAIN-REGEX"
+        ]
+      },
+      "stash": {
+        "max_loss_count": 0,
+        "max_loss_pct": 0,
+        "supported_rule_types": [
+          "DOMAIN",
+          "DOMAIN-SUFFIX",
+          "DOMAIN-KEYWORD",
+          "DOMAIN-WILDCARD",
+          "DOMAIN-REGEX",
+          "IP-CIDR",
+          "IP-CIDR6"
+        ]
+      }
+    },
+    "contract_note": "DIRECT-only; game-platform traffic remains in games.",
+    "category": "download",
+    "action": "DIRECT"
+  },
   "sources": [
     {
+      "source_id": "download:00:v2fly_dlc:c2ce28f37f91",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-android-app-download",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/category-android-app-download",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
       "rule_count": 11
     },
     {
+      "source_id": "download:01:local_domain:fb3ebf95e1d8",
       "type": "local_domain",
       "authority": "owner-controlled",
+      "trust_tier": "owner",
       "ref": "manual/categories/download.txt",
+      "resolved_revision": null,
+      "content_sha256": "27cfacf8db3c7f53ce5cdf815dc9fda250f8d9bfa1fa5dd0c2a53ee690187aa4",
       "used_cache": false,
       "rule_count": 16
     }

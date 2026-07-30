@@ -100,6 +100,7 @@ webchannel-alkalimakersuite-pa.clients6.google.com
 +.githubcopilot.com
 +.grok.com
 +.grok.x.com
++.grokipedia.com
 +.groq.com
 +.gspe1-ssl.ls.apple.com
 +.h2o.ai

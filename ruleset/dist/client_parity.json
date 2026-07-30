@@ -1,0 +1,3393 @@
+{
+  "generated_at_utc": "2026-07-30T16:43:42.463103+00:00",
+  "category_count": 55,
+  "clients": {
+    "openclash_effective_rules": 418531,
+    "surge_effective_rules": 418328,
+    "surge_lost_rules": 203,
+    "stash_effective_rules": 418531
+  },
+  "categories": [
+    {
+      "category": "reject",
+      "openclash": {
+        "effective_rule_count": 331499,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 331499,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 331499,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "reject_extra",
+      "openclash": {
+        "effective_rule_count": 10,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 10,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 10,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "reject_drop",
+      "openclash": {
+        "effective_rule_count": 5,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 5,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 5,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "reject_no_drop",
+      "openclash": {
+        "effective_rule_count": 6,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 6,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 6,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "wechat",
+      "openclash": {
+        "effective_rule_count": 34,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 34,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 34,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "lan",
+      "openclash": {
+        "effective_rule_count": 156,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 155,
+        "lost_rule_count": 1,
+        "lost_rule_types": {
+          "DOMAIN-REGEX": 1
+        }
+      },
+      "stash": {
+        "effective_rule_count": 156,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "domestic",
+      "openclash": {
+        "effective_rule_count": 7440,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 7437,
+        "lost_rule_count": 3,
+        "lost_rule_types": {
+          "DOMAIN-REGEX": 3
+        }
+      },
+      "stash": {
+        "effective_rule_count": 7440,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "cncidr",
+      "openclash": {
+        "effective_rule_count": 10828,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 10828,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 10828,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "telegram",
+      "openclash": {
+        "effective_rule_count": 35,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 35,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 35,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "cdn",
+      "openclash": {
+        "effective_rule_count": 132,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 130,
+        "lost_rule_count": 2,
+        "lost_rule_types": {
+          "DOMAIN-REGEX": 2
+        }
+      },
+      "stash": {
+        "effective_rule_count": 132,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "download",
+      "openclash": {
+        "effective_rule_count": 23,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 23,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 23,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "stream",
+      "openclash": {
+        "effective_rule_count": 443,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 437,
+        "lost_rule_count": 6,
+        "lost_rule_types": {
+          "DOMAIN-REGEX": 6
+        }
+      },
+      "stash": {
+        "effective_rule_count": 443,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "stream_us",
+      "openclash": {
+        "effective_rule_count": 340,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 335,
+        "lost_rule_count": 5,
+        "lost_rule_types": {
+          "DOMAIN-REGEX": 5
+        }
+      },
+      "stash": {
+        "effective_rule_count": 340,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "stream_jp",
+      "openclash": {
+        "effective_rule_count": 25,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 25,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 25,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "stream_hk",
+      "openclash": {
+        "effective_rule_count": 15,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 14,
+        "lost_rule_count": 1,
+        "lost_rule_types": {
+          "DOMAIN-REGEX": 1
+        }
+      },
+      "stash": {
+        "effective_rule_count": 15,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "stream_tw",
+      "openclash": {
+        "effective_rule_count": 39,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 39,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 39,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "stream_global",
+      "openclash": {
+        "effective_rule_count": 286,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 281,
+        "lost_rule_count": 5,
+        "lost_rule_types": {
+          "DOMAIN-REGEX": 5
+        }
+      },
+      "stash": {
+        "effective_rule_count": 286,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "ai",
+      "openclash": {
+        "effective_rule_count": 170,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 169,
+        "lost_rule_count": 1,
+        "lost_rule_types": {
+          "DOMAIN-REGEX": 1
+        }
+      },
+      "stash": {
+        "effective_rule_count": 170,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "apple_cn",
+      "openclash": {
+        "effective_rule_count": 294,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 294,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 294,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "apple_cdn",
+      "openclash": {
+        "effective_rule_count": 29,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 29,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 29,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "apple_proxy",
+      "openclash": {
+        "effective_rule_count": 50,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 50,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 50,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "icloud_private_relay",
+      "openclash": {
+        "effective_rule_count": 13588,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 13588,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 13588,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "apple_services",
+      "openclash": {
+        "effective_rule_count": 1505,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 1505,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 1505,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "apple_intelligence",
+      "openclash": {
+        "effective_rule_count": 5,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 5,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 5,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "microsoft",
+      "openclash": {
+        "effective_rule_count": 435,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 435,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 435,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "microsoft_cdn",
+      "openclash": {
+        "effective_rule_count": 199,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 199,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 199,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "github",
+      "openclash": {
+        "effective_rule_count": 76,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 76,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 76,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "httpdns",
+      "openclash": {
+        "effective_rule_count": 55,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 55,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 55,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "games_cn",
+      "openclash": {
+        "effective_rule_count": 283,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 282,
+        "lost_rule_count": 1,
+        "lost_rule_types": {
+          "DOMAIN-REGEX": 1
+        }
+      },
+      "stash": {
+        "effective_rule_count": 283,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "games",
+      "openclash": {
+        "effective_rule_count": 826,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 823,
+        "lost_rule_count": 3,
+        "lost_rule_types": {
+          "DOMAIN-REGEX": 3
+        }
+      },
+      "stash": {
+        "effective_rule_count": 826,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "youtube",
+      "openclash": {
+        "effective_rule_count": 176,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 176,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 176,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "abema",
+      "openclash": {
+        "effective_rule_count": 21,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 21,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 21,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "apple_tv",
+      "openclash": {
+        "effective_rule_count": 6,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 6,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 6,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "primevideo",
+      "openclash": {
+        "effective_rule_count": 23,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 23,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 23,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "spotify",
+      "openclash": {
+        "effective_rule_count": 25,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 25,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 25,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "twitch",
+      "openclash": {
+        "effective_rule_count": 34,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 34,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 34,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "google",
+      "openclash": {
+        "effective_rule_count": 731,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 731,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 731,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "googlefcm",
+      "openclash": {
+        "effective_rule_count": 18,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 18,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 18,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "paypal",
+      "openclash": {
+        "effective_rule_count": 233,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 233,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 233,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "crypto",
+      "openclash": {
+        "effective_rule_count": 84,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 84,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 84,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "ecommerce",
+      "openclash": {
+        "effective_rule_count": 1271,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 1271,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 1271,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "onedrive",
+      "openclash": {
+        "effective_rule_count": 11,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 11,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 11,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "forum",
+      "openclash": {
+        "effective_rule_count": 101,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 101,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 101,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "socialmedia_cn",
+      "openclash": {
+        "effective_rule_count": 127,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 127,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 127,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "socialmedia",
+      "openclash": {
+        "effective_rule_count": 663,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 663,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 663,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "anime",
+      "openclash": {
+        "effective_rule_count": 50,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 50,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 50,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "tiktok",
+      "openclash": {
+        "effective_rule_count": 36,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 36,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 36,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "douyin",
+      "openclash": {
+        "effective_rule_count": 68,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 68,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 68,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "apns",
+      "openclash": {
+        "effective_rule_count": 11,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 11,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 11,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "dmca",
+      "openclash": {
+        "effective_rule_count": 5,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 5,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 5,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "vowifi",
+      "openclash": {
+        "effective_rule_count": 38,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 25,
+        "lost_rule_count": 13,
+        "lost_rule_types": {
+          "DOMAIN-REGEX": 13
+        }
+      },
+      "stash": {
+        "effective_rule_count": 38,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "tld_proxy",
+      "openclash": {
+        "effective_rule_count": 1435,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 1435,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 1435,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "gfw",
+      "openclash": {
+        "effective_rule_count": 122,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 122,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "stash": {
+        "effective_rule_count": 122,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "global",
+      "openclash": {
+        "effective_rule_count": 25411,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 25253,
+        "lost_rule_count": 158,
+        "lost_rule_types": {
+          "DOMAIN-REGEX": 158
+        }
+      },
+      "stash": {
+        "effective_rule_count": 25411,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    },
+    {
+      "category": "direct",
+      "openclash": {
+        "effective_rule_count": 19000,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "surge": {
+        "effective_rule_count": 18996,
+        "lost_rule_count": 4,
+        "lost_rule_types": {
+          "DOMAIN-REGEX": 4
+        }
+      },
+      "stash": {
+        "effective_rule_count": 19000,
+        "lost_rule_count": 0,
+        "lost_rule_types": {}
+      },
+      "contract": {
+        "openclash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        },
+        "surge": {
+          "max_loss_count": 1000,
+          "max_loss_pct": 50,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ],
+          "unsupported_rule_types": [
+            "DOMAIN-REGEX"
+          ]
+        },
+        "stash": {
+          "max_loss_count": 0,
+          "max_loss_pct": 0,
+          "supported_rule_types": [
+            "DOMAIN",
+            "DOMAIN-SUFFIX",
+            "DOMAIN-KEYWORD",
+            "DOMAIN-WILDCARD",
+            "DOMAIN-REGEX",
+            "IP-CIDR",
+            "IP-CIDR6"
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -5,6 +5,12 @@
   "recommended_priority": 344,
   "recommended_note": "VoWiFi/IMS/ePDG 相关域名走代理（3GPP 命名 + 美国运营商样例）",
   "rule_count": 38,
+  "openclash_rule_count": 38,
+  "surge_rule_count": 25,
+  "surge_lost_rule_count": 13,
+  "surge_lost_rule_types": {
+    "DOMAIN-REGEX": 13
+  },
   "stash_rule_count": 38,
   "stash_classical_rule_count": 13,
   "stash_domain_rule_count": 23,
@@ -30,11 +36,91 @@
     "compat_list_ip": "compat/List/ip/vowifi.conf",
     "compat_list_domainset": "compat/List/domainset/vowifi.conf"
   },
+  "contract": {
+    "max_add": 5,
+    "max_remove": 5,
+    "max_pct": 20,
+    "max_new_apex": 2,
+    "max_new_regex": 2,
+    "max_new_cidr": 0,
+    "max_informational_overlap_delta": 1000,
+    "allowed_source_tiers": [
+      "owner",
+      "official",
+      "curated",
+      "community",
+      "derived"
+    ],
+    "allowed_rule_types": [
+      "DOMAIN",
+      "DOMAIN-SUFFIX",
+      "DOMAIN-KEYWORD",
+      "DOMAIN-WILDCARD",
+      "DOMAIN-REGEX",
+      "IP-CIDR",
+      "IP-CIDR6"
+    ],
+    "required_action": null,
+    "aggregate_of": null,
+    "must_be_disjoint_from": [],
+    "must_precede": [],
+    "must_follow": [],
+    "auto_promotion_policy": "manual",
+    "per_client_support": {
+      "openclash": {
+        "max_loss_count": 0,
+        "max_loss_pct": 0,
+        "supported_rule_types": [
+          "DOMAIN",
+          "DOMAIN-SUFFIX",
+          "DOMAIN-KEYWORD",
+          "DOMAIN-WILDCARD",
+          "DOMAIN-REGEX",
+          "IP-CIDR",
+          "IP-CIDR6"
+        ]
+      },
+      "surge": {
+        "max_loss_count": 1000,
+        "max_loss_pct": 50,
+        "supported_rule_types": [
+          "DOMAIN",
+          "DOMAIN-SUFFIX",
+          "DOMAIN-KEYWORD",
+          "DOMAIN-WILDCARD",
+          "IP-CIDR",
+          "IP-CIDR6"
+        ],
+        "unsupported_rule_types": [
+          "DOMAIN-REGEX"
+        ]
+      },
+      "stash": {
+        "max_loss_count": 0,
+        "max_loss_pct": 0,
+        "supported_rule_types": [
+          "DOMAIN",
+          "DOMAIN-SUFFIX",
+          "DOMAIN-KEYWORD",
+          "DOMAIN-WILDCARD",
+          "DOMAIN-REGEX",
+          "IP-CIDR",
+          "IP-CIDR6"
+        ]
+      }
+    },
+    "category": "vowifi",
+    "action": "PROXY"
+  },
   "sources": [
     {
+      "source_id": "vowifi:00:local_domain:3466ba69e681",
       "type": "local_domain",
       "authority": "owner-controlled",
+      "trust_tier": "owner",
       "ref": "manual/categories/vowifi.txt",
+      "resolved_revision": null,
+      "content_sha256": "9bf2087d8804b63d83444a7311d965931f9cbd68df950033239368afa52220a8",
       "used_cache": false,
       "rule_count": 38
     }

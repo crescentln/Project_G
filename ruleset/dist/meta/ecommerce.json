@@ -4,10 +4,14 @@
   "recommended_action": "PROXY",
   "recommended_priority": 337,
   "recommended_note": "跨境电商走代理",
-  "rule_count": 1257,
-  "stash_rule_count": 1257,
+  "rule_count": 1271,
+  "openclash_rule_count": 1271,
+  "surge_rule_count": 1271,
+  "surge_lost_rule_count": 0,
+  "surge_lost_rule_types": {},
+  "stash_rule_count": 1271,
   "stash_classical_rule_count": 0,
-  "stash_domain_rule_count": 1257,
+  "stash_domain_rule_count": 1271,
   "stash_ipcidr_rule_count": 0,
   "paths": {
     "stash": "stash/ecommerce.list",
@@ -30,18 +34,102 @@
     "compat_list_ip": "compat/List/ip/ecommerce.conf",
     "compat_list_domainset": "compat/List/domainset/ecommerce.conf"
   },
+  "contract": {
+    "max_add": 2000,
+    "max_remove": 2000,
+    "max_pct": 25,
+    "max_new_apex": 500,
+    "max_new_regex": 50,
+    "max_new_cidr": 500,
+    "max_informational_overlap_delta": 1000,
+    "allowed_source_tiers": [
+      "owner",
+      "official",
+      "curated",
+      "community",
+      "derived"
+    ],
+    "allowed_rule_types": [
+      "DOMAIN",
+      "DOMAIN-SUFFIX",
+      "DOMAIN-KEYWORD",
+      "DOMAIN-WILDCARD",
+      "DOMAIN-REGEX",
+      "IP-CIDR",
+      "IP-CIDR6"
+    ],
+    "required_action": null,
+    "aggregate_of": null,
+    "must_be_disjoint_from": [],
+    "must_precede": [],
+    "must_follow": [],
+    "auto_promotion_policy": "low-risk",
+    "per_client_support": {
+      "openclash": {
+        "max_loss_count": 0,
+        "max_loss_pct": 0,
+        "supported_rule_types": [
+          "DOMAIN",
+          "DOMAIN-SUFFIX",
+          "DOMAIN-KEYWORD",
+          "DOMAIN-WILDCARD",
+          "DOMAIN-REGEX",
+          "IP-CIDR",
+          "IP-CIDR6"
+        ]
+      },
+      "surge": {
+        "max_loss_count": 1000,
+        "max_loss_pct": 50,
+        "supported_rule_types": [
+          "DOMAIN",
+          "DOMAIN-SUFFIX",
+          "DOMAIN-KEYWORD",
+          "DOMAIN-WILDCARD",
+          "IP-CIDR",
+          "IP-CIDR6"
+        ],
+        "unsupported_rule_types": [
+          "DOMAIN-REGEX"
+        ]
+      },
+      "stash": {
+        "max_loss_count": 0,
+        "max_loss_pct": 0,
+        "supported_rule_types": [
+          "DOMAIN",
+          "DOMAIN-SUFFIX",
+          "DOMAIN-KEYWORD",
+          "DOMAIN-WILDCARD",
+          "DOMAIN-REGEX",
+          "IP-CIDR",
+          "IP-CIDR6"
+        ]
+      }
+    },
+    "category": "ecommerce",
+    "action": "PROXY"
+  },
   "sources": [
     {
+      "source_id": "ecommerce:00:v2fly_dlc:ce3855e24299",
       "type": "v2fly_dlc",
       "authority": "community-curated",
-      "ref": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-ecommerce",
+      "trust_tier": "community",
+      "ref": "https://github.com/v2fly/domain-list-community/blob/cd541f32c61a02e9242f4cd7169467d72c78804a/data/category-ecommerce",
+      "resolved_revision": "cd541f32c61a02e9242f4cd7169467d72c78804a",
+      "content_sha256": "87c7e4d39d3426fd301afd0dec9d37ff9f60d2839288bc65e7a004f52411d9e2",
       "used_cache": false,
-      "rule_count": 1253
+      "rule_count": 1267
     },
     {
+      "source_id": "ecommerce:01:local_domain:38514d8c16cc",
       "type": "local_domain",
       "authority": "owner-controlled",
+      "trust_tier": "owner",
       "ref": "manual/categories/ecommerce.txt",
+      "resolved_revision": null,
+      "content_sha256": "8b4d727b7c2f9039a1a63119c3b11d537d4f26d24ffba6504d1db913cf268f73",
       "used_cache": false,
       "rule_count": 11
     }
