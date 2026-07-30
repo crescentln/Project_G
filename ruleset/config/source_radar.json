@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "candidate_only": true,
+  "high_impact_quorum": 2,
+  "repositories": [
+    {
+      "repository": "v2fly/domain-list-community",
+      "ecosystem": "v2fly",
+      "trust_tier": "community",
+      "role": "active-locked-source",
+      "candidate_only": false
+    },
+    {
+      "repository": "MetaCubeX/meta-rules-dat",
+      "ecosystem": "mihomo",
+      "trust_tier": "community",
+      "role": "independent-radar",
+      "candidate_only": true
+    },
+    {
+      "repository": "blackmatrix7/ios_rule_script",
+      "ecosystem": "surge-clash",
+      "trust_tier": "community",
+      "role": "independent-radar",
+      "candidate_only": true
+    },
+    {
+      "repository": "SukkaW/Surge",
+      "ecosystem": "surge",
+      "trust_tier": "curated",
+      "role": "independent-radar",
+      "candidate_only": true
+    },
+    {
+      "repository": "Loyalsoldier/clash-rules",
+      "ecosystem": "clash",
+      "trust_tier": "community",
+      "role": "independent-radar",
+      "candidate_only": true
+    }
+  ],
+  "manual_only_categories": [
+    "reject_extra",
+    "reject_drop",
+    "reject_no_drop",
+    "wechat",
+    "anime",
+    "apns",
+    "dmca",
+    "vowifi"
+  ],
+  "policy": {
+    "new_provider": "candidate-only",
+    "new_category": "candidate-only",
+    "new_authority": "candidate-only",
+    "high_impact_rule": "requires official evidence or independent quorum",
+    "llm_role": "read-only classification only; never publish"
+  }
+}

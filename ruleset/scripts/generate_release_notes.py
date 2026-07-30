@@ -67,6 +67,16 @@ def parse_args() -> argparse.Namespace:
         required=True,
         help="Output markdown file",
     )
+    parser.add_argument(
+        "--candidate-manifest",
+        type=pathlib.Path,
+        default=pathlib.Path("ruleset/dist/candidate_manifest.json"),
+    )
+    parser.add_argument(
+        "--client-parity",
+        type=pathlib.Path,
+        default=pathlib.Path("ruleset/dist/client_parity.json"),
+    )
     return parser.parse_args()
 
 
@@ -76,6 +86,16 @@ def main() -> int:
     index_payload = read_json(args.index)
     conflicts_payload = read_json(args.conflicts)
     fetch_payload = read_json(args.fetch_report)
+    candidate_payload = (
+        read_json(args.candidate_manifest)
+        if args.candidate_manifest.is_file()
+        else {}
+    )
+    client_payload = (
+        read_json(args.client_parity)
+        if args.client_parity.is_file()
+        else {}
+    )
     entry_time, entry_lines = latest_changelog_entry(args.changelog)
 
     category_count = int(index_payload.get("category_count", 0))
@@ -107,11 +127,44 @@ def main() -> int:
         "- Fetch Summary: "
         f"`network={network}, offline_cache={offline_cache}, fallback_cache={fallback_cache}`"
     )
+    if candidate_payload:
+        out.append(
+            "- Candidate Decision: "
+            f"`risk={candidate_payload.get('risk_level', 'unknown')}, "
+            f"semantic_digest={candidate_payload.get('semantic_digest', 'unknown')}, "
+            f"reviewed={bool(candidate_payload.get('requires_review', False))}`"
+        )
+        budget_exceeded = [
+            str(item) for item in candidate_payload.get("budget_exceeded", [])
+        ]
+        out.append(
+            "- Budget Exceeded: "
+            + (
+                "; ".join(f"`{item}`" for item in budget_exceeded)
+                if budget_exceeded
+                else "none"
+            )
+        )
+    if client_payload:
+        clients = client_payload.get("clients", {})
+        out.append(
+            "- Client Parity: "
+            f"`openclash={clients.get('openclash_effective_rules', 0)}, "
+            f"surge={clients.get('surge_effective_rules', 0)}, "
+            f"surge_lost={clients.get('surge_lost_rules', 0)}, "
+            f"stash={clients.get('stash_effective_rules', 0)}`"
+        )
     out.append("")
     out.append("## Artifacts")
     out.append("")
     out.append(f"- Index JSON: `{raw_base}/index.json`")
     out.append(f"- Policy Reference JSON: `{raw_base}/policy_reference.json`")
+    out.append(f"- Immutable Source Lock: `{raw_base}/sources.lock.json`")
+    out.append(f"- Source Provenance: `{raw_base}/source_provenance.json`")
+    out.append(f"- Source Health: `{raw_base}/source_health.json`")
+    out.append(f"- Rule Delta and Risk: `{raw_base}/rule_delta.json`")
+    out.append(f"- Client Parity: `{raw_base}/client_parity.json`")
+    out.append(f"- Candidate Radar: `{raw_base}/candidate_sources.json`")
     out.append(f"- Recommended OpenClash: `{raw_base}/recommended_openclash.yaml`")
     out.append(f"- Recommended Surge: `{raw_base}/recommended_surge.conf`")
     out.append(f"- Recommended Stash (classical): `{raw_base}/recommended_stash.yaml`")

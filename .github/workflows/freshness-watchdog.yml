@@ -1,0 +1,82 @@
+name: Freshness Watchdog
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "47 5 * * *"
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  freshness:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPOSITORY: ${{ github.repository }}
+    steps:
+      - name: Check discovery and release freshness
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import datetime as dt
+          import json
+          import os
+          import subprocess
+
+          repository = os.environ["REPOSITORY"]
+
+          def gh(path: str):
+              result = subprocess.run(
+                  ["gh", "api", path],
+                  check=True,
+                  stdout=subprocess.PIPE,
+                  text=True,
+              )
+              return json.loads(result.stdout)
+
+          now = dt.datetime.now(dt.timezone.utc)
+          runs = gh(
+              f"repos/{repository}/actions/workflows/source-discovery.yml/"
+              "runs?branch=main&status=success&per_page=1"
+          )["workflow_runs"]
+          if not runs:
+              raise SystemExit("no successful Source Discovery run")
+          discovery_at = dt.datetime.fromisoformat(
+              runs[0]["updated_at"].replace("Z", "+00:00")
+          )
+          discovery_age = (now - discovery_at).total_seconds() / 3600
+          if discovery_age > 26:
+              raise SystemExit(
+                  f"Source Discovery stale: {discovery_age:.2f}h > 26h"
+              )
+
+          release = gh(f"repos/{repository}/releases/latest")
+          release_at = dt.datetime.fromisoformat(
+              release["published_at"].replace("Z", "+00:00")
+          )
+          release_age = (now - release_at).total_seconds() / 3600
+          if release_age > 192:
+              raise SystemExit(
+                  f"published ruleset stale: {release_age:.2f}h > 192h"
+              )
+
+          readme = gh(f"repos/{repository}/contents/README.md?ref=main")
+          if readme["size"] != 0 or readme["sha"] != (
+              "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+          ):
+              raise SystemExit("public root README privacy boundary drifted")
+
+          summary = os.environ["GITHUB_STEP_SUMMARY"]
+          with open(summary, "a", encoding="utf-8") as handle:
+              handle.write("# Freshness Watchdog\n\n")
+              handle.write(f"- Discovery age: `{discovery_age:.2f}h`\n")
+              handle.write(f"- Release age: `{release_age:.2f}h`\n")
+              handle.write("- Root README: `0 bytes`\n")
+          print(
+              f"fresh: discovery={discovery_age:.2f}h "
+              f"release={release_age:.2f}h readme=0"
+          )
+          PY

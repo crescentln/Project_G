@@ -17,6 +17,9 @@ class ConfigIntegrityTests(unittest.TestCase):
         self.sources = read_json("config/sources.json")
         self.policy = read_json("config/policy_map.json")
         self.minimums = read_json("config/min_rules.json")
+        self.contracts = read_json("config/category_contracts.json")
+        self.registry = read_json("config/source_registry.json")
+        self.smoke = read_json("config/smoke_probes.json")
 
     def test_category_sets_match_policy_and_minimums(self) -> None:
         source_ids = {row["id"] for row in self.sources["categories"]}
@@ -32,6 +35,9 @@ class ConfigIntegrityTests(unittest.TestCase):
                 value = category.get(field)
                 if value:
                     references.add(str(value))
+            overlay = category.get("manual_overlay_path")
+            if overlay:
+                references.add(str(overlay))
             for source in category.get("sources", []):
                 if source.get("type") == "local_domain":
                     references.add(str(source["path"]))
@@ -52,13 +58,43 @@ class ConfigIntegrityTests(unittest.TestCase):
         }
         categories = {row["id"]: row for row in self.sources["categories"]}
         for category_id in ("direct", "cdn"):
-            urls = {str(source.get("url", "")) for source in categories[category_id]["sources"]}
+            urls = {
+                str(source.get("url", ""))
+                for source in categories[category_id].get("sources", [])
+            }
             self.assertEqual(urls & forbidden, set())
+
+    def test_direct_is_derived_from_explicit_components(self) -> None:
+        categories = {row["id"]: row for row in self.sources["categories"]}
+        direct = categories["direct"]
+        self.assertNotIn("sources", direct)
+        self.assertEqual(
+            direct["aggregate_of"],
+            self.contracts["categories"]["direct"]["aggregate_of"],
+        )
+        self.assertEqual(direct["manual_overlay_path"], "manual/categories/direct.txt")
+        self.assertEqual(
+            self.contracts["categories"]["direct"]["required_action"],
+            "DIRECT",
+        )
+        for component in direct["aggregate_of"]:
+            self.assertEqual(self.policy["categories"][component]["action"], "DIRECT")
 
     def test_wechat_direct_exception_precedes_reject(self) -> None:
         categories = self.policy["categories"]
         self.assertEqual(categories["wechat"]["action"], "DIRECT")
         self.assertLess(categories["wechat"]["priority"], categories["reject"]["priority"])
+
+    def test_download_contract_requires_direct(self) -> None:
+        self.assertEqual(
+            self.contracts["categories"]["download"]["required_action"],
+            "DIRECT",
+        )
+        self.assertEqual(self.policy["categories"]["download"]["action"], "DIRECT")
+        self.assertEqual(
+            self.contracts["categories"]["download"]["must_be_disjoint_from"],
+            ["games", "games_cn"],
+        )
 
     def test_approved_drift_targets_known_category_with_bounded_counts(self) -> None:
         approval = read_json("config/approved_count_drift.json")
@@ -68,6 +104,72 @@ class ConfigIntegrityTests(unittest.TestCase):
             self.assertIn(item["category"], source_ids)
             self.assertLessEqual(int(item["after_min"]), int(item["after_max"]))
             self.assertTrue(str(item["reason"]).strip())
+
+    def test_all_categories_have_positive_smoke_contracts(self) -> None:
+        source_ids = {row["id"] for row in self.sources["categories"]}
+        self.assertEqual(set(self.smoke["require_non_empty"]), source_ids)
+        self.assertEqual(set(self.smoke["expect_rules"]), source_ids)
+        for category_id, rules in self.smoke["expect_rules"].items():
+            self.assertTrue(rules, category_id)
+
+    def test_source_authorities_are_enforced_by_registry(self) -> None:
+        profiles = set(self.registry["authority_profiles"])
+        observed = {
+            str(source["authority"])
+            for category in self.sources["categories"]
+            for source in category.get("sources", [])
+        }
+        self.assertEqual(observed - profiles, set())
+        for authority, profile in self.registry["authority_profiles"].items():
+            for field in (
+                "trust_tier",
+                "license",
+                "owner",
+                "allowed_hosts",
+                "revision_strategy",
+                "max_bytes",
+                "max_files",
+                "max_include_depth",
+                "freshness_ttl_hours",
+                "expected_parser",
+                "accepted_line_ratio",
+                "critical",
+                "no_cache_publish",
+            ):
+                self.assertIn(field, profile, f"{authority}/{field}")
+
+    def test_conflict_overrides_are_owned_and_expiring(self) -> None:
+        for item in self.sources["ignore_conflicts"]:
+            self.assertGreaterEqual(len(item["categories"]), 2)
+            self.assertTrue(str(item["reason"]).strip())
+            self.assertTrue(str(item["owner"]).strip())
+            self.assertRegex(str(item["expires_at"]), r"^\d{4}-\d{2}-\d{2}$")
+            action_families = {
+                (
+                    "REJECT"
+                    if str(self.policy["categories"][category]["action"]).startswith(
+                        "REJECT"
+                    )
+                    else str(self.policy["categories"][category]["action"])
+                )
+                for category in item["categories"]
+            }
+            self.assertEqual(
+                len(action_families),
+                1,
+                "cross-action waivers must be rule-scoped",
+            )
+        for item in self.sources["ignore_conflicts_by_rule"]:
+            self.assertTrue(str(item["reason"]).strip())
+            self.assertTrue(str(item["owner"]).strip())
+            self.assertRegex(str(item["expires_at"]), r"^\d{4}-\d{2}-\d{2}$")
+
+    def test_manual_only_categories_cannot_auto_promote(self) -> None:
+        for category_id in self.contracts["manual_only_categories"]:
+            self.assertEqual(
+                self.contracts["categories"][category_id]["auto_promotion_policy"],
+                "manual",
+            )
 
 
 if __name__ == "__main__":

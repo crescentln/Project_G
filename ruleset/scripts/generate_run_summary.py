@@ -106,6 +106,22 @@ def main() -> int:
     current_policy = read_json(args.current_policy)
     fetch_report = read_json(args.fetch_report)
     conflicts = read_json(args.conflicts)
+    dist_dir = args.current_policy.parent
+    candidate_manifest = (
+        read_json(dist_dir / "candidate_manifest.json")
+        if (dist_dir / "candidate_manifest.json").is_file()
+        else {}
+    )
+    source_health = (
+        read_json(dist_dir / "source_health.json")
+        if (dist_dir / "source_health.json").is_file()
+        else {}
+    )
+    client_parity = (
+        read_json(dist_dir / "client_parity.json")
+        if (dist_dir / "client_parity.json").is_file()
+        else {}
+    )
     current_counts = parse_counts(current_policy)
     baseline_counts = parse_counts(read_json(args.baseline_policy)) if args.baseline_policy else {}
 
@@ -136,6 +152,49 @@ def main() -> int:
             f"low={int(conflicts.get('low_severity_conflict_count', 0))}`"
         ),
     ]
+    if source_health:
+        lines.append(
+            "- Source Health: "
+            f"`status={source_health.get('status', 'unknown')}, "
+            f"primary={source_health.get('primary_success_count', 0)}, "
+            f"mirror={source_health.get('mirror_success_count', 0)}, "
+            f"fallback={source_health.get('fallback_cache_count', 0)}`"
+        )
+    if candidate_manifest:
+        lines.append(
+            "- Candidate Decision: "
+            f"`risk={candidate_manifest.get('risk_level', 'unknown')}, "
+            f"auto_eligible={candidate_manifest.get('auto_promotion_eligible', False)}, "
+            f"review_required={candidate_manifest.get('requires_review', False)}, "
+            f"digest={candidate_manifest.get('semantic_digest', 'unknown')}`"
+        )
+        risk_markers = [
+            str(item) for item in candidate_manifest.get("risk_markers", [])
+        ]
+        budget_exceeded = [
+            str(item) for item in candidate_manifest.get("budget_exceeded", [])
+        ]
+        lines.append(
+            "- Risk Markers: "
+            + (", ".join(f"`{item}`" for item in risk_markers) if risk_markers else "none")
+        )
+        lines.append(
+            "- Budget Exceeded: "
+            + (
+                "; ".join(f"`{item}`" for item in budget_exceeded)
+                if budget_exceeded
+                else "none"
+            )
+        )
+    if client_parity:
+        client_totals = client_parity.get("clients", {})
+        lines.append(
+            "- Client Parity: "
+            f"`openclash={client_totals.get('openclash_effective_rules', 0)}, "
+            f"surge={client_totals.get('surge_effective_rules', 0)}, "
+            f"surge_lost={client_totals.get('surge_lost_rules', 0)}, "
+            f"stash={client_totals.get('stash_effective_rules', 0)}`"
+        )
 
     if minimums:
         lines.extend(

@@ -1,39 +1,60 @@
 {
   "require_non_empty": [
-    "wechat",
     "reject",
-    "direct",
-    "github",
-    "ai",
-    "apple_cn",
-    "apple_cdn",
-    "apple_proxy",
-    "microsoft",
-    "microsoft_cdn",
-    "google",
-    "googlefcm",
+    "reject_extra",
+    "reject_drop",
+    "reject_no_drop",
+    "wechat",
+    "lan",
+    "domestic",
+    "cncidr",
+    "telegram",
+    "cdn",
+    "download",
     "stream",
     "stream_us",
     "stream_jp",
     "stream_hk",
     "stream_tw",
-    "download",
-    "vowifi",
-    "apns",
-    "httpdns",
-    "socialmedia",
-    "socialmedia_cn",
-    "games",
-    "gfw",
-    "anime",
-    "apple_tv",
+    "stream_global",
+    "ai",
+    "apple_cn",
+    "apple_cdn",
+    "apple_proxy",
+    "icloud_private_relay",
+    "apple_services",
     "apple_intelligence",
-    "crypto",
-    "forum",
+    "microsoft",
+    "microsoft_cdn",
+    "github",
+    "httpdns",
     "games_cn",
+    "games",
+    "youtube",
+    "abema",
+    "apple_tv",
+    "primevideo",
+    "spotify",
+    "twitch",
+    "google",
+    "googlefcm",
+    "paypal",
+    "crypto",
+    "ecommerce",
+    "onedrive",
+    "forum",
+    "socialmedia_cn",
+    "socialmedia",
+    "anime",
     "tiktok",
     "douyin",
-    "icloud_private_relay"
+    "apns",
+    "dmca",
+    "vowifi",
+    "tld_proxy",
+    "gfw",
+    "global",
+    "direct"
   ],
   "expect_rules": {
     "wechat": [
@@ -176,6 +197,54 @@
     ],
     "douyin": [
       "DOMAIN-SUFFIX,douyin.com"
+    ],
+    "reject": [
+      "DOMAIN-SUFFIX,ping0.cc"
+    ],
+    "reject_extra": [
+      "DOMAIN-SUFFIX,adjust.com"
+    ],
+    "reject_drop": [
+      "DOMAIN-SUFFIX,burpcollaborator.net"
+    ],
+    "reject_no_drop": [
+      "DOMAIN,pagead2.googlesyndication.com"
+    ],
+    "domestic": [
+      "DOMAIN,account-cn.alibabacloud.com"
+    ],
+    "cncidr": [
+      "IP-CIDR,1.0.1.0/24,no-resolve"
+    ],
+    "stream": [
+      "DOMAIN-SUFFIX,paramountplus.com"
+    ],
+    "stream_global": [
+      "DOMAIN,abematv.akamaized.net"
+    ],
+    "apple_cn": [
+      "DOMAIN-SUFFIX,apple.com.cn"
+    ],
+    "apple_services": [
+      "DOMAIN-SUFFIX,appleid.apple.com"
+    ],
+    "abema": [
+      "DOMAIN-SUFFIX,abema.tv"
+    ],
+    "primevideo": [
+      "DOMAIN-SUFFIX,primevideo.com"
+    ],
+    "onedrive": [
+      "DOMAIN-SUFFIX,onedrive.live.com"
+    ],
+    "dmca": [
+      "DOMAIN-SUFFIX,dmca.com"
+    ],
+    "tld_proxy": [
+      "DOMAIN-SUFFIX,aaa"
+    ],
+    "direct": [
+      "DOMAIN-SUFFIX,weixin.qq.com"
     ]
   },
   "expect_rules_openclash": {
@@ -202,7 +271,8 @@
       "DOMAIN-SUFFIX,ebayrtm.com",
       "DOMAIN-SUFFIX,ebaystatic.com",
       "DOMAIN-SUFFIX,paypal.com",
-      "DOMAIN-SUFFIX,paypalobjects.com"
+      "DOMAIN-SUFFIX,paypalobjects.com",
+      "DOMAIN-SUFFIX,pexels.com"
     ],
     "httpdns": [
       "DOMAIN,aedns.weixin.qq.com",
@@ -249,6 +319,16 @@
       "DOMAIN-SUFFIX,pf.newegg.com",
       "DOMAIN-SUFFIX,ih.newegg.com",
       "DOMAIN-SUFFIX,imk.neweggimages.com"
+    ],
+    "download": [
+      "DOMAIN-SUFFIX,docker.com",
+      "DOMAIN-SUFFIX,npmjs.org",
+      "DOMAIN-SUFFIX,pypi.org",
+      "DOMAIN-SUFFIX,github.com"
+    ],
+    "direct": [
+      "DOMAIN-SUFFIX,google.com",
+      "DOMAIN-SUFFIX,tiktok.com"
     ]
   }
 }
