@@ -1,0 +1,339 @@
+name: Source Discovery
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "23 */12 * * *"
+
+permissions:
+  actions: read
+  contents: read
+  attestations: write
+  id-token: write
+
+concurrency:
+  group: ruleset-source-discovery-main
+  cancel-in-progress: false
+
+jobs:
+  candidate:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      MAX_FETCH_FALLBACKS: "30"
+    steps:
+      - name: Checkout exact main source
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 1
+
+      - name: Setup Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.11"
+
+      - name: Verify public README privacy boundary
+        run: |
+          set -euo pipefail
+          test -f README.md
+          test ! -s README.md
+          test "$(git hash-object README.md)" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+
+      - name: Cache source downloads
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: ruleset/.cache
+          key: ruleset-source-cache-${{ runner.os }}-${{ hashFiles('ruleset/config/sources.json', 'ruleset/config/source_registry.json') }}-${{ github.run_id }}
+          restore-keys: |
+            ruleset-source-cache-${{ runner.os }}-${{ hashFiles('ruleset/config/sources.json', 'ruleset/config/source_registry.json') }}-
+            ruleset-source-cache-${{ runner.os }}-
+
+      - name: Freeze baseline and source revision
+        run: |
+          set -euo pipefail
+          mkdir -p .candidate
+          cp -a ruleset/dist "${RUNNER_TEMP}/baseline-dist"
+          git rev-parse HEAD > .candidate/source-sha.txt
+
+      - name: Resolve immutable source lock
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python3 ruleset/scripts/resolve_source_lock.py \
+            --sources ruleset/config/sources.json \
+            --output .candidate/sources.lock.json
+
+      - name: Select previous successful radar snapshot
+        id: previous_radar
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          echo "available=false" >> "$GITHUB_OUTPUT"
+          runs_json="$(
+            gh api \
+              "repos/${REPOSITORY}/actions/workflows/source-discovery.yml/runs?branch=main&status=success&per_page=20"
+          )"
+          while IFS=$'\t' read -r run_id path event head_repository; do
+            test -n "$run_id" || continue
+            if [ "$path" != ".github/workflows/source-discovery.yml" ] || \
+               [ "$head_repository" != "$REPOSITORY" ]; then
+              continue
+            fi
+            case "$event" in
+              schedule|workflow_dispatch) ;;
+              *) continue ;;
+            esac
+            artifacts_json="$(
+              gh api "repos/${REPOSITORY}/actions/runs/${run_id}/artifacts?per_page=100"
+            )"
+            mapfile -t names < <(
+              jq -r '
+                .artifacts[]
+                | select(.expired == false)
+                | select(
+                    .name
+                    | test(
+                        "^ruleset-candidate-(none|low|high)-[0-9a-f]{64}-[0-9a-f]{64}$"
+                      )
+                  )
+                | .name
+              ' <<<"$artifacts_json"
+            )
+            if [ "${#names[@]}" -ne 1 ]; then
+              continue
+            fi
+            echo "available=true" >> "$GITHUB_OUTPUT"
+            echo "run_id=$run_id" >> "$GITHUB_OUTPUT"
+            echo "artifact_name=${names[0]}" >> "$GITHUB_OUTPUT"
+            exit 0
+          done < <(
+            jq -r --arg repository "$REPOSITORY" '
+              .workflow_runs[]
+              | [
+                  (.id | tostring),
+                  .path,
+                  .event,
+                  .head_repository.full_name
+                ]
+              | @tsv
+            ' <<<"$runs_json"
+          )
+
+      - name: Download previous radar snapshot
+        if: steps.previous_radar.outputs.available == 'true'
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: ${{ steps.previous_radar.outputs.artifact_name }}
+          path: ${{ runner.temp }}/previous-radar
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          run-id: ${{ steps.previous_radar.outputs.run_id }}
+          digest-mismatch: error
+
+      - name: Build isolated candidate
+        timeout-minutes: 45
+        run: |
+          set -euo pipefail
+          python3 ruleset/scripts/build_rulesets.py \
+            --source-lock .candidate/sources.lock.json \
+            --baseline-dist "${RUNNER_TEMP}/baseline-dist" \
+            --fail-on-cross-action-conflicts
+
+      - name: Generate client templates
+        run: |
+          python3 ruleset/scripts/generate_recommended_templates.py \
+            --policy-reference ruleset/dist/policy_reference.json \
+            --index ruleset/dist/index.json \
+            --openclash-out ruleset/dist/recommended_openclash.yaml \
+            --surge-out ruleset/dist/recommended_surge.conf \
+            --stash-out ruleset/dist/recommended_stash.yaml \
+            --stash-native-out ruleset/dist/recommended_stash_native.yaml \
+            --raw-base-url "https://raw.githubusercontent.com/${{ github.repository }}/main/ruleset/dist"
+
+      - name: Run candidate-only upstream radar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          baseline_args=()
+          if [ -f "${RUNNER_TEMP}/previous-radar/candidate-sources.json" ]; then
+            baseline_args=(
+              --baseline "${RUNNER_TEMP}/previous-radar/candidate-sources.json"
+            )
+          elif [ -f "${RUNNER_TEMP}/baseline-dist/candidate_sources.json" ]; then
+            baseline_args=(--baseline "${RUNNER_TEMP}/baseline-dist/candidate_sources.json")
+          fi
+          python3 ruleset/scripts/discover_source_radar.py \
+            --config ruleset/config/source_radar.json \
+            --source-lock .candidate/sources.lock.json \
+            --provenance ruleset/dist/source_provenance.json \
+            "${baseline_args[@]}" \
+            --output ruleset/dist/candidate_sources.json
+          python3 ruleset/scripts/apply_radar_decision.py \
+            --manifest ruleset/dist/candidate_manifest.json \
+            --radar ruleset/dist/candidate_sources.json \
+            --decision-output ruleset/dist/source_radar_decision.json
+
+      - name: Validate formats and semantic contracts
+        run: |
+          set -euo pipefail
+          python3 ruleset/scripts/validate_rulesets.py
+          python3 ruleset/scripts/check_smoke_probes.py
+          python3 ruleset/scripts/check_allowlist_effective.py
+          approved_args=()
+          if [ -f ruleset/config/approved_count_drift.json ]; then
+            approved_args=(--approved-drift ruleset/config/approved_count_drift.json)
+          fi
+          python3 ruleset/scripts/check_quality_gates.py \
+            --current ruleset/dist/policy_reference.json \
+            --baseline "${RUNNER_TEMP}/baseline-dist/policy_reference.json" \
+            "${approved_args[@]}" \
+            --fetch-report ruleset/dist/fetch_report.json \
+            --conflicts ruleset/dist/conflicts.json \
+            --minimums ruleset/config/min_rules.json \
+            --max-fetch-fallbacks "${MAX_FETCH_FALLBACKS}" \
+            --max-cross-action-conflicts 0 \
+            --max-high-severity-conflicts 0 \
+            --source-provenance ruleset/dist/source_provenance.json \
+            --client-parity ruleset/dist/client_parity.json \
+            --contracts ruleset/dist/category_contracts_resolved.json \
+            --candidate-manifest ruleset/dist/candidate_manifest.json
+
+      - name: Update candidate changelog
+        run: |
+          python3 ruleset/scripts/update_dist_changelog.py \
+            --current-policy ruleset/dist/policy_reference.json \
+            --baseline-policy "${RUNNER_TEMP}/baseline-dist/policy_reference.json" \
+            --conflicts ruleset/dist/conflicts.json \
+            --fetch-report ruleset/dist/fetch_report.json \
+            --output ruleset/dist/CHANGELOG.md
+
+      - name: Scan source and candidate for secrets
+        run: |
+          set -euo pipefail
+          report_dir="${RUNNER_TEMP}/gitleaks-discovery"
+          mkdir -p "$report_dir"
+          docker run --rm \
+            -v "$PWD:/repo:ro" \
+            -v "$report_dir:/reports" \
+            ghcr.io/gitleaks/gitleaks@sha256:b5918eb91b8d2473cec722f066abb4352e4ffdc4ec9f4283ec143aba9ec9ebc4 \
+            detect \
+            --source /repo \
+            --no-git \
+            --config /repo/.gitleaks.toml \
+            --redact \
+            --report-format sarif \
+            --report-path /reports/gitleaks.sarif
+          cp "$report_dir/gitleaks.sarif" .candidate/gitleaks-source-discovery.sarif
+
+      - name: Generate discovery summary
+        if: always()
+        run: |
+          set -euo pipefail
+          if [ ! -f ruleset/dist/candidate_manifest.json ]; then
+            echo "Candidate manifest unavailable." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          python3 ruleset/scripts/generate_run_summary.py \
+            --current-policy ruleset/dist/policy_reference.json \
+            --baseline-policy "${RUNNER_TEMP}/baseline-dist/policy_reference.json" \
+            --conflicts ruleset/dist/conflicts.json \
+            --fetch-report ruleset/dist/fetch_report.json \
+            --minimums ruleset/config/min_rules.json \
+            --output .candidate/discovery-summary.md
+          cat .candidate/discovery-summary.md >> "$GITHUB_STEP_SUMMARY"
+          {
+            echo
+            echo "## Candidate decision"
+            echo
+            jq -r '"- Semantic digest: `" + .semantic_digest + "`\n- Risk: `" + .risk_level + "`\n- Changed: `" + (.changed|tostring) + "`\n- Auto eligible: `" + (.auto_promotion_eligible|tostring) + "`\n- Review required: `" + (.requires_review|tostring) + "`\n- Risk markers: `" + ((.risk_markers // []) | join(", ")) + "`\n- Budget exceeded: `" + ((.budget_exceeded // []) | join("; ")) + "`"' ruleset/dist/candidate_manifest.json
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Package immutable candidate
+        id: package
+        run: |
+          set -euo pipefail
+          source_sha="$(tr -d '[:space:]' < .candidate/source-sha.txt)"
+          manifest_tmp="$(mktemp ruleset/dist/.candidate-manifest.XXXXXXXXXX)"
+          jq --arg source_commit_sha "$source_sha" \
+            '.source_commit_sha = $source_commit_sha' \
+            ruleset/dist/candidate_manifest.json > "$manifest_tmp"
+          mv "$manifest_tmp" ruleset/dist/candidate_manifest.json
+          semantic_digest="$(jq -r '.semantic_digest' ruleset/dist/candidate_manifest.json)"
+          risk_level="$(jq -r '.risk_level' ruleset/dist/candidate_manifest.json)"
+          if ! [[ "$semantic_digest" =~ ^[0-9a-f]{64}$ ]]; then
+            echo "Invalid semantic digest."
+            exit 1
+          fi
+          case "$risk_level" in
+            none|low|high) ;;
+            *) echo "Invalid risk level: $risk_level"; exit 1 ;;
+          esac
+          source_lock_sha="$(jq -r '.source_lock_sha256' ruleset/dist/candidate_manifest.json)"
+          workflow_sha="$(sha256sum .github/workflows/source-discovery.yml | awk '{print $1}')"
+          jq -nS \
+            --arg semantic_digest "$semantic_digest" \
+            --arg source_sha "$source_sha" \
+            --arg source_lock_sha256 "$source_lock_sha" \
+            --arg workflow_sha256 "$workflow_sha" \
+            '{
+              semantic_digest: $semantic_digest,
+              source_lock_sha256: $source_lock_sha256,
+              source_sha: $source_sha,
+              workflow_sha256: $workflow_sha256
+            }' > .candidate/candidate-identity.json
+          identity_digest="$(sha256sum .candidate/candidate-identity.json | awk '{print $1}')"
+          artifact_name="ruleset-candidate-${risk_level}-${semantic_digest}-${identity_digest}"
+          cp ruleset/dist/candidate_manifest.json .candidate/candidate-manifest.json
+          cp ruleset/dist/candidate_sources.json .candidate/candidate-sources.json
+          cp ruleset/dist/fetch_report.json .candidate/fetch-report.json
+          cp ruleset/dist/source_health.json .candidate/source-health.json
+          cp ruleset/dist/source_radar_decision.json \
+            .candidate/source-radar-decision.json
+          tar -czf .candidate/ruleset-dist.tar.gz -C ruleset dist
+          (
+            cd .candidate
+            sha256sum ruleset-dist.tar.gz > ruleset-dist.sha256
+          )
+          printf '%s\n' "$semantic_digest" > .candidate/semantic-digest.txt
+          printf '%s\n' "$identity_digest" > .candidate/identity-digest.txt
+          echo "artifact_name=$artifact_name" >> "$GITHUB_OUTPUT"
+
+      - name: Verify remote README before candidate attestation
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          test "$(gh api "repos/${{ github.repository }}/contents/README.md?ref=main" --jq '.size')" = "0"
+          test "$(gh api "repos/${{ github.repository }}/contents/README.md?ref=main" --jq '.sha')" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+
+      - name: Attest candidate archive in the producing workflow
+        uses: actions/attest-build-provenance@0f67c3f4856b2e3261c31976d6725780e5e4c373 # v4.1.1
+        with:
+          subject-path: .candidate/ruleset-dist.tar.gz
+
+      - name: Recheck README after candidate attestation
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          test "$(gh api "repos/${{ github.repository }}/contents/README.md?ref=main" --jq '.size')" = "0"
+          test "$(gh api "repos/${{ github.repository }}/contents/README.md?ref=main" --jq '.sha')" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+
+      - name: Upload candidate and health evidence
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: ${{ steps.package.outputs.artifact_name }}
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 30
+          path: .candidate/
+
+      - name: Recheck README privacy boundary
+        run: |
+          set -euo pipefail
+          test -f README.md
+          test ! -s README.md
+          test "$(git hash-object README.md)" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"

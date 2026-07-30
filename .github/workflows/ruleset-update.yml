@@ -1,226 +1,212 @@
-name: Ruleset Auto Update
+name: Ruleset Promotion
 
 on:
+  workflow_run:
+    workflows:
+      - Source Discovery
+    types:
+      - completed
   workflow_dispatch:
-  schedule:
-    - cron: "17 3 * * 1"
+    inputs:
+      candidate_run_id:
+        description: "Successful Source Discovery run ID containing the exact candidate"
+        required: true
+        type: string
+      candidate_artifact_name:
+        description: "Optional exact ruleset-candidate-* artifact name"
+        required: false
+        type: string
 
 permissions:
+  actions: read
   contents: read
 
 concurrency:
-  group: ruleset-auto-update-main
+  group: ruleset-promotion-main
   cancel-in-progress: false
 
 jobs:
-  build-validate:
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
-    timeout-minutes: 90
-    env:
-      MAX_FETCH_FALLBACKS: "30"
+  select:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      should_publish: ${{ steps.select.outputs.should_publish }}
+      candidate_run_id: ${{ steps.select.outputs.candidate_run_id }}
+      candidate_artifact_name: ${{ steps.select.outputs.candidate_artifact_name }}
+      candidate_head_sha: ${{ steps.select.outputs.candidate_head_sha }}
+      promotion_mode: ${{ steps.select.outputs.promotion_mode }}
+      environment_name: ${{ steps.select.outputs.environment_name }}
     steps:
-      - name: Checkout source
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
-        with:
-          fetch-depth: 1
-
-      - name: Setup Python
-        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
-        with:
-          python-version: "3.11"
-
-      - name: Cache source downloads
-        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
-        with:
-          path: ruleset/.cache
-          key: ruleset-source-cache-${{ runner.os }}-${{ hashFiles('ruleset/config/sources.json') }}-${{ github.run_id }}
-          restore-keys: |
-            ruleset-source-cache-${{ runner.os }}-${{ hashFiles('ruleset/config/sources.json') }}-
-            ruleset-source-cache-${{ runner.os }}-
-
-      - name: Prepare immutable build inputs
+      - name: Select a stable or reviewed candidate
+        id: select
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPOSITORY: ${{ github.repository }}
+          EVENT_NAME: ${{ github.event_name }}
+          INPUT_RUN_ID: ${{ inputs.candidate_run_id }}
+          INPUT_ARTIFACT_NAME: ${{ inputs.candidate_artifact_name }}
         run: |
           set -euo pipefail
-          mkdir -p .workflow-artifacts
-          git rev-parse HEAD > .workflow-artifacts/source-sha.txt
-          if [ -f ruleset/dist/policy_reference.json ]; then
-            cp ruleset/dist/policy_reference.json .workflow-artifacts/policy_reference.before.json
-          fi
+          echo "should_publish=false" >> "$GITHUB_OUTPUT"
 
-      - name: Run unit and configuration tests
-        run: python3 -m unittest discover -s ruleset/tests -v
+          readme_size="$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.size')"
+          readme_blob="$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.sha')"
+          test "$readme_size" = "0"
+          test "$readme_blob" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
 
-      - name: Build rulesets
-        timeout-minutes: 45
-        run: |
-          set -euo pipefail
-          for attempt in 1 2 3; do
-            echo "Build attempt ${attempt}/3"
-            set +e
-            python3 ruleset/scripts/build_rulesets.py --fail-on-cross-action-conflicts
-            build_status=$?
-            set -e
-            if [ "$build_status" -eq 0 ]; then
+          if [ "$EVENT_NAME" = "workflow_run" ]; then
+            conclusion="$(jq -r '.workflow_run.conclusion' "$GITHUB_EVENT_PATH")"
+            head_branch="$(jq -r '.workflow_run.head_branch' "$GITHUB_EVENT_PATH")"
+            if [ "$conclusion" != "success" ] || [ "$head_branch" != "main" ]; then
+              echo "Discovery was not a successful main run; no promotion."
               exit 0
             fi
-            if [ "$build_status" -eq 3 ]; then
-              echo "Semantic conflict gate failed; retrying network fetches cannot fix it."
-              exit 3
+            run_id="$(jq -r '.workflow_run.id' "$GITHUB_EVENT_PATH")"
+            run_json="$(gh api "repos/${REPOSITORY}/actions/runs/${run_id}")"
+            artifact_json="$(gh api "repos/${REPOSITORY}/actions/runs/${run_id}/artifacts?per_page=100")"
+            artifact_name="$(
+              jq -r '
+                [.artifacts[]
+                  | select(.expired == false)
+                  | select(.name | startswith("ruleset-candidate-low-"))
+                  | .name][0] // empty
+              ' <<<"$artifact_json"
+            )"
+            if [ -z "$artifact_name" ]; then
+              echo "Discovery produced no low-risk candidate; review path remains manual."
+              exit 0
             fi
-            if [ "${attempt}" -eq 3 ]; then
-              echo "Build failed after 3 attempts (last status: $build_status)."
-              exit "$build_status"
+
+            stable=false
+            mapfile -t prior_runs < <(
+              gh api "repos/${REPOSITORY}/actions/workflows/source-discovery.yml/runs?branch=main&status=success&per_page=20" \
+                --jq '.workflow_runs[].id'
+            )
+            for prior_run in "${prior_runs[@]}"; do
+              if [ "$prior_run" = "$run_id" ]; then
+                continue
+              fi
+              prior_artifacts="$(
+                gh api "repos/${REPOSITORY}/actions/runs/${prior_run}/artifacts?per_page=100"
+              )"
+              prior_match="$(
+                jq -r --arg name "$artifact_name" \
+                  '.artifacts[]
+                    | select(.expired == false and .name == $name)
+                    | .name' \
+                  <<<"$prior_artifacts" \
+                  | head -n 1
+              )"
+              if [ "$prior_match" = "$artifact_name" ]; then
+                stable=true
+              fi
+              break
+            done
+            if [ "$stable" != "true" ]; then
+              echo "Low-risk candidate has not remained identical for two discovery cycles."
+              exit 0
             fi
-            sleep 20
-          done
-
-      - name: Generate recommended templates
-        run: |
-          python3 ruleset/scripts/generate_recommended_templates.py \
-            --policy-reference ruleset/dist/policy_reference.json \
-            --openclash-out ruleset/dist/recommended_openclash.yaml \
-            --surge-out ruleset/dist/recommended_surge.conf \
-            --raw-base-url "https://raw.githubusercontent.com/${{ github.repository }}/main/ruleset/dist"
-
-      - name: Validate output formats
-        run: python3 ruleset/scripts/validate_rulesets.py
-
-      - name: Run smoke probes
-        run: python3 ruleset/scripts/check_smoke_probes.py
-
-      - name: Verify allowlist effectiveness
-        run: python3 ruleset/scripts/check_allowlist_effective.py
-
-      - name: Enforce quality gates
-        run: |
-          set -euo pipefail
-          baseline_args=()
-          drift_args=()
-          if [ -f .workflow-artifacts/policy_reference.before.json ]; then
-            baseline_args=(--baseline .workflow-artifacts/policy_reference.before.json)
-            if [ -f ruleset/config/approved_count_drift.json ]; then
-              drift_args=(--approved-drift ruleset/config/approved_count_drift.json)
+            promotion_mode="auto-low-risk"
+            environment_name="ruleset-low-risk"
+          else
+            run_id="${INPUT_RUN_ID//[[:space:]]/}"
+            if ! [[ "$run_id" =~ ^[0-9]+$ ]]; then
+              echo "candidate_run_id must be numeric."
+              exit 1
             fi
+            run_json="$(gh api "repos/${REPOSITORY}/actions/runs/${run_id}")"
+            artifact_json="$(gh api "repos/${REPOSITORY}/actions/runs/${run_id}/artifacts?per_page=100")"
+            artifact_name="${INPUT_ARTIFACT_NAME//[[:space:]]/}"
+            if [ -z "$artifact_name" ]; then
+              artifact_name="$(
+                jq -r '
+                  [.artifacts[]
+                    | select(.expired == false)
+                    | select(.name | startswith("ruleset-candidate-"))
+                    | select(.name | startswith("ruleset-candidate-none-") | not)
+                    | .name][0] // empty
+                ' <<<"$artifact_json"
+              )"
+            fi
+            artifact_count="$(
+              jq -r --arg name "$artifact_name" \
+                '[.artifacts[] | select(.expired == false and .name == $name)] | length' \
+                <<<"$artifact_json"
+            )"
+            if [ "$artifact_count" != "1" ]; then
+              echo "Exact candidate artifact was not found once in discovery run ${run_id}."
+              exit 1
+            fi
+            promotion_mode="reviewed"
+            environment_name="ruleset-production"
           fi
-          python3 ruleset/scripts/check_quality_gates.py \
-            --current ruleset/dist/policy_reference.json \
-            "${baseline_args[@]}" \
-            "${drift_args[@]}" \
-            --fetch-report ruleset/dist/fetch_report.json \
-            --conflicts ruleset/dist/conflicts.json \
-            --max-change-pct 20 \
-            --min-abs-delta 50 \
-            --min-baseline-rules 100 \
-            --minimums ruleset/config/min_rules.json \
-            --max-fetch-fallbacks "${MAX_FETCH_FALLBACKS}" \
-            --max-cross-action-conflicts 0 \
-            --max-high-severity-conflicts 0
 
-      - name: Update dist changelog
-        run: |
-          set -euo pipefail
-          if [ -z "$(git status --porcelain ruleset/dist)" ]; then
-            echo "No ruleset changes before changelog update."
-            exit 0
+          test "$(jq -r '.status' <<<"$run_json")" = "completed"
+          test "$(jq -r '.conclusion' <<<"$run_json")" = "success"
+          test "$(jq -r '.head_branch' <<<"$run_json")" = "main"
+          test "$(jq -r '.head_repository.full_name' <<<"$run_json")" = "$REPOSITORY"
+          test "$(jq -r '.path' <<<"$run_json")" = ".github/workflows/source-discovery.yml"
+          run_event="$(jq -r '.event' <<<"$run_json")"
+          case "$run_event" in
+            schedule|workflow_dispatch) ;;
+            *) echo "Candidate run has an unexpected event: $run_event"; exit 1 ;;
+          esac
+          candidate_head_sha="$(jq -r '.head_sha' <<<"$run_json")"
+          if ! [[ "$candidate_head_sha" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "Candidate run has an invalid head SHA."
+            exit 1
           fi
-          baseline_args=()
-          if [ -f .workflow-artifacts/policy_reference.before.json ]; then
-            baseline_args=(--baseline-policy .workflow-artifacts/policy_reference.before.json)
+          created_epoch="$(date -u -d "$(jq -r '.created_at' <<<"$run_json")" +%s)"
+          now_epoch="$(date -u +%s)"
+          if [ $((now_epoch - created_epoch)) -gt 93600 ]; then
+            echo "Candidate discovery is older than the 26-hour freshness SLO."
+            exit 1
           fi
-          python3 ruleset/scripts/update_dist_changelog.py \
-            --current-policy ruleset/dist/policy_reference.json \
-            "${baseline_args[@]}" \
-            --conflicts ruleset/dist/conflicts.json \
-            --fetch-report ruleset/dist/fetch_report.json \
-            --output ruleset/dist/CHANGELOG.md
-
-      - name: Scan source and generated dist for secrets
-        run: |
-          set -euo pipefail
-          report_dir="${RUNNER_TEMP}/gitleaks-build"
-          mkdir -p "$report_dir"
-          docker run --rm \
-            -v "$PWD:/repo:ro" \
-            -v "$report_dir:/reports" \
-            ghcr.io/gitleaks/gitleaks@sha256:b5918eb91b8d2473cec722f066abb4352e4ffdc4ec9f4283ec143aba9ec9ebc4 \
-            detect \
-            --source /repo \
-            --no-git \
-            --config /repo/.gitleaks.toml \
-            --redact \
-            --report-format sarif \
-            --report-path /reports/gitleaks.sarif
-          cp "$report_dir/gitleaks.sarif" .workflow-artifacts/gitleaks-ruleset-update.sarif
-
-      - name: Generate workflow summary
-        if: always()
-        run: |
-          set -euo pipefail
-          if [ ! -f ruleset/dist/policy_reference.json ] || \
-             [ ! -f ruleset/dist/fetch_report.json ] || \
-             [ ! -f ruleset/dist/conflicts.json ]; then
-            echo "Ruleset summary unavailable: required outputs are missing." >> "$GITHUB_STEP_SUMMARY"
-            exit 0
+          latest_for_head="$(
+            gh api "repos/${REPOSITORY}/actions/workflows/source-discovery.yml/runs?branch=main&status=success&per_page=100" \
+              --jq ".workflow_runs[]
+                | select(.head_sha == \"${candidate_head_sha}\")
+                | .id" \
+              | head -n 1
+          )"
+          if [ "$latest_for_head" != "$run_id" ]; then
+            echo "Candidate is not the latest successful discovery for its source SHA."
+            exit 1
           fi
-          baseline_args=()
-          if [ -f .workflow-artifacts/policy_reference.before.json ]; then
-            baseline_args=(--baseline-policy .workflow-artifacts/policy_reference.before.json)
+
+          if ! [[ "$artifact_name" =~ ^ruleset-candidate-(low|high)-[0-9a-f]{64}-[0-9a-f]{64}$ ]]; then
+            echo "Candidate artifact name is invalid: $artifact_name"
+            exit 1
           fi
-          python3 ruleset/scripts/generate_run_summary.py \
-            --current-policy ruleset/dist/policy_reference.json \
-            "${baseline_args[@]}" \
-            --conflicts ruleset/dist/conflicts.json \
-            --fetch-report ruleset/dist/fetch_report.json \
-            --minimums ruleset/config/min_rules.json \
-            --output .workflow-artifacts/ruleset-workflow-summary.md
-          cat .workflow-artifacts/ruleset-workflow-summary.md >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Package validated dist
-        run: |
-          set -euo pipefail
-          tar -czf .workflow-artifacts/ruleset-dist.tar.gz -C ruleset dist
-          (
-            cd .workflow-artifacts
-            sha256sum ruleset-dist.tar.gz > ruleset-dist.sha256
-          )
-
-      - name: Upload validated publish bundle
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        with:
-          name: ruleset-publish-${{ github.run_id }}
-          if-no-files-found: error
-          include-hidden-files: true
-          retention-days: 14
-          path: .workflow-artifacts/
-
-      - name: Upload diagnostics on failure
-        if: failure()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        with:
-          name: ruleset-debug-${{ github.run_id }}
-          if-no-files-found: ignore
-          include-hidden-files: true
-          retention-days: 14
-          path: |
-            ruleset/dist/CHANGELOG.md
-            ruleset/dist/conflicts.json
-            ruleset/dist/fetch_report.json
-            ruleset/dist/policy_reference.json
-            .workflow-artifacts/ruleset-workflow-summary.md
+          echo "should_publish=true" >> "$GITHUB_OUTPUT"
+          echo "candidate_run_id=$run_id" >> "$GITHUB_OUTPUT"
+          echo "candidate_artifact_name=$artifact_name" >> "$GITHUB_OUTPUT"
+          echo "candidate_head_sha=$candidate_head_sha" >> "$GITHUB_OUTPUT"
+          echo "promotion_mode=$promotion_mode" >> "$GITHUB_OUTPUT"
+          echo "environment_name=$environment_name" >> "$GITHUB_OUTPUT"
 
   publish:
-    if: github.ref == 'refs/heads/main'
-    needs: build-validate
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
+    if: needs.select.outputs.should_publish == 'true'
+    needs:
+      - select
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    environment:
+      name: ${{ needs.select.outputs.environment_name }}
     permissions:
+      actions: read
+      attestations: read
       contents: write
+      statuses: write
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      MAX_FETCH_FALLBACKS: "30"
+      REPOSITORY: ${{ github.repository }}
+      CANDIDATE_RUN_ID: ${{ needs.select.outputs.candidate_run_id }}
+      CANDIDATE_ARTIFACT_NAME: ${{ needs.select.outputs.candidate_artifact_name }}
+      EXPECTED_SOURCE_SHA: ${{ needs.select.outputs.candidate_head_sha }}
+      PROMOTION_MODE: ${{ needs.select.outputs.promotion_mode }}
     steps:
-      - name: Checkout exact source revision
+      - name: Checkout current main
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
           fetch-depth: 0
@@ -230,71 +216,100 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Download validated publish bundle
+      - name: Download exact candidate
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
-          name: ruleset-publish-${{ github.run_id }}
-          path: .workflow-artifacts
+          name: ${{ needs.select.outputs.candidate_artifact_name }}
+          path: .promotion
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          run-id: ${{ needs.select.outputs.candidate_run_id }}
+          digest-mismatch: error
 
-      - name: Verify artifact and source freshness
+      - name: Verify candidate identity and source freshness
         run: |
           set -euo pipefail
+          run_json="$(gh api "repos/${REPOSITORY}/actions/runs/${CANDIDATE_RUN_ID}")"
+          test "$(jq -r '.status' <<<"$run_json")" = "completed"
+          test "$(jq -r '.conclusion' <<<"$run_json")" = "success"
+          test "$(jq -r '.head_branch' <<<"$run_json")" = "main"
+          test "$(jq -r '.head_repository.full_name' <<<"$run_json")" = "$REPOSITORY"
+          test "$(jq -r '.path' <<<"$run_json")" = \
+            ".github/workflows/source-discovery.yml"
+          candidate_run_head_sha="$(jq -r '.head_sha' <<<"$run_json")"
+          test "$candidate_run_head_sha" = "$EXPECTED_SOURCE_SHA"
+          created_epoch="$(date -u -d "$(jq -r '.created_at' <<<"$run_json")" +%s)"
+          now_epoch="$(date -u +%s)"
+          if [ $((now_epoch - created_epoch)) -gt 93600 ]; then
+            echo "Candidate expired while awaiting protected-environment approval."
+            exit 1
+          fi
+          latest_for_head="$(
+            gh api "repos/${REPOSITORY}/actions/workflows/source-discovery.yml/runs?branch=main&status=success&per_page=100" \
+              --jq ".workflow_runs[]
+                | select(.head_sha == \"${EXPECTED_SOURCE_SHA}\")
+                | .id" \
+              | head -n 1
+          )"
+          if [ "$latest_for_head" != "$CANDIDATE_RUN_ID" ]; then
+            echo "A newer successful discovery superseded this candidate."
+            exit 1
+          fi
           (
-            cd .workflow-artifacts
+            cd .promotion
             sha256sum -c ruleset-dist.sha256
           )
-          source_sha="$(tr -d '[:space:]' < .workflow-artifacts/source-sha.txt)"
+          candidate_source_sha="$(tr -d '[:space:]' < .promotion/source-sha.txt)"
+          candidate_digest="$(tr -d '[:space:]' < .promotion/semantic-digest.txt)"
+          candidate_identity_digest="$(tr -d '[:space:]' < .promotion/identity-digest.txt)"
+          manifest_digest="$(jq -r '.semantic_digest' .promotion/candidate-manifest.json)"
+          manifest_risk="$(jq -r '.risk_level' .promotion/candidate-manifest.json)"
+          identity_file_digest="$(sha256sum .promotion/candidate-identity.json | awk '{print $1}')"
+          artifact_identity_digest="${CANDIDATE_ARTIFACT_NAME##*-}"
+          artifact_risk="${CANDIDATE_ARTIFACT_NAME#ruleset-candidate-}"
+          artifact_risk="${artifact_risk%%-*}"
+          artifact_tail="${CANDIDATE_ARTIFACT_NAME#ruleset-candidate-${artifact_risk}-}"
+          artifact_semantic_digest="${artifact_tail%%-*}"
+          test "$candidate_digest" = "$manifest_digest"
+          test "$candidate_digest" = "$artifact_semantic_digest"
+          test "$candidate_identity_digest" = "$identity_file_digest"
+          test "$candidate_identity_digest" = "$artifact_identity_digest"
+          test "$manifest_risk" = "$artifact_risk"
+          test "$(jq -r '.semantic_digest' .promotion/candidate-identity.json)" = "$candidate_digest"
+          test "$(jq -r '.source_sha' .promotion/candidate-identity.json)" = "$candidate_source_sha"
+          test "$(jq -r '.source_lock_sha256' .promotion/candidate-identity.json)" = \
+            "$(jq -r '.source_lock_sha256' .promotion/candidate-manifest.json)"
+          test "$(jq -r '.workflow_sha256' .promotion/candidate-identity.json)" = \
+            "$(sha256sum .github/workflows/source-discovery.yml | awk '{print $1}')"
+          test "$candidate_source_sha" = "$EXPECTED_SOURCE_SHA"
+
           git fetch --no-tags origin main
           remote_sha="$(git rev-parse origin/main)"
           checkout_sha="$(git rev-parse HEAD)"
-          if [ "$source_sha" != "$remote_sha" ] || [ "$checkout_sha" != "$remote_sha" ]; then
-            echo "Source moved after validation; refusing to publish stale output."
-            echo "validated=$source_sha remote=$remote_sha checkout=$checkout_sha"
+          if [ "$candidate_source_sha" != "$remote_sha" ] || [ "$checkout_sha" != "$remote_sha" ]; then
+            echo "Source moved after candidate validation; refusing stale promotion."
+            echo "candidate=$candidate_source_sha remote=$remote_sha checkout=$checkout_sha"
             exit 1
           fi
-
-      - name: Repair a missing release for an existing snapshot tag
-        env:
-          REPOSITORY: ${{ github.repository }}
-        run: |
-          set -euo pipefail
-          existing_tag="$(git tag --points-at HEAD --list 'ruleset-*' | sort | tail -n 1)"
-          if [ -z "$existing_tag" ] || gh release view "$existing_tag" --repo "$REPOSITORY" >/dev/null 2>&1; then
-            exit 0
+          if [ "$PROMOTION_MODE" = "auto-low-risk" ]; then
+            test "$manifest_risk" = "low"
+            test "$(jq -r '.auto_promotion_eligible' .promotion/candidate-manifest.json)" = "true"
           fi
-          reconcile_dir="${RUNNER_TEMP}/ruleset-reconcile"
-          mkdir -p "$reconcile_dir"
-          tar -czf "$reconcile_dir/ruleset-dist.tar.gz" -C ruleset dist
-          (
-            cd "$reconcile_dir"
-            sha256sum ruleset-dist.tar.gz > ruleset-dist.sha256
-          )
-          python3 ruleset/scripts/generate_release_notes.py \
-            --repo "$REPOSITORY" \
-            --tag "$existing_tag" \
-            --changelog ruleset/dist/CHANGELOG.md \
-            --index ruleset/dist/index.json \
-            --conflicts ruleset/dist/conflicts.json \
-            --fetch-report ruleset/dist/fetch_report.json \
-            --output "$reconcile_dir/release-notes.md"
-          gh release create "$existing_tag" \
-            --repo "$REPOSITORY" \
-            --title "Ruleset Snapshot $existing_tag" \
-            --notes-file "$reconcile_dir/release-notes.md" \
-            "$reconcile_dir/ruleset-dist.tar.gz" \
-            "$reconcile_dir/ruleset-dist.sha256"
+          test "$(jq -r '.changed' .promotion/candidate-manifest.json)" = "true"
 
-      - name: Apply and validate the publish bundle
+      - name: Apply candidate archive safely
         run: |
           set -euo pipefail
-          extract_dir="${RUNNER_TEMP}/ruleset-publish"
+          cp -a ruleset/dist .promotion/baseline-dist
+          extract_dir="${RUNNER_TEMP}/ruleset-promotion"
           mkdir -p "$extract_dir"
           python3 - <<'PY'
           import pathlib
           import tarfile
 
-          archive = pathlib.Path(".workflow-artifacts/ruleset-dist.tar.gz")
+          archive = pathlib.Path(".promotion/ruleset-dist.tar.gz")
           with tarfile.open(archive, "r:gz") as bundle:
+              seen = set()
               for member in bundle.getmembers():
                   path = pathlib.PurePosixPath(member.name)
                   if (
@@ -307,34 +322,47 @@ jobs:
                       or not (member.isfile() or member.isdir())
                   ):
                       raise SystemExit(f"unsafe archive member: {member.name}")
+                  if member.isfile():
+                      if member.name in seen:
+                          raise SystemExit(
+                              f"duplicate archive member: {member.name}"
+                          )
+                      seen.add(member.name)
           PY
-          tar -xzf .workflow-artifacts/ruleset-dist.tar.gz -C "$extract_dir"
+          tar -xzf .promotion/ruleset-dist.tar.gz -C "$extract_dir"
+          cmp .promotion/candidate-manifest.json "$extract_dir/dist/candidate_manifest.json"
           rsync -a --delete "$extract_dir/dist/" ruleset/dist/
+
+      - name: Revalidate exact candidate without rebuilding
+        run: |
+          set -euo pipefail
           python3 ruleset/scripts/validate_rulesets.py
           python3 ruleset/scripts/check_smoke_probes.py
           python3 ruleset/scripts/check_allowlist_effective.py
-          drift_args=()
-          if [ -f ruleset/config/approved_count_drift.json ]; then
-            drift_args=(--approved-drift ruleset/config/approved_count_drift.json)
+          auto_args=()
+          if [ "$PROMOTION_MODE" = "auto-low-risk" ]; then
+            auto_args=(--require-auto-promotion-eligible)
           fi
           python3 ruleset/scripts/check_quality_gates.py \
             --current ruleset/dist/policy_reference.json \
-            --baseline .workflow-artifacts/policy_reference.before.json \
-            "${drift_args[@]}" \
+            --baseline .promotion/baseline-dist/policy_reference.json \
             --fetch-report ruleset/dist/fetch_report.json \
             --conflicts ruleset/dist/conflicts.json \
-            --max-change-pct 20 \
-            --min-abs-delta 50 \
-            --min-baseline-rules 100 \
             --minimums ruleset/config/min_rules.json \
-            --max-fetch-fallbacks "${MAX_FETCH_FALLBACKS}" \
+            --max-fetch-fallbacks 0 \
             --max-cross-action-conflicts 0 \
-            --max-high-severity-conflicts 0
+            --max-high-severity-conflicts 0 \
+            --source-provenance ruleset/dist/source_provenance.json \
+            --client-parity ruleset/dist/client_parity.json \
+            --contracts ruleset/dist/category_contracts_resolved.json \
+            --candidate-manifest ruleset/dist/candidate_manifest.json \
+            --require-promotable \
+            "${auto_args[@]}"
 
       - name: Scan final publish tree for secrets
         run: |
           set -euo pipefail
-          report_dir="${RUNNER_TEMP}/gitleaks-publish"
+          report_dir="${RUNNER_TEMP}/gitleaks-promotion"
           mkdir -p "$report_dir"
           docker run --rm \
             -v "$PWD:/repo:ro" \
@@ -348,49 +376,53 @@ jobs:
             --report-format sarif \
             --report-path /reports/gitleaks.sarif
 
-      - name: Commit and atomically publish branch plus tag
-        id: publish_snapshot
+      - name: Prepare candidate commit and snapshot tag
+        id: prepare_snapshot
         run: |
           set -euo pipefail
-          if [ -z "$(git status --porcelain ruleset/dist)" ]; then
-            echo "No ruleset changes."
-            echo "committed=false" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
+          test -f README.md
+          test ! -s README.md
+          test "$(git hash-object README.md)" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+          readme_size="$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.size')"
+          readme_blob="$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.sha')"
+          test "$readme_size" = "0"
+          test "$readme_blob" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add ruleset/dist
           unexpected="$(git diff --cached --name-only | grep -Ev '^ruleset/dist/' || true)"
           if [ -n "$unexpected" ]; then
-            echo "Refusing to publish unexpected staged paths:"
+            echo "Refusing unexpected staged paths:"
             echo "$unexpected"
             exit 1
           fi
-          git commit -m "chore(ruleset): auto update $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
-          source_sha="$(tr -d '[:space:]' < .workflow-artifacts/source-sha.txt)"
-          git fetch --no-tags origin main
-          remote_sha="$(git rev-parse origin/main)"
-          if [ "$source_sha" != "$remote_sha" ]; then
-            echo "Source moved before push; refusing to rebase generated output."
+          if git diff --cached --quiet; then
+            echo "Candidate contains no publishable dist changes."
             exit 1
           fi
+          previous_sha="$(git rev-parse HEAD)"
+          semantic_digest="$(jq -r '.semantic_digest' ruleset/dist/candidate_manifest.json)"
+          git commit -m "chore(ruleset): promote ${semantic_digest:0:12}"
+          published_sha="$(git rev-parse HEAD)"
           epoch="$(git show -s --format=%ct HEAD)"
           short_sha="$(git rev-parse --short=12 HEAD)"
           tag="ruleset-$(date -u -d "@$epoch" +'%Y%m%dT%H%M%SZ')-$short_sha"
-          if git ls-remote --exit-code --tags origin "refs/tags/$tag" >/dev/null 2>&1; then
-            echo "Snapshot tag already exists: $tag"
+          git tag -a "$tag" -m "ruleset snapshot $tag"
+
+          git fetch --no-tags origin main
+          remote_sha="$(git rev-parse origin/main)"
+          if [ "$previous_sha" != "$remote_sha" ]; then
+            echo "Source moved before push; refusing to rebase generated output."
             exit 1
           fi
-          git tag -a "$tag" -m "ruleset snapshot $tag"
-          git push --atomic origin "HEAD:refs/heads/main" "refs/tags/$tag:refs/tags/$tag"
-          echo "committed=true" >> "$GITHUB_OUTPUT"
+          echo "published_sha=$published_sha" >> "$GITHUB_OUTPUT"
+          echo "previous_sha=$previous_sha" >> "$GITHUB_OUTPUT"
           echo "tag=$tag" >> "$GITHUB_OUTPUT"
 
       - name: Generate tag-pinned release notes
-        if: steps.publish_snapshot.outputs.committed == 'true'
         env:
-          REPOSITORY: ${{ github.repository }}
-          SNAPSHOT_TAG: ${{ steps.publish_snapshot.outputs.tag }}
+          SNAPSHOT_TAG: ${{ steps.prepare_snapshot.outputs.tag }}
         run: |
           python3 ruleset/scripts/generate_release_notes.py \
             --repo "$REPOSITORY" \
@@ -399,22 +431,185 @@ jobs:
             --index ruleset/dist/index.json \
             --conflicts ruleset/dist/conflicts.json \
             --fetch-report ruleset/dist/fetch_report.json \
-            --output .workflow-artifacts/release-notes.md
+            --output .promotion/release-notes.md
 
-      - name: Create immutable-style release with rollback assets
-        if: steps.publish_snapshot.outputs.committed == 'true'
+      - name: Publish snapshot tag
         env:
-          REPOSITORY: ${{ github.repository }}
-          SNAPSHOT_TAG: ${{ steps.publish_snapshot.outputs.tag }}
+          SNAPSHOT_TAG: ${{ steps.prepare_snapshot.outputs.tag }}
         run: |
           set -euo pipefail
+          test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.size')" = "0"
+          test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.sha')" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+          git push origin "refs/tags/$SNAPSHOT_TAG:refs/tags/$SNAPSHOT_TAG"
+          test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.size')" = "0"
+          test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.sha')" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+
+      - name: Create immutable snapshot release
+        env:
+          SNAPSHOT_TAG: ${{ steps.prepare_snapshot.outputs.tag }}
+        run: |
+          set -euo pipefail
+          test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.size')" = "0"
+          test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.sha')" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
           if gh release view "$SNAPSHOT_TAG" --repo "$REPOSITORY" >/dev/null 2>&1; then
-            echo "Release already exists; refusing to edit a published snapshot."
+            echo "Release already exists; refusing to edit an immutable snapshot."
             exit 1
           fi
           gh release create "$SNAPSHOT_TAG" \
             --repo "$REPOSITORY" \
             --title "Ruleset Snapshot $SNAPSHOT_TAG" \
-            --notes-file .workflow-artifacts/release-notes.md \
-            .workflow-artifacts/ruleset-dist.tar.gz \
-            .workflow-artifacts/ruleset-dist.sha256
+            --notes-file .promotion/release-notes.md \
+            .promotion/ruleset-dist.tar.gz \
+            .promotion/ruleset-dist.sha256
+          test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.size')" = "0"
+          test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.sha')" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+
+      - name: Verify tag, release, assets, tree, and discovery attestation
+        env:
+          PUBLISHED_SHA: ${{ steps.prepare_snapshot.outputs.published_sha }}
+          SNAPSHOT_TAG: ${{ steps.prepare_snapshot.outputs.tag }}
+        run: |
+          set -euo pipefail
+          for attempt in 1 2 3; do
+            if python3 ruleset/scripts/verify_published.py \
+              --repository "$REPOSITORY" \
+              --sha "$PUBLISHED_SHA" \
+              --tag "$SNAPSHOT_TAG" \
+              --archive .promotion/ruleset-dist.tar.gz \
+              --checksum .promotion/ruleset-dist.sha256 \
+              --skip-main; then
+              break
+            fi
+            if [ "$attempt" -eq 3 ]; then
+              exit 1
+            fi
+            sleep 10
+          done
+          gh attestation verify .promotion/ruleset-dist.tar.gz \
+            --repo "$REPOSITORY" \
+            --signer-workflow \
+              "${REPOSITORY}/.github/workflows/source-discovery.yml" \
+            --source-digest "$EXPECTED_SOURCE_SHA"
+
+      - name: Publish verified snapshot to main
+        env:
+          PREVIOUS_SHA: ${{ steps.prepare_snapshot.outputs.previous_sha }}
+          PUBLISHED_SHA: ${{ steps.prepare_snapshot.outputs.published_sha }}
+        run: |
+          set -euo pipefail
+          test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.size')" = "0"
+          test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.sha')" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+          git fetch --no-tags origin main
+          remote_sha="$(git rev-parse origin/main)"
+          if [ "$remote_sha" != "$PREVIOUS_SHA" ]; then
+            echo "Source moved before verified main publication."
+            exit 1
+          fi
+          test "$(git rev-parse HEAD)" = "$PUBLISHED_SHA"
+          git push origin "HEAD:refs/heads/main"
+          test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.size')" = "0"
+          test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.sha')" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+
+      - name: Verify published main and immutable snapshot
+        env:
+          PUBLISHED_SHA: ${{ steps.prepare_snapshot.outputs.published_sha }}
+          SNAPSHOT_TAG: ${{ steps.prepare_snapshot.outputs.tag }}
+        run: |
+          set -euo pipefail
+          for attempt in 1 2 3; do
+            if python3 ruleset/scripts/verify_published.py \
+              --repository "$REPOSITORY" \
+              --sha "$PUBLISHED_SHA" \
+              --tag "$SNAPSHOT_TAG" \
+              --archive .promotion/ruleset-dist.tar.gz \
+              --checksum .promotion/ruleset-dist.sha256; then
+              break
+            fi
+            if [ "$attempt" -eq 3 ]; then
+              exit 1
+            fi
+            sleep 10
+          done
+          gh attestation verify .promotion/ruleset-dist.tar.gz \
+            --repo "$REPOSITORY" \
+            --signer-workflow \
+              "${REPOSITORY}/.github/workflows/source-discovery.yml" \
+            --source-digest "$EXPECTED_SOURCE_SHA"
+
+      - name: Record final generated SHA status
+        env:
+          PUBLISHED_SHA: ${{ steps.prepare_snapshot.outputs.published_sha }}
+          SNAPSHOT_TAG: ${{ steps.prepare_snapshot.outputs.tag }}
+        run: |
+          set -euo pipefail
+          test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.size')" = "0"
+          test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.sha')" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+          gh api \
+            --method POST \
+            "repos/${REPOSITORY}/statuses/${PUBLISHED_SHA}" \
+            -f state=success \
+            -f context='ruleset/published' \
+            -f description='Candidate, tag, release, attestation, raw index, and README verified' \
+            -f target_url="${GITHUB_SERVER_URL}/${REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.size')" = "0"
+          test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.sha')" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+          {
+            echo "## Published snapshot"
+            echo
+            echo "- Previous main: \`${{ steps.prepare_snapshot.outputs.previous_sha }}\`"
+            echo "- Published main: \`${PUBLISHED_SHA}\`"
+            echo "- Immutable snapshot tag: \`${SNAPSHOT_TAG}\`"
+            echo "- Promotion mode: \`${PROMOTION_MODE}\`"
+            echo "- Root README: \`0 bytes\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Forward-rollback an incompletely verified main publication
+        if: ${{ (failure() || cancelled()) && steps.prepare_snapshot.outcome == 'success' }}
+        env:
+          PUBLISHED_SHA: ${{ steps.prepare_snapshot.outputs.published_sha }}
+          PREVIOUS_SHA: ${{ steps.prepare_snapshot.outputs.previous_sha }}
+          SNAPSHOT_TAG: ${{ steps.prepare_snapshot.outputs.tag }}
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin main
+          remote_sha="$(git rev-parse origin/main)"
+          if [ "$remote_sha" = "$PREVIOUS_SHA" ]; then
+            echo "Main was never advanced; no forward rollback is required."
+            exit 0
+          fi
+          if [ "$remote_sha" != "$PUBLISHED_SHA" ]; then
+            echo "Main moved after the incomplete publication; refusing blind rollback."
+            exit 1
+          fi
+          test -f README.md
+          test ! -s README.md
+          test "$(git hash-object README.md)" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+          test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.size')" = "0"
+          test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.sha')" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+          test "$(git rev-parse HEAD)" = "$PUBLISHED_SHA"
+          git revert --no-edit "$PUBLISHED_SHA"
+          rollback_sha="$(git rev-parse HEAD)"
+          if ! git diff --quiet "$PREVIOUS_SHA" "$rollback_sha"; then
+            echo "Forward rollback tree does not exactly restore the prior main tree."
+            exit 1
+          fi
+          git push origin "HEAD:refs/heads/main"
+          test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.size')" = "0"
+          test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.sha')" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+          gh api \
+            --method POST \
+            "repos/${REPOSITORY}/statuses/${PUBLISHED_SHA}" \
+            -f state=failure \
+            -f context='ruleset/published' \
+            -f description='Publication closure failed; main was restored by a forward commit' \
+            -f target_url="${GITHUB_SERVER_URL}/${REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.size')" = "0"
+          test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.sha')" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+          {
+            echo "## Forward rollback"
+            echo
+            echo "- Failed snapshot: \`${PUBLISHED_SHA}\`"
+            echo "- Prior main: \`${PREVIOUS_SHA}\`"
+            echo "- Restoring commit: \`${rollback_sha}\`"
+            echo "- Preserved immutable snapshot: \`${SNAPSHOT_TAG}\`"
+          } >> "$GITHUB_STEP_SUMMARY"

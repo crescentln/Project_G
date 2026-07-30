@@ -4,41 +4,145 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
-      - ".github/workflows/**"
+      - "README.md"
+      - ".github/**"
       - ".gitleaks.toml"
       - "ruleset/config/**"
       - "ruleset/manual/**"
       - "ruleset/scripts/**"
       - "ruleset/tests/**"
+      - "ruleset/dist/**"
   push:
     branches:
       - main
     paths:
-      - ".github/workflows/**"
+      - "README.md"
+      - ".github/**"
       - ".gitleaks.toml"
       - "ruleset/config/**"
       - "ruleset/manual/**"
       - "ruleset/scripts/**"
       - "ruleset/tests/**"
+      - "ruleset/dist/**"
 
 permissions:
   contents: read
 
+concurrency:
+  group: ruleset-tests-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  unit-and-config:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
+  full-validation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
     steps:
-      - name: Checkout
+      - name: Checkout candidate source
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 1
+
+      - name: Checkout current main baseline
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: main
+          path: .baseline
+          fetch-depth: 1
 
       - name: Setup Python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: "3.11"
 
-      - name: Compile Python scripts
-        run: python3 -m compileall -q ruleset/scripts ruleset/tests
+      - name: Compile and run unit tests
+        run: |
+          set -euo pipefail
+          python3 -m compileall -q ruleset/scripts ruleset/tests
+          python3 -m unittest discover -s ruleset/tests -v
 
-      - name: Run unit and configuration tests
-        run: python3 -m unittest discover -s ruleset/tests -v
+      - name: Verify root README remains the empty blob
+        run: |
+          set -euo pipefail
+          test -f README.md
+          test ! -s README.md
+          test "$(git hash-object README.md)" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+
+      - name: Cache source downloads
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: ruleset/.cache
+          key: ruleset-pr-cache-${{ runner.os }}-${{ hashFiles('ruleset/config/sources.json', 'ruleset/config/source_registry.json') }}-${{ github.run_id }}
+          restore-keys: |
+            ruleset-pr-cache-${{ runner.os }}-${{ hashFiles('ruleset/config/sources.json', 'ruleset/config/source_registry.json') }}-
+
+      - name: Resolve immutable source lock
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p .candidate
+          python3 ruleset/scripts/resolve_source_lock.py \
+            --output .candidate/sources.lock.json
+
+      - name: Build candidate from locked inputs
+        timeout-minutes: 45
+        run: |
+          python3 ruleset/scripts/build_rulesets.py \
+            --source-lock .candidate/sources.lock.json \
+            --baseline-dist .baseline/ruleset/dist \
+            --fail-on-cross-action-conflicts
+
+      - name: Generate client templates
+        run: |
+          python3 ruleset/scripts/generate_recommended_templates.py \
+            --policy-reference ruleset/dist/policy_reference.json \
+            --index ruleset/dist/index.json \
+            --openclash-out ruleset/dist/recommended_openclash.yaml \
+            --surge-out ruleset/dist/recommended_surge.conf \
+            --stash-out ruleset/dist/recommended_stash.yaml \
+            --stash-native-out ruleset/dist/recommended_stash_native.yaml \
+            --raw-base-url "https://raw.githubusercontent.com/${{ github.repository }}/main/ruleset/dist"
+
+      - name: Run full format and semantic gates
+        run: |
+          set -euo pipefail
+          python3 ruleset/scripts/validate_rulesets.py
+          python3 ruleset/scripts/check_smoke_probes.py
+          python3 ruleset/scripts/check_allowlist_effective.py
+          python3 ruleset/scripts/check_quality_gates.py \
+            --current ruleset/dist/policy_reference.json \
+            --baseline .baseline/ruleset/dist/policy_reference.json \
+            --fetch-report ruleset/dist/fetch_report.json \
+            --conflicts ruleset/dist/conflicts.json \
+            --minimums ruleset/config/min_rules.json \
+            --max-fetch-fallbacks 30 \
+            --max-cross-action-conflicts 0 \
+            --max-high-severity-conflicts 0 \
+            --source-provenance ruleset/dist/source_provenance.json \
+            --client-parity ruleset/dist/client_parity.json \
+            --contracts ruleset/dist/category_contracts_resolved.json \
+            --candidate-manifest ruleset/dist/candidate_manifest.json
+
+      - name: Upload compact candidate diagnostics
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: ruleset-pr-diagnostics-${{ github.run_id }}
+          if-no-files-found: error
+          retention-days: 7
+          path: |
+            ruleset/dist/allow_shadow.json
+            ruleset/dist/candidate_manifest.json
+            ruleset/dist/category_contracts_resolved.json
+            ruleset/dist/client_parity.json
+            ruleset/dist/conflicts.json
+            ruleset/dist/fetch_report.json
+            ruleset/dist/rule_delta.json
+            ruleset/dist/source_health.json
+            ruleset/dist/source_provenance.json
+            ruleset/dist/sources.lock.json
+
+      - name: Recheck root README after validation
+        run: |
+          set -euo pipefail
+          test -f README.md
+          test ! -s README.md
+          test "$(git hash-object README.md)" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"

@@ -2241,452 +2241,278 @@
       "id": "direct",
       "description": "Merged direct rules for simplified deployment",
       "exclude_rules_path": "manual/exclude/direct_route_conflicts.txt",
-      "sources": [
-        {
-          "type": "iana_special_csv",
-          "url": "https://www.iana.org/assignments/iana-ipv4-special-registry/iana-ipv4-special-registry-1.csv",
-          "authority": "official"
-        },
-        {
-          "type": "iana_special_csv",
-          "url": "https://www.iana.org/assignments/iana-ipv6-special-registry/iana-ipv6-special-registry-1.csv",
-          "authority": "official"
-        },
-        {
-          "type": "v2fly_dlc",
-          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/private",
-          "authority": "community-curated",
-          "exclude_attrs": [
-            "@ads"
-          ],
-          "fallback_urls": [
-            "https://cdn.jsdelivr.net/gh/v2fly/domain-list-community@master/data/private",
-            "https://testingcf.jsdelivr.net/gh/v2fly/domain-list-community@master/data/private"
-          ]
-        },
-        {
-          "type": "apnic_country_cidr",
-          "url": "https://ftp.apnic.net/stats/apnic/delegated-apnic-latest",
-          "country": "CN",
-          "authority": "official"
-        },
-        {
-          "type": "v2fly_dlc",
-          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-cdn-cn",
-          "authority": "community-curated",
-          "exclude_attrs": [
-            "@ads"
-          ],
-          "fallback_urls": [
-            "https://cdn.jsdelivr.net/gh/v2fly/domain-list-community@master/data/category-cdn-cn",
-            "https://testingcf.jsdelivr.net/gh/v2fly/domain-list-community@master/data/category-cdn-cn"
-          ]
-        },
-        {
-          "type": "v2fly_dlc",
-          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/bilibili-cdn",
-          "authority": "community-curated",
-          "exclude_attrs": [
-            "@ads"
-          ],
-          "fallback_urls": [
-            "https://cdn.jsdelivr.net/gh/v2fly/domain-list-community@master/data/bilibili-cdn",
-            "https://testingcf.jsdelivr.net/gh/v2fly/domain-list-community@master/data/bilibili-cdn"
-          ]
-        },
-        {
-          "type": "v2fly_dlc",
-          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/aws-cn",
-          "authority": "community-curated",
-          "exclude_attrs": [
-            "@ads"
-          ],
-          "fallback_urls": [
-            "https://cdn.jsdelivr.net/gh/v2fly/domain-list-community@master/data/aws-cn",
-            "https://testingcf.jsdelivr.net/gh/v2fly/domain-list-community@master/data/aws-cn"
-          ]
-        },
-        {
-          "type": "v2fly_dlc",
-          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/pagecdn",
-          "authority": "community-curated",
-          "exclude_attrs": [
-            "@ads"
-          ],
-          "fallback_urls": [
-            "https://cdn.jsdelivr.net/gh/v2fly/domain-list-community@master/data/pagecdn",
-            "https://testingcf.jsdelivr.net/gh/v2fly/domain-list-community@master/data/pagecdn"
-          ]
-        },
-        {
-          "type": "v2fly_dlc",
-          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/cn",
-          "authority": "community-curated",
-          "exclude_attrs": [
-            "@ads"
-          ],
-          "fallback_urls": [
-            "https://cdn.jsdelivr.net/gh/v2fly/domain-list-community@master/data/cn",
-            "https://testingcf.jsdelivr.net/gh/v2fly/domain-list-community@master/data/cn"
-          ]
-        },
-        {
-          "type": "v2fly_dlc",
-          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple",
-          "authority": "community-curated",
-          "exclude_attrs": [
-            "@ads"
-          ],
-          "include_attrs": [
-            "@cn"
-          ],
-          "fallback_urls": [
-            "https://cdn.jsdelivr.net/gh/v2fly/domain-list-community@master/data/apple",
-            "https://testingcf.jsdelivr.net/gh/v2fly/domain-list-community@master/data/apple"
-          ]
-        },
-        {
-          "type": "v2fly_dlc",
-          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple-update",
-          "authority": "community-curated",
-          "exclude_attrs": [
-            "@ads"
-          ],
-          "fallback_urls": [
-            "https://cdn.jsdelivr.net/gh/v2fly/domain-list-community@master/data/apple-update",
-            "https://testingcf.jsdelivr.net/gh/v2fly/domain-list-community@master/data/apple-update"
-          ]
-        },
-        {
-          "type": "v2fly_dlc",
-          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/apple-pki",
-          "authority": "community-curated",
-          "exclude_attrs": [
-            "@ads"
-          ],
-          "include_attrs": [
-            "@cn"
-          ],
-          "fallback_urls": [
-            "https://cdn.jsdelivr.net/gh/v2fly/domain-list-community@master/data/apple-pki",
-            "https://testingcf.jsdelivr.net/gh/v2fly/domain-list-community@master/data/apple-pki"
-          ]
-        },
-        {
-          "type": "v2fly_dlc",
-          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/microsoft",
-          "authority": "community-curated",
-          "exclude_attrs": [
-            "@ads"
-          ],
-          "include_attrs": [
-            "@cn"
-          ],
-          "fallback_urls": [
-            "https://cdn.jsdelivr.net/gh/v2fly/domain-list-community@master/data/microsoft",
-            "https://testingcf.jsdelivr.net/gh/v2fly/domain-list-community@master/data/microsoft"
-          ]
-        },
-        {
-          "type": "v2fly_dlc",
-          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/microsoft-pki",
-          "authority": "community-curated",
-          "exclude_attrs": [
-            "@ads"
-          ],
-          "fallback_urls": [
-            "https://cdn.jsdelivr.net/gh/v2fly/domain-list-community@master/data/microsoft-pki",
-            "https://testingcf.jsdelivr.net/gh/v2fly/domain-list-community@master/data/microsoft-pki"
-          ]
-        },
-        {
-          "type": "v2fly_dlc",
-          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-social-media-cn",
-          "authority": "community-curated",
-          "exclude_attrs": [
-            "@ads"
-          ],
-          "fallback_urls": [
-            "https://cdn.jsdelivr.net/gh/v2fly/domain-list-community@master/data/category-social-media-cn",
-            "https://testingcf.jsdelivr.net/gh/v2fly/domain-list-community@master/data/category-social-media-cn"
-          ]
-        },
-        {
-          "type": "v2fly_dlc",
-          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/sina",
-          "authority": "community-curated",
-          "exclude_attrs": [
-            "@ads"
-          ],
-          "fallback_urls": [
-            "https://cdn.jsdelivr.net/gh/v2fly/domain-list-community@master/data/sina",
-            "https://testingcf.jsdelivr.net/gh/v2fly/domain-list-community@master/data/sina"
-          ]
-        },
-        {
-          "type": "v2fly_dlc",
-          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/zhihu",
-          "authority": "community-curated",
-          "exclude_attrs": [
-            "@ads"
-          ],
-          "fallback_urls": [
-            "https://cdn.jsdelivr.net/gh/v2fly/domain-list-community@master/data/zhihu",
-            "https://testingcf.jsdelivr.net/gh/v2fly/domain-list-community@master/data/zhihu"
-          ]
-        },
-        {
-          "type": "v2fly_dlc",
-          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/bilibili",
-          "authority": "community-curated",
-          "exclude_attrs": [
-            "@ads"
-          ],
-          "fallback_urls": [
-            "https://cdn.jsdelivr.net/gh/v2fly/domain-list-community@master/data/bilibili",
-            "https://testingcf.jsdelivr.net/gh/v2fly/domain-list-community@master/data/bilibili"
-          ]
-        },
-        {
-          "type": "v2fly_dlc",
-          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-games-cn",
-          "authority": "community-curated",
-          "exclude_attrs": [
-            "@ads"
-          ],
-          "fallback_urls": [
-            "https://cdn.jsdelivr.net/gh/v2fly/domain-list-community@master/data/category-games-cn",
-            "https://testingcf.jsdelivr.net/gh/v2fly/domain-list-community@master/data/category-games-cn"
-          ]
-        },
-        {
-          "type": "v2fly_dlc",
-          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/douyin",
-          "authority": "community-curated",
-          "exclude_attrs": [
-            "@ads"
-          ],
-          "fallback_urls": [
-            "https://cdn.jsdelivr.net/gh/v2fly/domain-list-community@master/data/douyin",
-            "https://testingcf.jsdelivr.net/gh/v2fly/domain-list-community@master/data/douyin"
-          ]
-        },
-        {
-          "type": "v2fly_dlc",
-          "url": "https://raw.githubusercontent.com/v2fly/domain-list-community/master/data/category-android-app-download",
-          "authority": "community-curated",
-          "exclude_attrs": [
-            "@ads"
-          ],
-          "fallback_urls": [
-            "https://cdn.jsdelivr.net/gh/v2fly/domain-list-community@master/data/category-android-app-download",
-            "https://testingcf.jsdelivr.net/gh/v2fly/domain-list-community@master/data/category-android-app-download"
-          ]
-        },
-        {
-          "type": "local_domain",
-          "path": "manual/categories/lan.txt",
-          "authority": "owner-controlled"
-        },
-        {
-          "type": "local_domain",
-          "path": "manual/categories/domestic.txt",
-          "authority": "owner-controlled"
-        },
-        {
-          "type": "local_domain",
-          "path": "manual/categories/cncidr.txt",
-          "authority": "owner-controlled"
-        },
-        {
-          "type": "local_domain",
-          "path": "manual/categories/apple_cn.txt",
-          "authority": "owner-controlled"
-        },
-        {
-          "type": "local_domain",
-          "path": "manual/categories/apple_cdn.txt",
-          "authority": "owner-controlled"
-        },
-        {
-          "type": "local_domain",
-          "path": "manual/categories/microsoft_cdn.txt",
-          "authority": "owner-controlled"
-        },
-        {
-          "type": "local_domain",
-          "path": "manual/categories/socialmedia_cn.txt",
-          "authority": "owner-controlled"
-        },
-        {
-          "type": "local_domain",
-          "path": "manual/categories/wechat.txt",
-          "authority": "owner-controlled"
-        },
-        {
-          "type": "local_domain",
-          "path": "manual/categories/games_cn.txt",
-          "authority": "owner-controlled"
-        },
-        {
-          "type": "local_domain",
-          "path": "manual/categories/douyin.txt",
-          "authority": "owner-controlled"
-        },
-        {
-          "type": "local_domain",
-          "path": "manual/categories/dmca.txt",
-          "authority": "owner-controlled"
-        },
-        {
-          "type": "local_domain",
-          "path": "manual/categories/cdn.txt",
-          "authority": "owner-controlled"
-        },
-        {
-          "type": "local_domain",
-          "path": "manual/categories/download.txt",
-          "authority": "owner-controlled"
-        },
-        {
-          "type": "local_domain",
-          "path": "manual/categories/direct.txt",
-          "authority": "owner-controlled"
-        }
-      ]
+      "aggregate_of": [
+        "lan",
+        "domestic",
+        "cncidr",
+        "apple_cn",
+        "apple_cdn",
+        "microsoft_cdn",
+        "socialmedia_cn",
+        "games_cn",
+        "douyin",
+        "dmca",
+        "cdn",
+        "download",
+        "wechat"
+      ],
+      "manual_overlay_path": "manual/categories/direct.txt"
     }
   ],
   "ignore_conflicts": [
-    [
-      "ecommerce",
-      "stream_jp"
-    ],
-    [
-      "abema",
-      "stream_jp"
-    ],
-    [
-      "stream_us",
-      "stream_jp"
-    ],
-    [
-      "stream",
-      "stream_us"
-    ],
-    [
-      "stream",
-      "stream_jp"
-    ],
-    [
-      "stream",
-      "stream_hk"
-    ],
-    [
-      "stream",
-      "stream_tw"
-    ],
-    [
-      "stream",
-      "stream_global"
-    ],
-    [
-      "stream_global",
-      "stream_us"
-    ],
-    [
-      "stream_global",
-      "stream_jp"
-    ],
-    [
-      "stream_global",
-      "stream_hk"
-    ],
-    [
-      "stream_global",
-      "stream_tw"
-    ],
-    [
-      "stream_global",
-      "abema"
-    ],
-    [
-      "stream_global",
-      "apple_tv"
-    ],
-    [
-      "stream_global",
-      "primevideo"
-    ],
-    [
-      "apple_proxy",
-      "apple_services"
-    ],
-    [
-      "apple_cn",
-      "apple_services"
-    ],
-    [
-      "apple_cn",
-      "apple_tv"
-    ],
-    [
-      "apple_services",
-      "apple_tv"
-    ],
-    [
-      "apns",
-      "apple_services"
-    ],
-    [
-      "microsoft",
-      "microsoft_cdn"
-    ],
-    [
-      "google",
-      "googlefcm"
-    ],
-    [
-      "ai",
-      "google"
-    ],
-    [
-      "ai",
-      "microsoft"
-    ],
-    [
-      "ai",
-      "github"
-    ],
-    [
-      "forum",
-      "socialmedia"
-    ],
-    [
-      "apple_cn",
-      "apple_services",
-      "apple_tv"
-    ],
-    [
-      "ai",
-      "forum",
-      "socialmedia"
-    ],
-    [
-      "direct",
-      "lan"
-    ],
-    [
-      "direct",
-      "domestic"
-    ],
-    [
-      "direct",
-      "cncidr"
-    ],
-    [
-      "httpdns",
-      "reject"
-    ]
+    {
+      "categories": [
+        "ecommerce",
+        "stream_jp"
+      ],
+      "reason": "Intentional category overlap retained under explicit precedence semantics.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    },
+    {
+      "categories": [
+        "abema",
+        "stream_jp"
+      ],
+      "reason": "Intentional category overlap retained under explicit precedence semantics.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    },
+    {
+      "categories": [
+        "stream_us",
+        "stream_jp"
+      ],
+      "reason": "Intentional category overlap retained under explicit precedence semantics.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    },
+    {
+      "categories": [
+        "stream",
+        "stream_us"
+      ],
+      "reason": "Intentional category overlap retained under explicit precedence semantics.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    },
+    {
+      "categories": [
+        "stream",
+        "stream_jp"
+      ],
+      "reason": "Intentional category overlap retained under explicit precedence semantics.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    },
+    {
+      "categories": [
+        "stream",
+        "stream_hk"
+      ],
+      "reason": "Intentional category overlap retained under explicit precedence semantics.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    },
+    {
+      "categories": [
+        "stream",
+        "stream_tw"
+      ],
+      "reason": "Intentional category overlap retained under explicit precedence semantics.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    },
+    {
+      "categories": [
+        "stream",
+        "stream_global"
+      ],
+      "reason": "Intentional category overlap retained under explicit precedence semantics.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    },
+    {
+      "categories": [
+        "stream_global",
+        "stream_us"
+      ],
+      "reason": "Intentional category overlap retained under explicit precedence semantics.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    },
+    {
+      "categories": [
+        "stream_global",
+        "stream_jp"
+      ],
+      "reason": "Intentional category overlap retained under explicit precedence semantics.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    },
+    {
+      "categories": [
+        "stream_global",
+        "stream_hk"
+      ],
+      "reason": "Intentional category overlap retained under explicit precedence semantics.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    },
+    {
+      "categories": [
+        "stream_global",
+        "stream_tw"
+      ],
+      "reason": "Intentional category overlap retained under explicit precedence semantics.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    },
+    {
+      "categories": [
+        "stream_global",
+        "abema"
+      ],
+      "reason": "Intentional category overlap retained under explicit precedence semantics.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    },
+    {
+      "categories": [
+        "stream_global",
+        "apple_tv"
+      ],
+      "reason": "Intentional category overlap retained under explicit precedence semantics.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    },
+    {
+      "categories": [
+        "stream_global",
+        "primevideo"
+      ],
+      "reason": "Intentional category overlap retained under explicit precedence semantics.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    },
+    {
+      "categories": [
+        "apple_proxy",
+        "apple_services"
+      ],
+      "reason": "Intentional category overlap retained under explicit precedence semantics.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    },
+    {
+      "categories": [
+        "apple_services",
+        "apple_tv"
+      ],
+      "reason": "Intentional category overlap retained under explicit precedence semantics.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    },
+    {
+      "categories": [
+        "apns",
+        "apple_services"
+      ],
+      "reason": "Intentional category overlap retained under explicit precedence semantics.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    },
+    {
+      "categories": [
+        "google",
+        "googlefcm"
+      ],
+      "reason": "Intentional category overlap retained under explicit precedence semantics.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    },
+    {
+      "categories": [
+        "ai",
+        "google"
+      ],
+      "reason": "Intentional category overlap retained under explicit precedence semantics.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    },
+    {
+      "categories": [
+        "ai",
+        "microsoft"
+      ],
+      "reason": "Intentional category overlap retained under explicit precedence semantics.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    },
+    {
+      "categories": [
+        "ai",
+        "github"
+      ],
+      "reason": "Intentional category overlap retained under explicit precedence semantics.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    },
+    {
+      "categories": [
+        "forum",
+        "socialmedia"
+      ],
+      "reason": "Intentional category overlap retained under explicit precedence semantics.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    },
+    {
+      "categories": [
+        "ai",
+        "forum",
+        "socialmedia"
+      ],
+      "reason": "Intentional category overlap retained under explicit precedence semantics.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    },
+    {
+      "categories": [
+        "direct",
+        "lan"
+      ],
+      "reason": "Intentional category overlap retained under explicit precedence semantics.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    },
+    {
+      "categories": [
+        "direct",
+        "domestic"
+      ],
+      "reason": "Intentional category overlap retained under explicit precedence semantics.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    },
+    {
+      "categories": [
+        "direct",
+        "cncidr"
+      ],
+      "reason": "Intentional category overlap retained under explicit precedence semantics.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    },
+    {
+      "categories": [
+        "httpdns",
+        "reject"
+      ],
+      "reason": "Intentional category overlap retained under explicit precedence semantics.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    }
   ],
   "ignore_conflicts_by_rule": [
     {
@@ -2695,7 +2521,9 @@
         "domestic",
         "github"
       ],
-      "reason": "Gitee is intentionally treated as domestic direct in current policy."
+      "reason": "Gitee is intentionally treated as domestic direct in current policy.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
     },
     {
       "rule": "DOMAIN-SUFFIX,gitee.io",
@@ -2703,8 +2531,100 @@
         "domestic",
         "github"
       ],
-      "reason": "Gitee Pages is intentionally treated as domestic direct in current policy."
+      "reason": "Gitee Pages is intentionally treated as domestic direct in current policy.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    },
+    {
+      "rule": "DOMAIN,crl.microsoft.com",
+      "categories": [
+        "microsoft",
+        "microsoft_cdn"
+      ],
+      "reason": "The direct CDN exception intentionally precedes the broader Microsoft proxy category.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    },
+    {
+      "rule": "DOMAIN,developer.microsoft.com",
+      "categories": [
+        "microsoft",
+        "microsoft_cdn"
+      ],
+      "reason": "The direct CDN exception intentionally precedes the broader Microsoft proxy category.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    },
+    {
+      "rule": "DOMAIN,mscrl.microsoft.com",
+      "categories": [
+        "microsoft",
+        "microsoft_cdn"
+      ],
+      "reason": "The direct CDN exception intentionally precedes the broader Microsoft proxy category.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    },
+    {
+      "rule": "DOMAIN,ocsp.microsoft.com",
+      "categories": [
+        "microsoft",
+        "microsoft_cdn"
+      ],
+      "reason": "The direct CDN exception intentionally precedes the broader Microsoft proxy category.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    },
+    {
+      "rule": "DOMAIN,oneocsp.microsoft.com",
+      "categories": [
+        "microsoft",
+        "microsoft_cdn"
+      ],
+      "reason": "The direct CDN exception intentionally precedes the broader Microsoft proxy category.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    },
+    {
+      "rule": "DOMAIN,www.microsoft.com",
+      "categories": [
+        "microsoft",
+        "microsoft_cdn"
+      ],
+      "reason": "The direct CDN exception intentionally precedes the broader Microsoft proxy category.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    },
+    {
+      "rule": "DOMAIN-SUFFIX,msftconnecttest.com",
+      "categories": [
+        "microsoft",
+        "microsoft_cdn"
+      ],
+      "reason": "The direct CDN exception intentionally precedes the broader Microsoft proxy category.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    },
+    {
+      "rule": "DOMAIN-SUFFIX,msocsp.com",
+      "categories": [
+        "microsoft",
+        "microsoft_cdn"
+      ],
+      "reason": "The direct CDN exception intentionally precedes the broader Microsoft proxy category.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
+    },
+    {
+      "rule": "DOMAIN-SUFFIX,windowsupdate.com",
+      "categories": [
+        "microsoft",
+        "microsoft_cdn"
+      ],
+      "reason": "The direct CDN exception intentionally precedes the broader Microsoft proxy category.",
+      "owner": "crescentln",
+      "expires_at": "2027-07-30"
     }
   ],
-  "version": 2
+  "version": 3
 }

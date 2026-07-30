@@ -1,0 +1,126 @@
+{
+  "version": 1,
+  "authority_profiles": {
+    "owner-controlled": {
+      "trust_tier": "owner",
+      "license": "owner-controlled",
+      "owner": "crescentln",
+      "allowed_hosts": [],
+      "revision_strategy": "local-content-sha256",
+      "max_bytes": 16777216,
+      "max_files": 10000,
+      "max_include_depth": 64,
+      "max_uncompressed_bytes": 67108864,
+      "freshness_ttl_hours": 87600,
+      "expected_parser": "*",
+      "accepted_line_ratio": 0,
+      "critical": true,
+      "no_cache_publish": false,
+      "require_lock": false,
+      "allowed_rule_types": [
+        "DOMAIN",
+        "DOMAIN-SUFFIX",
+        "DOMAIN-KEYWORD",
+        "DOMAIN-WILDCARD",
+        "DOMAIN-REGEX",
+        "IP-CIDR",
+        "IP-CIDR6"
+      ]
+    },
+    "official": {
+      "trust_tier": "official",
+      "license": "upstream-declared",
+      "owner": "upstream-authority",
+      "allowed_hosts": [
+        "core.telegram.org",
+        "data.iana.org",
+        "ftp.apnic.net",
+        "mask-api.icloud.com",
+        "www.iana.org"
+      ],
+      "revision_strategy": "https-validators-and-content-sha256",
+      "max_bytes": 67108864,
+      "max_files": 10000,
+      "max_include_depth": 64,
+      "max_uncompressed_bytes": 268435456,
+      "freshness_ttl_hours": 24,
+      "expected_parser": "*",
+      "accepted_line_ratio": 0,
+      "critical": true,
+      "no_cache_publish": true,
+      "require_lock": false,
+      "allowed_rule_types": [
+        "DOMAIN",
+        "DOMAIN-SUFFIX",
+        "DOMAIN-KEYWORD",
+        "DOMAIN-WILDCARD",
+        "DOMAIN-REGEX",
+        "IP-CIDR",
+        "IP-CIDR6"
+      ]
+    },
+    "curated-upstream": {
+      "trust_tier": "curated",
+      "license": "upstream-declared",
+      "owner": "curated-upstream-maintainer",
+      "allowed_hosts": [
+        "easylist-downloads.adblockplus.org",
+        "easylist.to",
+        "filters.adtidy.org",
+        "phishing.army"
+      ],
+      "revision_strategy": "https-validators-and-content-sha256",
+      "max_bytes": 134217728,
+      "max_files": 10000,
+      "max_include_depth": 64,
+      "max_uncompressed_bytes": 268435456,
+      "freshness_ttl_hours": 24,
+      "expected_parser": "*",
+      "accepted_line_ratio": 0.0001,
+      "critical": true,
+      "no_cache_publish": true,
+      "require_lock": false,
+      "allowed_rule_types": [
+        "DOMAIN",
+        "DOMAIN-SUFFIX",
+        "DOMAIN-KEYWORD",
+        "DOMAIN-WILDCARD",
+        "DOMAIN-REGEX",
+        "IP-CIDR",
+        "IP-CIDR6"
+      ]
+    },
+    "community-curated": {
+      "trust_tier": "community",
+      "license": "upstream-declared",
+      "owner": "v2fly/domain-list-community",
+      "allowed_hosts": [
+        "api.github.com",
+        "cdn.jsdelivr.net",
+        "codeload.github.com",
+        "raw.githubusercontent.com",
+        "testingcf.jsdelivr.net"
+      ],
+      "revision_strategy": "github-commit-lock",
+      "max_bytes": 134217728,
+      "max_files": 10000,
+      "max_include_depth": 64,
+      "max_uncompressed_bytes": 536870912,
+      "freshness_ttl_hours": 24,
+      "expected_parser": "*",
+      "accepted_line_ratio": 0,
+      "critical": true,
+      "no_cache_publish": true,
+      "require_lock": true,
+      "allowed_rule_types": [
+        "DOMAIN",
+        "DOMAIN-SUFFIX",
+        "DOMAIN-KEYWORD",
+        "DOMAIN-WILDCARD",
+        "DOMAIN-REGEX",
+        "IP-CIDR",
+        "IP-CIDR6"
+      ]
+    }
+  }
+}

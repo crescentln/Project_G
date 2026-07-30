@@ -4,18 +4,10 @@ from __future__ import annotations
 import argparse
 import json
 import pathlib
-import re
 import sys
 from typing import Any
 
-EXPLICIT_PREFIXES = (
-    "DOMAIN,",
-    "DOMAIN-SUFFIX,",
-    "DOMAIN-KEYWORD,",
-    "DOMAIN-REGEX,",
-    "IP-CIDR,",
-    "IP-CIDR6,",
-)
+from build_rulesets import parse_explicit_rule, parse_local_domain_text
 
 
 def log(msg: str) -> None:
@@ -26,41 +18,10 @@ def read_json(path: pathlib.Path) -> dict[str, Any]:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-def normalize_domain_token(token: str) -> str:
-    value = token.strip().lower()
-    if value.startswith("+."):
-        value = value[2:]
-    elif value.startswith("."):
-        value = value[1:]
-    elif value.startswith("||"):
-        value = value[2:]
-    value = value.strip(".")
-    return value
-
-
 def parse_allow_rules(path: pathlib.Path) -> set[str]:
-    rules: set[str] = set()
     if not path.exists():
-        return rules
-
-    for raw in path.read_text(encoding="utf-8").splitlines():
-        line = raw.strip()
-        if not line or line.startswith("#") or line.startswith(";"):
-            continue
-        line = re.split(r"\s[#;]", line, maxsplit=1)[0].strip()
-        if not line:
-            continue
-
-        upper = line.upper()
-        if upper.startswith(EXPLICIT_PREFIXES):
-            rules.add(line)
-            continue
-
-        domain = normalize_domain_token(line)
-        if domain:
-            rules.add(f"DOMAIN-SUFFIX,{domain}")
-
-    return rules
+        return set()
+    return parse_local_domain_text(path.read_text(encoding="utf-8"))
 
 
 def parse_dist_rules(path: pathlib.Path) -> set[str]:
@@ -72,7 +33,9 @@ def parse_dist_rules(path: pathlib.Path) -> set[str]:
         line = raw.strip()
         if not line or line.startswith("#"):
             continue
-        rules.add(line)
+        parsed = parse_explicit_rule(line)
+        if parsed:
+            rules.add(parsed)
     return rules
 
 
@@ -90,7 +53,9 @@ def parse_openclash_rules(path: pathlib.Path) -> set[str]:
         value = line[2:].strip()
         if value.startswith("'") and value.endswith("'") and len(value) >= 2:
             value = value[1:-1].replace("''", "'")
-        rules.add(value)
+        parsed = parse_explicit_rule(value)
+        if parsed:
+            rules.add(parsed)
     return rules
 
 
@@ -148,6 +113,11 @@ def main() -> int:
             continue
 
         allow_file = args.root / str(allow_rel)
+        if not allow_file.is_file():
+            violations.append(
+                f"{category_id}: declared allowlist file is missing -> {allow_file}"
+            )
+            continue
         allow_rules = parse_allow_rules(allow_file)
         if not allow_rules:
             continue
