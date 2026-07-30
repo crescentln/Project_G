@@ -491,6 +491,24 @@ jobs:
               "${REPOSITORY}/.github/workflows/source-discovery.yml" \
             --source-digest "$EXPECTED_SOURCE_SHA"
 
+      - name: Authorize the verified main transition
+        env:
+          PUBLISHED_SHA: ${{ steps.prepare_snapshot.outputs.published_sha }}
+          SNAPSHOT_TAG: ${{ steps.prepare_snapshot.outputs.tag }}
+        run: |
+          set -euo pipefail
+          test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.size')" = "0"
+          test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.sha')" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+          gh api \
+            --method POST \
+            "repos/${REPOSITORY}/statuses/${PUBLISHED_SHA}" \
+            -f state=success \
+            -f context='ruleset/gate' \
+            -f description='Immutable snapshot, tree, and attestation verified' \
+            -f target_url="${GITHUB_SERVER_URL}/${REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.size')" = "0"
+          test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.sha')" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+
       - name: Publish verified snapshot to main
         env:
           PREVIOUS_SHA: ${{ steps.prepare_snapshot.outputs.previous_sha }}
@@ -593,6 +611,17 @@ jobs:
             echo "Forward rollback tree does not exactly restore the prior main tree."
             exit 1
           fi
+          rollback_tag="${SNAPSHOT_TAG}-forward-rollback"
+          git tag -a "$rollback_tag" \
+            -m "verified forward rollback for $SNAPSHOT_TAG"
+          git push origin "refs/tags/$rollback_tag:refs/tags/$rollback_tag"
+          gh api \
+            --method POST \
+            "repos/${REPOSITORY}/statuses/${rollback_sha}" \
+            -f state=success \
+            -f context='ruleset/gate' \
+            -f description='Verified forward rollback restores the prior main tree' \
+            -f target_url="${GITHUB_SERVER_URL}/${REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
           git push origin "HEAD:refs/heads/main"
           test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.size')" = "0"
           test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.sha')" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"

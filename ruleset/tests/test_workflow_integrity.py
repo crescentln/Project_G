@@ -28,6 +28,8 @@ class WorkflowIntegrityTests(unittest.TestCase):
         self.assertNotIn("push --force", workflow)
         self.assertNotIn("gh release edit", workflow)
         self.assertIn("ruleset/published", workflow)
+        self.assertIn("Authorize the verified main transition", workflow)
+        self.assertGreaterEqual(workflow.count("context='ruleset/gate'"), 2)
         self.assertIn("verify_published.py", workflow)
         self.assertIn("git revert --no-edit", workflow)
         self.assertNotIn("steps.publish_main.outputs.main_published", workflow)
@@ -120,6 +122,28 @@ class WorkflowIntegrityTests(unittest.TestCase):
         self.assertIn("--signer-workflow", workflow)
         self.assertIn("--source-digest", workflow)
         self.assertIn("latest candidate still requires protected review", workflow)
+
+    def test_main_gate_is_default_branch_owned_and_fail_closed(self) -> None:
+        workflow = (WORKFLOW_ROOT / "main-gate.yml").read_text(encoding="utf-8")
+        self.assertIn("workflow_run:", workflow)
+        self.assertIn("statuses: write", workflow)
+        self.assertNotIn("pull_request_target", workflow)
+        self.assertNotIn("actions/checkout@", workflow)
+        self.assertIn("ruleset/gate", workflow)
+        self.assertIn("for attempt in range(1, 7)", workflow)
+        self.assertIn('state = "pending"', workflow)
+        self.assertIn("if state != \"success\"", workflow)
+        for context in (
+            "repository-governance",
+            "full-validation",
+            "Analyze Python",
+            "dependency-review",
+            "CodeQL",
+            "gitleaks",
+        ):
+            self.assertIn(context, workflow)
+        self.assertIn("exactly one open pull request into main", workflow)
+        self.assertIn("e69de29bb2d1d6434b8b29ae775ad8c2e48c5391", workflow)
 
 
 if __name__ == "__main__":
