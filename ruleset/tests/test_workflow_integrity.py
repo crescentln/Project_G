@@ -30,20 +30,32 @@ class WorkflowIntegrityTests(unittest.TestCase):
         self.assertIn("ruleset/published", workflow)
         self.assertIn("verify_published.py", workflow)
         self.assertIn("git revert --no-edit", workflow)
+        self.assertNotIn("steps.publish_main.outputs.main_published", workflow)
+        self.assertIn('remote_sha" = "$PREVIOUS_SHA', workflow)
+        self.assertIn(
+            'git diff --quiet "$PREVIOUS_SHA" "$rollback_sha"',
+            workflow,
+        )
 
     def test_discovery_cannot_publish_repository_content(self) -> None:
         workflow = (WORKFLOW_ROOT / "source-discovery.yml").read_text(encoding="utf-8")
-        self.assertRegex(workflow, r"permissions:\n  contents: read")
+        self.assertRegex(workflow, r"permissions:\n(?:  .+\n)*  contents: read")
+        self.assertIn("actions: read", workflow)
         self.assertNotIn("contents: write", workflow)
         self.assertNotIn("git push", workflow)
         self.assertNotIn("gh release create", workflow)
         self.assertIn("ruleset-candidate-", workflow)
+        self.assertIn("Select previous successful radar snapshot", workflow)
+        self.assertIn("candidate-sources.json", workflow)
 
     def test_promotion_consumes_exact_candidate_and_attests_it(self) -> None:
         workflow = (WORKFLOW_ROOT / "ruleset-update.yml").read_text(encoding="utf-8")
         self.assertIn("run-id:", workflow)
         self.assertIn("digest-mismatch: error", workflow)
         self.assertIn("require-promotable", workflow)
+        self.assertIn("attestations: read", workflow)
+        self.assertGreaterEqual(workflow.count("--signer-workflow"), 2)
+        self.assertGreaterEqual(workflow.count("--source-digest"), 2)
         self.assertIn(
             "Candidate expired while awaiting protected-environment approval",
             workflow,
@@ -95,6 +107,20 @@ class WorkflowIntegrityTests(unittest.TestCase):
             workflows,
             r"ghcr\.io/gitleaks/gitleaks@sha256:[0-9a-f]{64}",
         )
+
+    def test_watchdog_replays_candidate_and_release_evidence(self) -> None:
+        workflow = (WORKFLOW_ROOT / "freshness-watchdog.yml").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("actions: read", workflow)
+        self.assertIn("attestations: read", workflow)
+        self.assertIn("actions/download-artifact@", workflow)
+        self.assertIn("source-health.json", workflow)
+        self.assertIn("source-radar-decision.json", workflow)
+        self.assertIn("verify_published.py", workflow)
+        self.assertIn("--signer-workflow", workflow)
+        self.assertIn("--source-digest", workflow)
+        self.assertIn("latest candidate still requires protected review", workflow)
 
 
 if __name__ == "__main__":

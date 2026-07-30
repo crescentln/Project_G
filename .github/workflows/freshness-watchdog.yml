@@ -7,23 +7,38 @@ on:
 
 permissions:
   actions: read
+  attestations: read
   contents: read
 
 jobs:
   freshness:
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 20
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       REPOSITORY: ${{ github.repository }}
     steps:
-      - name: Check discovery and release freshness
+      - name: Checkout exact main verifier
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 1
+
+      - name: Setup Python
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.11"
+
+      - name: Select exact discovery and release evidence
+        id: evidence
         run: |
           set -euo pipefail
+          mkdir -p .watchdog
+          : > .watchdog/failures.txt
           python3 - <<'PY'
           import datetime as dt
           import json
           import os
+          import re
           import subprocess
 
           repository = os.environ["REPOSITORY"]
@@ -42,10 +57,18 @@ jobs:
               f"repos/{repository}/actions/workflows/source-discovery.yml/"
               "runs?branch=main&status=success&per_page=1"
           )["workflow_runs"]
-          if not runs:
+          if len(runs) != 1:
               raise SystemExit("no successful Source Discovery run")
+          run = runs[0]
+          if (
+              run.get("path") != ".github/workflows/source-discovery.yml"
+              or run.get("head_branch") != "main"
+              or run.get("head_repository", {}).get("full_name") != repository
+              or run.get("event") not in {"schedule", "workflow_dispatch"}
+          ):
+              raise SystemExit("latest discovery identity is invalid")
           discovery_at = dt.datetime.fromisoformat(
-              runs[0]["updated_at"].replace("Z", "+00:00")
+              run["updated_at"].replace("Z", "+00:00")
           )
           discovery_age = (now - discovery_at).total_seconds() / 3600
           if discovery_age > 26:
@@ -53,7 +76,31 @@ jobs:
                   f"Source Discovery stale: {discovery_age:.2f}h > 26h"
               )
 
+          artifacts = gh(
+              f"repos/{repository}/actions/runs/{run['id']}/artifacts?per_page=100"
+          )["artifacts"]
+          pattern = re.compile(
+              r"^ruleset-candidate-(?:none|low|high)-"
+              r"[0-9a-f]{64}-[0-9a-f]{64}$"
+          )
+          matches = [
+              item
+              for item in artifacts
+              if not item.get("expired")
+              and pattern.fullmatch(str(item.get("name", "")))
+          ]
+          if len(matches) != 1:
+              raise SystemExit(
+                  "latest discovery must contain exactly one candidate artifact"
+              )
+
           release = gh(f"repos/{repository}/releases/latest")
+          if (
+              release.get("draft")
+              or release.get("prerelease")
+              or release.get("immutable") is not True
+          ):
+              raise SystemExit("latest release is not a final immutable snapshot")
           release_at = dt.datetime.fromisoformat(
               release["published_at"].replace("Z", "+00:00")
           )
@@ -63,20 +110,200 @@ jobs:
                   f"published ruleset stale: {release_age:.2f}h > 192h"
               )
 
+          main = gh(f"repos/{repository}/commits/main")
+          main_sha = str(main.get("sha", ""))
+          if not re.fullmatch(r"[0-9a-f]{40}", main_sha):
+              raise SystemExit("main returned an invalid commit SHA")
+          tag = str(release.get("tag_name", ""))
+          if not re.fullmatch(r"ruleset-[A-Za-z0-9._-]+", tag):
+              raise SystemExit("latest release tag is invalid")
           readme = gh(f"repos/{repository}/contents/README.md?ref=main")
-          if readme["size"] != 0 or readme["sha"] != (
+          if readme.get("size") != 0 or readme.get("sha") != (
               "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
           ):
               raise SystemExit("public root README privacy boundary drifted")
 
-          summary = os.environ["GITHUB_STEP_SUMMARY"]
-          with open(summary, "a", encoding="utf-8") as handle:
-              handle.write("# Freshness Watchdog\n\n")
-              handle.write(f"- Discovery age: `{discovery_age:.2f}h`\n")
-              handle.write(f"- Release age: `{release_age:.2f}h`\n")
-              handle.write("- Root README: `0 bytes`\n")
-          print(
-              f"fresh: discovery={discovery_age:.2f}h "
-              f"release={release_age:.2f}h readme=0"
-          )
+          outputs = {
+              "artifact_name": matches[0]["name"],
+              "discovery_age_hours": f"{discovery_age:.2f}",
+              "discovery_head_sha": run["head_sha"],
+              "release_age_hours": f"{release_age:.2f}",
+              "release_tag": tag,
+              "run_id": str(run["id"]),
+              "main_sha": main_sha,
+          }
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as handle:
+              for key, value in outputs.items():
+                  handle.write(f"{key}={value}\n")
           PY
+
+      - name: Download latest discovery candidate
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: ${{ steps.evidence.outputs.artifact_name }}
+          path: .watchdog/candidate
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          run-id: ${{ steps.evidence.outputs.run_id }}
+          digest-mismatch: error
+
+      - name: Audit discovery health and pending review
+        env:
+          DISCOVERY_HEAD_SHA: ${{ steps.evidence.outputs.discovery_head_sha }}
+        run: |
+          set -euo pipefail
+          failures=.watchdog/failures.txt
+          candidate=.watchdog/candidate
+          required=(
+            candidate-identity.json
+            candidate-manifest.json
+            candidate-sources.json
+            fetch-report.json
+            identity-digest.txt
+            ruleset-dist.sha256
+            ruleset-dist.tar.gz
+            semantic-digest.txt
+            source-health.json
+            source-radar-decision.json
+            source-sha.txt
+          )
+          for name in "${required[@]}"; do
+            if [ ! -f "${candidate}/${name}" ]; then
+              echo "candidate artifact is missing ${name}" >> "$failures"
+            fi
+          done
+          if [ -s "$failures" ]; then
+            exit 0
+          fi
+          (
+            cd "$candidate"
+            if ! sha256sum -c ruleset-dist.sha256; then
+              echo "candidate archive checksum failed" >> ../failures.txt
+            fi
+          )
+          candidate_source_sha="$(tr -d '[:space:]' < "${candidate}/source-sha.txt")"
+          identity_digest="$(tr -d '[:space:]' < "${candidate}/identity-digest.txt")"
+          identity_file_digest="$(
+            sha256sum "${candidate}/candidate-identity.json" | awk '{print $1}'
+          )"
+          if [ "$candidate_source_sha" != "$DISCOVERY_HEAD_SHA" ]; then
+            echo "candidate source SHA does not match discovery run" >> "$failures"
+          fi
+          if [ "$identity_digest" != "$identity_file_digest" ]; then
+            echo "candidate identity digest mismatch" >> "$failures"
+          fi
+          if ! jq -e \
+            --arg source_sha "$DISCOVERY_HEAD_SHA" \
+            '
+              .source_commit_sha == $source_sha
+              and .source_head_advanced_after_lock == false
+              and ((.budget_exceeded // []) | length == 0)
+              and ((.cache_blocked_source_ids // []) | length == 0)
+            ' "${candidate}/candidate-manifest.json" >/dev/null; then
+            echo "candidate manifest freshness or budget gate failed" >> "$failures"
+          fi
+          if ! jq -e \
+            '
+              .status == "healthy"
+              and .fallback_cache_count == 0
+              and ((.cache_blocked_source_ids // []) | length == 0)
+              and .network_success_count > 0
+            ' "${candidate}/source-health.json" >/dev/null; then
+            echo "latest source health is degraded" >> "$failures"
+          fi
+          if ! jq -e '.fallback_cache_count == 0' \
+            "${candidate}/fetch-report.json" >/dev/null; then
+            echo "latest discovery used fallback cache" >> "$failures"
+          fi
+          if ! jq -e \
+            '
+              .candidate_only == true
+              and .promotion_blocked == false
+              and ((.advanced_active_repositories // []) | length == 0)
+            ' "${candidate}/source-radar-decision.json" >/dev/null; then
+            echo "source radar detected an active-source race" >> "$failures"
+          fi
+          if jq -e '.changed == true and .requires_review == true' \
+            "${candidate}/candidate-manifest.json" >/dev/null; then
+            echo "latest candidate still requires protected review" >> "$failures"
+          fi
+
+      - name: Download latest immutable release assets
+        env:
+          RELEASE_TAG: ${{ steps.evidence.outputs.release_tag }}
+        run: |
+          set -euo pipefail
+          mkdir -p .watchdog/release
+          gh release download "$RELEASE_TAG" \
+            --repo "$REPOSITORY" \
+            --pattern ruleset-dist.tar.gz \
+            --pattern ruleset-dist.sha256 \
+            --dir .watchdog/release
+
+      - name: Verify release, main, tree, and attestation convergence
+        env:
+          MAIN_SHA: ${{ steps.evidence.outputs.main_sha }}
+          RELEASE_TAG: ${{ steps.evidence.outputs.release_tag }}
+        run: |
+          set -euo pipefail
+          failures=.watchdog/failures.txt
+          archive=.watchdog/release/ruleset-dist.tar.gz
+          checksum=.watchdog/release/ruleset-dist.sha256
+          if ! python3 ruleset/scripts/verify_published.py \
+            --repository "$REPOSITORY" \
+            --sha "$MAIN_SHA" \
+            --tag "$RELEASE_TAG" \
+            --archive "$archive" \
+            --checksum "$checksum"; then
+            echo "latest release does not converge with main" >> "$failures"
+            exit 0
+          fi
+          source_sha="$(
+            tar -xOf "$archive" dist/candidate_manifest.json \
+              | jq -r '.source_commit_sha // empty'
+          )"
+          if ! [[ "$source_sha" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "release manifest lacks a valid source commit SHA" >> "$failures"
+            exit 0
+          fi
+          if ! gh attestation verify "$archive" \
+            --repo "$REPOSITORY" \
+            --signer-workflow \
+              "${REPOSITORY}/.github/workflows/source-discovery.yml" \
+            --source-digest "$source_sha"; then
+            echo "release discovery attestation verification failed" >> "$failures"
+          fi
+
+      - name: Publish watchdog result
+        if: always()
+        env:
+          DISCOVERY_AGE: ${{ steps.evidence.outputs.discovery_age_hours }}
+          JOB_STATUS: ${{ job.status }}
+          RELEASE_AGE: ${{ steps.evidence.outputs.release_age_hours }}
+          RELEASE_TAG: ${{ steps.evidence.outputs.release_tag }}
+        run: |
+          set -euo pipefail
+          {
+            echo "# Freshness Watchdog"
+            echo
+            echo "- Discovery age: \`${DISCOVERY_AGE:-unavailable}h\`"
+            echo "- Release age: \`${RELEASE_AGE:-unavailable}h\`"
+            echo "- Release tag: \`${RELEASE_TAG:-unavailable}\`"
+            echo "- Root README: \`0 bytes\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+          if [ "$JOB_STATUS" != "success" ] && \
+             [ ! -s .watchdog/failures.txt ]; then
+            mkdir -p .watchdog
+            echo "watchdog evidence collection failed" >> .watchdog/failures.txt
+          fi
+          if [ -s .watchdog/failures.txt ]; then
+            {
+              echo
+              echo "## Attention required"
+              echo
+              sed 's/^/- /' .watchdog/failures.txt
+            } >> "$GITHUB_STEP_SUMMARY"
+            cat .watchdog/failures.txt
+            exit 1
+          fi
+          echo "Discovery, release, main, tree, and attestation are converged."

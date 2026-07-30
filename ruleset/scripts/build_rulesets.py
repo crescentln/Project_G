@@ -8,6 +8,7 @@ import hashlib
 import io
 import ipaddress
 import json
+import os
 import pathlib
 import re
 import shutil
@@ -982,6 +983,34 @@ def read_cache_metadata(meta_file: pathlib.Path) -> dict[str, Any]:
     return payload
 
 
+def write_cache_metadata_atomic(
+    meta_file: pathlib.Path,
+    metadata: dict[str, Any],
+) -> None:
+    temp_path: pathlib.Path | None = None
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            newline="\n",
+            dir=meta_file.parent,
+            prefix=f".{meta_file.name}.",
+            suffix=".tmp",
+            delete=False,
+        ) as handle:
+            temp_path = pathlib.Path(handle.name)
+            json.dump(metadata, handle, ensure_ascii=False, indent=2)
+            handle.write("\n")
+            handle.flush()
+            os.fsync(handle.fileno())
+        temp_path.replace(meta_file)
+    except OSError as exc:
+        raise BuildError(f"cache metadata write failed: {meta_file}: {exc}") from exc
+    finally:
+        if temp_path is not None:
+            temp_path.unlink(missing_ok=True)
+
+
 def load_validated_cache(
     url: str,
     cache_dir: pathlib.Path,
@@ -1017,9 +1046,15 @@ def load_validated_cache(
         fetched_at = parse_utc_timestamp(str(metadata["fetched_at_utc"]))
     except (KeyError, TypeError, ValueError) as exc:
         raise BuildError(f"cache timestamp invalid for {url}") from exc
+    try:
+        validated_at = parse_utc_timestamp(
+            str(metadata.get("validated_at_utc", metadata["fetched_at_utc"]))
+        )
+    except (KeyError, TypeError, ValueError) as exc:
+        raise BuildError(f"cache validation timestamp invalid for {url}") from exc
     age_seconds = max(
         0.0,
-        (dt.datetime.now(dt.timezone.utc) - fetched_at).total_seconds(),
+        (dt.datetime.now(dt.timezone.utc) - validated_at).total_seconds(),
     )
     if cache_ttl_hours >= 0 and age_seconds > cache_ttl_hours * 3600:
         raise BuildError(
@@ -1035,6 +1070,9 @@ def load_validated_cache(
         content_sha256=actual_sha256,
         byte_count=len(data),
         cache_age_seconds=round(age_seconds, 3),
+        cache_age_basis="validated_at_utc",
+        fetched_at_utc=fetched_at.isoformat(),
+        validated_at_utc=validated_at.isoformat(),
         etag=str(metadata.get("etag", "")),
         last_modified=str(metadata.get("last_modified", "")),
         final_url=str(metadata.get("final_url", url)),
@@ -1046,6 +1084,8 @@ def load_validated_cache(
         content_sha256=actual_sha256,
         byte_count=len(data),
         cache_age_seconds=round(age_seconds, 3),
+        cache_age_basis="validated_at_utc",
+        validated_at_utc=validated_at.isoformat(),
     )
     FETCH_MEMO[url] = result
     return result
@@ -1130,19 +1170,18 @@ def fetch_bytes(
         if expected_sha256 and content_sha256 != expected_sha256.lower():
             raise BuildError(f"response does not match expected SHA-256 for {url}")
         cache_file.write_bytes(data)
+        fetched_at_utc = dt.datetime.now(dt.timezone.utc).isoformat()
         metadata = {
             "url": url,
             "final_url": final_url,
-            "fetched_at_utc": dt.datetime.now(dt.timezone.utc).isoformat(),
+            "fetched_at_utc": fetched_at_utc,
+            "validated_at_utc": fetched_at_utc,
             "content_sha256": content_sha256,
             "byte_count": len(data),
             "etag": etag,
             "last_modified": last_modified,
         }
-        meta_file.write_text(
-            json.dumps(metadata, ensure_ascii=False, indent=2) + "\n",
-            encoding="utf-8",
-        )
+        write_cache_metadata_atomic(meta_file, metadata)
         result = (data, False)
         record_fetch_event(
             url,
@@ -1173,7 +1212,41 @@ def fetch_bytes(
                     expected_sha256=expected_sha256,
                     mode="not_modified",
                 )
-                FETCH_EVENTS[url]["cache_age_seconds"] = 0
+                metadata = read_cache_metadata(meta_file)
+                validated_at_utc = dt.datetime.now(dt.timezone.utc).isoformat()
+                metadata["validated_at_utc"] = validated_at_utc
+                response_headers = exc.headers or {}
+                response_etag = str(response_headers.get("ETag", "")).strip()
+                response_last_modified = str(
+                    response_headers.get("Last-Modified", "")
+                ).strip()
+                if response_etag:
+                    metadata["etag"] = response_etag
+                if response_last_modified:
+                    metadata["last_modified"] = response_last_modified
+                write_cache_metadata_atomic(meta_file, metadata)
+                FETCH_EVENTS[url].update(
+                    {
+                        "cache_age_seconds": 0,
+                        "cache_age_basis": "validated_at_utc",
+                        "validated_at_utc": validated_at_utc,
+                        "etag": str(metadata.get("etag", "")),
+                        "last_modified": str(metadata.get("last_modified", "")),
+                    }
+                )
+                for attempt in reversed(FETCH_ATTEMPTS):
+                    if (
+                        attempt.get("url") == url
+                        and attempt.get("outcome") == "not_modified"
+                    ):
+                        attempt.update(
+                            {
+                                "cache_age_seconds": 0,
+                                "cache_age_basis": "validated_at_utc",
+                                "validated_at_utc": validated_at_utc,
+                            }
+                        )
+                        break
                 result = (cached_data, False)
                 FETCH_MEMO[url] = result
                 return result

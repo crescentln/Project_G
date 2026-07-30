@@ -27,6 +27,7 @@
 
 - 单元与配置一致性测试：`python3 -m unittest discover -s ruleset/tests -v`
 - 高频 Source Discovery 只生成候选产物，不写入 `main`、tag 或 Release。
+- 每轮成功候选保留独立来源雷达快照，下一轮自动比较 HEAD、树与未纳入文件；雷达证据始终保持 candidate-only。
 - 低风险候选必须连续两轮语义摘要一致才可自动晋升；高风险候选必须通过受保护环境复核。
 - 发布只消费已验证的候选归档，不重新抓取或重新构建，并附带 GitHub artifact attestation。
 - 每类规则使用独立的增删、比例、apex、regex、CIDR 与跨动作重叠预算。

@@ -6,6 +6,7 @@ on:
     - cron: "23 */12 * * *"
 
 permissions:
+  actions: read
   contents: read
   attestations: write
   id-token: write
@@ -63,6 +64,75 @@ jobs:
             --sources ruleset/config/sources.json \
             --output .candidate/sources.lock.json
 
+      - name: Select previous successful radar snapshot
+        id: previous_radar
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          echo "available=false" >> "$GITHUB_OUTPUT"
+          runs_json="$(
+            gh api \
+              "repos/${REPOSITORY}/actions/workflows/source-discovery.yml/runs?branch=main&status=success&per_page=20"
+          )"
+          while IFS=$'\t' read -r run_id path event head_repository; do
+            test -n "$run_id" || continue
+            if [ "$path" != ".github/workflows/source-discovery.yml" ] || \
+               [ "$head_repository" != "$REPOSITORY" ]; then
+              continue
+            fi
+            case "$event" in
+              schedule|workflow_dispatch) ;;
+              *) continue ;;
+            esac
+            artifacts_json="$(
+              gh api "repos/${REPOSITORY}/actions/runs/${run_id}/artifacts?per_page=100"
+            )"
+            mapfile -t names < <(
+              jq -r '
+                .artifacts[]
+                | select(.expired == false)
+                | select(
+                    .name
+                    | test(
+                        "^ruleset-candidate-(none|low|high)-[0-9a-f]{64}-[0-9a-f]{64}$"
+                      )
+                  )
+                | .name
+              ' <<<"$artifacts_json"
+            )
+            if [ "${#names[@]}" -ne 1 ]; then
+              continue
+            fi
+            echo "available=true" >> "$GITHUB_OUTPUT"
+            echo "run_id=$run_id" >> "$GITHUB_OUTPUT"
+            echo "artifact_name=${names[0]}" >> "$GITHUB_OUTPUT"
+            exit 0
+          done < <(
+            jq -r --arg repository "$REPOSITORY" '
+              .workflow_runs[]
+              | [
+                  (.id | tostring),
+                  .path,
+                  .event,
+                  .head_repository.full_name
+                ]
+              | @tsv
+            ' <<<"$runs_json"
+          )
+
+      - name: Download previous radar snapshot
+        if: steps.previous_radar.outputs.available == 'true'
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: ${{ steps.previous_radar.outputs.artifact_name }}
+          path: ${{ runner.temp }}/previous-radar
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          run-id: ${{ steps.previous_radar.outputs.run_id }}
+          digest-mismatch: error
+
       - name: Build isolated candidate
         timeout-minutes: 45
         run: |
@@ -88,7 +158,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           baseline_args=()
-          if [ -f "${RUNNER_TEMP}/baseline-dist/candidate_sources.json" ]; then
+          if [ -f "${RUNNER_TEMP}/previous-radar/candidate-sources.json" ]; then
+            baseline_args=(
+              --baseline "${RUNNER_TEMP}/previous-radar/candidate-sources.json"
+            )
+          elif [ -f "${RUNNER_TEMP}/baseline-dist/candidate_sources.json" ]; then
             baseline_args=(--baseline "${RUNNER_TEMP}/baseline-dist/candidate_sources.json")
           fi
           python3 ruleset/scripts/discover_source_radar.py \
@@ -181,6 +255,12 @@ jobs:
         id: package
         run: |
           set -euo pipefail
+          source_sha="$(tr -d '[:space:]' < .candidate/source-sha.txt)"
+          manifest_tmp="$(mktemp ruleset/dist/.candidate-manifest.XXXXXXXXXX)"
+          jq --arg source_commit_sha "$source_sha" \
+            '.source_commit_sha = $source_commit_sha' \
+            ruleset/dist/candidate_manifest.json > "$manifest_tmp"
+          mv "$manifest_tmp" ruleset/dist/candidate_manifest.json
           semantic_digest="$(jq -r '.semantic_digest' ruleset/dist/candidate_manifest.json)"
           risk_level="$(jq -r '.risk_level' ruleset/dist/candidate_manifest.json)"
           if ! [[ "$semantic_digest" =~ ^[0-9a-f]{64}$ ]]; then
@@ -191,7 +271,6 @@ jobs:
             none|low|high) ;;
             *) echo "Invalid risk level: $risk_level"; exit 1 ;;
           esac
-          source_sha="$(tr -d '[:space:]' < .candidate/source-sha.txt)"
           source_lock_sha="$(jq -r '.source_lock_sha256' ruleset/dist/candidate_manifest.json)"
           workflow_sha="$(sha256sum .github/workflows/source-discovery.yml | awk '{print $1}')"
           jq -nS \
@@ -208,6 +287,11 @@ jobs:
           identity_digest="$(sha256sum .candidate/candidate-identity.json | awk '{print $1}')"
           artifact_name="ruleset-candidate-${risk_level}-${semantic_digest}-${identity_digest}"
           cp ruleset/dist/candidate_manifest.json .candidate/candidate-manifest.json
+          cp ruleset/dist/candidate_sources.json .candidate/candidate-sources.json
+          cp ruleset/dist/fetch_report.json .candidate/fetch-report.json
+          cp ruleset/dist/source_health.json .candidate/source-health.json
+          cp ruleset/dist/source_radar_decision.json \
+            .candidate/source-radar-decision.json
           tar -czf .candidate/ruleset-dist.tar.gz -C ruleset dist
           (
             cd .candidate

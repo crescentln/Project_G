@@ -195,6 +195,7 @@ jobs:
       name: ${{ needs.select.outputs.environment_name }}
     permissions:
       actions: read
+      attestations: read
       contents: write
       statuses: write
     env:
@@ -485,10 +486,12 @@ jobs:
             sleep 10
           done
           gh attestation verify .promotion/ruleset-dist.tar.gz \
-            --repo "$REPOSITORY"
+            --repo "$REPOSITORY" \
+            --signer-workflow \
+              "${REPOSITORY}/.github/workflows/source-discovery.yml" \
+            --source-digest "$EXPECTED_SOURCE_SHA"
 
       - name: Publish verified snapshot to main
-        id: publish_main
         env:
           PREVIOUS_SHA: ${{ steps.prepare_snapshot.outputs.previous_sha }}
           PUBLISHED_SHA: ${{ steps.prepare_snapshot.outputs.published_sha }}
@@ -504,7 +507,6 @@ jobs:
           fi
           test "$(git rev-parse HEAD)" = "$PUBLISHED_SHA"
           git push origin "HEAD:refs/heads/main"
-          echo "main_published=true" >> "$GITHUB_OUTPUT"
           test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.size')" = "0"
           test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.sha')" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
 
@@ -529,7 +531,10 @@ jobs:
             sleep 10
           done
           gh attestation verify .promotion/ruleset-dist.tar.gz \
-            --repo "$REPOSITORY"
+            --repo "$REPOSITORY" \
+            --signer-workflow \
+              "${REPOSITORY}/.github/workflows/source-discovery.yml" \
+            --source-digest "$EXPECTED_SOURCE_SHA"
 
       - name: Record final generated SHA status
         env:
@@ -559,7 +564,7 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Forward-rollback an incompletely verified main publication
-        if: failure() && steps.publish_main.outputs.main_published == 'true'
+        if: ${{ (failure() || cancelled()) && steps.prepare_snapshot.outcome == 'success' }}
         env:
           PUBLISHED_SHA: ${{ steps.prepare_snapshot.outputs.published_sha }}
           PREVIOUS_SHA: ${{ steps.prepare_snapshot.outputs.previous_sha }}
@@ -568,6 +573,10 @@ jobs:
           set -euo pipefail
           git fetch --no-tags origin main
           remote_sha="$(git rev-parse origin/main)"
+          if [ "$remote_sha" = "$PREVIOUS_SHA" ]; then
+            echo "Main was never advanced; no forward rollback is required."
+            exit 0
+          fi
           if [ "$remote_sha" != "$PUBLISHED_SHA" ]; then
             echo "Main moved after the incomplete publication; refusing blind rollback."
             exit 1
@@ -580,6 +589,10 @@ jobs:
           test "$(git rev-parse HEAD)" = "$PUBLISHED_SHA"
           git revert --no-edit "$PUBLISHED_SHA"
           rollback_sha="$(git rev-parse HEAD)"
+          if ! git diff --quiet "$PREVIOUS_SHA" "$rollback_sha"; then
+            echo "Forward rollback tree does not exactly restore the prior main tree."
+            exit 1
+          fi
           git push origin "HEAD:refs/heads/main"
           test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.size')" = "0"
           test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.sha')" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"

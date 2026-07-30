@@ -278,6 +278,79 @@ class SecureFetchTests(unittest.TestCase):
         self.assertEqual(report["network_success_count"], 1)
         self.assertEqual(report["fallback_cache_count"], 0)
 
+    def test_recent_304_extends_fallback_ttl_without_rewriting_fetch_time(
+        self,
+    ) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            cache_dir = pathlib.Path(tmp)
+            url = "https://cache.example/revalidated"
+            fetched_at = dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=30)
+            self._write_cache(
+                cache_dir,
+                url,
+                b"cached",
+                fetched_at=fetched_at,
+            )
+            not_modified = build_rulesets.urllib.error.HTTPError(
+                url,
+                304,
+                "Not Modified",
+                {"ETag": '"fresh-validator"'},
+                None,
+            )
+            self.addCleanup(not_modified.close)
+            with mock.patch.object(
+                build_rulesets.urllib.request,
+                "urlopen",
+                side_effect=not_modified,
+            ):
+                data, used_cache = build_rulesets.fetch_bytes(
+                    url,
+                    cache_dir,
+                    allow_cache_fallback=False,
+                    max_bytes=1024,
+                    allowed_hosts={"cache.example"},
+                )
+            self.assertEqual(data, b"cached")
+            self.assertFalse(used_cache)
+
+            _cache_file, meta_file = build_rulesets.cache_paths(url, cache_dir)
+            metadata = json.loads(meta_file.read_text(encoding="utf-8"))
+            self.assertEqual(metadata["fetched_at_utc"], fetched_at.isoformat())
+            self.assertEqual(metadata["etag"], '"fresh-validator"')
+            validated_at = build_rulesets.parse_utc_timestamp(
+                metadata["validated_at_utc"]
+            )
+            self.assertLess(
+                (dt.datetime.now(dt.timezone.utc) - validated_at).total_seconds(),
+                5,
+            )
+
+            build_rulesets.FETCH_MEMO.clear()
+            with mock.patch.object(
+                build_rulesets.urllib.request,
+                "urlopen",
+                side_effect=build_rulesets.urllib.error.URLError("offline"),
+            ):
+                fallback_data, fallback_used_cache = build_rulesets.fetch_bytes(
+                    url,
+                    cache_dir,
+                    allow_cache_fallback=True,
+                    cache_ttl_hours=24,
+                    max_bytes=1024,
+                    allowed_hosts={"cache.example"},
+                )
+            self.assertEqual(fallback_data, b"cached")
+            self.assertTrue(fallback_used_cache)
+            self.assertLess(
+                build_rulesets.FETCH_EVENTS[url]["cache_age_seconds"],
+                5,
+            )
+            self.assertEqual(
+                build_rulesets.FETCH_EVENTS[url]["cache_age_basis"],
+                "validated_at_utc",
+            )
+
 
 class SourceControlTests(unittest.TestCase):
     def setUp(self) -> None:
