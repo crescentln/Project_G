@@ -94,8 +94,7 @@ class WorkflowIntegrityTests(unittest.TestCase):
         ruleset_tests = (WORKFLOW_ROOT / "ruleset-tests.yml").read_text(
             encoding="utf-8"
         )
-        self.assertIn('- "README.md"', ruleset_tests)
-        self.assertIn('- "ruleset/dist/**"', ruleset_tests)
+        self.assertNotIn("paths:", ruleset_tests)
 
     def test_gitleaks_scans_generated_dist(self) -> None:
         config = (REPO_ROOT / ".gitleaks.toml").read_text(encoding="utf-8")
