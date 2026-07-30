@@ -133,6 +133,8 @@ class WorkflowIntegrityTests(unittest.TestCase):
         self.assertIn("for attempt in range(1, 7)", workflow)
         self.assertIn('state = "pending"', workflow)
         self.assertIn("if state != \"success\"", workflow)
+        self.assertIn('("repository-governance", 15368)', workflow)
+        self.assertIn('("CodeQL", 57789)', workflow)
         for context in (
             "repository-governance",
             "full-validation",
