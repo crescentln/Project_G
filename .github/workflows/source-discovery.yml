@@ -1,7 +1,26 @@
 name: Source Discovery
+run-name: >-
+  Source Discovery ${{ inputs.observation_id || github.sha }}
+  attempt-${{ inputs.observation_attempt || '0' }}
 
 on:
   workflow_dispatch:
+    inputs:
+      expected_source_sha:
+        description: "Optional exact main SHA required for post-publication convergence"
+        required: false
+        type: string
+      observation_id:
+        description: "Optional exact post-publication observation correlation ID"
+        required: false
+        type: string
+      observation_attempt:
+        description: "Optional post-publication observation attempt number"
+        required: false
+        type: string
+  push:
+    branches:
+      - main
   schedule:
     - cron: "23 */12 * * *"
 
@@ -14,12 +33,17 @@ permissions:
 concurrency:
   group: ruleset-source-discovery-main
   cancel-in-progress: false
+  queue: max
 
 jobs:
   candidate:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-24.04
     timeout-minutes: 90
+    concurrency:
+      group: ruleset-publication-main
+      cancel-in-progress: false
+      queue: max
     env:
       MAX_FETCH_FALLBACKS: "30"
     steps:
@@ -34,11 +58,29 @@ jobs:
           python-version: "3.11"
 
       - name: Verify public README privacy boundary
+        env:
+          EXPECTED_SOURCE_SHA: ${{ inputs.expected_source_sha }}
+          OBSERVATION_ATTEMPT: ${{ inputs.observation_attempt }}
+          OBSERVATION_ID: ${{ inputs.observation_id }}
         run: |
           set -euo pipefail
           test -f README.md
           test ! -s README.md
           test "$(git hash-object README.md)" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+          if [ -n "${EXPECTED_SOURCE_SHA:-}" ]; then
+            if ! [[ "$EXPECTED_SOURCE_SHA" =~ ^[0-9a-f]{40}$ ]]; then
+              echo "expected_source_sha must be an exact lowercase Git SHA."
+              exit 1
+            fi
+            test "$(git rev-parse HEAD)" = "$EXPECTED_SOURCE_SHA"
+          fi
+          if [ -n "${OBSERVATION_ID:-}" ]; then
+            [[ "$OBSERVATION_ID" =~ ^[0-9a-f]{64}$ ]]
+            [[ "$OBSERVATION_ATTEMPT" =~ ^[12]$ ]]
+          elif [ -n "${OBSERVATION_ATTEMPT:-}" ]; then
+            echo "observation_attempt requires observation_id."
+            exit 1
+          fi
 
       - name: Cache source downloads
         uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
@@ -64,75 +106,6 @@ jobs:
             --sources ruleset/config/sources.json \
             --output .candidate/sources.lock.json
 
-      - name: Select previous successful radar snapshot
-        id: previous_radar
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REPOSITORY: ${{ github.repository }}
-        run: |
-          set -euo pipefail
-          echo "available=false" >> "$GITHUB_OUTPUT"
-          runs_json="$(
-            gh api \
-              "repos/${REPOSITORY}/actions/workflows/source-discovery.yml/runs?branch=main&status=success&per_page=20"
-          )"
-          while IFS=$'\t' read -r run_id path event head_repository; do
-            test -n "$run_id" || continue
-            if [ "$path" != ".github/workflows/source-discovery.yml" ] || \
-               [ "$head_repository" != "$REPOSITORY" ]; then
-              continue
-            fi
-            case "$event" in
-              schedule|workflow_dispatch) ;;
-              *) continue ;;
-            esac
-            artifacts_json="$(
-              gh api "repos/${REPOSITORY}/actions/runs/${run_id}/artifacts?per_page=100"
-            )"
-            mapfile -t names < <(
-              jq -r '
-                .artifacts[]
-                | select(.expired == false)
-                | select(
-                    .name
-                    | test(
-                        "^ruleset-candidate-(none|low|high)-[0-9a-f]{64}-[0-9a-f]{64}$"
-                      )
-                  )
-                | .name
-              ' <<<"$artifacts_json"
-            )
-            if [ "${#names[@]}" -ne 1 ]; then
-              continue
-            fi
-            echo "available=true" >> "$GITHUB_OUTPUT"
-            echo "run_id=$run_id" >> "$GITHUB_OUTPUT"
-            echo "artifact_name=${names[0]}" >> "$GITHUB_OUTPUT"
-            exit 0
-          done < <(
-            jq -r --arg repository "$REPOSITORY" '
-              .workflow_runs[]
-              | [
-                  (.id | tostring),
-                  .path,
-                  .event,
-                  .head_repository.full_name
-                ]
-              | @tsv
-            ' <<<"$runs_json"
-          )
-
-      - name: Download previous radar snapshot
-        if: steps.previous_radar.outputs.available == 'true'
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
-        with:
-          name: ${{ steps.previous_radar.outputs.artifact_name }}
-          path: ${{ runner.temp }}/previous-radar
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          repository: ${{ github.repository }}
-          run-id: ${{ steps.previous_radar.outputs.run_id }}
-          digest-mismatch: error
-
       - name: Build isolated candidate
         timeout-minutes: 45
         run: |
@@ -153,16 +126,12 @@ jobs:
             --stash-native-out ruleset/dist/recommended_stash_native.yaml \
             --raw-base-url "https://raw.githubusercontent.com/${{ github.repository }}/main/ruleset/dist"
 
-      - name: Run candidate-only upstream radar
+      - name: Run candidate-only radar against the published baseline
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           baseline_args=()
-          if [ -f "${RUNNER_TEMP}/previous-radar/candidate-sources.json" ]; then
-            baseline_args=(
-              --baseline "${RUNNER_TEMP}/previous-radar/candidate-sources.json"
-            )
-          elif [ -f "${RUNNER_TEMP}/baseline-dist/candidate_sources.json" ]; then
+          if [ -f "${RUNNER_TEMP}/baseline-dist/candidate_sources.json" ]; then
             baseline_args=(--baseline "${RUNNER_TEMP}/baseline-dist/candidate_sources.json")
           fi
           python3 ruleset/scripts/discover_source_radar.py \
@@ -200,6 +169,25 @@ jobs:
             --client-parity ruleset/dist/client_parity.json \
             --contracts ruleset/dist/category_contracts_resolved.json \
             --candidate-manifest ruleset/dist/candidate_manifest.json
+
+      - name: Build deterministic automated review evidence
+        run: |
+          set -euo pipefail
+          python3 ruleset/scripts/check_automated_review.py \
+            --manifest ruleset/dist/candidate_manifest.json \
+            --rule-delta ruleset/dist/rule_delta.json \
+            --contracts ruleset/dist/category_contracts_resolved.json \
+            --canonical-contracts ruleset/config/category_contracts.json \
+            --source-config ruleset/config/sources.json \
+            --baseline-dist "${RUNNER_TEMP}/baseline-dist" \
+            --current-dist ruleset/dist \
+            --protected-domain-roots ruleset/config/protected_domain_roots.json \
+            --repository-root . \
+            --provenance ruleset/dist/source_provenance.json \
+            --source-registry ruleset/config/source_registry.json \
+            --radar-decision ruleset/dist/source_radar_decision.json \
+            --radar-snapshot ruleset/dist/candidate_sources.json \
+            --output ruleset/dist/automated_review.json
 
       - name: Update candidate changelog
         run: |
@@ -248,11 +236,15 @@ jobs:
             echo
             echo "## Candidate decision"
             echo
-            jq -r '"- Semantic digest: `" + .semantic_digest + "`\n- Risk: `" + .risk_level + "`\n- Changed: `" + (.changed|tostring) + "`\n- Auto eligible: `" + (.auto_promotion_eligible|tostring) + "`\n- Review required: `" + (.requires_review|tostring) + "`\n- Risk markers: `" + ((.risk_markers // []) | join(", ")) + "`\n- Budget exceeded: `" + ((.budget_exceeded // []) | join("; ")) + "`"' ruleset/dist/candidate_manifest.json
+            jq -r '"- Semantic digest: `" + .semantic_digest + "`\n- Risk: `" + .risk_level + "`\n- Changed: `" + (.changed|tostring) + "`\n- Legacy low-risk eligibility: `" + (.auto_promotion_eligible|tostring) + "`\n- Elevated evidence required: `" + (.requires_review|tostring) + "`\n- Risk markers: `" + ((.risk_markers // []) | join(", ")) + "`\n- Budget exceeded: `" + ((.budget_exceeded // []) | join("; ")) + "`"' ruleset/dist/candidate_manifest.json
+            jq -r '"- Automated evidence eligible: `" + (.eligible|tostring) + "`\n- Automated review policy: `" + .review_policy + "`\n- Required stable cycles: `" + (.required_stable_cycles|tostring) + "`\n- Minimum cycle separation: `" + (.minimum_cycle_separation_seconds|tostring) + "s`\n- Automated blocker count: `" + ((.blockers // []) | length | tostring) + "`\n- First automated blockers: `" + ((.blockers // [])[0:20] | join("; ")) + "`"' ruleset/dist/automated_review.json
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Package immutable candidate
         id: package
+        env:
+          OBSERVATION_ATTEMPT: ${{ inputs.observation_attempt }}
+          OBSERVATION_ID: ${{ inputs.observation_id }}
         run: |
           set -euo pipefail
           source_sha="$(tr -d '[:space:]' < .candidate/source-sha.txt)"
@@ -271,27 +263,31 @@ jobs:
             none|low|high) ;;
             *) echo "Invalid risk level: $risk_level"; exit 1 ;;
           esac
-          source_lock_sha="$(jq -r '.source_lock_sha256' ruleset/dist/candidate_manifest.json)"
-          workflow_sha="$(sha256sum .github/workflows/source-discovery.yml | awk '{print $1}')"
-          jq -nS \
-            --arg semantic_digest "$semantic_digest" \
-            --arg source_sha "$source_sha" \
-            --arg source_lock_sha256 "$source_lock_sha" \
-            --arg workflow_sha256 "$workflow_sha" \
-            '{
-              semantic_digest: $semantic_digest,
-              source_lock_sha256: $source_lock_sha256,
-              source_sha: $source_sha,
-              workflow_sha256: $workflow_sha256
-            }' > .candidate/candidate-identity.json
+          python3 ruleset/scripts/build_candidate_identity.py \
+            --manifest ruleset/dist/candidate_manifest.json \
+            --radar-decision ruleset/dist/source_radar_decision.json \
+            --automated-review ruleset/dist/automated_review.json \
+            --source-sha "$source_sha" \
+            --workflow .github/workflows/source-discovery.yml \
+            --identity-output .candidate/candidate-identity.json \
+            --decision-output .candidate/candidate-decision.json \
+            --fingerprint-output .candidate/decision-fingerprint.txt
+          decision_fingerprint="$(
+            tr -d '[:space:]' < .candidate/decision-fingerprint.txt
+          )"
+          if ! [[ "$decision_fingerprint" =~ ^[0-9a-f]{64}$ ]]; then
+            echo "Invalid decision fingerprint."
+            exit 1
+          fi
           identity_digest="$(sha256sum .candidate/candidate-identity.json | awk '{print $1}')"
-          artifact_name="ruleset-candidate-${risk_level}-${semantic_digest}-${identity_digest}"
+          artifact_name="ruleset-candidate-${risk_level}-${semantic_digest}-${decision_fingerprint}-${identity_digest}"
           cp ruleset/dist/candidate_manifest.json .candidate/candidate-manifest.json
           cp ruleset/dist/candidate_sources.json .candidate/candidate-sources.json
           cp ruleset/dist/fetch_report.json .candidate/fetch-report.json
           cp ruleset/dist/source_health.json .candidate/source-health.json
           cp ruleset/dist/source_radar_decision.json \
             .candidate/source-radar-decision.json
+          cp ruleset/dist/automated_review.json .candidate/automated-review.json
           tar -czf .candidate/ruleset-dist.tar.gz -C ruleset dist
           (
             cd .candidate
@@ -299,6 +295,16 @@ jobs:
           )
           printf '%s\n' "$semantic_digest" > .candidate/semantic-digest.txt
           printf '%s\n' "$identity_digest" > .candidate/identity-digest.txt
+          if [ -n "${OBSERVATION_ID:-}" ]; then
+            printf '%s:%s\n' "$OBSERVATION_ID" "$OBSERVATION_ATTEMPT" \
+              > .candidate/observation-id.txt
+          else
+            printf 'none:0\n' > .candidate/observation-id.txt
+          fi
+          {
+            echo
+            echo "- Decision fingerprint: \`${decision_fingerprint}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
           echo "artifact_name=$artifact_name" >> "$GITHUB_OUTPUT"
 
       - name: Verify remote README before candidate attestation

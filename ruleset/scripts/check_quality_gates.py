@@ -784,7 +784,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--require-promotable",
         action="store_true",
-        help="Require a changed, cache-clean candidate suitable for reviewed or automatic promotion.",
+        help="Require a changed, cache-clean candidate suitable for evidence-gated promotion.",
     )
     parser.add_argument(
         "--require-auto-promotion-eligible",

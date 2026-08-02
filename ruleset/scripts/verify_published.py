@@ -122,6 +122,77 @@ def peel_tag(repository: str, tag: str) -> str:
     raise VerifyError(f"tag did not peel to a commit: {tag}")
 
 
+def verify_empty_readme(repository: str, sha: str, *, label: str) -> None:
+    readme = gh_json(f"repos/{repository}/contents/README.md?ref={sha}")
+    if int(readme.get("size", -1)) != 0:
+        raise VerifyError(f"{label} public root README.md is not zero bytes")
+    if str(readme.get("sha", "")).lower() != EMPTY_BLOB_SHA:
+        raise VerifyError(f"{label} public root README.md is not the empty Git blob")
+
+
+def verified_category_count(repository: str, sha: str, *, label: str) -> int:
+    raw_index = gh_json(
+        f"repos/{repository}/contents/ruleset/dist/index.json?ref={sha}"
+    )
+    try:
+        index_bytes = base64.b64decode(
+            str(raw_index["content"]).replace("\n", ""),
+            validate=True,
+        )
+        index = json.loads(index_bytes.decode("utf-8", errors="strict"))
+    except (KeyError, ValueError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise VerifyError(f"{label} raw index could not be decoded") from exc
+    category_count = int(index.get("category_count", 0))
+    if category_count <= 0:
+        raise VerifyError(f"{label} raw index has no categories")
+    return category_count
+
+
+def require_published_status(repository: str, sha: str) -> int:
+    combined = gh_json(f"repos/{repository}/commits/{sha}/status")
+    statuses = combined.get("statuses", [])
+    if not isinstance(statuses, list):
+        raise VerifyError("published commit status response is malformed")
+    latest = max(
+        (
+            item
+            for item in statuses
+            if isinstance(item, dict)
+            and str(item.get("context", "")) == "ruleset/published"
+        ),
+        key=lambda item: (
+            str(item.get("updated_at") or item.get("created_at") or ""),
+            int(item.get("id", 0)),
+        ),
+        default=None,
+    )
+    if not isinstance(latest, dict) or latest.get("state") != "success":
+        raise VerifyError("published commit lacks a latest successful ruleset/published status")
+    avatar_url = str(latest.get("avatar_url", ""))
+    if not re.fullmatch(
+        r"https://avatars\.githubusercontent\.com/in/15368(?:\?.*)?",
+        avatar_url,
+    ):
+        raise VerifyError("ruleset/published status is not bound to GitHub Actions App 15368")
+    target_url = str(latest.get("target_url", ""))
+    match = re.fullmatch(
+        rf"https://github\.com/{re.escape(repository)}/actions/runs/([0-9]+)",
+        target_url,
+    )
+    if match is None:
+        raise VerifyError("ruleset/published status target is not a repository Actions run")
+    run_id = int(match.group(1))
+    run = gh_json(f"repos/{repository}/actions/runs/{run_id}")
+    if (
+        run.get("status") != "completed"
+        or run.get("conclusion") != "success"
+        or run.get("path") != ".github/workflows/ruleset-update.yml"
+        or run.get("repository", {}).get("full_name") != repository
+    ):
+        raise VerifyError("ruleset/published status does not resolve to a successful promotion run")
+    return run_id
+
+
 def verify(args: argparse.Namespace) -> None:
     if not SHA_RE.fullmatch(args.sha):
         raise VerifyError("--sha must be a 40-character lowercase commit SHA")
@@ -140,12 +211,26 @@ def verify(args: argparse.Namespace) -> None:
     if len(checksum_parts) != 2 or checksum_parts[1].lstrip("*") != args.archive.name:
         raise VerifyError("checksum file does not name the release archive")
 
+    if args.skip_main and args.main_sha:
+        raise VerifyError("--skip-main and --main-sha cannot be combined")
+    if args.main_sha and not SHA_RE.fullmatch(args.main_sha):
+        raise VerifyError("--main-sha must be a 40-character lowercase commit SHA")
+
+    main_sha = ""
     if not args.skip_main:
         main = gh_json(f"repos/{args.repository}/commits/main")
-        if str(main.get("sha", "")).lower() != args.sha:
+        main_sha = str(main.get("sha", "")).lower()
+        expected_main = args.main_sha or args.sha
+        if main_sha != expected_main:
             raise VerifyError(
-                f"remote main mismatch: expected={args.sha} actual={main.get('sha')}"
+                f"remote main mismatch: expected={expected_main} actual={main.get('sha')}"
             )
+        if args.main_sha and args.sha != args.main_sha:
+            comparison = gh_json(
+                f"repos/{args.repository}/compare/{args.sha}...{args.main_sha}"
+            )
+            if comparison.get("status") not in {"ahead", "identical"}:
+                raise VerifyError("canonical release commit is not an ancestor of current main")
     peeled = peel_tag(args.repository, args.tag)
     if peeled != args.sha:
         raise VerifyError(
@@ -196,33 +281,31 @@ def verify(args: argparse.Namespace) -> None:
             "release archive does not match published dist tree: "
             f"missing={len(missing)} extra={len(extra)} changed={len(changed)}"
         )
-
-    readme = gh_json(
-        f"repos/{args.repository}/contents/README.md?ref={args.sha}"
+    verify_empty_readme(args.repository, args.sha, label="release")
+    category_count = verified_category_count(
+        args.repository, args.sha, label="release"
     )
-    if int(readme.get("size", -1)) != 0:
-        raise VerifyError("public root README.md is not zero bytes")
-    if str(readme.get("sha", "")).lower() != EMPTY_BLOB_SHA:
-        raise VerifyError("public root README.md is not the empty Git blob")
-
-    raw_index = gh_json(
-        f"repos/{args.repository}/contents/ruleset/dist/index.json?ref={args.sha}"
-    )
-    try:
-        index_bytes = base64.b64decode(
-            str(raw_index["content"]).replace("\n", ""),
-            validate=True,
+    if args.main_sha:
+        current_tree = remote_dist_tree(args.repository, args.main_sha)
+        if current_tree != archive_tree:
+            raise VerifyError(
+                "current main dist tree does not converge with canonical release archive"
+            )
+        verify_empty_readme(args.repository, args.main_sha, label="main")
+        main_category_count = verified_category_count(
+            args.repository, args.main_sha, label="main"
         )
-        index = json.loads(index_bytes.decode("utf-8", errors="strict"))
-    except (KeyError, ValueError, UnicodeDecodeError, json.JSONDecodeError) as exc:
-        raise VerifyError("published raw index could not be decoded") from exc
-    if int(index.get("category_count", 0)) <= 0:
-        raise VerifyError("published raw index has no categories")
+        if main_category_count != category_count:
+            raise VerifyError("release and main category counts differ")
+    promotion_run_id = None
+    if args.require_published_status:
+        promotion_run_id = require_published_status(args.repository, args.sha)
 
     log(
-        f"verified main={'skipped' if args.skip_main else args.sha} "
+        f"verified main={'skipped' if args.skip_main else main_sha} "
         f"tag={args.tag} release-assets=2+ dist_files={len(archive_tree)} "
-        f"archive_sha256={archive_digest} categories={index['category_count']} "
+        f"archive_sha256={archive_digest} categories={category_count} "
+        f"promotion_run={promotion_run_id or 'not-required'} "
         "root_readme_bytes=0"
     )
 
@@ -233,6 +316,11 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--repository", required=True)
     parser.add_argument("--sha", required=True)
+    parser.add_argument(
+        "--main-sha",
+        default="",
+        help="Allow code-only main advancement while requiring an identical dist tree.",
+    )
     parser.add_argument("--tag", required=True)
     parser.add_argument("--archive", type=pathlib.Path, required=True)
     parser.add_argument("--checksum", type=pathlib.Path, required=True)
@@ -240,6 +328,11 @@ def parse_args() -> argparse.Namespace:
         "--skip-main",
         action="store_true",
         help="Verify the commit, tag, release, assets, and tree before moving main.",
+    )
+    parser.add_argument(
+        "--require-published-status",
+        action="store_true",
+        help="Require the latest ruleset/published status to resolve to a successful promotion run.",
     )
     return parser.parse_args()
 

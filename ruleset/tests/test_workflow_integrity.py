@@ -47,8 +47,35 @@ class WorkflowIntegrityTests(unittest.TestCase):
         self.assertNotIn("git push", workflow)
         self.assertNotIn("gh release create", workflow)
         self.assertIn("ruleset-candidate-", workflow)
-        self.assertIn("Select previous successful radar snapshot", workflow)
+        self.assertIn(
+            "Run candidate-only radar against the published baseline", workflow
+        )
+        self.assertIn(
+            '--baseline "${RUNNER_TEMP}/baseline-dist/candidate_sources.json"',
+            workflow,
+        )
+        self.assertNotIn("previous-radar", workflow)
         self.assertIn("candidate-sources.json", workflow)
+        self.assertIn("build_candidate_identity.py", workflow)
+        self.assertIn("candidate-decision.json", workflow)
+        self.assertIn("decision-fingerprint.txt", workflow)
+        self.assertIn("check_automated_review.py", workflow)
+        self.assertIn("automated-review.json", workflow)
+        self.assertIn("expected_source_sha:", workflow)
+        self.assertIn("observation_id:", workflow)
+        self.assertIn("observation_attempt:", workflow)
+        self.assertIn("observation-id.txt", workflow)
+        self.assertIn("run-name: >-", workflow)
+        self.assertIn("push:\n    branches:\n      - main", workflow)
+        self.assertIn("EXPECTED_SOURCE_SHA: ${{ inputs.expected_source_sha }}", workflow)
+        self.assertIn('test "$(git rev-parse HEAD)" = "$EXPECTED_SOURCE_SHA"', workflow)
+        self.assertGreaterEqual(workflow.count("queue: max"), 2)
+        self.assertRegex(
+            workflow,
+            r"jobs:\n  candidate:\n(?:.*\n){0,8}?    concurrency:\n"
+            r"      group: ruleset-publication-main\n"
+            r"      cancel-in-progress: false",
+        )
 
     def test_promotion_consumes_exact_candidate_and_attests_it(self) -> None:
         workflow = (WORKFLOW_ROOT / "ruleset-update.yml").read_text(encoding="utf-8")
@@ -59,13 +86,62 @@ class WorkflowIntegrityTests(unittest.TestCase):
         self.assertGreaterEqual(workflow.count("--signer-workflow"), 2)
         self.assertGreaterEqual(workflow.count("--source-digest"), 2)
         self.assertIn(
-            "Candidate expired while awaiting protected-environment approval",
+            "Candidate expired before automatic publication completed",
+            workflow,
+        )
+        self.assertNotIn("status=success&per_page=100", workflow)
+        self.assertNotIn("superseded this candidate", workflow)
+        self.assertIn(".workflow_runs[1]", workflow)
+        self.assertIn(
+            "The adjacent prior discovery was not a successful same-source run; stability reset",
             workflow,
         )
         self.assertIn(
-            "A newer successful discovery superseded this candidate",
+            "Candidate decision and full identity were not stable across adjacent cycles",
             workflow,
         )
+        self.assertIn("less than 300 seconds apart", workflow)
+        self.assertIn("Exact candidate identity was not identical", workflow)
+        self.assertGreaterEqual(workflow.count("gh attestation verify"), 4)
+        self.assertIn(
+            "the exact reserved candidate remains selected",
+            workflow,
+        )
+        self.assertIn(
+            "A newer completed discovery failed, was cancelled, or changed source identity",
+            workflow,
+        )
+        self.assertIn("Publication reservation closed", workflow)
+        self.assertIn('echo "continue=false" >> "$GITHUB_OUTPUT"', workflow)
+        self.assertIn(
+            "Ignoring ${active_newer_count} newer active discovery run(s)", workflow
+        )
+        self.assertGreaterEqual(
+            workflow.count("steps.reservation.outputs.continue == 'true'"),
+            15,
+        )
+        self.assertIn("newer-discovery-evidence", workflow)
+        self.assertIn("Newer discovery ${newer_run_id} has unhealthy source evidence", workflow)
+        self.assertIn("Newer discovery ${newer_run_id} has an active-source race", workflow)
+        self.assertIn(".budget_exceeded | length", workflow)
+        self.assertIn("candidate_decision_fingerprint", workflow)
+        self.assertIn("candidate-decision.json", workflow)
+        self.assertIn("decision-fingerprint.txt", workflow)
+        self.assertIn("automated-review.json", workflow)
+        self.assertIn("check_automated_review.py", workflow)
+        self.assertGreaterEqual(workflow.count("--require-eligible"), 2)
+        self.assertIn("build_candidate_identity.py", workflow)
+        self.assertIn("project-g-candidate-decision-v1", workflow)
+        self.assertIn("Build exact publication receipt", workflow)
+        self.assertIn("Upload immutable publication receipt", workflow)
+        self.assertIn("project-g-publication-receipt-v1", workflow)
+        self.assertIn("ruleset-publication-receipt-${PUBLISHED_SHA}", workflow)
+        self.assertIn("include-hidden-files: true", workflow)
+        self.assertNotIn("  rediscover:", workflow)
+        self.assertGreaterEqual(workflow.count("queue: max"), 2)
+        self.assertEqual(workflow.count("actions: write"), 0)
+        publish_permissions = workflow.split("  publish:", maxsplit=1)[1]
+        self.assertIn("actions: read", publish_permissions)
         discovery = (WORKFLOW_ROOT / "source-discovery.yml").read_text(
             encoding="utf-8"
         )
@@ -73,8 +149,69 @@ class WorkflowIntegrityTests(unittest.TestCase):
             discovery,
             r"actions/attest-build-provenance@[0-9a-f]{40}",
         )
+        self.assertRegex(
+            discovery,
+            r"ruleset-candidate-\$\{risk_level\}-\$\{semantic_digest\}-"
+            r"\$\{decision_fingerprint\}-\$\{identity_digest\}",
+        )
         self.assertIn("ruleset-production", workflow)
         self.assertIn("ruleset-low-risk", workflow)
+        self.assertIn('promotion_mode="auto-high-risk"', workflow)
+        self.assertNotIn('promotion_mode="reviewed"', workflow)
+        self.assertIn("group: ruleset-publication-main", workflow)
+        self.assertIn("unattended-evidence-gated-v2", workflow)
+        self.assertIn("minimum_cycle_separation_seconds", workflow)
+
+    def test_post_publication_observation_separates_snapshot_from_live_sources(
+        self,
+    ) -> None:
+        workflow = (
+            WORKFLOW_ROOT / "post-publication-observation.yml"
+        ).read_text(encoding="utf-8")
+        self.assertIn("- Ruleset Promotion", workflow)
+        self.assertIn("project-g-publication-receipt-v1", workflow)
+        self.assertIn("Promotion run has an unexpected event", workflow)
+        self.assertIn("produced no publication receipt", workflow)
+        self.assertIn("actions: write", workflow)
+        self.assertIn("attestations: read", workflow)
+        self.assertIn("contents: read", workflow)
+        self.assertIn("statuses: read", workflow)
+        self.assertNotIn("contents: write", workflow)
+        self.assertNotIn("statuses: write", workflow)
+        self.assertIn("queue: max", workflow)
+        self.assertIn("Checkout current main verifier", workflow)
+        self.assertLess(
+            workflow.index("Checkout current main verifier"),
+            workflow.index("Download exact publication receipt"),
+        )
+        self.assertIn("Verify frozen snapshot convergence", workflow)
+        self.assertIn("--require-published-status", workflow)
+        self.assertIn("gh workflow run source-discovery.yml", workflow)
+        self.assertIn('-f expected_source_sha="$OBSERVATION_SHA"', workflow)
+        self.assertIn('-f observation_id="$observation_id"', workflow)
+        self.assertIn('-f observation_attempt="$observation_attempt"', workflow)
+        self.assertIn(".display_title == $title", workflow)
+        self.assertNotIn("/cancel", workflow)
+        self.assertIn("failed after one automatic retry", workflow)
+        self.assertIn("did not complete within 330 minutes", workflow)
+        self.assertIn("timeout-minutes: 360", workflow)
+        self.assertIn("+ 19800", workflow)
+        self.assertIn("check_automated_review.py", workflow)
+        self.assertIn("build_candidate_identity.py", workflow)
+        self.assertIn("gh attestation verify", workflow)
+        self.assertIn("ruleset-candidate-(none|low|high)-", workflow)
+        self.assertIn('blockers == ["candidate has no semantic changes"]', workflow)
+        self.assertIn('observation_state="live-clean"', workflow)
+        self.assertIn(
+            'observation_state="next-candidate-${artifact_risk}-eligible"',
+            workflow,
+        )
+        self.assertIn(
+            'observation_state="candidate-${artifact_risk}-held-by-policy"',
+            workflow,
+        )
+        self.assertIn("User action for this observation: \\`none\\`", workflow)
+        self.assertIn("e69de29bb2d1d6434b8b29ae775ad8c2e48c5391", workflow)
 
     def test_all_linux_jobs_use_fixed_runner(self) -> None:
         for workflow in sorted(WORKFLOW_ROOT.glob("*.yml")):
@@ -116,30 +253,52 @@ class WorkflowIntegrityTests(unittest.TestCase):
         self.assertIn("actions: read", workflow)
         self.assertIn("attestations: read", workflow)
         self.assertIn("contents: read", workflow)
+        self.assertIn("statuses: read", workflow)
+        self.assertIn("workflow_run:", workflow)
+        self.assertIn("- Source Discovery", workflow)
+        self.assertIn("- Ruleset Promotion", workflow)
+        self.assertIn("- Post-Publication Observation", workflow)
         self.assertNotIn("contents: write", workflow)
         self.assertNotIn("statuses: write", workflow)
         self.assertIn("actions/download-artifact@", workflow)
         self.assertIn("source-health.json", workflow)
         self.assertIn("source-radar-decision.json", workflow)
+        self.assertIn("candidate-decision.json", workflow)
+        self.assertIn("decision-fingerprint.txt", workflow)
+        self.assertIn("automated-review.json", workflow)
+        self.assertIn("check_automated_review.py", workflow)
+        self.assertIn("build_candidate_identity.py", workflow)
+        self.assertIn("candidate decision identity could not be reproduced", workflow)
+        self.assertIn("candidate identity does not match artifact name", workflow)
         self.assertIn("verify_published.py", workflow)
         self.assertIn("--signer-workflow", workflow)
         self.assertIn("--source-digest", workflow)
-        self.assertIn("status=completed&per_page=1", workflow)
-        self.assertNotIn("status=success&per_page=1", workflow)
+        self.assertIn("runs?branch=main&per_page=100", workflow)
+        self.assertNotIn("status=success&per_page=", workflow)
         self.assertIn(
             'run.get("conclusion") != "success"',
             workflow,
         )
         self.assertIn(": > .watchdog/advisories.txt", workflow)
         self.assertIn(
-            'echo "latest candidate still requires protected review" >> "$advisories"',
+            'echo "latest eligible candidate awaits a second identical discovery cycle at least 300 seconds later"',
             workflow,
         )
         self.assertNotIn(
-            'echo "latest candidate still requires protected review" >> "$failures"',
+            'echo "latest eligible candidate awaits a second identical discovery cycle at least 300 seconds later" >> "$failures"',
             workflow,
         )
-        self.assertIn("::warning title=Protected review pending::", workflow)
+        self.assertIn("latest completed Source Discovery did not succeed", workflow)
+        self.assertIn("Source Discovery is still running automatically", workflow)
+        self.assertIn("watchdog verifier was superseded", workflow)
+        self.assertIn("Superseded verifier", workflow)
+        self.assertIn("convergence_pending", workflow)
+        self.assertIn("stable eligible candidate was not published", workflow)
+        self.assertIn("--main-sha", workflow)
+        self.assertIn("--require-published-status", workflow)
+        self.assertIn("no canonical immutable release", workflow)
+        self.assertIn("::warning title=Automated publication pending::", workflow)
+        self.assertNotIn("Protected review pending", workflow)
         self.assertIn('echo "state=pass" >> "$GITHUB_OUTPUT"', workflow)
         self.assertIn('echo "state=attention" >> "$GITHUB_OUTPUT"', workflow)
         self.assertIn('echo "state=fail" >> "$GITHUB_OUTPUT"', workflow)
@@ -152,7 +311,7 @@ class WorkflowIntegrityTests(unittest.TestCase):
             "candidate manifest freshness or budget gate failed",
             "latest source health is degraded",
             "latest discovery used fallback cache",
-            "latest release does not converge with main",
+            "canonical release does not converge with current main dist",
             "release discovery attestation verification failed",
         ):
             self.assertIn(hard_failure, workflow)
@@ -172,11 +331,27 @@ class WorkflowIntegrityTests(unittest.TestCase):
         self.assertNotIn("pull_request_target", workflow)
         self.assertNotIn("actions/checkout@", workflow)
         self.assertIn("ruleset/gate", workflow)
-        self.assertIn("for attempt in range(1, 7)", workflow)
+        self.assertIn("github.event.workflow_run.event == 'push'", workflow)
+        self.assertIn('trigger_event == "push"', workflow)
+        self.assertIn("push gate refuses a superseded main commit", workflow)
+        self.assertIn("group: main-gate-${{ github.event.workflow_run.head_sha }}", workflow)
+        self.assertIn("cancel-in-progress: false", workflow)
+        self.assertIn("queue: max", workflow)
+        self.assertIn("for attempt in range(1, max_attempts + 1)", workflow)
+        self.assertIn('GATE_MAX_ATTEMPTS", "30"', workflow)
         self.assertIn('state = "pending"', workflow)
-        self.assertIn("if state != \"success\"", workflow)
+        self.assertIn('if state == "failure"', workflow)
+        self.assertIn('if state == "pending"', workflow)
         self.assertIn('("repository-governance", 15368)', workflow)
         self.assertIn('("CodeQL", 57789)', workflow)
+        self.assertIn('("CodeQL", "/language:python")', workflow)
+        self.assertIn(
+            '("Gitleaks", ".github/workflows/secret-scan.yml:gitleaks")',
+            workflow,
+        )
+        self.assertIn("code-scanning/analyses?", workflow)
+        self.assertIn("security-events: read", workflow)
+        self.assertIn("contents/README.md?ref={head_sha}", workflow)
         for context in (
             "repository-governance",
             "full-validation",

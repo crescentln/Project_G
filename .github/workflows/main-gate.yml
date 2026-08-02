@@ -16,22 +16,27 @@ permissions:
   checks: read
   contents: read
   pull-requests: read
+  security-events: read
   statuses: write
 
 concurrency:
   group: main-gate-${{ github.event.workflow_run.head_sha }}
-  cancel-in-progress: true
+  cancel-in-progress: false
+  queue: max
 
 jobs:
   gate:
-    if: github.event.workflow_run.event == 'pull_request'
+    if: >-
+      github.event.workflow_run.event == 'pull_request' ||
+      (github.event.workflow_run.event == 'push' &&
+       github.event.workflow_run.head_branch == 'main')
     runs-on: ubuntu-24.04
     timeout-minutes: 10
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       REPOSITORY: ${{ github.repository }}
     steps:
-      - name: Authorize an exact pull-request head after all checks pass
+      - name: Authorize an exact pull-request head or current main
         run: |
           set -euo pipefail
           python3 - <<'PY'
@@ -46,14 +51,11 @@ jobs:
               event = json.load(handle)
           workflow_run = event["workflow_run"]
           head_sha = str(workflow_run.get("head_sha", "")).lower()
+          trigger_event = str(workflow_run.get("event", ""))
           if not re.fullmatch(r"[0-9a-f]{40}", head_sha):
               raise SystemExit("workflow_run returned an invalid head SHA")
-          if (
-              workflow_run.get("event") != "pull_request"
-              or (workflow_run.get("head_repository") or {}).get("full_name")
-              != repository
-          ):
-              raise SystemExit("only same-repository pull-request runs are eligible")
+          if (workflow_run.get("head_repository") or {}).get("full_name") != repository:
+              raise SystemExit("only same-repository workflow runs are eligible")
 
           def gh_json(path: str):
               result = subprocess.run(
@@ -64,31 +66,55 @@ jobs:
               )
               return json.loads(result.stdout)
 
-          pulls = gh_json(f"repos/{repository}/commits/{head_sha}/pulls")
-          eligible = [
-              item
-              for item in pulls
-              if item.get("state") == "open"
-              and item.get("base", {}).get("ref") == "main"
-              and item.get("base", {}).get("repo", {}).get("full_name")
-              == repository
-              and item.get("head", {}).get("sha") == head_sha
-          ]
-          if len(eligible) != 1:
-              raise SystemExit(
-                  "head SHA must belong to exactly one open pull request into main"
-              )
+          if trigger_event == "pull_request":
+              pulls = gh_json(f"repos/{repository}/commits/{head_sha}/pulls")
+              eligible = [
+                  item
+                  for item in pulls
+                  if item.get("state") == "open"
+                  and item.get("base", {}).get("ref") == "main"
+                  and item.get("base", {}).get("repo", {}).get("full_name")
+                  == repository
+                  and item.get("head", {}).get("sha") == head_sha
+              ]
+              if len(eligible) != 1:
+                  raise SystemExit(
+                      "head SHA must belong to exactly one open pull request into main"
+                  )
+          elif trigger_event == "push":
+              if workflow_run.get("head_branch") != "main":
+                  raise SystemExit("push gate only accepts the main branch")
+              current_main = gh_json(f"repos/{repository}/commits/main")
+              if str(current_main.get("sha", "")).lower() != head_sha:
+                  raise SystemExit("push gate refuses a superseded main commit")
+          else:
+              raise SystemExit(f"unsupported gate trigger event: {trigger_event}")
 
           expected = [
               ("repository-governance", 15368),
               ("full-validation", 15368),
               ("gitleaks", 15368),
               ("Analyze Python", 15368),
-              ("dependency-review", 15368),
-              ("CodeQL", 57789),
-              ("gitleaks", 57789),
           ]
-          for attempt in range(1, 7):
+          code_scanning_expected = []
+          if trigger_event == "pull_request":
+              expected.extend(
+                  [
+                      ("dependency-review", 15368),
+                      ("CodeQL", 57789),
+                      ("gitleaks", 57789),
+                  ]
+              )
+          else:
+              code_scanning_expected = [
+                  ("CodeQL", "/language:python"),
+                  ("Gitleaks", ".github/workflows/secret-scan.yml:gitleaks"),
+              ]
+          max_attempts = int(os.environ.get("GATE_MAX_ATTEMPTS", "30"))
+          poll_seconds = int(os.environ.get("GATE_POLL_SECONDS", "10"))
+          if max_attempts < 1 or poll_seconds < 0:
+              raise SystemExit("gate polling configuration is invalid")
+          for attempt in range(1, max_attempts + 1):
               check_runs = gh_json(
                   f"repos/{repository}/commits/{head_sha}/"
                   "check-runs?filter=latest&per_page=100"
@@ -120,15 +146,54 @@ jobs:
                       failures.append(
                           f"{name}@{app_id}:{latest.get('conclusion')}"
                       )
-              if failures or not pending or attempt == 6:
+              if code_scanning_expected:
+                  analyses = gh_json(
+                      f"repos/{repository}/code-scanning/analyses?"
+                      "ref=refs/heads/main&per_page=100"
+                  )
+                  for tool_name, category in code_scanning_expected:
+                      matches = [
+                          item
+                          for item in analyses
+                          if item.get("commit_sha") == head_sha
+                          and item.get("ref") == "refs/heads/main"
+                          and item.get("tool", {}).get("name") == tool_name
+                          and item.get("category") == category
+                      ]
+                      if not matches:
+                          pending.append(
+                              f"code-scanning:{tool_name}:{category}:missing"
+                          )
+                          continue
+                      latest = max(
+                          matches,
+                          key=lambda item: (
+                              str(item.get("created_at", "")),
+                              int(item.get("id", 0)),
+                          ),
+                      )
+                      error = str(latest.get("error") or "")
+                      warning = str(latest.get("warning") or "")
+                      results_count = int(latest.get("results_count", -1))
+                      if error or warning or results_count != 0:
+                          failures.append(
+                              "code-scanning:"
+                              f"{tool_name}:{category}:"
+                              f"error={error or 'none'}:"
+                              f"warning={warning or 'none'}:"
+                              f"results={results_count}"
+                          )
+              if failures or not pending or attempt == max_attempts:
                   break
               print(
-                  f"attempt {attempt}/6 is waiting for: "
+                  f"attempt {attempt}/{max_attempts} is waiting for: "
                   + ", ".join(pending)
               )
-              time.sleep(10)
+              time.sleep(poll_seconds)
 
-          readme = gh_json(f"repos/{repository}/contents/README.md?ref=main")
+          readme = gh_json(
+              f"repos/{repository}/contents/README.md?ref={head_sha}"
+          )
           if readme.get("size") != 0 or readme.get("sha") != (
               "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
           ):
@@ -142,7 +207,9 @@ jobs:
               description = "Required checks pending: " + ", ".join(pending)
           else:
               state = "success"
-              description = "PR checks, CodeQL, Gitleaks, and README verified"
+              description = (
+                  f"{trigger_event} checks, CodeQL, Gitleaks, and README verified"
+              )
           description = description[:140]
           target_url = (
               f"{os.environ['GITHUB_SERVER_URL']}/{repository}/actions/runs/"
@@ -167,13 +234,15 @@ jobs:
               check=True,
           )
           readme_after = gh_json(
-              f"repos/{repository}/contents/README.md?ref=main"
+              f"repos/{repository}/contents/README.md?ref={head_sha}"
           )
           if readme_after.get("size") != 0 or readme_after.get("sha") != (
               "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
           ):
               raise SystemExit("README boundary changed during status write")
           print(f"ruleset/gate={state} sha={head_sha}")
-          if state != "success":
-              raise SystemExit(f"ruleset/gate did not authorize this SHA: {state}")
+          if state == "failure":
+              raise SystemExit("ruleset/gate rejected this SHA")
+          if state == "pending":
+              print("ruleset/gate remains fail-closed while later checks converge")
           PY

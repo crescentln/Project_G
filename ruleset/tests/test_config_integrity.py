@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 import pathlib
 import unittest
 
@@ -20,6 +21,7 @@ class ConfigIntegrityTests(unittest.TestCase):
         self.contracts = read_json("config/category_contracts.json")
         self.registry = read_json("config/source_registry.json")
         self.smoke = read_json("config/smoke_probes.json")
+        self.protected_roots = read_json("config/protected_domain_roots.json")
 
     def test_category_sets_match_policy_and_minimums(self) -> None:
         source_ids = {row["id"] for row in self.sources["categories"]}
@@ -170,6 +172,38 @@ class ConfigIntegrityTests(unittest.TestCase):
                 self.contracts["categories"][category_id]["auto_promotion_policy"],
                 "manual",
             )
+
+    def test_protected_domain_roots_are_sorted_unique_and_disjoint(self) -> None:
+        self.assertEqual(
+            self.protected_roots["schema"],
+            "project-g-protected-domain-roots-v1",
+        )
+        observed: list[set[str]] = []
+        for field in ("public_suffixes", "multi_tenant_roots"):
+            values = self.protected_roots[field]
+            self.assertEqual(values, sorted(values))
+            self.assertEqual(len(values), len(set(values)))
+            self.assertTrue(all("." in value for value in values))
+            observed.append(set(values))
+        self.assertEqual(observed[0] & observed[1], set())
+        metadata = self.protected_roots["public_suffix_list"]
+        self.assertEqual(metadata["source_repository"], "publicsuffix/list")
+        self.assertRegex(metadata["source_commit"], r"^[0-9a-f]{40}$")
+        self.assertRegex(metadata["sha256"], r"^[0-9a-f]{64}$")
+        self.assertEqual(
+            metadata["source_url"],
+            "https://raw.githubusercontent.com/publicsuffix/list/"
+            f"{metadata['source_commit']}/public_suffix_list.dat",
+        )
+        psl_path = RULESET_ROOT.parent / metadata["path"]
+        self.assertEqual(
+            hashlib.sha256(psl_path.read_bytes()).hexdigest(), metadata["sha256"]
+        )
+        psl_text = psl_path.read_text(encoding="utf-8")
+        self.assertIn("// ===BEGIN ICANN DOMAINS===", psl_text)
+        self.assertIn("// ===END ICANN DOMAINS===", psl_text)
+        self.assertIn("// ===BEGIN PRIVATE DOMAINS===", psl_text)
+        self.assertIn("// ===END PRIVATE DOMAINS===", psl_text)
 
 
 if __name__ == "__main__":
