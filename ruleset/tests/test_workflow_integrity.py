@@ -115,13 +115,55 @@ class WorkflowIntegrityTests(unittest.TestCase):
         )
         self.assertIn("actions: read", workflow)
         self.assertIn("attestations: read", workflow)
+        self.assertIn("contents: read", workflow)
+        self.assertNotIn("contents: write", workflow)
+        self.assertNotIn("statuses: write", workflow)
         self.assertIn("actions/download-artifact@", workflow)
         self.assertIn("source-health.json", workflow)
         self.assertIn("source-radar-decision.json", workflow)
         self.assertIn("verify_published.py", workflow)
         self.assertIn("--signer-workflow", workflow)
         self.assertIn("--source-digest", workflow)
-        self.assertIn("latest candidate still requires protected review", workflow)
+        self.assertIn("status=completed&per_page=1", workflow)
+        self.assertNotIn("status=success&per_page=1", workflow)
+        self.assertIn(
+            'run.get("conclusion") != "success"',
+            workflow,
+        )
+        self.assertIn(": > .watchdog/advisories.txt", workflow)
+        self.assertIn(
+            'echo "latest candidate still requires protected review" >> "$advisories"',
+            workflow,
+        )
+        self.assertNotIn(
+            'echo "latest candidate still requires protected review" >> "$failures"',
+            workflow,
+        )
+        self.assertIn("::warning title=Protected review pending::", workflow)
+        self.assertIn('echo "state=pass" >> "$GITHUB_OUTPUT"', workflow)
+        self.assertIn('echo "state=attention" >> "$GITHUB_OUTPUT"', workflow)
+        self.assertIn('echo "state=fail" >> "$GITHUB_OUTPUT"', workflow)
+        self.assertIn(
+            'echo "source radar detected an active-source race" >> "$failures"',
+            workflow,
+        )
+        for hard_failure in (
+            "candidate archive checksum failed",
+            "candidate manifest freshness or budget gate failed",
+            "latest source health is degraded",
+            "latest discovery used fallback cache",
+            "latest release does not converge with main",
+            "release discovery attestation verification failed",
+        ):
+            self.assertIn(hard_failure, workflow)
+        advisory_block = workflow.split(
+            "if [ -s .watchdog/advisories.txt ]; then",
+            maxsplit=1,
+        )[1].split(
+            "if [ -s .watchdog/failures.txt ]; then",
+            maxsplit=1,
+        )[0]
+        self.assertNotIn("exit 1", advisory_block)
 
     def test_main_gate_is_default_branch_owned_and_fail_closed(self) -> None:
         workflow = (WORKFLOW_ROOT / "main-gate.yml").read_text(encoding="utf-8")

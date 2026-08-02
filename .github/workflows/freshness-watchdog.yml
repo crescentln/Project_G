@@ -33,6 +33,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p .watchdog
+          : > .watchdog/advisories.txt
           : > .watchdog/failures.txt
           python3 - <<'PY'
           import datetime as dt
@@ -55,10 +56,10 @@ jobs:
           now = dt.datetime.now(dt.timezone.utc)
           runs = gh(
               f"repos/{repository}/actions/workflows/source-discovery.yml/"
-              "runs?branch=main&status=success&per_page=1"
+              "runs?branch=main&status=completed&per_page=1"
           )["workflow_runs"]
           if len(runs) != 1:
-              raise SystemExit("no successful Source Discovery run")
+              raise SystemExit("no completed Source Discovery run")
           run = runs[0]
           if (
               run.get("path") != ".github/workflows/source-discovery.yml"
@@ -67,6 +68,11 @@ jobs:
               or run.get("event") not in {"schedule", "workflow_dispatch"}
           ):
               raise SystemExit("latest discovery identity is invalid")
+          if run.get("conclusion") != "success":
+              raise SystemExit(
+                  "latest completed Source Discovery did not succeed: "
+                  f"run={run.get('id')} conclusion={run.get('conclusion')}"
+              )
           discovery_at = dt.datetime.fromisoformat(
               run["updated_at"].replace("Z", "+00:00")
           )
@@ -152,6 +158,7 @@ jobs:
           DISCOVERY_HEAD_SHA: ${{ steps.evidence.outputs.discovery_head_sha }}
         run: |
           set -euo pipefail
+          advisories=.watchdog/advisories.txt
           failures=.watchdog/failures.txt
           candidate=.watchdog/candidate
           required=(
@@ -225,7 +232,7 @@ jobs:
           fi
           if jq -e '.changed == true and .requires_review == true' \
             "${candidate}/candidate-manifest.json" >/dev/null; then
-            echo "latest candidate still requires protected review" >> "$failures"
+            echo "latest candidate still requires protected review" >> "$advisories"
           fi
 
       - name: Download latest immutable release assets
@@ -275,9 +282,11 @@ jobs:
           fi
 
       - name: Publish watchdog result
+        id: result
         if: always()
         env:
           DISCOVERY_AGE: ${{ steps.evidence.outputs.discovery_age_hours }}
+          DISCOVERY_RUN_ID: ${{ steps.evidence.outputs.run_id }}
           JOB_STATUS: ${{ job.status }}
           RELEASE_AGE: ${{ steps.evidence.outputs.release_age_hours }}
           RELEASE_TAG: ${{ steps.evidence.outputs.release_tag }}
@@ -287,6 +296,7 @@ jobs:
             echo "# Freshness Watchdog"
             echo
             echo "- Discovery age: \`${DISCOVERY_AGE:-unavailable}h\`"
+            echo "- Discovery run: \`${DISCOVERY_RUN_ID:-unavailable}\`"
             echo "- Release age: \`${RELEASE_AGE:-unavailable}h\`"
             echo "- Release tag: \`${RELEASE_TAG:-unavailable}\`"
             echo "- Root README: \`0 bytes\`"
@@ -296,6 +306,17 @@ jobs:
             mkdir -p .watchdog
             echo "watchdog evidence collection failed" >> .watchdog/failures.txt
           fi
+          if [ -s .watchdog/advisories.txt ]; then
+            {
+              echo
+              echo "## Protected review pending"
+              echo
+              sed 's/^/- /' .watchdog/advisories.txt
+            } >> "$GITHUB_STEP_SUMMARY"
+            while IFS= read -r advisory; do
+              echo "::warning title=Protected review pending::${advisory}"
+            done < .watchdog/advisories.txt
+          fi
           if [ -s .watchdog/failures.txt ]; then
             {
               echo
@@ -303,7 +324,14 @@ jobs:
               echo
               sed 's/^/- /' .watchdog/failures.txt
             } >> "$GITHUB_STEP_SUMMARY"
+            echo "state=fail" >> "$GITHUB_OUTPUT"
             cat .watchdog/failures.txt
             exit 1
           fi
-          echo "Discovery, release, main, tree, and attestation are converged."
+          if [ -s .watchdog/advisories.txt ]; then
+            echo "state=attention" >> "$GITHUB_OUTPUT"
+            echo "Discovery, release, main, tree, and attestation are converged; protected review remains pending."
+          else
+            echo "state=pass" >> "$GITHUB_OUTPUT"
+            echo "Discovery, release, main, tree, and attestation are converged."
+          fi
