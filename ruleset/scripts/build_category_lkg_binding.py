@@ -14,6 +14,7 @@ try:
     from ruleset.scripts.check_automated_review import (
         AutomatedReviewError,
         canonical_bytes,
+        canonical_source_bindings,
         digest_payload,
         source_lock_identity,
     )
@@ -21,19 +22,30 @@ except ModuleNotFoundError:
     from check_automated_review import (  # type: ignore[no-redef]
         AutomatedReviewError,
         canonical_bytes,
+        canonical_source_bindings,
         digest_payload,
         source_lock_identity,
     )
 
 
-BINDING_SCHEMA = "project-g-category-lkg-binding-v1"
-BINDING_POLICY = "immutable-release-category-output-bundle-v1"
+BINDING_SCHEMA = "project-g-category-lkg-binding-v2"
+BINDING_POLICY = "immutable-release-category-output-bundle-v2"
 SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 SHA1_RE = re.compile(r"^[0-9a-f]{40}$")
 REPOSITORY_RE = re.compile(r"^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$")
 RUN_URL_RE = re.compile(
     r"^https://github\.com/([^/]+/[^/]+)/actions/runs/([0-9]+)(?:/attempts/([0-9]+))?$"
 )
+PUBLISHED_RECEIPT_SCHEMA = "project-g-published-verification-receipt-v2"
+PUBLICATION_STATUS_DESCRIPTIONS = {
+    "ruleset/gate": "Immutable snapshot, tree, and attestation verified",
+    "ruleset/published": (
+        "Candidate, tag, release, attestation, raw index, and README verified"
+    ),
+}
+LEGACY_PROVENANCE_ARCHIVE_ALLOWLIST = {
+    "e45257c436b95fc328c691ac9a5fa116cca47ee69ac416375c960a0f645cded5",
+}
 MAX_ARCHIVE_MEMBERS = 5000
 MAX_ARCHIVE_MEMBER_BYTES = 256 * 1024 * 1024
 MAX_ARCHIVE_TOTAL_BYTES = 1024 * 1024 * 1024
@@ -90,6 +102,102 @@ def sha256_file(path: pathlib.Path) -> str:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def git_blob_oid(path: pathlib.Path) -> str:
+    try:
+        payload = path.read_bytes()
+    except OSError as exc:
+        raise CategoryLkgBindingError(f"failed to read Git blob input: {path}") from exc
+    header = f"blob {len(payload)}\0".encode("ascii")
+    return hashlib.sha1(header + payload, usedforsecurity=False).hexdigest()
+
+
+def unchanged_git_json(
+    *,
+    label: str,
+    revisions: tuple[tuple[str, pathlib.Path, str], ...],
+) -> tuple[dict[str, Any], str]:
+    payloads: list[dict[str, Any]] = []
+    object_ids: set[str] = set()
+    for revision, path, declared_oid in revisions:
+        if not SHA1_RE.fullmatch(declared_oid) or git_blob_oid(path) != declared_oid:
+            raise CategoryLkgBindingError(
+                f"{revision} {label} Git blob identity is invalid"
+            )
+        payload = read_json(path)
+        if not isinstance(payload, dict):
+            raise CategoryLkgBindingError(
+                f"{revision} {label} root must be an object"
+            )
+        payloads.append(payload)
+        object_ids.add(declared_oid)
+    if len(object_ids) != 1 or any(payload != payloads[0] for payload in payloads[1:]):
+        raise CategoryLkgBindingError(
+            f"candidate, release, and main {label} do not match"
+        )
+    return payloads[0], next(iter(object_ids))
+
+
+def legacy_provenance_derivations(
+    *,
+    source_config: dict[str, Any],
+    provenance: dict[str, Any],
+    archive_sha256: str,
+) -> dict[str, Any]:
+    try:
+        bindings = canonical_source_bindings(source_config).get("bindings")
+    except AutomatedReviewError as exc:
+        raise CategoryLkgBindingError(str(exc)) from exc
+    rows = provenance.get("sources")
+    if not isinstance(bindings, dict) or not isinstance(rows, list):
+        raise CategoryLkgBindingError("legacy provenance inputs are invalid")
+    by_id = {
+        str(item.get("source_id", "")): item
+        for item in rows
+        if isinstance(item, dict)
+    }
+    if len(by_id) != len(rows) or "" in by_id:
+        raise CategoryLkgBindingError("published source provenance IDs are invalid")
+    derived: list[dict[str, str]] = []
+    for source_id, binding in sorted(bindings.items()):
+        row = by_id.get(source_id)
+        if not isinstance(binding, dict) or not isinstance(row, dict):
+            raise CategoryLkgBindingError(
+                f"published source provenance is absent: {source_id}"
+            )
+        expected = str(binding.get("configured_source_sha256", ""))
+        observed = str(row.get("configured_source_sha256", ""))
+        if not SHA256_RE.fullmatch(expected):
+            raise CategoryLkgBindingError(
+                f"configured source identity is invalid: {source_id}"
+            )
+        if observed:
+            if observed != expected:
+                raise CategoryLkgBindingError(
+                    f"published configured source identity differs: {source_id}"
+                )
+            continue
+        derived.append(
+            {
+                "source_id": source_id,
+                "derived_configured_source_sha256": expected,
+            }
+        )
+    if derived and archive_sha256 not in LEGACY_PROVENANCE_ARCHIVE_ALLOWLIST:
+        raise CategoryLkgBindingError(
+            "published provenance lacks configured source digests outside the exact legacy allowlist"
+        )
+    exception: dict[str, Any] = {
+        "schema": "project-g-legacy-provenance-derivation-v1",
+        "policy": "exact-immutable-archive-allowlist-v1",
+        "active": bool(derived),
+        "release_archive_sha256": archive_sha256,
+        "derived_source_count": len(derived),
+        "derived_sources": derived,
+    }
+    exception["exception_sha256"] = digest_payload(exception)
+    return exception
 
 
 def safe_relative_path(raw: str, label: str) -> pathlib.PurePosixPath:
@@ -604,55 +712,148 @@ def verified_attestation(
     return min(matches, key=lambda item: (item["run_id"], item["run_attempt"]))
 
 
-def published_status(payload: Any, repository: str, release_commit: str) -> dict[str, Any]:
+def status_sort_key(item: dict[str, Any]) -> tuple[str, int]:
+    raw_id = item.get("id")
+    status_id = (
+        raw_id
+        if isinstance(raw_id, int) and not isinstance(raw_id, bool)
+        else -1
+    )
+    return (
+        str(item.get("updated_at") or item.get("created_at") or ""),
+        status_id,
+    )
+
+
+def publication_statuses(
+    payload: Any, repository: str, release_commit: str
+) -> dict[str, dict[str, Any]]:
     if not isinstance(payload, dict) or payload.get("sha") != release_commit:
         raise CategoryLkgBindingError("published status is not bound to the release commit")
     raw_statuses = payload.get("statuses")
     if not isinstance(raw_statuses, list):
         raise CategoryLkgBindingError("published statuses must be an array")
-    matches = [
-        item
-        for item in raw_statuses
-        if isinstance(item, dict) and item.get("context") == "ruleset/published"
-    ]
-    status = max(
-        matches,
-        key=lambda item: (
-            str(item.get("updated_at") or item.get("created_at") or ""),
-            int(item.get("id", 0)),
-        ),
-        default=None,
-    )
-    if not isinstance(status, dict) or status.get("state") != "success":
-        raise CategoryLkgBindingError("latest ruleset/published status is not successful")
-    target_url = str(status.get("target_url", ""))
-    match = RUN_URL_RE.fullmatch(target_url)
-    status_id = status.get("id")
-    description = str(status.get("description", ""))
-    avatar_url = str(status.get("avatar_url", ""))
-    if (
-        match is None
-        or match.group(1) != repository
-        or isinstance(status_id, bool)
-        or not isinstance(status_id, int)
-        or status_id <= 0
-        or description
-        != "Candidate, tag, release, attestation, raw index, and README verified"
-        or re.fullmatch(
-            r"https://avatars\.githubusercontent\.com/in/15368(?:\?.*)?",
-            avatar_url,
+    selected: dict[str, dict[str, Any]] = {}
+    run_ids: set[int] = set()
+    for context, expected_description in PUBLICATION_STATUS_DESCRIPTIONS.items():
+        status = max(
+            (
+                item
+                for item in raw_statuses
+                if isinstance(item, dict) and item.get("context") == context
+            ),
+            key=status_sort_key,
+            default=None,
         )
-        is None
+        if not isinstance(status, dict) or status.get("state") != "success":
+            raise CategoryLkgBindingError(f"latest {context} status is not successful")
+        target_url = str(status.get("target_url", ""))
+        match = RUN_URL_RE.fullmatch(target_url)
+        status_id = status.get("id")
+        description = str(status.get("description", ""))
+        avatar_url = str(status.get("avatar_url", ""))
+        if (
+            match is None
+            or match.group(1) != repository
+            or isinstance(status_id, bool)
+            or not isinstance(status_id, int)
+            or status_id <= 0
+            or description != expected_description
+            or re.fullmatch(
+                r"https://avatars\.githubusercontent\.com/in/15368(?:\?.*)?",
+                avatar_url,
+            )
+            is None
+        ):
+            raise CategoryLkgBindingError(f"{context} status identity is malformed")
+        run_id = int(match.group(2))
+        run_ids.add(run_id)
+        selected[context] = {
+            "id": status_id,
+            "run_id": run_id,
+            "state": "success",
+            "context": context,
+            "description": description,
+            "github_actions_app_id": 15368,
+            "updated_at": str(status.get("updated_at", "")),
+        }
+    if len(run_ids) != 1:
+        raise CategoryLkgBindingError(
+            "publication gate and published statuses resolve to different runs"
+        )
+    return selected
+
+
+def verified_publication_receipt(
+    payload: Any,
+    *,
+    repository: str,
+    main_sha: str,
+    release_id: int,
+    release_tag: str,
+    release_commit_sha: str,
+    candidate_source_sha: str,
+    archive_sha256: str,
+    checksum_sha256: str,
+    category_count: int,
+    statuses: dict[str, dict[str, Any]],
+) -> dict[str, Any]:
+    if not isinstance(payload, dict) or payload.get("schema") != PUBLISHED_RECEIPT_SCHEMA:
+        raise CategoryLkgBindingError("published verification receipt schema is invalid")
+    expected_digest = str(payload.get("receipt_sha256", ""))
+    without_digest = dict(payload)
+    without_digest.pop("receipt_sha256", None)
+    if (
+        not SHA256_RE.fullmatch(expected_digest)
+        or digest_payload(without_digest) != expected_digest
     ):
-        raise CategoryLkgBindingError("ruleset/published status identity is malformed")
+        raise CategoryLkgBindingError("published verification receipt digest is invalid")
+    receipt_statuses = payload.get("publication_statuses")
+    if (
+        payload.get("repository") != repository
+        or payload.get("main_sha") != main_sha
+        or payload.get("release_id") != release_id
+        or payload.get("release_tag") != release_tag
+        or payload.get("release_commit_sha") != release_commit_sha
+        or payload.get("candidate_source_sha") != candidate_source_sha
+        or payload.get("release_parent_sha") != candidate_source_sha
+        or payload.get("archive_sha256") != archive_sha256
+        or payload.get("checksum_sha256") != checksum_sha256
+        or payload.get("category_count") != category_count
+        or not isinstance(receipt_statuses, dict)
+    ):
+        raise CategoryLkgBindingError(
+            "published verification receipt differs from current release evidence"
+        )
+    compact_statuses: dict[str, dict[str, Any]] = {}
+    for context in PUBLICATION_STATUS_DESCRIPTIONS:
+        receipt_status = receipt_statuses.get(context)
+        status = statuses.get(context)
+        if (
+            not isinstance(receipt_status, dict)
+            or not isinstance(status, dict)
+            or receipt_status.get("status_id") != status.get("id")
+            or receipt_status.get("run_id") != status.get("run_id")
+            or receipt_status.get("context") != status.get("context")
+            or receipt_status.get("state") != status.get("state")
+            or receipt_status.get("description") != status.get("description")
+            or receipt_status.get("github_actions_app_id")
+            != status.get("github_actions_app_id")
+            or receipt_status.get("updated_at") != status.get("updated_at")
+            or receipt_status.get("run_head_sha") != candidate_source_sha
+        ):
+            raise CategoryLkgBindingError(
+                "published verification receipt differs from current status evidence"
+            )
+        compact_statuses[context] = {
+            "status_id": int(receipt_status["status_id"]),
+            "run_id": int(receipt_status["run_id"]),
+            "run_attempt": int(receipt_status.get("run_attempt", 1)),
+        }
     return {
-        "id": status_id,
-        "run_id": int(match.group(2)),
-        "state": "success",
-        "context": "ruleset/published",
-        "description": description,
-        "github_actions_app_id": 15368,
-        "updated_at": str(status.get("updated_at", "")),
+        "receipt_sha256": expected_digest,
+        "release_parent_sha": candidate_source_sha,
+        "publication_statuses": compact_statuses,
     }
 
 
@@ -671,6 +872,46 @@ def build_binding(args: argparse.Namespace) -> dict[str, Any]:
         raise CategoryLkgBindingError(
             "current main dist tree does not match the immutable release"
         )
+    source_config, source_config_blob_oid = unchanged_git_json(
+        label="source config",
+        revisions=(
+            (
+                "candidate",
+                args.candidate_source_config,
+                args.candidate_source_config_blob_oid,
+            ),
+            (
+                "release",
+                args.release_source_config,
+                args.release_source_config_blob_oid,
+            ),
+            (
+                "main",
+                args.main_source_config,
+                args.main_source_config_blob_oid,
+            ),
+        ),
+    )
+    source_registry, source_registry_blob_oid = unchanged_git_json(
+        label="source registry",
+        revisions=(
+            (
+                "candidate",
+                args.candidate_source_registry,
+                args.candidate_source_registry_blob_oid,
+            ),
+            (
+                "release",
+                args.release_source_registry,
+                args.release_source_registry_blob_oid,
+            ),
+            (
+                "main",
+                args.main_source_registry,
+                args.main_source_registry_blob_oid,
+            ),
+        ),
+    )
 
     release = read_json(args.release_json)
     if not isinstance(release, dict):
@@ -732,6 +973,11 @@ def build_binding(args: argparse.Namespace) -> dict[str, Any]:
     validate_source_provenance(
         provenance, source_lock_sha256, source_lock_repositories
     )
+    legacy_exception = legacy_provenance_derivations(
+        source_config=source_config,
+        provenance=provenance,
+        archive_sha256=archive_sha256,
+    )
     baseline_candidate_manifest = read_json(
         args.baseline_dist / "candidate_manifest.json"
     )
@@ -769,10 +1015,23 @@ def build_binding(args: argparse.Namespace) -> dict[str, Any]:
         archive_sha256,
         candidate_source_sha,
     )
-    status = published_status(
+    statuses = publication_statuses(
         read_json(args.published_status_json),
         args.repository,
         args.release_commit_sha,
+    )
+    publication_receipt = verified_publication_receipt(
+        read_json(args.published_receipt_json),
+        repository=args.repository,
+        main_sha=args.main_sha,
+        release_id=release_id,
+        release_tag=tag,
+        release_commit_sha=args.release_commit_sha,
+        candidate_source_sha=candidate_source_sha,
+        archive_sha256=archive_sha256,
+        checksum_sha256=checksum_sha256,
+        category_count=len(categories),
+        statuses=statuses,
     )
     lkg_anchor: dict[str, Any] = {
         "repository": args.repository,
@@ -783,7 +1042,8 @@ def build_binding(args: argparse.Namespace) -> dict[str, Any]:
         "archive_asset": archive_asset,
         "checksum_asset": checksum_asset,
         "published_at": str(release.get("published_at", "")),
-        "published_status": status,
+        "publication_statuses": statuses,
+        "publication_receipt": publication_receipt,
         "source_attestation": attestation,
     }
     lkg_anchor["anchor_sha256"] = digest_payload(lkg_anchor)
@@ -800,6 +1060,15 @@ def build_binding(args: argparse.Namespace) -> dict[str, Any]:
         "licensing_assertions_added": False,
         "exact_main_sha": args.main_sha,
         "main_dist_tree_oid": args.main_dist_tree_oid,
+        "source_config_unchanged_since_release": True,
+        "source_config_candidate_release_main_bound": True,
+        "source_config_blob_oid": source_config_blob_oid,
+        "source_config_sha256": digest_payload(source_config),
+        "source_registry_unchanged_since_release": True,
+        "source_registry_candidate_release_main_bound": True,
+        "source_registry_blob_oid": source_registry_blob_oid,
+        "source_registry_sha256": digest_payload(source_registry),
+        "legacy_provenance_exception": legacy_exception,
         "lkg_anchor": lkg_anchor,
         "dist_tree_sha256": digest_payload(baseline_manifest),
         "baseline_index_sha256": digest_payload(index),
@@ -829,11 +1098,32 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--release-commit-sha", required=True)
     parser.add_argument("--release-dist-tree-oid", required=True)
     parser.add_argument("--main-dist-tree-oid", required=True)
+    parser.add_argument(
+        "--candidate-source-config", type=pathlib.Path, required=True
+    )
+    parser.add_argument("--candidate-source-config-blob-oid", required=True)
+    parser.add_argument(
+        "--release-source-config", type=pathlib.Path, required=True
+    )
+    parser.add_argument("--release-source-config-blob-oid", required=True)
+    parser.add_argument("--main-source-config", type=pathlib.Path, required=True)
+    parser.add_argument("--main-source-config-blob-oid", required=True)
+    parser.add_argument(
+        "--candidate-source-registry", type=pathlib.Path, required=True
+    )
+    parser.add_argument("--candidate-source-registry-blob-oid", required=True)
+    parser.add_argument(
+        "--release-source-registry", type=pathlib.Path, required=True
+    )
+    parser.add_argument("--release-source-registry-blob-oid", required=True)
+    parser.add_argument("--main-source-registry", type=pathlib.Path, required=True)
+    parser.add_argument("--main-source-registry-blob-oid", required=True)
     parser.add_argument("--archive", type=pathlib.Path, required=True)
     parser.add_argument("--checksum", type=pathlib.Path, required=True)
     parser.add_argument("--baseline-dist", type=pathlib.Path, required=True)
     parser.add_argument("--attestation-json", type=pathlib.Path, required=True)
     parser.add_argument("--published-status-json", type=pathlib.Path, required=True)
+    parser.add_argument("--published-receipt-json", type=pathlib.Path, required=True)
     parser.add_argument("--output", type=pathlib.Path, required=True)
     return parser.parse_args()
 

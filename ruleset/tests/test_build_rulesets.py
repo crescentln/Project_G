@@ -587,6 +587,30 @@ class ConflictDetectionTests(unittest.TestCase):
         )
         self.assertFalse(conflicts[0]["gated"])
 
+    def test_conflict_report_is_stable_across_category_insertion_order(self) -> None:
+        rules = {
+            "broad": ["DOMAIN-SUFFIX,example.com"],
+            "direct": ["DOMAIN,api.example.com"],
+            "reject": ["DOMAIN,api.example.com"],
+        }
+        actions = {"broad": "PROXY", "direct": "DIRECT", "reject": "REJECT"}
+        priorities = {"broad": 300, "direct": 200, "reject": 100}
+        first = build_rulesets.detect_rule_conflicts(
+            rules_by_category=rules,
+            category_actions=actions,
+            category_priorities=priorities,
+            ignored_conflict_sets=set(),
+            ignored_rule_conflicts={},
+        )
+        second = build_rulesets.detect_rule_conflicts(
+            rules_by_category=dict(reversed(list(rules.items()))),
+            category_actions=dict(reversed(list(actions.items()))),
+            category_priorities=dict(reversed(list(priorities.items()))),
+            ignored_conflict_sets=set(),
+            ignored_rule_conflicts={},
+        )
+        self.assertEqual(first, second)
+
     def test_parent_suffix_shadow_is_gated(self) -> None:
         conflicts = build_rulesets.detect_rule_conflicts(
             rules_by_category={
@@ -707,6 +731,46 @@ class ConflictDetectionTests(unittest.TestCase):
 
 
 class DistTargetSafetyTests(unittest.TestCase):
+    def test_failed_staged_build_preserves_existing_dist(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            target = root / "dist"
+            target.mkdir()
+            (target / "index.json").write_text("{}", encoding="utf-8")
+            (target / "policy_reference.json").write_text(
+                "{}", encoding="utf-8"
+            )
+            marker = target / "preserved.txt"
+            marker.write_text("published", encoding="utf-8")
+
+            def failed_build(**kwargs: object) -> int:
+                staging = pathlib.Path(kwargs["dist_dir"])
+                (staging / "candidate.txt").write_text(
+                    "rejected", encoding="utf-8"
+                )
+                return 3
+
+            with mock.patch.object(
+                build_rulesets, "build_all", side_effect=failed_build
+            ):
+                code = build_rulesets.build_all_staged(
+                    config_path=root / "sources.json",
+                    policy_path=None,
+                    source_registry_path=root / "registry.json",
+                    category_contracts_path=root / "contracts.json",
+                    source_lock_path=None,
+                    baseline_dist_dir=None,
+                    dist_dir=target,
+                    cache_dir=root / "cache",
+                    offline=True,
+                    fail_on_conflicts=False,
+                    fail_on_cross_action_conflicts=True,
+                )
+
+            self.assertEqual(code, 3)
+            self.assertEqual(marker.read_text(encoding="utf-8"), "published")
+            self.assertFalse((target / "candidate.txt").exists())
+
     def test_temporary_dist_target_is_allowed(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             target = pathlib.Path(tmp) / "dist"

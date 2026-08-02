@@ -260,6 +260,7 @@ def build_review(
 class UpstreamIsolationPlannerTests(unittest.TestCase):
     def setUp(self) -> None:
         self.config = source_config()
+        self.source_registry = {"schema": "test-source-registry-v1"}
         self.temp_dir = tempfile.TemporaryDirectory()
         self.repository_root = pathlib.Path(self.temp_dir.name)
         self.baseline_dist = self.repository_root / "baseline-dist"
@@ -288,10 +289,43 @@ class UpstreamIsolationPlannerTests(unittest.TestCase):
                 "name": "ruleset-dist.sha256",
                 "sha256": "2" * 64,
             },
-            "published_status": {
-                "context": "ruleset/published",
-                "state": "success",
-                "github_actions_app_id": 15368,
+            "publication_statuses": {
+                "ruleset/gate": {
+                    "id": 9,
+                    "run_id": 20,
+                    "context": "ruleset/gate",
+                    "state": "success",
+                    "description": PLANNER.PUBLICATION_STATUS_DESCRIPTIONS[
+                        "ruleset/gate"
+                    ],
+                    "github_actions_app_id": 15368,
+                },
+                "ruleset/published": {
+                    "id": 10,
+                    "run_id": 20,
+                    "context": "ruleset/published",
+                    "state": "success",
+                    "description": PLANNER.PUBLICATION_STATUS_DESCRIPTIONS[
+                        "ruleset/published"
+                    ],
+                    "github_actions_app_id": 15368,
+                },
+            },
+            "publication_receipt": {
+                "receipt_sha256": "6" * 64,
+                "release_parent_sha": "e" * 40,
+                "publication_statuses": {
+                    "ruleset/gate": {
+                        "status_id": 9,
+                        "run_id": 20,
+                        "run_attempt": 1,
+                    },
+                    "ruleset/published": {
+                        "status_id": 10,
+                        "run_id": 20,
+                        "run_attempt": 1,
+                    },
+                },
             },
             "source_attestation": {
                 "workflow": "owner/project/.github/workflows/source-discovery.yml",
@@ -303,6 +337,28 @@ class UpstreamIsolationPlannerTests(unittest.TestCase):
         anchor["anchor_sha256"] = PLANNER.digest_payload(
             {key: value for key, value in anchor.items() if key != "anchor_sha256"}
         )
+        configured_bindings = PLANNER.canonical_source_bindings(self.config)[
+            "bindings"
+        ]
+        legacy_exception = {
+            "schema": "project-g-legacy-provenance-derivation-v1",
+            "policy": "exact-immutable-archive-allowlist-v1",
+            "active": True,
+            "release_archive_sha256": "1" * 64,
+            "derived_source_count": len(configured_bindings),
+            "derived_sources": [
+                {
+                    "source_id": source_id,
+                    "derived_configured_source_sha256": binding[
+                        "configured_source_sha256"
+                    ],
+                }
+                for source_id, binding in sorted(configured_bindings.items())
+            ],
+        }
+        legacy_exception["exception_sha256"] = PLANNER.digest_payload(
+            legacy_exception
+        )
         self.lkg_binding = {
             "schema": PLANNER.BINDING_SCHEMA,
             "mode": "shadow-bootstrap-only",
@@ -313,6 +369,17 @@ class UpstreamIsolationPlannerTests(unittest.TestCase):
             "single_source_snapshot": False,
             "normalized_source_payloads_included": False,
             "licensing_assertions_added": False,
+            "source_config_unchanged_since_release": True,
+            "source_config_candidate_release_main_bound": True,
+            "source_config_blob_oid": "9" * 40,
+            "source_config_sha256": PLANNER.digest_payload(self.config),
+            "source_registry_unchanged_since_release": True,
+            "source_registry_candidate_release_main_bound": True,
+            "source_registry_blob_oid": "8" * 40,
+            "source_registry_sha256": PLANNER.digest_payload(
+                self.source_registry
+            ),
+            "legacy_provenance_exception": legacy_exception,
             "exact_main_sha": "f" * 40,
             "main_dist_tree_oid": "d" * 40,
             "lkg_anchor": anchor,
@@ -353,6 +420,7 @@ class UpstreamIsolationPlannerTests(unittest.TestCase):
         candidate_index: dict | None = None,
         candidate_provenance: dict | None = None,
         lkg_binding: dict | None = None,
+        source_registry: dict | None = None,
     ) -> dict:
         return PLANNER.build_plan(
             review,
@@ -360,12 +428,33 @@ class UpstreamIsolationPlannerTests(unittest.TestCase):
             baseline_index or self.baseline_index,
             candidate_index or self.candidate_index,
             candidate_provenance or provenance(),
+            source_registry=(
+                self.source_registry
+                if source_registry is None
+                else source_registry
+            ),
             exact_main_sha="f" * 40,
             baseline_dist=self.baseline_dist,
             candidate_dist=self.candidate_dist,
             lkg_binding=lkg_binding or self.lkg_binding,
             source_root=self.repository_root,
         )
+
+    def test_source_registry_drift_is_rejected(self) -> None:
+        review = build_review(
+            self.config,
+            self.baseline_index,
+            self.candidate_index,
+            [],
+            [],
+        )
+        with self.assertRaisesRegex(
+            PLANNER.IsolationPlannerError, "binding safety mode"
+        ):
+            self.build_plan(
+                review,
+                source_registry={"schema": "drifted-source-registry-v1"},
+            )
 
     def test_shared_repository_and_aggregate_dependencies_are_atomic(self) -> None:
         message = "source a lacks independent authority"
@@ -398,6 +487,44 @@ class UpstreamIsolationPlannerTests(unittest.TestCase):
         self.assertTrue(plan["composite_validation_required"])
         self.assertFalse(plan["global_hold"])
         self.assertFalse(plan["enforcement_ready"])
+
+    def test_aggregate_only_safe_slice_cannot_be_reported_empty(self) -> None:
+        baseline_rows = {
+            row["id"]: row for row in self.baseline_index["categories"]
+        }
+        for row in self.candidate_index["categories"]:
+            category = row["id"]
+            if category == "aggregate":
+                continue
+            row["rule_count"] = baseline_rows[category]["rule_count"]
+            (self.candidate_dist / "stash" / f"{category}.list").write_text(
+                (self.baseline_dist / "stash" / f"{category}.list").read_text(
+                    encoding="utf-8"
+                ),
+                encoding="utf-8",
+            )
+
+        review = build_review(
+            self.config,
+            self.baseline_index,
+            self.candidate_index,
+            [],
+            [],
+            changed=["aggregate"],
+        )
+        plan = self.build_plan(review)
+
+        self.assertEqual(plan["accepted_candidate_categories"], [])
+        self.assertEqual(
+            next(
+                row["selection"]
+                for row in plan["category_decisions"]
+                if row["category"] == "aggregate"
+            ),
+            "derived-recompute-required",
+        )
+        self.assertTrue(plan["safe_slice_changed"])
+        self.assertEqual(plan["planned_safe_delta_count"], 1)
 
     def test_nonisolatable_finding_fails_closed_to_global_hold(self) -> None:
         message = "candidate evidence is structurally inconsistent"
@@ -811,6 +938,7 @@ class UpstreamIsolationPlannerTests(unittest.TestCase):
         lkg_binding["baseline_source_lock_repositories"] = sorted(
             baseline_repositories
         )
+        lkg_binding["source_config_sha256"] = PLANNER.digest_payload(config)
         lkg_binding.pop("binding_sha256")
         lkg_binding["binding_sha256"] = PLANNER.digest_payload(lkg_binding)
 

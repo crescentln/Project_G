@@ -121,14 +121,131 @@ jobs:
           gh api --paginate \
             "repos/${REPOSITORY}/releases?per_page=100" \
             --slurp > "$lkg_dir/release-pages.json"
-          jq -c \
-            '[.[][]
-              | select(.immutable == true)
-              | select(.draft == false)
-              | select(.prerelease == false)]
-             | sort_by(.published_at, .id)
-             | last // error("no immutable final release")' \
-            "$lkg_dir/release-pages.json" > "$lkg_dir/release.json"
+          selected_release=""
+          while IFS= read -r encoded_release; do
+            candidate_release="$(printf '%s' "$encoded_release" | base64 -d)"
+            candidate_tag="$(jq -r '.tag_name' <<<"$candidate_release")"
+            if ! [[ "$candidate_tag" =~ ^ruleset-[0-9]{8}T[0-9]{6}Z-[0-9a-f]{12}$ ]]; then
+              continue
+            fi
+            if ! tag_ref="$(
+              gh api "repos/${REPOSITORY}/git/ref/tags/${candidate_tag}"
+            )"; then
+              continue
+            fi
+            object_type="$(jq -r '.object.type' <<<"$tag_ref")"
+            object_sha="$(jq -r '.object.sha' <<<"$tag_ref")"
+            for _ in 1 2 3 4; do
+              if [ "$object_type" = "commit" ]; then
+                break
+              fi
+              if [ "$object_type" != "tag" ] || \
+                 ! tag_object="$(
+                   gh api "repos/${REPOSITORY}/git/tags/${object_sha}"
+                 )"; then
+                object_type="invalid"
+                break
+              fi
+              object_type="$(jq -r '.object.type' <<<"$tag_object")"
+              object_sha="$(jq -r '.object.sha' <<<"$tag_object")"
+            done
+            if [ "$object_type" != "commit" ] || \
+               ! [[ "$object_sha" =~ ^[0-9a-f]{40}$ ]]; then
+              continue
+            fi
+            if ! comparison_status="$(
+              gh api \
+                "repos/${REPOSITORY}/compare/${object_sha}...${exact_main_sha}" \
+                --jq '.status'
+            )"; then
+              continue
+            fi
+            if [ "$comparison_status" != "ahead" ] && \
+               [ "$comparison_status" != "identical" ]; then
+              continue
+            fi
+            if ! combined_status="$(
+              gh api "repos/${REPOSITORY}/commits/${object_sha}/status"
+            )"; then
+              continue
+            fi
+            latest_gate_status="$(
+              jq -c \
+                '[.statuses[] | select(.context == "ruleset/gate")]
+                 | sort_by((.updated_at // .created_at // ""), (.id // 0))
+                 | last // empty' <<<"$combined_status"
+            )"
+            latest_published_status="$(
+              jq -c \
+                '[.statuses[] | select(.context == "ruleset/published")]
+                 | sort_by((.updated_at // .created_at // ""), (.id // 0))
+                 | last // empty' <<<"$combined_status"
+            )"
+            if [ -z "$latest_gate_status" ] || \
+               [ -z "$latest_published_status" ] || \
+               [ "$(jq -r '.state' <<<"$latest_gate_status")" != "success" ] || \
+               [ "$(jq -r '.state' <<<"$latest_published_status")" != "success" ] || \
+               [ "$(jq -r '.description' <<<"$latest_gate_status")" != \
+                 "Immutable snapshot, tree, and attestation verified" ] || \
+               [ "$(jq -r '.description' <<<"$latest_published_status")" != \
+                 "Candidate, tag, release, attestation, raw index, and README verified" ] || \
+               ! jq -e \
+                 '.avatar_url
+                  | test("^https://avatars\\.githubusercontent\\.com/in/15368(?:\\?.*)?$")' \
+                 <<<"$latest_gate_status" >/dev/null || \
+               ! jq -e \
+                 '.avatar_url
+                  | test("^https://avatars\\.githubusercontent\\.com/in/15368(?:\\?.*)?$")' \
+                 <<<"$latest_published_status" >/dev/null; then
+              continue
+            fi
+            gate_target_url="$(jq -r '.target_url' <<<"$latest_gate_status")"
+            published_target_url="$(
+              jq -r '.target_url' <<<"$latest_published_status"
+            )"
+            if ! [[ "$gate_target_url" =~ ^https://github.com/${REPOSITORY}/actions/runs/([0-9]+)$ ]]; then
+              continue
+            fi
+            gate_run_id="${BASH_REMATCH[1]}"
+            if ! [[ "$published_target_url" =~ ^https://github.com/${REPOSITORY}/actions/runs/([0-9]+)$ ]]; then
+              continue
+            fi
+            publication_run_id="${BASH_REMATCH[1]}"
+            if [ "$gate_run_id" != "$publication_run_id" ]; then
+              continue
+            fi
+            if ! publication_run="$(
+              gh api "repos/${REPOSITORY}/actions/runs/${publication_run_id}"
+            )"; then
+              continue
+            fi
+            if ! jq -e \
+              --arg repository "$REPOSITORY" \
+              '.status == "completed"
+               and .conclusion == "success"
+               and .path == ".github/workflows/ruleset-update.yml"
+               and .repository.full_name == $repository' \
+              <<<"$publication_run" >/dev/null; then
+              continue
+            fi
+            printf '%s\n' "$candidate_release" > "$lkg_dir/release.json"
+            selected_release="$candidate_tag"
+            break
+          done < <(
+            jq -r \
+              '[.[][]
+                | select(.immutable == true)
+                | select(.draft == false)
+                | select(.prerelease == false)]
+               | sort_by(.published_at, .id)
+               | reverse[]
+               | @base64' \
+              "$lkg_dir/release-pages.json"
+          )
+          if [ -z "$selected_release" ]; then
+            echo "no canonical immutable release with successful publication evidence" >&2
+            exit 1
+          fi
           release_id="$(jq -r '.id' "$lkg_dir/release.json")"
           release_tag="$(jq -r '.tag_name' "$lkg_dir/release.json")"
           [[ "$release_id" =~ ^[0-9]+$ ]]
@@ -167,7 +284,8 @@ jobs:
             --tag "$release_tag" \
             --archive "$lkg_dir/ruleset-dist.tar.gz" \
             --checksum "$lkg_dir/ruleset-dist.sha256" \
-            --require-published-status
+            --require-published-status \
+            --output-receipt "$lkg_dir/published-receipt.json"
 
           archive_source_sha="$(
             tar -xOf "$lkg_dir/ruleset-dist.tar.gz" \
@@ -190,41 +308,105 @@ jobs:
             > "$lkg_dir/published-status.json"
 
           git fetch --no-tags --depth=1 origin "$release_commit_sha"
-          release_dist_tree_oid="$(git rev-parse FETCH_HEAD:ruleset/dist)"
+          release_dist_tree_oid="$(
+            git rev-parse "${release_commit_sha}:ruleset/dist"
+          )"
           main_dist_tree_oid="$(git rev-parse HEAD:ruleset/dist)"
-          python3 ruleset/scripts/build_category_lkg_binding.py \
+          release_source_config_blob_oid="$(
+            git rev-parse "${release_commit_sha}:ruleset/config/sources.json"
+          )"
+          release_source_registry_blob_oid="$(
+            git rev-parse \
+              "${release_commit_sha}:ruleset/config/source_registry.json"
+          )"
+          git show "${release_commit_sha}:ruleset/config/sources.json" \
+            > "$lkg_dir/release-sources.json"
+          git show "${release_commit_sha}:ruleset/config/source_registry.json" \
+            > "$lkg_dir/release-source-registry.json"
+
+          git fetch --no-tags --depth=1 origin "$archive_source_sha"
+          candidate_source_config_blob_oid="$(
+            git rev-parse "${archive_source_sha}:ruleset/config/sources.json"
+          )"
+          candidate_source_registry_blob_oid="$(
+            git rev-parse \
+              "${archive_source_sha}:ruleset/config/source_registry.json"
+          )"
+          git show "${archive_source_sha}:ruleset/config/sources.json" \
+            > "$lkg_dir/candidate-sources.json"
+          git show "${archive_source_sha}:ruleset/config/source_registry.json" \
+            > "$lkg_dir/candidate-source-registry.json"
+
+          main_source_config_blob_oid="$(
+            git rev-parse HEAD:ruleset/config/sources.json
+          )"
+          main_source_registry_blob_oid="$(
+            git rev-parse HEAD:ruleset/config/source_registry.json
+          )"
+          cp ruleset/config/sources.json "$lkg_dir/main-sources.json"
+          cp \
+            ruleset/config/source_registry.json \
+            "$lkg_dir/main-source-registry.json"
+          binding_args=(
             --repository "$REPOSITORY" \
             --main-sha "$exact_main_sha" \
             --release-json "$lkg_dir/release.json" \
             --release-commit-sha "$release_commit_sha" \
             --release-dist-tree-oid "$release_dist_tree_oid" \
             --main-dist-tree-oid "$main_dist_tree_oid" \
+            --candidate-source-config "$lkg_dir/candidate-sources.json" \
+            --candidate-source-config-blob-oid \
+              "$candidate_source_config_blob_oid" \
+            --release-source-config "$lkg_dir/release-sources.json" \
+            --release-source-config-blob-oid "$release_source_config_blob_oid" \
+            --main-source-config "$lkg_dir/main-sources.json" \
+            --main-source-config-blob-oid "$main_source_config_blob_oid" \
+            --candidate-source-registry \
+              "$lkg_dir/candidate-source-registry.json" \
+            --candidate-source-registry-blob-oid \
+              "$candidate_source_registry_blob_oid" \
+            --release-source-registry \
+              "$lkg_dir/release-source-registry.json" \
+            --release-source-registry-blob-oid \
+              "$release_source_registry_blob_oid" \
+            --main-source-registry "$lkg_dir/main-source-registry.json" \
+            --main-source-registry-blob-oid "$main_source_registry_blob_oid" \
             --archive "$lkg_dir/ruleset-dist.tar.gz" \
             --checksum "$lkg_dir/ruleset-dist.sha256" \
             --baseline-dist "${RUNNER_TEMP}/baseline-dist" \
             --attestation-json "$lkg_dir/verified-attestation.json" \
+            --published-receipt-json "$lkg_dir/published-receipt.json" \
+          )
+          python3 ruleset/scripts/build_category_lkg_binding.py \
+            "${binding_args[@]}" \
             --published-status-json "$lkg_dir/published-status.json" \
             --output "$lkg_dir/category-lkg-binding.json"
 
           gh api --paginate \
             "repos/${REPOSITORY}/releases?per_page=100" \
             --slurp > "$lkg_dir/final-release-pages.json"
-          final_release_id="$(
-            jq -r \
-              '[.[][]
-                | select(.immutable == true)
-                | select(.draft == false)
-                | select(.prerelease == false)]
-               | sort_by(.published_at, .id)
-               | last.id // empty' \
-              "$lkg_dir/final-release-pages.json"
-          )"
-          test "$final_release_id" = "$release_id"
+          jq -e \
+            --argjson release_id "$release_id" \
+            '.[][]
+             | select(.id == $release_id)
+             | select(.immutable == true)
+             | select(.draft == false)
+             | select(.prerelease == false)' \
+            "$lkg_dir/final-release-pages.json" >/dev/null
           test "$(gh api "repos/${REPOSITORY}/commits/main" --jq '.sha')" = \
             "$exact_main_sha"
           test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.size')" = "0"
           test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.sha')" = \
             "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+          gh api "repos/${REPOSITORY}/commits/${release_commit_sha}/status" \
+            > "$lkg_dir/final-published-status.json"
+          python3 ruleset/scripts/build_category_lkg_binding.py \
+            "${binding_args[@]}" \
+            --published-status-json "$lkg_dir/final-published-status.json" \
+            --output "$lkg_dir/final-category-lkg-binding.json"
+          cmp \
+            "$lkg_dir/category-lkg-binding.json" \
+            "$lkg_dir/final-category-lkg-binding.json"
           echo "binding_sha256=$(jq -r '.binding_sha256' "$lkg_dir/category-lkg-binding.json")" \
             >> "$GITHUB_OUTPUT"
           echo "release_tag=$release_tag" >> "$GITHUB_OUTPUT"
@@ -350,6 +532,7 @@ jobs:
             --automated-review ruleset/dist/automated_review.json \
             --isolation-evidence "$shadow_dir/isolation-evidence.json" \
             --source-config ruleset/config/sources.json \
+            --source-registry ruleset/config/source_registry.json \
             --baseline-dist "${RUNNER_TEMP}/baseline-dist" \
             --candidate-dist ruleset/dist \
             --published-lkg-binding \
@@ -386,6 +569,327 @@ jobs:
             jq -r '"- Mode: `" + .mode + "`\n- Enforcement ready: `" + (.enforcement_ready|tostring) + "`\n- Category LKG bound: `" + (.category_lkg_bootstrap_bound|tostring) + "`\n- Accepted candidate categories: `" + ((.accepted_candidate_categories // []) | join(", ")) + "`\n- Quarantined categories: `" + ((.quarantined_categories // []) | join(", ")) + "`\n- Safe slice changed: `" + (.safe_slice_changed|tostring) + "`\n- Planned safe delta count: `" + (.planned_safe_delta_count|tostring) + "`\n- Publishable safe delta count: `" + (.publishable_safe_delta_count|tostring) + "`\n- Stable selection fingerprint: `" + .stable_selection_fingerprint + "`\n- Exact observation fingerprint: `" + .plan_fingerprint + "`"' \
               "$shadow_dir/payload/upstream-isolation-plan.json"
           } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Materialize non-authoritative upstream isolation composite
+        id: isolation_composite
+        if: steps.isolation_shadow.outcome == 'success'
+        continue-on-error: true
+        timeout-minutes: 20
+        run: |
+          set -euo pipefail
+          source_sha="$(tr -d '[:space:]' < .candidate/source-sha.txt)"
+          generated_at="$(git show -s --format=%cI "$source_sha")"
+          composite_dir="$(mktemp -d)"
+          shadow_payload="${RUNNER_TEMP}/upstream-isolation-shadow/payload"
+          python3 ruleset/scripts/materialize_upstream_composite.py \
+            --plan "$shadow_payload/upstream-isolation-plan.json" \
+            --isolation-evidence "$shadow_payload/isolation-evidence.json" \
+            --lkg-binding "$shadow_payload/category-lkg-binding.json" \
+            --candidate-dist ruleset/dist \
+            --lkg-dist "${RUNNER_TEMP}/baseline-dist" \
+            --source-config ruleset/config/sources.json \
+            --policy ruleset/config/policy_map.json \
+            --source-registry ruleset/config/source_registry.json \
+            --category-contracts ruleset/config/category_contracts.json \
+            --source-root ruleset \
+            --exact-main-sha "$source_sha" \
+            --generated-at-utc "$generated_at" \
+            --output-dist "$composite_dir/dist" \
+            --output-identity "$composite_dir/composite-identity.json" \
+            --output-review "$composite_dir/composite-review.json"
+          python3 ruleset/scripts/validate_rulesets.py \
+            --dist-dir "$composite_dir/dist"
+          python3 ruleset/scripts/check_smoke_probes.py \
+            --config ruleset/config/smoke_probes.json \
+            --surge-dir "$composite_dir/dist/surge" \
+            --openclash-dir "$composite_dir/dist/openclash"
+          python3 ruleset/scripts/check_allowlist_effective.py \
+            --sources ruleset/config/sources.json \
+            --root ruleset \
+            --surge-dir "$composite_dir/dist/surge" \
+            --stash-dir "$composite_dir/dist/stash" \
+            --openclash-dir "$composite_dir/dist/openclash"
+          approved_args=()
+          if [ -f ruleset/config/approved_count_drift.json ]; then
+            approved_args=(--approved-drift ruleset/config/approved_count_drift.json)
+          fi
+          python3 ruleset/scripts/check_quality_gates.py \
+            --current "$composite_dir/dist/policy_reference.json" \
+            --baseline "${RUNNER_TEMP}/baseline-dist/policy_reference.json" \
+            "${approved_args[@]}" \
+            --fetch-report "$composite_dir/dist/fetch_report.json" \
+            --conflicts "$composite_dir/dist/conflicts.json" \
+            --minimums ruleset/config/min_rules.json \
+            --max-fetch-fallbacks 0 \
+            --max-cross-action-conflicts 0 \
+            --max-high-severity-conflicts 0 \
+            --source-provenance "$composite_dir/dist/source_provenance.json" \
+            --client-parity "$composite_dir/dist/client_parity.json" \
+            --contracts "$composite_dir/dist/category_contracts_resolved.json" \
+            --candidate-manifest "$composite_dir/dist/candidate_manifest.json"
+          jq -e \
+            '.mode == "shadow-only"
+             and .enforcement_ready == false
+             and .two_cycle_enforcement_eligible == false
+             and .source_health_complete == false
+             and .licensing_assertions_complete == false
+             and (.composite_content_identity
+                  | test("^[0-9a-f]{64}$"))
+             and (.observation_evidence_identity
+                  | test("^[0-9a-f]{64}$"))
+             and (.dist_tree_sha256 | test("^[0-9a-f]{64}$"))' \
+            "$composite_dir/composite-identity.json" >/dev/null
+          jq -e \
+            '.mode == "shadow-only"
+             and .materialization_valid == true
+             and .validation_complete == false
+             and .publishable == false
+             and .enforcement_ready == false
+             and .source_health_status == "unknown"
+             and .source_health_complete == false
+             and .licensing_assertions_complete == false
+             and .complete_category_bundles == true
+             and .repository_atomicity_preserved == true
+             and .category_removals_allowed == false
+             and .cross_action_conflict_count == 0
+             and .high_severity_conflict_count == 0' \
+            "$composite_dir/composite-review.json" >/dev/null
+          identity_sha256="$(
+            sha256sum "$composite_dir/composite-identity.json" | awk '{print $1}'
+          )"
+          review_sha256="$(
+            sha256sum "$composite_dir/composite-review.json" | awk '{print $1}'
+          )"
+          content_identity="$(
+            jq -r '.composite_content_identity' \
+              "$composite_dir/composite-identity.json"
+          )"
+          observation_identity="$(
+            jq -r '.observation_evidence_identity' \
+              "$composite_dir/composite-identity.json"
+          )"
+          dist_tree_sha256="$(
+            jq -r '.dist_tree_sha256' "$composite_dir/composite-identity.json"
+          )"
+          gate_receipt_base="$(mktemp)"
+          jq -n \
+            --arg exact_main_sha "$source_sha" \
+            --arg content_identity "$content_identity" \
+            --arg observation_identity "$observation_identity" \
+            --arg dist_tree_sha256 "$dist_tree_sha256" \
+            --arg identity_sha256 "$identity_sha256" \
+            --arg review_sha256 "$review_sha256" \
+            '{
+              schema: "project-g-upstream-isolation-composite-gate-v1",
+              mode: "shadow-only",
+              valid: true,
+              publishable: false,
+              source_health_complete: false,
+              licensing_assertions_complete: false,
+              exact_main_sha: $exact_main_sha,
+              composite_content_identity: $content_identity,
+              observation_evidence_identity: $observation_identity,
+              dist_tree_sha256: $dist_tree_sha256,
+              identity_file_sha256: $identity_sha256,
+              review_file_sha256: $review_sha256,
+              completed_gates: [
+                "validate-rulesets",
+                "smoke-probes",
+                "allowlist-effective",
+                "quality-gates"
+              ]
+            }' > "$gate_receipt_base"
+          gate_receipt_sha256="$(
+            jq -S -c . "$gate_receipt_base" | sha256sum | awk '{print $1}'
+          )"
+          jq \
+            --arg receipt_sha256 "$gate_receipt_sha256" \
+            '.receipt_sha256 = $receipt_sha256' \
+            "$gate_receipt_base" \
+            | jq -S . > "$composite_dir/composite-gate-receipt.json"
+          jq -e \
+            '.mode == "shadow-only"
+             and .valid == true
+             and .publishable == false
+             and .source_health_complete == false
+             and .licensing_assertions_complete == false
+             and (.completed_gates | length) == 4
+             and (.receipt_sha256 | test("^[0-9a-f]{64}$"))' \
+            "$composite_dir/composite-gate-receipt.json" >/dev/null
+          test "$(
+            jq 'del(.receipt_sha256)' \
+              "$composite_dir/composite-gate-receipt.json" \
+              | jq -S -c . | sha256sum | awk '{print $1}'
+          )" = "$gate_receipt_sha256"
+          echo "composite_dir=$composite_dir" >> "$GITHUB_OUTPUT"
+          echo "content_identity=$content_identity" >> "$GITHUB_OUTPUT"
+          echo "dist_tree_sha256=$dist_tree_sha256" >> "$GITHUB_OUTPUT"
+          {
+            echo
+            echo "## Upstream isolation composite shadow"
+            echo
+            jq -r \
+              '"- Mode: `" + .mode
+               + "`\n- Enforcement ready: `" + (.enforcement_ready|tostring)
+               + "`\n- Content identity: `" + .composite_content_identity
+               + "`\n- Dist tree SHA-256: `" + .dist_tree_sha256
+               + "`\n- Dist file count: `" + (.dist_file_count|tostring)
+               + "`\n- Semantic digest: `" + .semantic_digest + "`"' \
+              "$composite_dir/composite-identity.json"
+            jq -r \
+              '"- Changed categories: `" + ((.changed_categories // []) | join(", "))
+               + "`\n- Candidate categories: `" + (.candidate_category_count|tostring)
+               + "`\n- Published LKG categories: `" + (.published_lkg_category_count|tostring)
+               + "`\n- Derived categories: `" + (.derived_category_count|tostring) + "`"' \
+              "$composite_dir/composite-review.json"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Scan upstream isolation composite for secrets
+        id: isolation_composite_scan
+        if: steps.isolation_composite.outcome == 'success'
+        continue-on-error: true
+        env:
+          COMPOSITE_DIR: ${{ steps.isolation_composite.outputs.composite_dir }}
+        run: |
+          set -euo pipefail
+          report_dir="${RUNNER_TEMP}/gitleaks-composite"
+          mkdir -p "$report_dir"
+          docker run --rm \
+            -v "$PWD/.gitleaks.toml:/gitleaks.toml:ro" \
+            -v "${COMPOSITE_DIR}:/composite:ro" \
+            -v "$report_dir:/reports" \
+            ghcr.io/gitleaks/gitleaks@sha256:b5918eb91b8d2473cec722f066abb4352e4ffdc4ec9f4283ec143aba9ec9ebc4 \
+            detect \
+            --source /composite \
+            --no-git \
+            --config /gitleaks.toml \
+            --redact \
+            --report-format sarif \
+            --report-path /reports/gitleaks-composite.sarif
+          cp \
+            "$report_dir/gitleaks-composite.sarif" \
+            "$COMPOSITE_DIR/gitleaks-composite.sarif"
+
+      - name: Package scanned upstream isolation composite
+        id: isolation_composite_package
+        if: >-
+          steps.isolation_composite.outcome == 'success' &&
+          steps.isolation_composite_scan.outcome == 'success'
+        continue-on-error: true
+        env:
+          COMPOSITE_DIR: ${{ steps.isolation_composite.outputs.composite_dir }}
+          CONTENT_IDENTITY: ${{ steps.isolation_composite.outputs.content_identity }}
+          SOURCE_SHA: ${{ steps.isolation_shadow.outputs.source_sha }}
+        run: |
+          set -euo pipefail
+          tar \
+            --format=ustar \
+            --sort=name \
+            --mtime='UTC 1970-01-01' \
+            --owner=0 \
+            --group=0 \
+            --numeric-owner \
+            -cf - \
+            -C "$COMPOSITE_DIR" dist \
+            | gzip -n > "$COMPOSITE_DIR/ruleset-composite-dist.tar.gz"
+          (
+            cd "$COMPOSITE_DIR"
+            sha256sum ruleset-composite-dist.tar.gz \
+              > ruleset-composite-dist.sha256
+          )
+          archive_sha256="$(
+            awk '{print $1}' "$COMPOSITE_DIR/ruleset-composite-dist.sha256"
+          )"
+          [[ "$archive_sha256" =~ ^[0-9a-f]{64}$ ]]
+          (
+            cd "$COMPOSITE_DIR"
+            sha256sum \
+              composite-gate-receipt.json \
+              composite-identity.json \
+              composite-review.json \
+              gitleaks-composite.sarif \
+              ruleset-composite-dist.tar.gz \
+              ruleset-composite-dist.sha256 \
+              > composite-evidence-checksums.sha256
+          )
+          tar \
+            --format=ustar \
+            --sort=name \
+            --mtime='UTC 1970-01-01' \
+            --owner=0 \
+            --group=0 \
+            --numeric-owner \
+            -cf "$COMPOSITE_DIR/upstream-isolation-composite-evidence.tar" \
+            -C "$COMPOSITE_DIR" \
+              composite-evidence-checksums.sha256 \
+              composite-gate-receipt.json \
+              composite-identity.json \
+              composite-review.json \
+              gitleaks-composite.sarif \
+              ruleset-composite-dist.tar.gz \
+              ruleset-composite-dist.sha256
+          (
+            cd "$COMPOSITE_DIR"
+            sha256sum upstream-isolation-composite-evidence.tar \
+              > upstream-isolation-composite-evidence.sha256
+          )
+          evidence_sha256="$(
+            awk '{print $1}' \
+              "$COMPOSITE_DIR/upstream-isolation-composite-evidence.sha256"
+          )"
+          [[ "$evidence_sha256" =~ ^[0-9a-f]{64}$ ]]
+          artifact_name="ruleset-isolation-composite-shadow-${SOURCE_SHA}-${CONTENT_IDENTITY}-${archive_sha256}"
+          echo "archive_sha256=$archive_sha256" >> "$GITHUB_OUTPUT"
+          echo "evidence_sha256=$evidence_sha256" >> "$GITHUB_OUTPUT"
+          echo "artifact_name=$artifact_name" >> "$GITHUB_OUTPUT"
+
+      - name: Verify remote README before composite attestation
+        id: isolation_composite_readme_before
+        if: steps.isolation_composite_package.outcome == 'success'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          test "$(gh api "repos/${{ github.repository }}/contents/README.md?ref=main" --jq '.size')" = "0"
+          test "$(gh api "repos/${{ github.repository }}/contents/README.md?ref=main" --jq '.sha')" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+
+      - name: Attest upstream isolation composite evidence
+        id: isolation_composite_attest
+        if: >-
+          steps.isolation_composite_package.outcome == 'success' &&
+          steps.isolation_composite_readme_before.outcome == 'success'
+        continue-on-error: true
+        uses: actions/attest-build-provenance@0f67c3f4856b2e3261c31976d6725780e5e4c373 # v4.1.1
+        with:
+          subject-path: ${{ steps.isolation_composite.outputs.composite_dir }}/upstream-isolation-composite-evidence.tar
+
+      - name: Recheck README after composite attestation
+        id: isolation_composite_readme_after
+        if: steps.isolation_composite_attest.outcome == 'success'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          test "$(gh api "repos/${{ github.repository }}/contents/README.md?ref=main" --jq '.size')" = "0"
+          test "$(gh api "repos/${{ github.repository }}/contents/README.md?ref=main" --jq '.sha')" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+
+      - name: Upload attested upstream isolation composite
+        id: isolation_composite_upload
+        if: >-
+          steps.isolation_composite_attest.outcome == 'success' &&
+          steps.isolation_composite_readme_after.outcome == 'success'
+        continue-on-error: true
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: ${{ steps.isolation_composite_package.outputs.artifact_name }}
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 30
+          path: |
+            ${{ steps.isolation_composite.outputs.composite_dir }}/upstream-isolation-composite-evidence.tar
+            ${{ steps.isolation_composite.outputs.composite_dir }}/upstream-isolation-composite-evidence.sha256
 
       - name: Update candidate changelog
         run: |
@@ -530,6 +1034,11 @@ jobs:
           PACKAGE_OUTCOME: ${{ steps.isolation_package.outcome }}
           ATTEST_OUTCOME: ${{ steps.isolation_attest.outcome }}
           UPLOAD_OUTCOME: ${{ steps.isolation_upload.outcome }}
+          COMPOSITE_OUTCOME: ${{ steps.isolation_composite.outcome }}
+          COMPOSITE_SCAN_OUTCOME: ${{ steps.isolation_composite_scan.outcome }}
+          COMPOSITE_PACKAGE_OUTCOME: ${{ steps.isolation_composite_package.outcome }}
+          COMPOSITE_ATTEST_OUTCOME: ${{ steps.isolation_composite_attest.outcome }}
+          COMPOSITE_UPLOAD_OUTCOME: ${{ steps.isolation_composite_upload.outcome }}
         run: |
           {
             echo
@@ -539,8 +1048,16 @@ jobs:
             echo "- Shadow package outcome: \`${PACKAGE_OUTCOME:-skipped}\`"
             echo "- Shadow attestation outcome: \`${ATTEST_OUTCOME:-skipped}\`"
             echo "- Shadow upload outcome: \`${UPLOAD_OUTCOME:-skipped}\`"
+            echo "- Composite materialization outcome: \`${COMPOSITE_OUTCOME:-skipped}\`"
+            echo "- Composite secret scan outcome: \`${COMPOSITE_SCAN_OUTCOME:-skipped}\`"
+            echo "- Composite package outcome: \`${COMPOSITE_PACKAGE_OUTCOME:-skipped}\`"
+            echo "- Composite attestation outcome: \`${COMPOSITE_ATTEST_OUTCOME:-skipped}\`"
+            echo "- Composite upload outcome: \`${COMPOSITE_UPLOAD_OUTCOME:-skipped}\`"
             if [ "${UPLOAD_OUTCOME:-skipped}" != "success" ]; then
               echo "- Shadow evidence unavailable; candidate decision and packaging continue unchanged."
+            fi
+            if [ "${COMPOSITE_UPLOAD_OUTCOME:-skipped}" != "success" ]; then
+              echo "- Composite shadow unavailable; Promotion still ignores composite artifacts."
             fi
           } >> "$GITHUB_STEP_SUMMARY"
 
