@@ -99,41 +99,86 @@ jobs:
           set -euo pipefail
           receipt=.publication-receipt/publication-receipt.json
           test -f "$receipt"
-          jq -e \
-            --arg repository "$REPOSITORY" \
-            --arg promotion_run_id "$PROMOTION_RUN_ID" \
-            '
-              .schema == "project-g-publication-receipt-v1"
-              and .repository == $repository
-              and .promotion_run_id == $promotion_run_id
-              and (.candidate_run_id | test("^[0-9]+$"))
-              and (.candidate_artifact_name | test("^ruleset-candidate-(low|high)-[0-9a-f]{64}-[0-9a-f]{64}-[0-9a-f]{64}$"))
-              and (.candidate_source_sha | test("^[0-9a-f]{40}$"))
-              and (.decision_fingerprint | test("^[0-9a-f]{64}$"))
-              and (.previous_sha | test("^[0-9a-f]{40}$"))
-              and (.published_sha | test("^[0-9a-f]{40}$"))
-              and (.snapshot_tag | test("^ruleset-[A-Za-z0-9._-]+$"))
-              and (.semantic_digest | test("^[0-9a-f]{64}$"))
-              and (.source_lock_sha256 | test("^[0-9a-f]{64}$"))
-              and (.candidate_archive_sha256 | test("^[0-9a-f]{64}$"))
-              and (.automated_review_sha256 | test("^[0-9a-f]{64}$"))
-              and (.candidate_identity_sha256 | test("^[0-9a-f]{64}$"))
-            ' "$receipt" >/dev/null
+          schema="$(jq -r '.schema' "$receipt")"
+          case "$schema" in
+            project-g-publication-receipt-v1)
+              publication_kind="candidate"
+              jq -e \
+                --arg repository "$REPOSITORY" \
+                --arg promotion_run_id "$PROMOTION_RUN_ID" \
+                '
+                  .repository == $repository
+                  and .promotion_run_id == $promotion_run_id
+                  and (.candidate_run_id | test("^[0-9]+$"))
+                  and (.candidate_artifact_name | test("^ruleset-candidate-(low|high)-[0-9a-f]{64}-[0-9a-f]{64}-[0-9a-f]{64}$"))
+                  and (.candidate_source_sha | test("^[0-9a-f]{40}$"))
+                  and (.decision_fingerprint | test("^[0-9a-f]{64}$"))
+                  and (.previous_sha | test("^[0-9a-f]{40}$"))
+                  and (.published_sha | test("^[0-9a-f]{40}$"))
+                  and (.snapshot_tag | test("^ruleset-[A-Za-z0-9._-]+$"))
+                  and (.semantic_digest | test("^[0-9a-f]{64}$"))
+                  and (.source_lock_sha256 | test("^[0-9a-f]{64}$"))
+                  and (.candidate_archive_sha256 | test("^[0-9a-f]{64}$"))
+                  and (.automated_review_sha256 | test("^[0-9a-f]{64}$"))
+                  and (.candidate_identity_sha256 | test("^[0-9a-f]{64}$"))
+                ' "$receipt" >/dev/null
+              candidate_run_id="$(jq -r '.candidate_run_id' "$receipt")"
+              candidate_artifact_name="$(
+                jq -r '.candidate_artifact_name' "$receipt"
+              )"
+              source_sha="$(jq -r '.candidate_source_sha' "$receipt")"
+              ;;
+            project-g-publication-receipt-v2)
+              publication_kind="composite"
+              jq -e \
+                --arg repository "$REPOSITORY" \
+                --arg promotion_run_id "$PROMOTION_RUN_ID" \
+                '
+                  .publication_kind == "composite"
+                  and .repository == $repository
+                  and .promotion_run_id == $promotion_run_id
+                  and (.source_sha | test("^[0-9a-f]{40}$"))
+                  and (.previous_sha | test("^[0-9a-f]{40}$"))
+                  and (.published_sha | test("^[0-9a-f]{40}$"))
+                  and (.snapshot_tag | test("^ruleset-[A-Za-z0-9._-]+$"))
+                  and (.semantic_digest | test("^[0-9a-f]{64}$"))
+                  and (.source_lock_sha256 | test("^[0-9a-f]{64}$"))
+                  and (.archive_sha256 | test("^[0-9a-f]{64}$"))
+                  and (.outer_evidence_sha256 | test("^[0-9a-f]{64}$"))
+                  and (.pair_receipt_sha256 | test("^[0-9a-f]{64}$"))
+                  and (.promotion_decision_sha256 | test("^[0-9a-f]{64}$"))
+                  and (.current.run_id | type == "number")
+                  and (.current.run_attempt | type == "number")
+                  and (.current.artifact_name | test("^ruleset-isolation-composite-v2-[0-9a-f]{40}-[0-9a-f]{64}-[0-9a-f]{64}$"))
+                  and (.previous.run_id | type == "number")
+                  and (.changed_categories | length) > 0
+                ' "$receipt" >/dev/null
+              candidate_run_id="$(jq -r '.current.run_id' "$receipt")"
+              candidate_artifact_name="$(
+                jq -r '.current.artifact_name' "$receipt"
+              )"
+              source_sha="$(jq -r '.source_sha' "$receipt")"
+              ;;
+            *)
+              echo "Publication receipt schema is unsupported: $schema"
+              exit 1
+              ;;
+          esac
           published_sha="$(jq -r '.published_sha' "$receipt")"
           test "${{ steps.receipt.outputs.artifact_name }}" = \
             "ruleset-publication-receipt-${published_sha}"
-          for field in \
-            candidate_run_id \
-            candidate_artifact_name \
-            candidate_source_sha \
-            published_sha \
-            snapshot_tag \
-            semantic_digest; do
-            echo "${field}=$(jq -r ".${field}" "$receipt")" >> "$GITHUB_OUTPUT"
-          done
+          echo "publication_kind=$publication_kind" >> "$GITHUB_OUTPUT"
+          echo "candidate_run_id=$candidate_run_id" >> "$GITHUB_OUTPUT"
+          echo "candidate_artifact_name=$candidate_artifact_name" >> "$GITHUB_OUTPUT"
+          echo "candidate_source_sha=$source_sha" >> "$GITHUB_OUTPUT"
+          echo "published_sha=$published_sha" >> "$GITHUB_OUTPUT"
+          echo "snapshot_tag=$(jq -r '.snapshot_tag' "$receipt")" >> "$GITHUB_OUTPUT"
+          echo "semantic_digest=$(jq -r '.semantic_digest' "$receipt")" >> "$GITHUB_OUTPUT"
 
       - name: Download exact published candidate
-        if: ${{ steps.receipt.outputs.has_receipt == 'true' }}
+        if: >-
+          steps.receipt.outputs.has_receipt == 'true' &&
+          steps.receipt_data.outputs.publication_kind == 'candidate'
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: ${{ steps.receipt_data.outputs.candidate_artifact_name }}
@@ -150,8 +195,10 @@ jobs:
           python-version: "3.11"
 
       - name: Verify frozen snapshot convergence
-        if: ${{ steps.receipt.outputs.has_receipt == 'true' }}
-        id: snapshot
+        if: >-
+          steps.receipt.outputs.has_receipt == 'true' &&
+          steps.receipt_data.outputs.publication_kind == 'candidate'
+        id: candidate_snapshot
         env:
           CANDIDATE_SOURCE_SHA: ${{ steps.receipt_data.outputs.candidate_source_sha }}
           PUBLISHED_SHA: ${{ steps.receipt_data.outputs.published_sha }}
@@ -185,7 +232,10 @@ jobs:
             --repo "$REPOSITORY" \
             --signer-workflow \
               "${REPOSITORY}/.github/workflows/source-discovery.yml" \
-            --source-digest "$CANDIDATE_SOURCE_SHA"
+            --signer-digest "$CANDIDATE_SOURCE_SHA" \
+            --source-digest "$CANDIDATE_SOURCE_SHA" \
+            --source-ref refs/heads/main \
+            --deny-self-hosted-runners
 
           mkdir -p .snapshot-release
           gh release download "$SNAPSHOT_TAG" \
@@ -228,6 +278,233 @@ jobs:
             --require-published-status
           echo "superseded=false" >> "$GITHUB_OUTPUT"
           echo "observation_sha=$current_main_sha" >> "$GITHUB_OUTPUT"
+
+      - name: Verify frozen isolated snapshot convergence
+        if: >-
+          steps.receipt.outputs.has_receipt == 'true' &&
+          steps.receipt_data.outputs.publication_kind == 'composite'
+        id: composite_snapshot
+        env:
+          CANDIDATE_SOURCE_SHA: ${{ steps.receipt_data.outputs.candidate_source_sha }}
+          PUBLISHED_SHA: ${{ steps.receipt_data.outputs.published_sha }}
+          SEMANTIC_DIGEST: ${{ steps.receipt_data.outputs.semantic_digest }}
+          SNAPSHOT_TAG: ${{ steps.receipt_data.outputs.snapshot_tag }}
+        run: |
+          set -euo pipefail
+          receipt=.publication-receipt/publication-receipt.json
+          mkdir -p .snapshot-release
+          gh release download "$SNAPSHOT_TAG" \
+            --repo "$REPOSITORY" \
+            --pattern ruleset-dist.tar.gz \
+            --pattern ruleset-dist.sha256 \
+            --pattern upstream-isolation-composite-evidence.tar \
+            --pattern upstream-isolation-composite-evidence.sha256 \
+            --pattern composite-pair-receipt.json \
+            --pattern composite-promotion-decision.json \
+            --dir .snapshot-release
+          (
+            cd .snapshot-release
+            sha256sum -c ruleset-dist.sha256
+            sha256sum -c upstream-isolation-composite-evidence.sha256
+          )
+          archive_sha256="$(
+            sha256sum .snapshot-release/ruleset-dist.tar.gz | awk '{print $1}'
+          )"
+          outer_sha256="$(
+            sha256sum \
+              .snapshot-release/upstream-isolation-composite-evidence.tar \
+              | awk '{print $1}'
+          )"
+          test "$archive_sha256" = "$(jq -r '.archive_sha256' "$receipt")"
+          test "$outer_sha256" = \
+            "$(jq -r '.outer_evidence_sha256' "$receipt")"
+          test "$(
+            jq -r '.receipt_sha256' \
+              .snapshot-release/composite-pair-receipt.json
+          )" = "$(jq -r '.pair_receipt_sha256' "$receipt")"
+          test "$(
+            jq -r '.decision_sha256' \
+              .snapshot-release/composite-promotion-decision.json
+          )" = "$(jq -r '.promotion_decision_sha256' "$receipt")"
+          jq -e \
+            '
+              .schema == "project-g-upstream-isolation-pair-v1"
+              and .eligible == false
+              and .publication_authority == false
+              and .decision == "REQUIRES_PROMOTION_AUTHORIZATION"
+            ' .snapshot-release/composite-pair-receipt.json >/dev/null
+          jq -e \
+            '
+              .schema == "project-g-upstream-isolation-promotion-decision-v1"
+              and .eligible == true
+              and .publication_authority == true
+            ' .snapshot-release/composite-promotion-decision.json >/dev/null
+          python3 - <<'PY'
+          import pathlib
+          from ruleset.scripts import verify_upstream_composite as verifier
+
+          receipt = verifier.read_json_bytes(
+              pathlib.Path(
+                  ".publication-receipt/publication-receipt.json"
+              ).read_bytes(),
+              "publication receipt",
+          )
+          pair = verifier.read_json_bytes(
+              pathlib.Path(
+                  ".snapshot-release/composite-pair-receipt.json"
+              ).read_bytes(),
+              "pair receipt",
+          )
+          decision = verifier.read_json_bytes(
+              pathlib.Path(
+                  ".snapshot-release/composite-promotion-decision.json"
+              ).read_bytes(),
+              "promotion decision",
+          )
+          verifier.verify_self_digest(pair, "receipt_sha256", "pair receipt")
+          verifier.verify_self_digest(
+              decision, "decision_sha256", "promotion decision"
+          )
+          archive = pathlib.Path(
+              ".snapshot-release/ruleset-dist.tar.gz"
+          ).read_bytes()
+          dist, _manifest = verifier.read_dist_tar(archive)
+          candidate_manifest = verifier.read_json_bytes(
+              dist["candidate_manifest.json"], "candidate manifest"
+          )
+          if (
+              candidate_manifest.get("semantic_digest")
+              != receipt.get("semantic_digest")
+              or candidate_manifest.get("source_lock_sha256")
+              != receipt.get("source_lock_sha256")
+              or pair.get("current", {}).get("dist_archive_sha256")
+              != receipt.get("archive_sha256")
+              or pair.get("current", {}).get("outer_evidence_sha256")
+              != receipt.get("outer_evidence_sha256")
+              or decision.get("pair_receipt_sha256")
+              != receipt.get("pair_receipt_sha256")
+          ):
+              raise SystemExit("isolated publication evidence did not converge")
+          PY
+          gh attestation verify .snapshot-release/ruleset-dist.tar.gz \
+            --repo "$REPOSITORY" \
+            --signer-workflow \
+              "${REPOSITORY}/.github/workflows/source-discovery.yml" \
+            --signer-digest "$CANDIDATE_SOURCE_SHA" \
+            --source-digest "$CANDIDATE_SOURCE_SHA" \
+            --source-ref refs/heads/main \
+            --deny-self-hosted-runners \
+            --format json > .snapshot-release/inner-attestation.json
+          gh attestation verify \
+            .snapshot-release/upstream-isolation-composite-evidence.tar \
+            --repo "$REPOSITORY" \
+            --signer-workflow \
+              "${REPOSITORY}/.github/workflows/source-discovery.yml" \
+            --signer-digest "$CANDIDATE_SOURCE_SHA" \
+            --source-digest "$CANDIDATE_SOURCE_SHA" \
+            --source-ref refs/heads/main \
+            --deny-self-hosted-runners \
+            --format json > .snapshot-release/outer-attestation.json
+          python3 - <<'PY'
+          import pathlib
+          from ruleset.scripts import verify_upstream_composite as verifier
+
+          receipt = verifier.read_json_bytes(
+              pathlib.Path(
+                  ".publication-receipt/publication-receipt.json"
+              ).read_bytes(),
+              "publication receipt",
+          )
+          current = receipt["current"]
+          source_sha = receipt["source_sha"]
+          for label, subject, attestation in (
+              (
+                  "inner",
+                  pathlib.Path(".snapshot-release/ruleset-dist.tar.gz"),
+                  pathlib.Path(".snapshot-release/inner-attestation.json"),
+              ),
+              (
+                  "outer",
+                  pathlib.Path(
+                      ".snapshot-release/upstream-isolation-composite-evidence.tar"
+                  ),
+                  pathlib.Path(".snapshot-release/outer-attestation.json"),
+              ),
+          ):
+              verifier.validate_attestation(
+                  attestation.read_bytes(),
+                  label=f"release {label} attestation",
+                  repository=receipt["repository"],
+                  workflow_path=".github/workflows/source-discovery.yml",
+                  source_sha=source_sha,
+                  run_id=current["run_id"],
+                  run_attempt=current["run_attempt"],
+                  subject_sha256=verifier.sha256_file(subject),
+              )
+          PY
+          current_main_sha="$(gh api "repos/${REPOSITORY}/commits/main" --jq '.sha')"
+          test "$current_main_sha" = "$(git rev-parse HEAD)"
+          test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.size')" = "0"
+          test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.sha')" = \
+            "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+          git merge-base --is-ancestor "$PUBLISHED_SHA" "$current_main_sha"
+          python3 ruleset/scripts/verify_published.py \
+            --repository "$REPOSITORY" \
+            --sha "$PUBLISHED_SHA" \
+            --tag "$SNAPSHOT_TAG" \
+            --archive .snapshot-release/ruleset-dist.tar.gz \
+            --checksum .snapshot-release/ruleset-dist.sha256 \
+            --skip-main \
+            --require-published-status
+          if ! git diff --quiet "$PUBLISHED_SHA" "$current_main_sha" -- ruleset/dist; then
+            echo "superseded=true" >> "$GITHUB_OUTPUT"
+            {
+              echo "## Isolated snapshot superseded"
+              echo
+              echo "A newer publication changed \`ruleset/dist\`; this receipt closes without duplicate live observation."
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          python3 ruleset/scripts/verify_published.py \
+            --repository "$REPOSITORY" \
+            --sha "$PUBLISHED_SHA" \
+            --main-sha "$current_main_sha" \
+            --tag "$SNAPSHOT_TAG" \
+            --archive .snapshot-release/ruleset-dist.tar.gz \
+            --checksum .snapshot-release/ruleset-dist.sha256 \
+            --require-published-status
+          echo "superseded=false" >> "$GITHUB_OUTPUT"
+          echo "observation_sha=$current_main_sha" >> "$GITHUB_OUTPUT"
+
+      - name: Freeze verified snapshot observation boundary
+        if: ${{ steps.receipt.outputs.has_receipt == 'true' }}
+        id: snapshot
+        env:
+          PUBLICATION_KIND: ${{ steps.receipt_data.outputs.publication_kind }}
+          CANDIDATE_SUPERSEDED: ${{ steps.candidate_snapshot.outputs.superseded }}
+          CANDIDATE_OBSERVATION_SHA: ${{ steps.candidate_snapshot.outputs.observation_sha }}
+          COMPOSITE_SUPERSEDED: ${{ steps.composite_snapshot.outputs.superseded }}
+          COMPOSITE_OBSERVATION_SHA: ${{ steps.composite_snapshot.outputs.observation_sha }}
+        run: |
+          set -euo pipefail
+          case "$PUBLICATION_KIND" in
+            candidate)
+              echo "superseded=${CANDIDATE_SUPERSEDED:-true}" >> "$GITHUB_OUTPUT"
+              if [ -n "${CANDIDATE_OBSERVATION_SHA:-}" ]; then
+                echo "observation_sha=$CANDIDATE_OBSERVATION_SHA" >> "$GITHUB_OUTPUT"
+              fi
+              ;;
+            composite)
+              echo "superseded=${COMPOSITE_SUPERSEDED:-true}" >> "$GITHUB_OUTPUT"
+              if [ -n "${COMPOSITE_OBSERVATION_SHA:-}" ]; then
+                echo "observation_sha=$COMPOSITE_OBSERVATION_SHA" >> "$GITHUB_OUTPUT"
+              fi
+              ;;
+            *)
+              echo "Unsupported publication kind: $PUBLICATION_KIND"
+              exit 1
+              ;;
+          esac
 
       - name: Dispatch and select exact live observation
         if: >-
@@ -515,7 +792,10 @@ jobs:
             --repo "$REPOSITORY" \
             --signer-workflow \
               "${REPOSITORY}/.github/workflows/source-discovery.yml" \
-            --source-digest "$OBSERVATION_SHA"
+            --signer-digest "$OBSERVATION_SHA" \
+            --source-digest "$OBSERVATION_SHA" \
+            --source-ref refs/heads/main \
+            --deny-self-hosted-runners
 
           if [ "$artifact_risk" = "none" ]; then
             jq -e \

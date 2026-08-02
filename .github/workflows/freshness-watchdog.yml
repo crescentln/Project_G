@@ -21,7 +21,7 @@ permissions:
 jobs:
   freshness:
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 30
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       REPOSITORY: ${{ github.repository }}
@@ -326,10 +326,28 @@ jobs:
               raise SystemExit(
                   "latest discovery must contain exactly one candidate artifact"
               )
+          composite_pattern = re.compile(
+              r"^ruleset-isolation-composite-v2-[0-9a-f]{40}-"
+              r"[0-9a-f]{64}-[0-9a-f]{64}$"
+          )
+          composite_matches = [
+              item
+              for item in artifacts
+              if not item.get("expired")
+              and composite_pattern.fullmatch(str(item.get("name", "")))
+          ]
+          if len(composite_matches) > 1:
+              raise SystemExit(
+                  "latest discovery contains ambiguous composite v2 evidence"
+              )
+          evidence_mode = "composite-v2" if composite_matches else "candidate"
 
           stable_candidate = False
+          composite_pair_ready = False
+          previous_run_id = ""
           if len(runs) > 1:
               previous_run = runs[1]
+              previous_run_id = str(previous_run.get("id", ""))
               current_created = dt.datetime.fromisoformat(
                   run["created_at"].replace("Z", "+00:00")
               )
@@ -360,6 +378,21 @@ jobs:
                       and str(item.get("name", "")) == matches[0]["name"]
                   ]
                   stable_candidate = len(previous_matches) == 1
+                  previous_composites = [
+                      item
+                      for item in previous_artifacts
+                      if not item.get("expired")
+                      and composite_pattern.fullmatch(
+                          str(item.get("name", ""))
+                      )
+                  ]
+                  if len(previous_composites) > 1:
+                      raise SystemExit(
+                          "adjacent discovery contains ambiguous composite v2 evidence"
+                      )
+                  composite_pair_ready = bool(
+                      composite_matches and len(previous_composites) == 1
+                  )
 
           promotion_run = None
           discovery_created = dt.datetime.fromisoformat(
@@ -426,6 +459,12 @@ jobs:
           outputs = {
               "convergence_pending": "false",
               "artifact_name": matches[0]["name"],
+              "evidence_mode": evidence_mode,
+              "composite_artifact_name": (
+                  composite_matches[0]["name"] if composite_matches else ""
+              ),
+              "composite_pair_ready": str(composite_pair_ready).lower(),
+              "previous_run_id": previous_run_id,
               "discovery_age_hours": f"{discovery_age:.2f}",
               "discovery_head_sha": run["head_sha"],
               "release_age_hours": f"{release_age:.2f}",
@@ -457,7 +496,9 @@ jobs:
           PY
 
       - name: Download latest discovery candidate
-        if: ${{ steps.evidence.outputs.convergence_pending != 'true' }}
+        if: >-
+          steps.evidence.outputs.convergence_pending != 'true' &&
+          steps.evidence.outputs.evidence_mode == 'candidate'
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: ${{ steps.evidence.outputs.artifact_name }}
@@ -468,7 +509,9 @@ jobs:
           digest-mismatch: error
 
       - name: Audit discovery health and automated publication readiness
-        if: ${{ steps.evidence.outputs.convergence_pending != 'true' }}
+        if: >-
+          steps.evidence.outputs.convergence_pending != 'true' &&
+          steps.evidence.outputs.evidence_mode == 'candidate'
         env:
           CANDIDATE_ARTIFACT_NAME: ${{ steps.evidence.outputs.artifact_name }}
           CANDIDATE_STABLE: ${{ steps.evidence.outputs.candidate_stable }}
@@ -733,6 +776,102 @@ jobs:
               >> "$advisories"
           fi
 
+      - name: Audit stable upstream isolation composite
+        if: >-
+          steps.evidence.outputs.convergence_pending != 'true' &&
+          steps.evidence.outputs.evidence_mode == 'composite-v2'
+        env:
+          COMPOSITE_ARTIFACT_NAME: ${{ steps.evidence.outputs.composite_artifact_name }}
+          COMPOSITE_PAIR_READY: ${{ steps.evidence.outputs.composite_pair_ready }}
+          CURRENT_RUN_ID: ${{ steps.evidence.outputs.run_id }}
+          DISCOVERY_HEAD_SHA: ${{ steps.evidence.outputs.discovery_head_sha }}
+          PREVIOUS_RUN_ID: ${{ steps.evidence.outputs.previous_run_id }}
+          PROMOTION_RUN_ID: ${{ steps.evidence.outputs.candidate_promotion_run_id }}
+          PROMOTION_STATUS: ${{ steps.evidence.outputs.candidate_promotion_status }}
+          PROMOTION_CONCLUSION: ${{ steps.evidence.outputs.candidate_promotion_conclusion }}
+          PROMOTION_AGE_MINUTES: ${{ steps.evidence.outputs.candidate_promotion_age_minutes }}
+          RELEASE_AGE_EXCEEDS_SLO: ${{ steps.evidence.outputs.release_age_exceeds_slo }}
+        run: |
+          set -euo pipefail
+          advisories=.watchdog/advisories.txt
+          failures=.watchdog/failures.txt
+          audit_dir="$(mktemp -d "${RUNNER_TEMP}/project-g-watchdog-composite.XXXXXX")"
+          mkdir -p "$audit_dir/current"
+          if ! python3 ruleset/scripts/collect_upstream_composite_cycle.py \
+            --repository "$REPOSITORY" \
+            --run-id "$CURRENT_RUN_ID" \
+            --expected-main-sha "$DISCOVERY_HEAD_SHA" \
+            --output-dir "$audit_dir/current"; then
+            echo "latest composite v2 remote identity or attestation verification failed" \
+              >> "$failures"
+            exit 0
+          fi
+          actual_name="$(
+            jq -r '.artifact.name' "$audit_dir/current/metadata.json"
+          )"
+          if [ "$actual_name" != "$COMPOSITE_ARTIFACT_NAME" ]; then
+            echo "latest composite v2 artifact selection changed during verification" \
+              >> "$failures"
+            exit 0
+          fi
+          if [ "$COMPOSITE_PAIR_READY" != "true" ]; then
+            echo "latest isolated composite awaits a second same-SHA cycle at least 300 seconds later" \
+              >> "$advisories"
+            exit 0
+          fi
+          if ! [[ "$PREVIOUS_RUN_ID" =~ ^[0-9]+$ ]] || \
+             [ "$PREVIOUS_RUN_ID" = "$CURRENT_RUN_ID" ]; then
+            echo "stable composite v2 pair has an invalid adjacent run identity" \
+              >> "$failures"
+            exit 0
+          fi
+          mkdir -p "$audit_dir/previous"
+          if ! python3 ruleset/scripts/collect_upstream_composite_cycle.py \
+            --repository "$REPOSITORY" \
+            --run-id "$PREVIOUS_RUN_ID" \
+            --expected-main-sha "$DISCOVERY_HEAD_SHA" \
+            --output-dir "$audit_dir/previous" || \
+             ! python3 ruleset/scripts/verify_upstream_composite.py \
+               --current-cycle-dir "$audit_dir/current" \
+               --previous-cycle-dir "$audit_dir/previous" \
+               --expected-main-sha "$DISCOVERY_HEAD_SHA" \
+               --repository "$REPOSITORY" \
+               --output "$audit_dir/pair-receipt.json"; then
+            echo "adjacent composite v2 cycles did not reproduce a stable isolated pair" \
+              >> "$failures"
+            exit 0
+          fi
+          decision="$(jq -r '.decision' "$audit_dir/pair-receipt.json")"
+          case "$decision" in
+            NOOP_NOT_ELIGIBLE)
+              echo "stable isolated composite is a verified semantic no-op"
+              ;;
+            REQUIRES_PROMOTION_AUTHORIZATION)
+              if { [ "$PROMOTION_STATUS" = "queued" ] || \
+                   [ "$PROMOTION_STATUS" = "in_progress" ] || \
+                   [ "$PROMOTION_STATUS" = "requested" ]; } && \
+                 awk "BEGIN { exit !(${PROMOTION_AGE_MINUTES:-9999} <= 180) }"; then
+                echo "stable isolated composite promotion ${PROMOTION_RUN_ID:-unknown} is still running" \
+                  >> "$advisories"
+              elif [ "$PROMOTION_STATUS" = "missing" ] && \
+                   awk "BEGIN { exit !(${PROMOTION_AGE_MINUTES:-9999} <= 10) }"; then
+                echo "stable isolated composite is waiting for its automatic promotion run to start" \
+                  >> "$advisories"
+              else
+                echo "stable isolated composite was not published: promotion=${PROMOTION_RUN_ID:-missing} status=${PROMOTION_STATUS:-missing} conclusion=${PROMOTION_CONCLUSION:-none}" \
+                  >> "$failures"
+              fi
+              ;;
+            *)
+              echo "stable composite v2 pair returned an unsupported decision" \
+                >> "$failures"
+              ;;
+          esac
+          if [ "$RELEASE_AGE_EXCEEDS_SLO" = "true" ]; then
+            echo "canonical immutable snapshot is older than 192h; isolated discovery still revalidates the published category LKG" \
+              >> "$advisories"
+          fi
+
       - name: Download latest immutable release assets
         if: ${{ steps.evidence.outputs.convergence_pending != 'true' }}
         env:
@@ -780,7 +919,10 @@ jobs:
             --repo "$REPOSITORY" \
             --signer-workflow \
               "${REPOSITORY}/.github/workflows/source-discovery.yml" \
-            --source-digest "$source_sha"; then
+            --signer-digest "$source_sha" \
+            --source-digest "$source_sha" \
+            --source-ref refs/heads/main \
+            --deny-self-hosted-runners; then
             echo "release discovery attestation verification failed" >> "$failures"
           fi
 
@@ -790,6 +932,7 @@ jobs:
         env:
           CONVERGENCE_PENDING: ${{ steps.evidence.outputs.convergence_pending }}
           DISCOVERY_AGE: ${{ steps.evidence.outputs.discovery_age_hours }}
+          EVIDENCE_MODE: ${{ steps.evidence.outputs.evidence_mode }}
           DISCOVERY_RUN_ID: ${{ steps.evidence.outputs.run_id }}
           JOB_STATUS: ${{ job.status }}
           RELEASE_AGE: ${{ steps.evidence.outputs.release_age_hours }}
@@ -802,6 +945,7 @@ jobs:
             echo
             echo "- Discovery age: \`${DISCOVERY_AGE:-unavailable}h\`"
             echo "- Discovery run: \`${DISCOVERY_RUN_ID:-unavailable}\`"
+            echo "- Discovery evidence mode: \`${EVIDENCE_MODE:-unavailable}\`"
             echo "- Release age: \`${RELEASE_AGE:-unavailable}h\`"
             echo "- Release tag: \`${RELEASE_TAG:-unavailable}\`"
             echo "- Main transition pending: \`${CONVERGENCE_PENDING:-false}\`"

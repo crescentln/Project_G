@@ -302,7 +302,10 @@ jobs:
             --repo "$REPOSITORY" \
             --signer-workflow \
               "${REPOSITORY}/.github/workflows/source-discovery.yml" \
+            --signer-digest "$archive_source_sha" \
             --source-digest "$archive_source_sha" \
+            --source-ref refs/heads/main \
+            --deny-self-hosted-runners \
             --format json > "$lkg_dir/verified-attestation.json"
           gh api "repos/${REPOSITORY}/commits/${release_commit_sha}/status" \
             > "$lkg_dir/published-status.json"
@@ -721,6 +724,18 @@ jobs:
               "$composite_dir/composite-gate-receipt.json" \
               | jq -S -c . | sha256sum | awk '{print $1}'
           )" = "$gate_receipt_sha256"
+          cp \
+            "$shadow_payload/category-lkg-binding.json" \
+            "$composite_dir/category-lkg-binding.json"
+          cp \
+            "$shadow_payload/isolation-evidence.json" \
+            "$composite_dir/isolation-evidence.json"
+          cp \
+            "$shadow_payload/upstream-isolation-plan.json" \
+            "$composite_dir/upstream-isolation-plan.json"
+          cp \
+            ruleset/dist/automated_review.json \
+            "$composite_dir/automated-review.json"
           echo "composite_dir=$composite_dir" >> "$GITHUB_OUTPUT"
           echo "content_identity=$content_identity" >> "$GITHUB_OUTPUT"
           echo "dist_tree_sha256=$dist_tree_sha256" >> "$GITHUB_OUTPUT"
@@ -804,12 +819,16 @@ jobs:
           (
             cd "$COMPOSITE_DIR"
             sha256sum \
+              automated-review.json \
+              category-lkg-binding.json \
               composite-gate-receipt.json \
               composite-identity.json \
               composite-review.json \
               gitleaks-composite.sarif \
+              isolation-evidence.json \
               ruleset-composite-dist.tar.gz \
               ruleset-composite-dist.sha256 \
+              upstream-isolation-plan.json \
               > composite-evidence-checksums.sha256
           )
           tar \
@@ -821,13 +840,17 @@ jobs:
             --numeric-owner \
             -cf "$COMPOSITE_DIR/upstream-isolation-composite-evidence.tar" \
             -C "$COMPOSITE_DIR" \
+              automated-review.json \
+              category-lkg-binding.json \
               composite-evidence-checksums.sha256 \
               composite-gate-receipt.json \
               composite-identity.json \
               composite-review.json \
               gitleaks-composite.sarif \
+              isolation-evidence.json \
               ruleset-composite-dist.tar.gz \
-              ruleset-composite-dist.sha256
+              ruleset-composite-dist.sha256 \
+              upstream-isolation-plan.json
           (
             cd "$COMPOSITE_DIR"
             sha256sum upstream-isolation-composite-evidence.tar \
@@ -838,7 +861,7 @@ jobs:
               "$COMPOSITE_DIR/upstream-isolation-composite-evidence.sha256"
           )"
           [[ "$evidence_sha256" =~ ^[0-9a-f]{64}$ ]]
-          artifact_name="ruleset-isolation-composite-shadow-${SOURCE_SHA}-${CONTENT_IDENTITY}-${archive_sha256}"
+          artifact_name="ruleset-isolation-composite-v2-${SOURCE_SHA}-${CONTENT_IDENTITY}-${evidence_sha256}"
           echo "archive_sha256=$archive_sha256" >> "$GITHUB_OUTPUT"
           echo "evidence_sha256=$evidence_sha256" >> "$GITHUB_OUTPUT"
           echo "artifact_name=$artifact_name" >> "$GITHUB_OUTPUT"
@@ -854,11 +877,19 @@ jobs:
           test "$(gh api "repos/${{ github.repository }}/contents/README.md?ref=main" --jq '.size')" = "0"
           test "$(gh api "repos/${{ github.repository }}/contents/README.md?ref=main" --jq '.sha')" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
 
-      - name: Attest upstream isolation composite evidence
-        id: isolation_composite_attest
+      - name: Attest upstream isolation composite dist
+        id: isolation_composite_dist_attest
         if: >-
           steps.isolation_composite_package.outcome == 'success' &&
           steps.isolation_composite_readme_before.outcome == 'success'
+        continue-on-error: true
+        uses: actions/attest-build-provenance@0f67c3f4856b2e3261c31976d6725780e5e4c373 # v4.1.1
+        with:
+          subject-path: ${{ steps.isolation_composite.outputs.composite_dir }}/ruleset-composite-dist.tar.gz
+
+      - name: Attest upstream isolation composite evidence
+        id: isolation_composite_attest
+        if: steps.isolation_composite_dist_attest.outcome == 'success'
         continue-on-error: true
         uses: actions/attest-build-provenance@0f67c3f4856b2e3261c31976d6725780e5e4c373 # v4.1.1
         with:
@@ -890,6 +921,65 @@ jobs:
           path: |
             ${{ steps.isolation_composite.outputs.composite_dir }}/upstream-isolation-composite-evidence.tar
             ${{ steps.isolation_composite.outputs.composite_dir }}/upstream-isolation-composite-evidence.sha256
+
+      - name: Require explicit composite or healthy full-candidate mode
+        id: composite_mode
+        if: always()
+        env:
+          LKG_OUTCOME: ${{ steps.category_lkg.outcome }}
+          PLAN_OUTCOME: ${{ steps.isolation_shadow.outcome }}
+          COMPOSITE_OUTCOME: ${{ steps.isolation_composite.outcome }}
+          COMPOSITE_SCAN_OUTCOME: ${{ steps.isolation_composite_scan.outcome }}
+          COMPOSITE_PACKAGE_OUTCOME: ${{ steps.isolation_composite_package.outcome }}
+          COMPOSITE_DIST_ATTEST_OUTCOME: ${{ steps.isolation_composite_dist_attest.outcome }}
+          COMPOSITE_ATTEST_OUTCOME: ${{ steps.isolation_composite_attest.outcome }}
+          COMPOSITE_UPLOAD_OUTCOME: ${{ steps.isolation_composite_upload.outcome }}
+        run: |
+          set -euo pipefail
+          mkdir -p .candidate
+          if [ "${LKG_OUTCOME:-skipped}" = "success" ] && \
+             [ "${PLAN_OUTCOME:-skipped}" = "success" ] && \
+             [ "${COMPOSITE_OUTCOME:-skipped}" = "success" ] && \
+             [ "${COMPOSITE_SCAN_OUTCOME:-skipped}" = "success" ] && \
+             [ "${COMPOSITE_PACKAGE_OUTCOME:-skipped}" = "success" ] && \
+             [ "${COMPOSITE_DIST_ATTEST_OUTCOME:-skipped}" = "success" ] && \
+             [ "${COMPOSITE_ATTEST_OUTCOME:-skipped}" = "success" ] && \
+             [ "${COMPOSITE_UPLOAD_OUTCOME:-skipped}" = "success" ]; then
+            printf 'composite-v2\n' > .candidate/composite-mode.txt
+            echo "mode=composite-v2" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          if jq -e '
+              .schema == "project-g-automated-review-v2"
+              and .eligible == true
+              and (.blockers | length) == 0
+            ' ruleset/dist/automated_review.json >/dev/null && \
+             jq -e '
+              .source_head_advanced_after_lock == false
+              and .fallback_cache_count == 0
+              and (.cache_blocked_source_ids | length) == 0
+              and (.budget_exceeded | length) == 0
+            ' ruleset/dist/candidate_manifest.json >/dev/null && \
+             jq -e '
+              .status == "healthy"
+              and .health_complete == true
+              and .network_success_count > 0
+              and .fallback_cache_count == 0
+              and (.cache_blocked_source_ids | length) == 0
+            ' ruleset/dist/source_health.json >/dev/null; then
+            printf 'full-candidate-fallback\n' > .candidate/composite-mode.txt
+            echo "mode=full-candidate-fallback" >> "$GITHUB_OUTPUT"
+            {
+              echo
+              echo "- Composite v2 was unavailable, but the complete candidate independently passed every existing health and automated-review gate."
+              echo "- Promotion may use only the explicit full-candidate fallback marker; isolated publication is not authorized."
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          echo "Composite v2 evidence is incomplete and the full candidate is not independently healthy; refusing a silent fallback."
+          exit 1
 
       - name: Update candidate changelog
         run: |
@@ -1037,8 +1127,10 @@ jobs:
           COMPOSITE_OUTCOME: ${{ steps.isolation_composite.outcome }}
           COMPOSITE_SCAN_OUTCOME: ${{ steps.isolation_composite_scan.outcome }}
           COMPOSITE_PACKAGE_OUTCOME: ${{ steps.isolation_composite_package.outcome }}
+          COMPOSITE_DIST_ATTEST_OUTCOME: ${{ steps.isolation_composite_dist_attest.outcome }}
           COMPOSITE_ATTEST_OUTCOME: ${{ steps.isolation_composite_attest.outcome }}
           COMPOSITE_UPLOAD_OUTCOME: ${{ steps.isolation_composite_upload.outcome }}
+          COMPOSITE_MODE: ${{ steps.composite_mode.outputs.mode }}
         run: |
           {
             echo
@@ -1051,13 +1143,15 @@ jobs:
             echo "- Composite materialization outcome: \`${COMPOSITE_OUTCOME:-skipped}\`"
             echo "- Composite secret scan outcome: \`${COMPOSITE_SCAN_OUTCOME:-skipped}\`"
             echo "- Composite package outcome: \`${COMPOSITE_PACKAGE_OUTCOME:-skipped}\`"
+            echo "- Composite dist attestation outcome: \`${COMPOSITE_DIST_ATTEST_OUTCOME:-skipped}\`"
             echo "- Composite attestation outcome: \`${COMPOSITE_ATTEST_OUTCOME:-skipped}\`"
             echo "- Composite upload outcome: \`${COMPOSITE_UPLOAD_OUTCOME:-skipped}\`"
+            echo "- Required promotion input mode: \`${COMPOSITE_MODE:-unavailable}\`"
             if [ "${UPLOAD_OUTCOME:-skipped}" != "success" ]; then
               echo "- Shadow evidence unavailable; candidate decision and packaging continue unchanged."
             fi
             if [ "${COMPOSITE_UPLOAD_OUTCOME:-skipped}" != "success" ]; then
-              echo "- Composite shadow unavailable; Promotion still ignores composite artifacts."
+              echo "- Composite v2 unavailable; only an explicitly healthy full-candidate fallback can continue."
             fi
           } >> "$GITHUB_STEP_SUMMARY"
 

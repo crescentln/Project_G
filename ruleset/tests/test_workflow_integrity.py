@@ -79,7 +79,7 @@ class WorkflowIntegrityTests(unittest.TestCase):
             r"      cancel-in-progress: false",
         )
 
-    def test_upstream_isolation_is_attested_shadow_only_evidence(self) -> None:
+    def test_upstream_isolation_requires_independent_positive_promotion(self) -> None:
         discovery = (WORKFLOW_ROOT / "source-discovery.yml").read_text(
             encoding="utf-8"
         )
@@ -138,12 +138,18 @@ class WorkflowIntegrityTests(unittest.TestCase):
         self.assertIn(
             "Attest upstream isolation composite evidence", discovery
         )
-        self.assertIn("ruleset-isolation-composite-shadow-", discovery)
+        self.assertIn("ruleset-isolation-composite-v2-", discovery)
         self.assertIn("ruleset-composite-dist.tar.gz", discovery)
         self.assertIn("upstream-isolation-composite-evidence.tar", discovery)
         self.assertIn("composite-gate-receipt.json", discovery)
         self.assertIn("gzip -n", discovery)
         self.assertIn(".publishable == false", discovery)
+        self.assertIn("Require explicit composite or healthy full-candidate mode", discovery)
+        self.assertIn("full-candidate-fallback", discovery)
+        self.assertLess(
+            discovery.index("Attest upstream isolation composite dist"),
+            discovery.index("Attest upstream isolation composite evidence"),
+        )
         self.assertIn('--isolation-evidence "$shadow_payload/isolation-evidence.json"', discovery)
         self.assertIn("validate_rulesets.py", discovery)
         self.assertIn('--dist-dir "$composite_dir/dist"', discovery)
@@ -195,7 +201,14 @@ class WorkflowIntegrityTests(unittest.TestCase):
         self.assertNotIn("ruleset-isolation-shadow-", promotion)
         self.assertNotIn("ruleset-isolation-composite-shadow-", promotion)
         self.assertNotIn("ruleset-composite-dist.tar.gz", promotion)
-        self.assertNotIn("upstream-isolation-composite-evidence.tar", promotion)
+        self.assertIn("ruleset-isolation-composite-v2-", promotion)
+        self.assertIn("collect_upstream_composite_cycle.py", promotion)
+        self.assertIn("verify_upstream_composite.py", promotion)
+        self.assertIn("authorize_upstream_composite.py", promotion)
+        self.assertIn("NOOP_NOT_ELIGIBLE", promotion)
+        self.assertIn("REQUIRES_PROMOTION_AUTHORIZATION", promotion)
+        self.assertIn("project-g-publication-receipt-v2", promotion)
+        self.assertIn("upstream-isolation-composite-evidence.tar", promotion)
 
     def test_materializer_required_flags_match_the_workflow_call(self) -> None:
         script_path = (
@@ -331,6 +344,7 @@ class WorkflowIntegrityTests(unittest.TestCase):
         ).read_text(encoding="utf-8")
         self.assertIn("- Ruleset Promotion", workflow)
         self.assertIn("project-g-publication-receipt-v1", workflow)
+        self.assertIn("project-g-publication-receipt-v2", workflow)
         self.assertIn("Promotion run has an unexpected event", workflow)
         self.assertIn("produced no publication receipt", workflow)
         self.assertIn("actions: write", workflow)
@@ -346,6 +360,10 @@ class WorkflowIntegrityTests(unittest.TestCase):
             workflow.index("Download exact publication receipt"),
         )
         self.assertIn("Verify frozen snapshot convergence", workflow)
+        self.assertIn("Verify frozen isolated snapshot convergence", workflow)
+        self.assertIn("composite-pair-receipt.json", workflow)
+        self.assertIn("composite-promotion-decision.json", workflow)
+        self.assertIn("--signer-digest \"$CANDIDATE_SOURCE_SHA\"", workflow)
         self.assertIn("--require-published-status", workflow)
         self.assertIn("gh workflow run source-discovery.yml", workflow)
         self.assertIn('-f expected_source_sha="$OBSERVATION_SHA"', workflow)
@@ -429,6 +447,11 @@ class WorkflowIntegrityTests(unittest.TestCase):
         self.assertIn("automated-review.json", workflow)
         self.assertIn("check_automated_review.py", workflow)
         self.assertIn("build_candidate_identity.py", workflow)
+        self.assertIn("collect_upstream_composite_cycle.py", workflow)
+        self.assertIn("verify_upstream_composite.py", workflow)
+        self.assertIn("ruleset-isolation-composite-v2-", workflow)
+        self.assertIn("stable isolated composite is a verified semantic no-op", workflow)
+        self.assertIn("adjacent composite v2 cycles did not reproduce", workflow)
         self.assertIn("candidate decision identity could not be reproduced", workflow)
         self.assertIn("candidate identity does not match artifact name", workflow)
         self.assertIn("verify_published.py", workflow)
