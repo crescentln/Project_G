@@ -43,6 +43,7 @@ class WorkflowIntegrityTests(unittest.TestCase):
         workflow = (WORKFLOW_ROOT / "source-discovery.yml").read_text(encoding="utf-8")
         self.assertRegex(workflow, r"permissions:\n(?:  .+\n)*  contents: read")
         self.assertIn("actions: read", workflow)
+        self.assertIn("statuses: read", workflow)
         self.assertNotIn("contents: write", workflow)
         self.assertNotIn("git push", workflow)
         self.assertNotIn("gh release create", workflow)
@@ -85,6 +86,22 @@ class WorkflowIntegrityTests(unittest.TestCase):
             encoding="utf-8"
         )
         self.assertIn("plan_upstream_isolation.py", discovery)
+        self.assertIn("build_category_lkg_binding.py", discovery)
+        self.assertIn(
+            "Bind immutable published category LKG for shadow planning",
+            discovery,
+        )
+        lkg_step = discovery.split(
+            "Bind immutable published category LKG for shadow planning", maxsplit=1
+        )[1].split("Build isolated candidate", maxsplit=1)[0]
+        self.assertIn("continue-on-error: true", lkg_step)
+        self.assertIn("timeout-minutes: 15", lkg_step)
+        self.assertIn("--require-published-status", discovery)
+        self.assertIn("--published-lkg-binding", discovery)
+        self.assertIn("category-lkg-binding.json", discovery)
+        self.assertIn("stable_selection_fingerprint", discovery)
+        self.assertIn("steps.category_lkg.outcome == 'success'", discovery)
+        self.assertIn("gh attestation verify", discovery)
         self.assertIn("--isolation-output", discovery)
         self.assertIn("--isolation-evidence", discovery)
         self.assertIn("ruleset-isolation-shadow-", discovery)
@@ -98,6 +115,7 @@ class WorkflowIntegrityTests(unittest.TestCase):
         self.assertIn('${RUNNER_TEMP}/upstream-isolation-shadow', discovery)
         self.assertNotIn(".candidate/upstream-isolation", discovery)
         self.assertNotIn(".candidate/isolation-evidence", discovery)
+        self.assertNotIn("contents: write", discovery)
         upload_block = discovery.split(
             "Upload attested upstream isolation shadow archive", maxsplit=1
         )[1].split("Record non-authoritative shadow outcome", maxsplit=1)[0]
