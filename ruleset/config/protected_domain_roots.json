@@ -1,0 +1,46 @@
+{
+  "schema": "project-g-protected-domain-roots-v1",
+  "public_suffix_list": {
+    "path": "ruleset/config/public_suffix_list.dat",
+    "source_repository": "publicsuffix/list",
+    "source_commit": "e1b8015c3b2f0f4f8c18659c2480fc1a22c07b20",
+    "source_url": "https://raw.githubusercontent.com/publicsuffix/list/e1b8015c3b2f0f4f8c18659c2480fc1a22c07b20/public_suffix_list.dat",
+    "sha256": "fe6adc7fb8014f57d28d69b18d0aa3e581efb432544922e12131a5d4a87bd954"
+  },
+  "public_suffixes": [
+    "ac.jp",
+    "ac.uk",
+    "co.jp",
+    "co.uk",
+    "com.au",
+    "com.br",
+    "com.cn",
+    "com.hk",
+    "com.sg",
+    "com.tw",
+    "edu.au",
+    "gov.uk",
+    "ne.jp",
+    "net.au",
+    "org.au",
+    "org.uk"
+  ],
+  "multi_tenant_roots": [
+    "appspot.com",
+    "azurewebsites.net",
+    "blogspot.com",
+    "cloudfront.net",
+    "github.io",
+    "gitlab.io",
+    "herokuapp.com",
+    "netlify.app",
+    "notion.site",
+    "onrender.com",
+    "pages.dev",
+    "surge.sh",
+    "vercel.app",
+    "web.app",
+    "wordpress.com",
+    "workers.dev"
+  ]
+}

@@ -2,6 +2,13 @@ name: Freshness Watchdog
 
 on:
   workflow_dispatch:
+  workflow_run:
+    workflows:
+      - Source Discovery
+      - Ruleset Promotion
+      - Post-Publication Observation
+    types:
+      - completed
   schedule:
     - cron: "47 5 * * *"
 
@@ -9,6 +16,7 @@ permissions:
   actions: read
   attestations: read
   contents: read
+  statuses: read
 
 jobs:
   freshness:
@@ -21,7 +29,14 @@ jobs:
       - name: Checkout exact main verifier
         uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
+          ref: main
           fetch-depth: 1
+
+      - name: Capture exact verifier SHA
+        id: verifier
+        run: |
+          set -euo pipefail
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
       - name: Setup Python
         uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
@@ -30,6 +45,8 @@ jobs:
 
       - name: Select exact discovery and release evidence
         id: evidence
+        env:
+          VERIFIER_SHA: ${{ steps.verifier.outputs.sha }}
         run: |
           set -euo pipefail
           mkdir -p .watchdog
@@ -53,19 +70,219 @@ jobs:
               )
               return json.loads(result.stdout)
 
+          def gh_list(path: str) -> list[dict]:
+              result: list[dict] = []
+              separator = "&" if "?" in path else "?"
+              for page in range(1, 101):
+                  payload = gh(
+                      f"{path}{separator}per_page=100&page={page}"
+                  )
+                  if not isinstance(payload, list):
+                      raise RuntimeError(f"paginated endpoint is not a list: {path}")
+                  result.extend(
+                      item for item in payload if isinstance(item, dict)
+                  )
+                  if len(payload) < 100:
+                      return result
+              raise RuntimeError(f"paginated endpoint exceeded 100 pages: {path}")
+
+          def peel_tag(tag: str) -> str:
+              payload = gh(f"repos/{repository}/git/ref/tags/{tag}")
+              obj = payload.get("object", {})
+              for _ in range(4):
+                  kind = str(obj.get("type", ""))
+                  sha = str(obj.get("sha", "")).lower()
+                  if kind == "commit" and re.fullmatch(r"[0-9a-f]{40}", sha):
+                      return sha
+                  if kind != "tag" or not re.fullmatch(r"[0-9a-f]{40}", sha):
+                      break
+                  obj = gh(f"repos/{repository}/git/tags/{sha}").get("object", {})
+              raise RuntimeError(f"release tag did not peel to a commit: {tag}")
+
+          def status_run_for(sha: str, context: str, allowed_paths: set[str]):
+              combined = gh(f"repos/{repository}/commits/{sha}/status")
+              matches = [
+                  item
+                  for item in combined.get("statuses", [])
+                  if isinstance(item, dict) and item.get("context") == context
+              ]
+              latest = max(
+                  matches,
+                  key=lambda item: (
+                      str(item.get("updated_at") or item.get("created_at") or ""),
+                      int(item.get("id", 0)),
+                  ),
+                  default=None,
+              )
+              if not isinstance(latest, dict) or latest.get("state") != "success":
+                  return None
+              if not re.fullmatch(
+                  r"https://avatars\.githubusercontent\.com/in/15368(?:\?.*)?",
+                  str(latest.get("avatar_url", "")),
+              ):
+                  return None
+              match = re.fullmatch(
+                  rf"https://github\.com/{re.escape(repository)}/actions/runs/([0-9]+)",
+                  str(latest.get("target_url", "")),
+              )
+              if match is None:
+                  return None
+              promotion = gh(f"repos/{repository}/actions/runs/{match.group(1)}")
+              if (
+                  promotion.get("status") != "completed"
+                  or promotion.get("conclusion") != "success"
+                  or promotion.get("path") not in allowed_paths
+                  or promotion.get("repository", {}).get("full_name") != repository
+              ):
+                  return None
+              return promotion
+
+          def published_run_for(sha: str):
+              return status_run_for(
+                  sha,
+                  "ruleset/published",
+                  {".github/workflows/ruleset-update.yml"},
+              )
+
+          def timestamp(value: str) -> dt.datetime:
+              return dt.datetime.fromisoformat(value.replace("Z", "+00:00"))
+
+          def mark_convergence_pending(reason: str, main_sha: str) -> None:
+              with open(
+                  ".watchdog/advisories.txt", "a", encoding="utf-8"
+              ) as handle:
+                  handle.write(reason + "\n")
+              with open(
+                  os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8"
+              ) as handle:
+                  handle.write("convergence_pending=true\n")
+                  handle.write(f"main_sha={main_sha}\n")
+
           now = dt.datetime.now(dt.timezone.utc)
-          runs = gh(
+          main = gh(f"repos/{repository}/commits/main")
+          main_sha = str(main.get("sha", "")).lower()
+          if not re.fullmatch(r"[0-9a-f]{40}", main_sha):
+              raise SystemExit("main returned an invalid commit SHA")
+          readme = gh(f"repos/{repository}/contents/README.md?ref=main")
+          if readme.get("size") != 0 or readme.get("sha") != (
+              "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+          ):
+              raise SystemExit("public root README privacy boundary drifted")
+          main_created = timestamp(main["commit"]["committer"]["date"])
+          main_age_minutes = (now - main_created).total_seconds() / 60
+          verifier_sha = os.environ["VERIFIER_SHA"].lower()
+          if not re.fullmatch(r"[0-9a-f]{40}", verifier_sha):
+              raise SystemExit("local verifier returned an invalid commit SHA")
+          if verifier_sha != main_sha:
+              mark_convergence_pending(
+                  "watchdog verifier was superseded before evidence selection",
+                  main_sha,
+              )
+              raise SystemExit(0)
+
+          gate_run = status_run_for(
+              main_sha,
+              "ruleset/gate",
+              {
+                  ".github/workflows/main-gate.yml",
+                  ".github/workflows/ruleset-update.yml",
+              },
+          )
+          if gate_run is None:
+              gate_runs = gh(
+                  f"repos/{repository}/actions/workflows/main-gate.yml/"
+                  "runs?branch=main&per_page=20"
+              ).get("workflow_runs", [])
+              active_gate = next(
+                  (
+                      item
+                      for item in gate_runs
+                      if str(item.get("head_sha", "")).lower() == main_sha
+                      and item.get("status") != "completed"
+                  ),
+                  None,
+              )
+              active_gate_age = (
+                  (now - timestamp(active_gate["created_at"])).total_seconds()
+                  / 60
+                  if active_gate
+                  else 9999
+              )
+              if active_gate_age <= 20 or main_age_minutes <= 10:
+                  mark_convergence_pending(
+                      "current main is waiting for its exact post-merge ruleset/gate status",
+                      main_sha,
+                  )
+                  raise SystemExit(0)
+              raise SystemExit(
+                  "current main lacks an exact latest successful GitHub Actions ruleset/gate status"
+              )
+
+          all_runs = gh(
               f"repos/{repository}/actions/workflows/source-discovery.yml/"
-              "runs?branch=main&status=completed&per_page=1"
-          )["workflow_runs"]
-          if len(runs) != 1:
-              raise SystemExit("no completed Source Discovery run")
-          run = runs[0]
+              "runs?branch=main&per_page=100"
+          ).get("workflow_runs", [])
+          all_runs = sorted(
+              (item for item in all_runs if isinstance(item, dict)),
+              key=lambda item: (
+                  timestamp(str(item.get("created_at", "1970-01-01T00:00:00Z"))),
+                  int(item.get("id", 0)),
+              ),
+              reverse=True,
+          )
+          exact_runs = [
+              item
+              for item in all_runs
+              if str(item.get("head_sha", "")).lower() == main_sha
+          ]
+          active_exact = next(
+              (item for item in exact_runs if item.get("status") != "completed"),
+              None,
+          )
+          completed_exact = next(
+              (item for item in exact_runs if item.get("status") == "completed"),
+              None,
+          )
+          active_age = (
+              (now - timestamp(active_exact["created_at"])).total_seconds() / 60
+              if active_exact
+              else 9999
+          )
+          if completed_exact is None:
+              if active_age <= 180 or main_age_minutes <= 10:
+                  mark_convergence_pending(
+                      "current main is waiting for its first exact-SHA Source Discovery",
+                      main_sha,
+                  )
+                  raise SystemExit(0)
+              raise SystemExit("current main has no completed exact-SHA Source Discovery")
+          run = completed_exact
+          active_is_newer = bool(
+              active_exact
+              and (
+                  timestamp(active_exact["created_at"]),
+                  int(active_exact.get("id", 0)),
+              )
+              > (
+                  timestamp(run["created_at"]),
+                  int(run.get("id", 0)),
+              )
+          )
+          if active_is_newer:
+              if active_age <= 180:
+                  mark_convergence_pending(
+                      "a newer current-main Source Discovery is still running automatically",
+                      main_sha,
+                  )
+                  raise SystemExit(0)
+              raise SystemExit(
+                  "newer current-main Source Discovery remained active beyond 180 minutes"
+              )
           if (
               run.get("path") != ".github/workflows/source-discovery.yml"
               or run.get("head_branch") != "main"
               or run.get("head_repository", {}).get("full_name") != repository
-              or run.get("event") not in {"schedule", "workflow_dispatch"}
+              or run.get("event") not in {"push", "schedule", "workflow_dispatch"}
           ):
               raise SystemExit("latest discovery identity is invalid")
           if run.get("conclusion") != "success":
@@ -73,6 +290,16 @@ jobs:
                   "latest completed Source Discovery did not succeed: "
                   f"run={run.get('id')} conclusion={run.get('conclusion')}"
               )
+          selected_index = all_runs.index(run)
+          previous_completed = next(
+              (
+                  item
+                  for item in all_runs[selected_index + 1 :]
+                  if item.get("status") == "completed"
+              ),
+              None,
+          )
+          runs = [run] + ([previous_completed] if previous_completed else [])
           discovery_at = dt.datetime.fromisoformat(
               run["updated_at"].replace("Z", "+00:00")
           )
@@ -87,7 +314,7 @@ jobs:
           )["artifacts"]
           pattern = re.compile(
               r"^ruleset-candidate-(?:none|low|high)-"
-              r"[0-9a-f]{64}-[0-9a-f]{64}$"
+              r"[0-9a-f]{64}-(?:[0-9a-f]{64}-)?[0-9a-f]{64}$"
           )
           matches = [
               item
@@ -100,41 +327,127 @@ jobs:
                   "latest discovery must contain exactly one candidate artifact"
               )
 
-          release = gh(f"repos/{repository}/releases/latest")
-          if (
-              release.get("draft")
-              or release.get("prerelease")
-              or release.get("immutable") is not True
-          ):
-              raise SystemExit("latest release is not a final immutable snapshot")
+          stable_candidate = False
+          if len(runs) > 1:
+              previous_run = runs[1]
+              current_created = dt.datetime.fromisoformat(
+                  run["created_at"].replace("Z", "+00:00")
+              )
+              previous_created = dt.datetime.fromisoformat(
+                  previous_run["created_at"].replace("Z", "+00:00")
+              )
+              previous_identity_ok = (
+                  previous_run.get("status") == "completed"
+                  and previous_run.get("conclusion") == "success"
+                  and previous_run.get("path")
+                  == ".github/workflows/source-discovery.yml"
+                  and previous_run.get("head_repository", {}).get("full_name")
+                  == repository
+                  and previous_run.get("head_sha") == run.get("head_sha")
+                  and previous_run.get("event")
+                  in {"push", "schedule", "workflow_dispatch"}
+                  and (current_created - previous_created).total_seconds() >= 300
+              )
+              if previous_identity_ok:
+                  previous_artifacts = gh(
+                      f"repos/{repository}/actions/runs/{previous_run['id']}/"
+                      "artifacts?per_page=100"
+                  )["artifacts"]
+                  previous_matches = [
+                      item
+                      for item in previous_artifacts
+                      if not item.get("expired")
+                      and str(item.get("name", "")) == matches[0]["name"]
+                  ]
+                  stable_candidate = len(previous_matches) == 1
+
+          promotion_run = None
+          discovery_created = dt.datetime.fromisoformat(
+              run["created_at"].replace("Z", "+00:00")
+          )
+          promotion_runs = gh(
+              f"repos/{repository}/actions/workflows/ruleset-update.yml/"
+              "runs?branch=main&event=workflow_run&per_page=20"
+          ).get("workflow_runs", [])
+          for candidate_promotion in promotion_runs:
+              created = dt.datetime.fromisoformat(
+                  candidate_promotion["created_at"].replace("Z", "+00:00")
+              )
+              if (
+                  created >= discovery_created
+                  and candidate_promotion.get("head_sha") == main_sha
+                  and candidate_promotion.get("path")
+                  == ".github/workflows/ruleset-update.yml"
+                  and candidate_promotion.get("repository", {}).get("full_name")
+                  == repository
+              ):
+                  promotion_run = candidate_promotion
+                  break
+
+          release = None
+          release_sha = ""
+          promotion_run_id = ""
+          for candidate_release in gh_list(f"repos/{repository}/releases"):
+              if (
+                  candidate_release.get("draft")
+                  or candidate_release.get("prerelease")
+                  or candidate_release.get("immutable") is not True
+              ):
+                  continue
+              candidate_tag = str(candidate_release.get("tag_name", ""))
+              if not re.fullmatch(r"ruleset-[A-Za-z0-9._-]+", candidate_tag):
+                  continue
+              try:
+                  candidate_sha = peel_tag(candidate_tag)
+                  comparison = gh(
+                      f"repos/{repository}/compare/{candidate_sha}...{main_sha}"
+                  )
+                  if comparison.get("status") not in {"ahead", "identical"}:
+                      continue
+                  promotion = published_run_for(candidate_sha)
+              except (RuntimeError, subprocess.CalledProcessError):
+                  continue
+              if promotion is None:
+                  continue
+              release = candidate_release
+              release_sha = candidate_sha
+              promotion_run_id = str(promotion.get("id", ""))
+              break
+          if release is None:
+              raise SystemExit(
+                  "no canonical immutable release with successful publication evidence"
+              )
           release_at = dt.datetime.fromisoformat(
               release["published_at"].replace("Z", "+00:00")
           )
           release_age = (now - release_at).total_seconds() / 3600
-          if release_age > 192:
-              raise SystemExit(
-                  f"published ruleset stale: {release_age:.2f}h > 192h"
-              )
-
-          main = gh(f"repos/{repository}/commits/main")
-          main_sha = str(main.get("sha", ""))
-          if not re.fullmatch(r"[0-9a-f]{40}", main_sha):
-              raise SystemExit("main returned an invalid commit SHA")
           tag = str(release.get("tag_name", ""))
-          if not re.fullmatch(r"ruleset-[A-Za-z0-9._-]+", tag):
-              raise SystemExit("latest release tag is invalid")
-          readme = gh(f"repos/{repository}/contents/README.md?ref=main")
-          if readme.get("size") != 0 or readme.get("sha") != (
-              "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
-          ):
-              raise SystemExit("public root README privacy boundary drifted")
 
           outputs = {
+              "convergence_pending": "false",
               "artifact_name": matches[0]["name"],
               "discovery_age_hours": f"{discovery_age:.2f}",
               "discovery_head_sha": run["head_sha"],
               "release_age_hours": f"{release_age:.2f}",
+              "release_age_exceeds_slo": str(release_age > 192).lower(),
+              "release_sha": release_sha,
               "release_tag": tag,
+              "promotion_run_id": promotion_run_id,
+              "candidate_stable": str(stable_candidate).lower(),
+              "candidate_promotion_run_id": str(
+                  promotion_run.get("id", "") if promotion_run else ""
+              ),
+              "candidate_promotion_status": str(
+                  promotion_run.get("status", "missing") if promotion_run else "missing"
+              ),
+              "candidate_promotion_conclusion": str(
+                  promotion_run.get("conclusion", "") if promotion_run else ""
+              ),
+              "candidate_promotion_age_minutes": (
+                  f"{(now - dt.datetime.fromisoformat(promotion_run['created_at'].replace('Z', '+00:00'))).total_seconds() / 60:.2f}"
+                  if promotion_run
+                  else f"{(now - discovery_created).total_seconds() / 60:.2f}"
+              ),
               "run_id": str(run["id"]),
               "main_sha": main_sha,
           }
@@ -144,6 +457,7 @@ jobs:
           PY
 
       - name: Download latest discovery candidate
+        if: ${{ steps.evidence.outputs.convergence_pending != 'true' }}
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: ${{ steps.evidence.outputs.artifact_name }}
@@ -153,9 +467,17 @@ jobs:
           run-id: ${{ steps.evidence.outputs.run_id }}
           digest-mismatch: error
 
-      - name: Audit discovery health and pending review
+      - name: Audit discovery health and automated publication readiness
+        if: ${{ steps.evidence.outputs.convergence_pending != 'true' }}
         env:
+          CANDIDATE_ARTIFACT_NAME: ${{ steps.evidence.outputs.artifact_name }}
+          CANDIDATE_STABLE: ${{ steps.evidence.outputs.candidate_stable }}
+          CANDIDATE_PROMOTION_RUN_ID: ${{ steps.evidence.outputs.candidate_promotion_run_id }}
+          CANDIDATE_PROMOTION_STATUS: ${{ steps.evidence.outputs.candidate_promotion_status }}
+          CANDIDATE_PROMOTION_CONCLUSION: ${{ steps.evidence.outputs.candidate_promotion_conclusion }}
+          CANDIDATE_PROMOTION_AGE_MINUTES: ${{ steps.evidence.outputs.candidate_promotion_age_minutes }}
           DISCOVERY_HEAD_SHA: ${{ steps.evidence.outputs.discovery_head_sha }}
+          RELEASE_AGE_EXCEEDS_SLO: ${{ steps.evidence.outputs.release_age_exceeds_slo }}
         run: |
           set -euo pipefail
           advisories=.watchdog/advisories.txt
@@ -182,6 +504,28 @@ jobs:
           if [ -s "$failures" ]; then
             exit 0
           fi
+          candidate_pattern='^ruleset-candidate-(none|low|high)-([0-9a-f]{64})-([0-9a-f]{64})-([0-9a-f]{64})$'
+          if [[ "$CANDIDATE_ARTIFACT_NAME" =~ $candidate_pattern ]]; then
+            artifact_semantic_digest="${BASH_REMATCH[2]}"
+            artifact_decision_fingerprint="${BASH_REMATCH[3]}"
+            artifact_identity_digest="${BASH_REMATCH[4]}"
+            for name in \
+              automated-review.json \
+              candidate-decision.json \
+              decision-fingerprint.txt; do
+              if [ ! -f "${candidate}/${name}" ]; then
+                echo "candidate artifact is missing ${name}" >> "$failures"
+              fi
+            done
+          else
+            artifact_semantic_digest=""
+            artifact_decision_fingerprint=""
+            artifact_identity_digest="${CANDIDATE_ARTIFACT_NAME##*-}"
+            echo "latest candidate uses the legacy identity format" >> "$advisories"
+          fi
+          if [ -s "$failures" ]; then
+            exit 0
+          fi
           (
             cd "$candidate"
             if ! sha256sum -c ruleset-dist.sha256; then
@@ -198,6 +542,123 @@ jobs:
           fi
           if [ "$identity_digest" != "$identity_file_digest" ]; then
             echo "candidate identity digest mismatch" >> "$failures"
+          fi
+          if [ "$identity_digest" != "$artifact_identity_digest" ]; then
+            echo "candidate identity does not match artifact name" >> "$failures"
+          fi
+          if [ -n "$artifact_decision_fingerprint" ]; then
+            semantic_digest="$(
+              tr -d '[:space:]' < "${candidate}/semantic-digest.txt"
+            )"
+            decision_fingerprint="$(
+              tr -d '[:space:]' < "${candidate}/decision-fingerprint.txt"
+            )"
+            decision_file_digest="$(
+              sha256sum "${candidate}/candidate-decision.json" | awk '{print $1}'
+            )"
+            if [ "$semantic_digest" != "$artifact_semantic_digest" ] || \
+               [ "$decision_fingerprint" != "$artifact_decision_fingerprint" ] || \
+               [ "$decision_fingerprint" != "$decision_file_digest" ]; then
+              echo "candidate decision fingerprint mismatch" >> "$failures"
+            fi
+            if ! jq -e \
+              --arg fingerprint "$decision_fingerprint" \
+              '
+                .decision_schema == "project-g-candidate-decision-v1"
+                and .decision_fingerprint == $fingerprint
+              ' "${candidate}/candidate-identity.json" >/dev/null; then
+              echo "candidate identity is not bound to its decision" >> "$failures"
+            fi
+            recomputed_dir="${RUNNER_TEMP}/watchdog-candidate-identity"
+            mkdir -p "$recomputed_dir"
+            if ! python3 ruleset/scripts/build_candidate_identity.py \
+              --manifest "${candidate}/candidate-manifest.json" \
+              --radar-decision "${candidate}/source-radar-decision.json" \
+              --automated-review "${candidate}/automated-review.json" \
+              --source-sha "$candidate_source_sha" \
+              --workflow .github/workflows/source-discovery.yml \
+              --identity-output "$recomputed_dir/candidate-identity.json" \
+              --decision-output "$recomputed_dir/candidate-decision.json" \
+              --fingerprint-output "$recomputed_dir/decision-fingerprint.txt" || \
+               ! cmp "${candidate}/candidate-identity.json" \
+                 "$recomputed_dir/candidate-identity.json" || \
+               ! cmp "${candidate}/candidate-decision.json" \
+                 "$recomputed_dir/candidate-decision.json" || \
+               ! cmp "${candidate}/decision-fingerprint.txt" \
+                 "$recomputed_dir/decision-fingerprint.txt"; then
+              echo "candidate decision identity could not be reproduced" >> "$failures"
+            fi
+            if ! jq -e \
+              --arg risk "$(jq -r '.risk_level' "${candidate}/candidate-manifest.json")" \
+              '
+                .schema == "project-g-automated-review-v2"
+                and (.eligible | type == "boolean")
+                and .required_stable_cycles == 2
+                and .review_policy == "unattended-evidence-gated-v2"
+                and .minimum_cycle_separation_seconds == 300
+                and .risk_level == $risk
+                and (.blockers | type == "array")
+                and (.eligible == ((.blockers | length) == 0))
+              ' "${candidate}/automated-review.json" >/dev/null; then
+              echo "candidate automated review evidence is malformed" >> "$failures"
+            fi
+
+            replay_dir="${RUNNER_TEMP}/watchdog-automated-review"
+            mkdir -p "$replay_dir"
+            python3 - "${candidate}/ruleset-dist.tar.gz" \
+              "${replay_dir}/current" <<'PY'
+          import pathlib
+          import sys
+          import tarfile
+
+          archive = pathlib.Path(sys.argv[1])
+          destination = pathlib.Path(sys.argv[2])
+          destination.mkdir(parents=True, exist_ok=True)
+          with tarfile.open(archive, "r:gz") as bundle:
+              members = bundle.getmembers()
+              seen = set()
+              for member in members:
+                  path = pathlib.PurePosixPath(member.name)
+                  if (
+                      path.is_absolute()
+                      or ".." in path.parts
+                      or not path.parts
+                      or path.parts[0] != "dist"
+                      or member.issym()
+                      or member.islnk()
+                      or not (member.isfile() or member.isdir())
+                  ):
+                      raise SystemExit(f"unsafe candidate archive member: {member.name}")
+                  if member.isfile() and member.name in seen:
+                      raise SystemExit(f"duplicate candidate archive member: {member.name}")
+                  seen.add(member.name)
+              bundle.extractall(destination, members=members)
+          PY
+            current_dist="${replay_dir}/current/dist"
+            if [ ! -s "$failures" ]; then
+              if ! cmp "${candidate}/automated-review.json" \
+                "${current_dist}/automated_review.json" || \
+                 ! python3 ruleset/scripts/check_automated_review.py \
+                   --manifest "${current_dist}/candidate_manifest.json" \
+                   --rule-delta "${current_dist}/rule_delta.json" \
+                   --contracts "${current_dist}/category_contracts_resolved.json" \
+                   --canonical-contracts ruleset/config/category_contracts.json \
+                   --source-config ruleset/config/sources.json \
+                   --baseline-dist ruleset/dist \
+                   --current-dist "${current_dist}" \
+                   --protected-domain-roots ruleset/config/protected_domain_roots.json \
+                   --repository-root . \
+                   --provenance "${current_dist}/source_provenance.json" \
+                   --source-registry ruleset/config/source_registry.json \
+                   --radar-decision "${current_dist}/source_radar_decision.json" \
+                   --radar-snapshot "${current_dist}/candidate_sources.json" \
+                   --output "${replay_dir}/recomputed-automated-review.json" || \
+                 ! cmp "${candidate}/automated-review.json" \
+                   "${replay_dir}/recomputed-automated-review.json"; then
+                echo "candidate automated review evidence could not be reproduced" \
+                  >> "$failures"
+              fi
+            fi
           fi
           if ! jq -e \
             --arg source_sha "$DISCOVERY_HEAD_SHA" \
@@ -230,12 +691,50 @@ jobs:
             ' "${candidate}/source-radar-decision.json" >/dev/null; then
             echo "source radar detected an active-source race" >> "$failures"
           fi
-          if jq -e '.changed == true and .requires_review == true' \
-            "${candidate}/candidate-manifest.json" >/dev/null; then
-            echo "latest candidate still requires protected review" >> "$advisories"
+          if [ -n "$artifact_decision_fingerprint" ] && \
+             jq -e '.changed == true' \
+               "${candidate}/candidate-manifest.json" >/dev/null; then
+            if jq -e '.eligible == true' \
+              "${candidate}/automated-review.json" >/dev/null; then
+              if [ "$CANDIDATE_STABLE" != "true" ]; then
+                echo "latest eligible candidate awaits a second identical discovery cycle at least 300 seconds later" \
+                  >> "$advisories"
+              elif { [ "$CANDIDATE_PROMOTION_STATUS" = "queued" ] || \
+                     [ "$CANDIDATE_PROMOTION_STATUS" = "in_progress" ] || \
+                     [ "$CANDIDATE_PROMOTION_STATUS" = "requested" ]; } && \
+                   awk "BEGIN { exit !(${CANDIDATE_PROMOTION_AGE_MINUTES:-9999} <= 180) }"; then
+                echo "stable eligible candidate promotion ${CANDIDATE_PROMOTION_RUN_ID:-unknown} is still running" \
+                  >> "$advisories"
+              elif [ "$CANDIDATE_PROMOTION_STATUS" = "missing" ] && \
+                   awk "BEGIN { exit !(${CANDIDATE_PROMOTION_AGE_MINUTES:-9999} <= 10) }"; then
+                echo "stable eligible candidate is waiting for its automatic promotion run to start" \
+                  >> "$advisories"
+              else
+                echo "stable eligible candidate was not published: promotion=${CANDIDATE_PROMOTION_RUN_ID:-missing} status=${CANDIDATE_PROMOTION_STATUS:-missing} conclusion=${CANDIDATE_PROMOTION_CONCLUSION:-none}" \
+                  >> "$failures"
+              fi
+            else
+              echo "latest changed candidate is held by automated evidence policy" \
+                >> "$advisories"
+            fi
+          elif [ -n "$artifact_decision_fingerprint" ] && \
+               ! jq -e \
+                 '.eligible == false and .blockers == ["candidate has no semantic changes"]' \
+                 "${candidate}/automated-review.json" >/dev/null; then
+            echo "unchanged candidate has unexpected automated review blockers" \
+              >> "$failures"
+          elif [ -z "$artifact_decision_fingerprint" ] && \
+               jq -e '.changed == true and .requires_review == true' \
+                 "${candidate}/candidate-manifest.json" >/dev/null; then
+            echo "legacy candidate predates automated evidence review" >> "$advisories"
+          fi
+          if [ "$RELEASE_AGE_EXCEEDS_SLO" = "true" ]; then
+            echo "canonical immutable snapshot is older than 192h; fresh discovery still revalidates the same published dist tree" \
+              >> "$advisories"
           fi
 
       - name: Download latest immutable release assets
+        if: ${{ steps.evidence.outputs.convergence_pending != 'true' }}
         env:
           RELEASE_TAG: ${{ steps.evidence.outputs.release_tag }}
         run: |
@@ -248,8 +747,10 @@ jobs:
             --dir .watchdog/release
 
       - name: Verify release, main, tree, and attestation convergence
+        if: ${{ steps.evidence.outputs.convergence_pending != 'true' }}
         env:
           MAIN_SHA: ${{ steps.evidence.outputs.main_sha }}
+          RELEASE_SHA: ${{ steps.evidence.outputs.release_sha }}
           RELEASE_TAG: ${{ steps.evidence.outputs.release_tag }}
         run: |
           set -euo pipefail
@@ -258,11 +759,13 @@ jobs:
           checksum=.watchdog/release/ruleset-dist.sha256
           if ! python3 ruleset/scripts/verify_published.py \
             --repository "$REPOSITORY" \
-            --sha "$MAIN_SHA" \
+            --sha "$RELEASE_SHA" \
+            --main-sha "$MAIN_SHA" \
             --tag "$RELEASE_TAG" \
             --archive "$archive" \
-            --checksum "$checksum"; then
-            echo "latest release does not converge with main" >> "$failures"
+            --checksum "$checksum" \
+            --require-published-status; then
+            echo "canonical release does not converge with current main dist" >> "$failures"
             exit 0
           fi
           source_sha="$(
@@ -285,11 +788,13 @@ jobs:
         id: result
         if: always()
         env:
+          CONVERGENCE_PENDING: ${{ steps.evidence.outputs.convergence_pending }}
           DISCOVERY_AGE: ${{ steps.evidence.outputs.discovery_age_hours }}
           DISCOVERY_RUN_ID: ${{ steps.evidence.outputs.run_id }}
           JOB_STATUS: ${{ job.status }}
           RELEASE_AGE: ${{ steps.evidence.outputs.release_age_hours }}
           RELEASE_TAG: ${{ steps.evidence.outputs.release_tag }}
+          VERIFIER_SHA: ${{ steps.verifier.outputs.sha }}
         run: |
           set -euo pipefail
           {
@@ -299,8 +804,28 @@ jobs:
             echo "- Discovery run: \`${DISCOVERY_RUN_ID:-unavailable}\`"
             echo "- Release age: \`${RELEASE_AGE:-unavailable}h\`"
             echo "- Release tag: \`${RELEASE_TAG:-unavailable}\`"
+            echo "- Main transition pending: \`${CONVERGENCE_PENDING:-false}\`"
             echo "- Root README: \`0 bytes\`"
           } >> "$GITHUB_STEP_SUMMARY"
+          latest_main_sha="$(
+            gh api "repos/${REPOSITORY}/commits/main" --jq '.sha'
+          )"
+          test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.size')" = "0"
+          test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.sha')" = \
+            "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+          if [ "$latest_main_sha" != "$VERIFIER_SHA" ]; then
+            {
+              echo
+              echo "## Superseded verifier"
+              echo
+              echo "- Checked verifier: \`${VERIFIER_SHA}\`"
+              echo "- Current main: \`${latest_main_sha}\`"
+              echo "- State: \`attention; newer main chain owns convergence\`"
+            } >> "$GITHUB_STEP_SUMMARY"
+            echo "state=attention" >> "$GITHUB_OUTPUT"
+            echo "::warning title=Watchdog superseded::Main advanced during verification; a newer automatic chain owns the result."
+            exit 0
+          fi
           if [ "$JOB_STATUS" != "success" ] && \
              [ ! -s .watchdog/failures.txt ]; then
             mkdir -p .watchdog
@@ -309,12 +834,12 @@ jobs:
           if [ -s .watchdog/advisories.txt ]; then
             {
               echo
-              echo "## Protected review pending"
+              echo "## Automated publication pending"
               echo
               sed 's/^/- /' .watchdog/advisories.txt
             } >> "$GITHUB_STEP_SUMMARY"
             while IFS= read -r advisory; do
-              echo "::warning title=Protected review pending::${advisory}"
+              echo "::warning title=Automated publication pending::${advisory}"
             done < .watchdog/advisories.txt
           fi
           if [ -s .watchdog/failures.txt ]; then
@@ -330,7 +855,11 @@ jobs:
           fi
           if [ -s .watchdog/advisories.txt ]; then
             echo "state=attention" >> "$GITHUB_OUTPUT"
-            echo "Discovery, release, main, tree, and attestation are converged; protected review remains pending."
+            if [ "${CONVERGENCE_PENDING:-false}" = "true" ]; then
+              echo "The exact post-merge gate and discovery chain is still converging automatically."
+            else
+              echo "Discovery, release, main, tree, and attestation are converged; automated publication is pending."
+            fi
           else
             echo "state=pass" >> "$GITHUB_OUTPUT"
             echo "Discovery, release, main, tree, and attestation are converged."

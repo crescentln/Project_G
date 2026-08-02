@@ -19,11 +19,13 @@ on:
 
 permissions:
   actions: read
+  attestations: read
   contents: read
 
 concurrency:
   group: ruleset-promotion-main
   cancel-in-progress: false
+  queue: max
 
 jobs:
   select:
@@ -34,10 +36,11 @@ jobs:
       candidate_run_id: ${{ steps.select.outputs.candidate_run_id }}
       candidate_artifact_name: ${{ steps.select.outputs.candidate_artifact_name }}
       candidate_head_sha: ${{ steps.select.outputs.candidate_head_sha }}
+      candidate_decision_fingerprint: ${{ steps.select.outputs.candidate_decision_fingerprint }}
       promotion_mode: ${{ steps.select.outputs.promotion_mode }}
       environment_name: ${{ steps.select.outputs.environment_name }}
     steps:
-      - name: Select a stable or reviewed candidate
+      - name: Select an automatically reviewed stable candidate
         id: select
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -54,6 +57,11 @@ jobs:
           test "$readme_size" = "0"
           test "$readme_blob" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
 
+          runs_json="$(
+            gh api \
+              "repos/${REPOSITORY}/actions/workflows/source-discovery.yml/runs?branch=main&per_page=100"
+          )"
+
           if [ "$EVENT_NAME" = "workflow_run" ]; then
             conclusion="$(jq -r '.workflow_run.conclusion' "$GITHUB_EVENT_PATH")"
             head_branch="$(jq -r '.workflow_run.head_branch' "$GITHUB_EVENT_PATH")"
@@ -62,83 +70,55 @@ jobs:
               exit 0
             fi
             run_id="$(jq -r '.workflow_run.id' "$GITHUB_EVENT_PATH")"
-            run_json="$(gh api "repos/${REPOSITORY}/actions/runs/${run_id}")"
-            artifact_json="$(gh api "repos/${REPOSITORY}/actions/runs/${run_id}/artifacts?per_page=100")"
-            artifact_name="$(
-              jq -r '
-                [.artifacts[]
-                  | select(.expired == false)
-                  | select(.name | startswith("ruleset-candidate-low-"))
-                  | .name][0] // empty
-              ' <<<"$artifact_json"
-            )"
-            if [ -z "$artifact_name" ]; then
-              echo "Discovery produced no low-risk candidate; review path remains manual."
-              exit 0
-            fi
-
-            stable=false
-            mapfile -t prior_runs < <(
-              gh api "repos/${REPOSITORY}/actions/workflows/source-discovery.yml/runs?branch=main&status=success&per_page=20" \
-                --jq '.workflow_runs[].id'
-            )
-            for prior_run in "${prior_runs[@]}"; do
-              if [ "$prior_run" = "$run_id" ]; then
-                continue
-              fi
-              prior_artifacts="$(
-                gh api "repos/${REPOSITORY}/actions/runs/${prior_run}/artifacts?per_page=100"
-              )"
-              prior_match="$(
-                jq -r --arg name "$artifact_name" \
-                  '.artifacts[]
-                    | select(.expired == false and .name == $name)
-                    | .name' \
-                  <<<"$prior_artifacts" \
-                  | head -n 1
-              )"
-              if [ "$prior_match" = "$artifact_name" ]; then
-                stable=true
-              fi
-              break
-            done
-            if [ "$stable" != "true" ]; then
-              echo "Low-risk candidate has not remained identical for two discovery cycles."
-              exit 0
-            fi
-            promotion_mode="auto-low-risk"
-            environment_name="ruleset-low-risk"
           else
             run_id="${INPUT_RUN_ID//[[:space:]]/}"
             if ! [[ "$run_id" =~ ^[0-9]+$ ]]; then
               echo "candidate_run_id must be numeric."
               exit 1
             fi
-            run_json="$(gh api "repos/${REPOSITORY}/actions/runs/${run_id}")"
-            artifact_json="$(gh api "repos/${REPOSITORY}/actions/runs/${run_id}/artifacts?per_page=100")"
-            artifact_name="${INPUT_ARTIFACT_NAME//[[:space:]]/}"
-            if [ -z "$artifact_name" ]; then
-              artifact_name="$(
-                jq -r '
-                  [.artifacts[]
-                    | select(.expired == false)
-                    | select(.name | startswith("ruleset-candidate-"))
-                    | select(.name | startswith("ruleset-candidate-none-") | not)
-                    | .name][0] // empty
-                ' <<<"$artifact_json"
-              )"
-            fi
-            artifact_count="$(
-              jq -r --arg name "$artifact_name" \
-                '[.artifacts[] | select(.expired == false and .name == $name)] | length' \
-                <<<"$artifact_json"
-            )"
-            if [ "$artifact_count" != "1" ]; then
-              echo "Exact candidate artifact was not found once in discovery run ${run_id}."
-              exit 1
-            fi
-            promotion_mode="reviewed"
-            environment_name="ruleset-production"
+          fi
+
+          run_json="$(gh api "repos/${REPOSITORY}/actions/runs/${run_id}")"
+          artifact_json="$(
+            gh api "repos/${REPOSITORY}/actions/runs/${run_id}/artifacts?per_page=100"
+          )"
+          candidate_objects="$(
+            jq -c '
+              [.artifacts[]
+                | select(.expired == false)
+                | select(
+                    .name
+                    | test(
+                        "^ruleset-candidate-(low|high)-[0-9a-f]{64}-[0-9a-f]{64}-[0-9a-f]{64}$"
+                      )
+                  )
+                | {id, name}]
+            ' <<<"$artifact_json"
+          )"
+          candidate_count="$(jq 'length' <<<"$candidate_objects")"
+          if [ "$candidate_count" -eq 0 ] && [ "$EVENT_NAME" = "workflow_run" ]; then
+            echo "Discovery produced no changed candidate eligible for automated review."
+            exit 0
+          fi
+          if [ "$candidate_count" -ne 1 ]; then
+            echo "Discovery run must contain exactly one automatically reviewable candidate."
+            exit 1
+          fi
+          unique_candidate_name="$(jq -r '.[0].name' <<<"$candidate_objects")"
+          artifact_name="${INPUT_ARTIFACT_NAME//[[:space:]]/}"
+          if [ -z "$artifact_name" ]; then
+            artifact_name="$unique_candidate_name"
+          elif [ "$artifact_name" != "$unique_candidate_name" ]; then
+            echo "Requested artifact is not the run's unique candidate."
+            exit 1
+          fi
+          artifact_id="$(
+            jq -r --arg name "$artifact_name" \
+              '.[] | select(.name == $name) | .id' <<<"$candidate_objects"
+          )"
+          if ! [[ "$artifact_id" =~ ^[0-9]+$ ]]; then
+            echo "Candidate artifact has an invalid ID."
+            exit 1
           fi
 
           test "$(jq -r '.status' <<<"$run_json")" = "completed"
@@ -148,7 +128,7 @@ jobs:
           test "$(jq -r '.path' <<<"$run_json")" = ".github/workflows/source-discovery.yml"
           run_event="$(jq -r '.event' <<<"$run_json")"
           case "$run_event" in
-            schedule|workflow_dispatch) ;;
+            push|schedule|workflow_dispatch) ;;
             *) echo "Candidate run has an unexpected event: $run_event"; exit 1 ;;
           esac
           candidate_head_sha="$(jq -r '.head_sha' <<<"$run_json")"
@@ -162,26 +142,240 @@ jobs:
             echo "Candidate discovery is older than the 26-hour freshness SLO."
             exit 1
           fi
-          latest_for_head="$(
-            gh api "repos/${REPOSITORY}/actions/workflows/source-discovery.yml/runs?branch=main&status=success&per_page=100" \
-              --jq ".workflow_runs[]
-                | select(.head_sha == \"${candidate_head_sha}\")
-                | .id" \
-              | head -n 1
-          )"
-          if [ "$latest_for_head" != "$run_id" ]; then
-            echo "Candidate is not the latest successful discovery for its source SHA."
+          latest_run_id="$(jq -r '.workflow_runs[0].id // empty' <<<"$runs_json")"
+          latest_status="$(jq -r '.workflow_runs[0].status // empty' <<<"$runs_json")"
+          latest_conclusion="$(jq -r '.workflow_runs[0].conclusion // empty' <<<"$runs_json")"
+          if [ "$latest_run_id" != "$run_id" ]; then
+            if [ "$EVENT_NAME" = "workflow_run" ]; then
+              echo "A newer Source Discovery superseded this queued promotion; no publication."
+              exit 0
+            fi
+            echo "Manually selected candidate is not the latest Source Discovery run."
+            exit 1
+          fi
+          if [ "$latest_status" != "completed" ] || \
+             [ "$latest_conclusion" != "success" ]; then
+            echo "Latest Source Discovery is not a completed success."
+            exit 1
+          fi
+          current_main_sha="$(gh api "repos/${REPOSITORY}/commits/main" --jq '.sha')"
+          if [ "$current_main_sha" != "$candidate_head_sha" ]; then
+            echo "Candidate source does not match current main."
             exit 1
           fi
 
-          if ! [[ "$artifact_name" =~ ^ruleset-candidate-(low|high)-[0-9a-f]{64}-[0-9a-f]{64}$ ]]; then
+          candidate_pattern='^ruleset-candidate-(low|high)-([0-9a-f]{64})-([0-9a-f]{64})-([0-9a-f]{64})$'
+          if ! [[ "$artifact_name" =~ $candidate_pattern ]]; then
             echo "Candidate artifact name is invalid: $artifact_name"
             exit 1
           fi
+          artifact_risk="${BASH_REMATCH[1]}"
+          candidate_decision_fingerprint="${BASH_REMATCH[3]}"
+          artifact_count="$(
+            jq -r --arg name "$artifact_name" \
+              '[.artifacts[] | select(.expired == false and .name == $name)] | length' \
+              <<<"$artifact_json"
+          )"
+          if [ "$artifact_count" != "1" ]; then
+            echo "Exact candidate artifact was not found once in discovery run ${run_id}."
+            exit 1
+          fi
+
+          case "$artifact_risk" in
+            low)
+              promotion_mode="auto-low-risk"
+              environment_name="ruleset-low-risk"
+              ;;
+            high)
+              promotion_mode="auto-high-risk"
+              environment_name="ruleset-production"
+              ;;
+            *)
+              echo "Candidate risk is not automatically reviewable."
+              exit 1
+              ;;
+          esac
+
+          selection_dir="$(mktemp -d "${RUNNER_TEMP:-/tmp}/project-g-selection.XXXXXX")"
+          candidate_archive="${selection_dir}/candidate.zip"
+          current_review="${selection_dir}/current-automated-review.json"
+          gh api "repos/${REPOSITORY}/actions/artifacts/${artifact_id}/zip" \
+            > "$candidate_archive"
+          if ! unzip -p "$candidate_archive" automated-review.json \
+            > "$current_review"; then
+            echo "Candidate lacks automated review evidence."
+            exit 1
+          fi
+          for name in \
+            candidate-identity.json \
+            candidate-decision.json \
+            source-sha.txt \
+            ruleset-dist.tar.gz; do
+            if ! unzip -p "$candidate_archive" "$name" \
+              > "${selection_dir}/current-${name}"; then
+              echo "Candidate lacks exact identity or attested archive evidence: ${name}."
+              exit 1
+            fi
+          done
+          if [ "$(tr -d '[:space:]' < "${selection_dir}/current-source-sha.txt")" != \
+            "$candidate_head_sha" ]; then
+            echo "Candidate source identity does not match its discovery run."
+            exit 1
+          fi
+          gh attestation verify "${selection_dir}/current-ruleset-dist.tar.gz" \
+            --repo "$REPOSITORY" \
+            --signer-workflow "${REPOSITORY}/.github/workflows/source-discovery.yml" \
+            --source-digest "$candidate_head_sha"
+          if ! jq -e \
+            --arg risk "$artifact_risk" \
+            '
+              .schema == "project-g-automated-review-v2"
+              and (.eligible | type == "boolean")
+              and .required_stable_cycles == 2
+              and .review_policy == "unattended-evidence-gated-v2"
+              and .minimum_cycle_separation_seconds == 300
+              and .risk_level == $risk
+              and (.blockers | type == "array")
+            ' "$current_review" >/dev/null; then
+            echo "Candidate automated review evidence is malformed."
+            exit 1
+          fi
+          if ! jq -e '.eligible == true and (.blockers | length) == 0' \
+            "$current_review" >/dev/null; then
+            echo "Candidate is held by the automated evidence policy:"
+            jq -r '"blocker_count=" + ((.blockers | length) | tostring), (.blockers[0:50][] | "- " + .)' \
+              "$current_review"
+            exit 0
+          fi
+          current_fingerprint="$(
+            unzip -p "$candidate_archive" decision-fingerprint.txt \
+              | tr -d '[:space:]'
+          )"
+          if [ "$current_fingerprint" != "$candidate_decision_fingerprint" ]; then
+            echo "Candidate decision evidence does not match its artifact name."
+            exit 1
+          fi
+
+          previous_run_json="$(jq -c '.workflow_runs[1] // empty' <<<"$runs_json")"
+          if [ -z "$previous_run_json" ]; then
+            echo "Candidate has no adjacent prior discovery cycle; stability is not established."
+            exit 0
+          fi
+          previous_run_id="$(jq -r '.id' <<<"$previous_run_json")"
+          previous_status="$(jq -r '.status' <<<"$previous_run_json")"
+          previous_conclusion="$(jq -r '.conclusion' <<<"$previous_run_json")"
+          previous_path="$(jq -r '.path' <<<"$previous_run_json")"
+          previous_repository="$(jq -r '.head_repository.full_name' <<<"$previous_run_json")"
+          previous_head_sha="$(jq -r '.head_sha' <<<"$previous_run_json")"
+          previous_event="$(jq -r '.event' <<<"$previous_run_json")"
+          previous_created_epoch="$(date -u -d "$(jq -r '.created_at' <<<"$previous_run_json")" +%s)"
+          if [ "$previous_status" != "completed" ] || \
+             [ "$previous_conclusion" != "success" ] || \
+             [ "$previous_path" != ".github/workflows/source-discovery.yml" ] || \
+             [ "$previous_repository" != "$REPOSITORY" ] || \
+             [ "$previous_head_sha" != "$candidate_head_sha" ]; then
+            echo "The adjacent prior discovery was not a successful same-source run; stability reset."
+            exit 0
+          fi
+          case "$previous_event" in
+            push|schedule|workflow_dispatch) ;;
+            *) echo "The adjacent prior discovery had an unexpected event."; exit 0 ;;
+          esac
+          cycle_separation=$((created_epoch - previous_created_epoch))
+          if [ "$cycle_separation" -lt 300 ]; then
+            echo "Adjacent discovery cycles are less than 300 seconds apart; stability reset."
+            exit 0
+          fi
+          previous_artifacts="$(
+            gh api \
+              "repos/${REPOSITORY}/actions/runs/${previous_run_id}/artifacts?per_page=100"
+          )"
+          previous_candidates="$(
+            jq -c '
+              [.artifacts[]
+                | select(.expired == false)
+                | select(
+                    .name
+                    | test(
+                        "^ruleset-candidate-(low|high)-[0-9a-f]{64}-[0-9a-f]{64}-[0-9a-f]{64}$"
+                      )
+                  )
+                | {id, name}]
+            ' <<<"$previous_artifacts"
+          )"
+          previous_name="$(jq -r '.[0].name // empty' <<<"$previous_candidates")"
+          if [ "$(jq 'length' <<<"$previous_candidates")" -ne 1 ] || \
+             ! [[ "$previous_name" =~ $candidate_pattern ]]; then
+            echo "The adjacent prior discovery has no unique automated decision."
+            exit 0
+          fi
+          previous_risk="${BASH_REMATCH[1]}"
+          previous_decision_fingerprint="${BASH_REMATCH[3]}"
+          if [ "$previous_name" != "$artifact_name" ] || \
+             [ "$previous_risk" != "$artifact_risk" ] || \
+             [ "$previous_decision_fingerprint" != "$candidate_decision_fingerprint" ]; then
+            echo "Candidate decision and full identity were not stable across adjacent cycles."
+            exit 0
+          fi
+          previous_artifact_id="$(jq -r '.[0].id' <<<"$previous_candidates")"
+          if ! [[ "$previous_artifact_id" =~ ^[0-9]+$ ]]; then
+            echo "The adjacent prior discovery has an invalid artifact ID."
+            exit 1
+          fi
+          previous_archive="${selection_dir}/previous.zip"
+          previous_review="${selection_dir}/previous-automated-review.json"
+          gh api \
+            "repos/${REPOSITORY}/actions/artifacts/${previous_artifact_id}/zip" \
+            > "$previous_archive"
+          if ! unzip -p "$previous_archive" automated-review.json \
+            > "$previous_review"; then
+            echo "The adjacent prior discovery lacks automated review evidence."
+            exit 1
+          fi
+          for name in \
+            candidate-identity.json \
+            candidate-decision.json \
+            source-sha.txt \
+            ruleset-dist.tar.gz; do
+            if ! unzip -p "$previous_archive" "$name" \
+              > "${selection_dir}/previous-${name}"; then
+              echo "The adjacent prior discovery lacks exact identity or attested archive evidence: ${name}."
+              exit 1
+            fi
+          done
+          if [ "$(tr -d '[:space:]' < "${selection_dir}/previous-source-sha.txt")" != \
+            "$candidate_head_sha" ] || \
+             ! cmp "${selection_dir}/current-candidate-identity.json" \
+               "${selection_dir}/previous-candidate-identity.json" || \
+             ! cmp "${selection_dir}/current-candidate-decision.json" \
+               "${selection_dir}/previous-candidate-decision.json"; then
+            echo "Exact candidate identity was not identical across adjacent cycles."
+            exit 0
+          fi
+          gh attestation verify "${selection_dir}/previous-ruleset-dist.tar.gz" \
+            --repo "$REPOSITORY" \
+            --signer-workflow "${REPOSITORY}/.github/workflows/source-discovery.yml" \
+            --source-digest "$candidate_head_sha"
+          if ! cmp "$current_review" "$previous_review" || \
+             ! jq -e '.eligible == true and (.blockers | length) == 0' \
+               "$previous_review" >/dev/null; then
+            echo "Automated rule-level evidence was not identical across adjacent cycles."
+            exit 0
+          fi
+          previous_fingerprint="$(
+            unzip -p "$previous_archive" decision-fingerprint.txt \
+              | tr -d '[:space:]'
+          )"
+          if [ "$previous_fingerprint" != "$candidate_decision_fingerprint" ]; then
+            echo "The adjacent prior decision evidence does not match its artifact name."
+            exit 1
+          fi
+
           echo "should_publish=true" >> "$GITHUB_OUTPUT"
           echo "candidate_run_id=$run_id" >> "$GITHUB_OUTPUT"
           echo "candidate_artifact_name=$artifact_name" >> "$GITHUB_OUTPUT"
           echo "candidate_head_sha=$candidate_head_sha" >> "$GITHUB_OUTPUT"
+          echo "candidate_decision_fingerprint=$candidate_decision_fingerprint" >> "$GITHUB_OUTPUT"
           echo "promotion_mode=$promotion_mode" >> "$GITHUB_OUTPUT"
           echo "environment_name=$environment_name" >> "$GITHUB_OUTPUT"
 
@@ -191,6 +385,13 @@ jobs:
       - select
     runs-on: ubuntu-24.04
     timeout-minutes: 45
+    concurrency:
+      group: ruleset-publication-main
+      cancel-in-progress: false
+      queue: max
+    outputs:
+      published_sha: ${{ steps.prepare_snapshot.outputs.published_sha }}
+      published_semantic_digest: ${{ steps.prepare_snapshot.outputs.semantic_digest }}
     environment:
       name: ${{ needs.select.outputs.environment_name }}
     permissions:
@@ -204,6 +405,7 @@ jobs:
       CANDIDATE_RUN_ID: ${{ needs.select.outputs.candidate_run_id }}
       CANDIDATE_ARTIFACT_NAME: ${{ needs.select.outputs.candidate_artifact_name }}
       EXPECTED_SOURCE_SHA: ${{ needs.select.outputs.candidate_head_sha }}
+      EXPECTED_DECISION_FINGERPRINT: ${{ needs.select.outputs.candidate_decision_fingerprint }}
       PROMOTION_MODE: ${{ needs.select.outputs.promotion_mode }}
     steps:
       - name: Checkout current main
@@ -227,8 +429,23 @@ jobs:
           digest-mismatch: error
 
       - name: Verify candidate identity and source freshness
+        id: reservation
         run: |
           set -euo pipefail
+          echo "continue=true" >> "$GITHUB_OUTPUT"
+          close_as_superseded() {
+            reason="$1"
+            echo "continue=false" >> "$GITHUB_OUTPUT"
+            {
+              echo "## Publication reservation closed"
+              echo
+              echo "$reason"
+              echo
+              echo "The current automatic chain remains fail-closed; no user action is required."
+            } >> "$GITHUB_STEP_SUMMARY"
+            echo "$reason"
+            exit 0
+          }
           run_json="$(gh api "repos/${REPOSITORY}/actions/runs/${CANDIDATE_RUN_ID}")"
           test "$(jq -r '.status' <<<"$run_json")" = "completed"
           test "$(jq -r '.conclusion' <<<"$run_json")" = "success"
@@ -241,41 +458,209 @@ jobs:
           created_epoch="$(date -u -d "$(jq -r '.created_at' <<<"$run_json")" +%s)"
           now_epoch="$(date -u +%s)"
           if [ $((now_epoch - created_epoch)) -gt 93600 ]; then
-            echo "Candidate expired while awaiting protected-environment approval."
-            exit 1
+            close_as_superseded \
+              "Candidate expired before automatic publication completed."
           fi
-          latest_for_head="$(
-            gh api "repos/${REPOSITORY}/actions/workflows/source-discovery.yml/runs?branch=main&status=success&per_page=100" \
-              --jq ".workflow_runs[]
-                | select(.head_sha == \"${EXPECTED_SOURCE_SHA}\")
-                | .id" \
-              | head -n 1
+          runs_json="$(
+            gh api \
+              "repos/${REPOSITORY}/actions/workflows/source-discovery.yml/runs?branch=main&per_page=100"
           )"
-          if [ "$latest_for_head" != "$CANDIDATE_RUN_ID" ]; then
-            echo "A newer successful discovery superseded this candidate."
-            exit 1
+          newer_runs="$(
+            jq -c --argjson selected "$CANDIDATE_RUN_ID" '
+              .workflow_runs as $runs
+              | ($runs | map(.id) | index($selected)) as $selected_index
+              | if $selected_index == null
+                then error("reserved candidate is outside the discovery window")
+                else $runs[0:$selected_index]
+                end
+            ' <<<"$runs_json"
+          )"
+          active_newer_runs="$(
+            jq -c '[.[] | select(.status != "completed")]' <<<"$newer_runs"
+          )"
+          if ! jq -e \
+            --arg repository "$REPOSITORY" \
+            --arg sha "$EXPECTED_SOURCE_SHA" \
+            'all(.[];
+              .path == ".github/workflows/source-discovery.yml"
+              and .head_repository.full_name == $repository
+              and .head_sha == $sha
+              and (
+                .event == "push"
+                or .event == "schedule"
+                or .event == "workflow_dispatch"
+              )
+            )' <<<"$active_newer_runs" >/dev/null; then
+            close_as_superseded \
+              "A newer active discovery targets different source evidence."
           fi
+          active_newer_count="$(jq 'length' <<<"$active_newer_runs")"
+          if [ "$active_newer_count" -gt 0 ]; then
+            echo "Ignoring ${active_newer_count} newer active discovery run(s) while the exact publication lock is held."
+          fi
+          newer_runs="$(
+            jq -c '[.[] | select(.status == "completed")]' <<<"$newer_runs"
+          )"
+          if ! jq -e \
+            --arg repository "$REPOSITORY" \
+            --arg sha "$EXPECTED_SOURCE_SHA" \
+            'all(.[];
+              .status == "completed"
+              and .conclusion == "success"
+              and .path == ".github/workflows/source-discovery.yml"
+              and .head_repository.full_name == $repository
+              and .head_sha == $sha
+              and (
+                .event == "push"
+                or .event == "schedule"
+                or .event == "workflow_dispatch"
+              )
+            )' <<<"$newer_runs" >/dev/null; then
+            close_as_superseded \
+              "A newer completed discovery failed, was cancelled, or changed source identity."
+          fi
+          newer_run_count="$(jq 'length' <<<"$newer_runs")"
+          if [ "$newer_run_count" -gt 0 ]; then
+            echo "${newer_run_count} newer successful discovery run(s) observed; the exact reserved candidate remains selected."
+          fi
+          newer_evidence_dir="${RUNNER_TEMP}/newer-discovery-evidence"
+          mkdir -p "$newer_evidence_dir"
+          while IFS= read -r newer_run_id; do
+            test -n "$newer_run_id" || continue
+            newer_artifacts="$(
+              gh api \
+                "repos/${REPOSITORY}/actions/runs/${newer_run_id}/artifacts?per_page=100"
+            )"
+            newer_candidates="$(
+              jq -c '
+                [.artifacts[]
+                  | select(.expired == false)
+                  | select(
+                      .name
+                      | test(
+                          "^ruleset-candidate-(low|high)-[0-9a-f]{64}-[0-9a-f]{64}-[0-9a-f]{64}$"
+                        )
+                    )
+                  | {id, name}]
+              ' <<<"$newer_artifacts"
+            )"
+            if [ "$(jq 'length' <<<"$newer_candidates")" -ne 1 ]; then
+              close_as_superseded \
+                "Newer successful discovery ${newer_run_id} has ambiguous evidence."
+            fi
+            newer_artifact_id="$(jq -r '.[0].id' <<<"$newer_candidates")"
+            newer_artifact_name="$(jq -r '.[0].name' <<<"$newer_candidates")"
+            candidate_pattern='^ruleset-candidate-(low|high)-([0-9a-f]{64})-([0-9a-f]{64})-([0-9a-f]{64})$'
+            if ! [[ "$newer_artifact_name" =~ $candidate_pattern ]]; then
+              close_as_superseded \
+                "Newer discovery ${newer_run_id} has an invalid candidate name."
+            fi
+            newer_decision_fingerprint="${BASH_REMATCH[3]}"
+            if [ "$newer_decision_fingerprint" != \
+              "$EXPECTED_DECISION_FINGERPRINT" ]; then
+              close_as_superseded \
+                "Newer discovery ${newer_run_id} changed the automated decision; the reserved candidate is frozen."
+            fi
+            newer_archive="${newer_evidence_dir}/${newer_artifact_id}.zip"
+            gh api \
+              "repos/${REPOSITORY}/actions/artifacts/${newer_artifact_id}/zip" \
+              > "$newer_archive"
+            if ! unzip -p "$newer_archive" candidate-manifest.json | jq -e '
+              .source_head_advanced_after_lock == false
+              and .fallback_cache_count == 0
+              and (.cache_blocked_source_ids | length) == 0
+              and (.budget_exceeded | length) == 0
+            ' >/dev/null; then
+              close_as_superseded \
+                "Newer discovery ${newer_run_id} has a source, cache, or budget blocker."
+            fi
+            if ! unzip -p "$newer_archive" source-health.json | jq -e '
+              .status == "healthy"
+              and .fallback_cache_count == 0
+              and (.cache_blocked_source_ids | length) == 0
+            ' >/dev/null; then
+              close_as_superseded \
+                "Newer discovery ${newer_run_id} has unhealthy source evidence."
+            fi
+            if ! unzip -p "$newer_archive" source-radar-decision.json | \
+              jq -e '.promotion_blocked == false' >/dev/null; then
+              close_as_superseded \
+                "Newer discovery ${newer_run_id} has an active-source race."
+            fi
+            if ! unzip -p "$newer_archive" automated-review.json | jq -e \
+              '
+                .schema == "project-g-automated-review-v2"
+                and .eligible == true
+                and .required_stable_cycles == 2
+                and .review_policy == "unattended-evidence-gated-v2"
+                and .minimum_cycle_separation_seconds == 300
+                and (.blockers | length) == 0
+              ' >/dev/null; then
+              close_as_superseded \
+                "Newer discovery ${newer_run_id} lacks eligible automated evidence."
+            fi
+            newer_review="${newer_evidence_dir}/${newer_artifact_id}-automated-review.json"
+            unzip -p "$newer_archive" automated-review.json > "$newer_review"
+            if ! cmp .promotion/automated-review.json "$newer_review"; then
+              close_as_superseded \
+                "Newer discovery ${newer_run_id} changed rule-level evidence."
+            fi
+            newer_fingerprint="$(
+              unzip -p "$newer_archive" decision-fingerprint.txt \
+                | tr -d '[:space:]'
+            )"
+            if [ "$newer_fingerprint" != "$EXPECTED_DECISION_FINGERPRINT" ]; then
+              close_as_superseded \
+                "Newer discovery ${newer_run_id} decision evidence is inconsistent."
+            fi
+            echo "Validated newer discovery ${newer_run_id}: ${newer_artifact_name}"
+          done < <(jq -r '.[].id' <<<"$newer_runs")
           (
             cd .promotion
             sha256sum -c ruleset-dist.sha256
           )
           candidate_source_sha="$(tr -d '[:space:]' < .promotion/source-sha.txt)"
           candidate_digest="$(tr -d '[:space:]' < .promotion/semantic-digest.txt)"
+          candidate_decision_fingerprint="$(
+            tr -d '[:space:]' < .promotion/decision-fingerprint.txt
+          )"
           candidate_identity_digest="$(tr -d '[:space:]' < .promotion/identity-digest.txt)"
           manifest_digest="$(jq -r '.semantic_digest' .promotion/candidate-manifest.json)"
           manifest_risk="$(jq -r '.risk_level' .promotion/candidate-manifest.json)"
+          decision_file_digest="$(sha256sum .promotion/candidate-decision.json | awk '{print $1}')"
           identity_file_digest="$(sha256sum .promotion/candidate-identity.json | awk '{print $1}')"
-          artifact_identity_digest="${CANDIDATE_ARTIFACT_NAME##*-}"
-          artifact_risk="${CANDIDATE_ARTIFACT_NAME#ruleset-candidate-}"
-          artifact_risk="${artifact_risk%%-*}"
-          artifact_tail="${CANDIDATE_ARTIFACT_NAME#ruleset-candidate-${artifact_risk}-}"
-          artifact_semantic_digest="${artifact_tail%%-*}"
+          candidate_pattern='^ruleset-candidate-(low|high)-([0-9a-f]{64})-([0-9a-f]{64})-([0-9a-f]{64})$'
+          if ! [[ "$CANDIDATE_ARTIFACT_NAME" =~ $candidate_pattern ]]; then
+            echo "Candidate artifact name is invalid."
+            exit 1
+          fi
+          artifact_risk="${BASH_REMATCH[1]}"
+          artifact_semantic_digest="${BASH_REMATCH[2]}"
+          artifact_decision_fingerprint="${BASH_REMATCH[3]}"
+          artifact_identity_digest="${BASH_REMATCH[4]}"
           test "$candidate_digest" = "$manifest_digest"
           test "$candidate_digest" = "$artifact_semantic_digest"
+          test "$candidate_decision_fingerprint" = "$decision_file_digest"
+          test "$candidate_decision_fingerprint" = "$artifact_decision_fingerprint"
+          test "$candidate_decision_fingerprint" = "$EXPECTED_DECISION_FINGERPRINT"
           test "$candidate_identity_digest" = "$identity_file_digest"
           test "$candidate_identity_digest" = "$artifact_identity_digest"
           test "$manifest_risk" = "$artifact_risk"
+          test "$(jq -r '.schema' .promotion/automated-review.json)" = \
+            "project-g-automated-review-v2"
+          test "$(jq -r '.eligible' .promotion/automated-review.json)" = "true"
+          test "$(jq -r '.required_stable_cycles' .promotion/automated-review.json)" = "2"
+          test "$(jq -r '.review_policy' .promotion/automated-review.json)" = \
+            "unattended-evidence-gated-v2"
+          test "$(jq -r '.minimum_cycle_separation_seconds' .promotion/automated-review.json)" = "300"
+          test "$(jq -r '.risk_level' .promotion/automated-review.json)" = \
+            "$manifest_risk"
+          test "$(jq '.blockers | length' .promotion/automated-review.json)" = "0"
           test "$(jq -r '.semantic_digest' .promotion/candidate-identity.json)" = "$candidate_digest"
+          test "$(jq -r '.decision_fingerprint' .promotion/candidate-identity.json)" = \
+            "$candidate_decision_fingerprint"
+          test "$(jq -r '.decision_schema' .promotion/candidate-identity.json)" = \
+            "project-g-candidate-decision-v1"
           test "$(jq -r '.source_sha' .promotion/candidate-identity.json)" = "$candidate_source_sha"
           test "$(jq -r '.source_lock_sha256' .promotion/candidate-identity.json)" = \
             "$(jq -r '.source_lock_sha256' .promotion/candidate-manifest.json)"
@@ -283,21 +668,52 @@ jobs:
             "$(sha256sum .github/workflows/source-discovery.yml | awk '{print $1}')"
           test "$candidate_source_sha" = "$EXPECTED_SOURCE_SHA"
 
+          recomputed_dir="${RUNNER_TEMP}/candidate-identity"
+          mkdir -p "$recomputed_dir"
+          python3 ruleset/scripts/build_candidate_identity.py \
+            --manifest .promotion/candidate-manifest.json \
+            --radar-decision .promotion/source-radar-decision.json \
+            --automated-review .promotion/automated-review.json \
+            --source-sha "$candidate_source_sha" \
+            --workflow .github/workflows/source-discovery.yml \
+            --identity-output "$recomputed_dir/candidate-identity.json" \
+            --decision-output "$recomputed_dir/candidate-decision.json" \
+            --fingerprint-output "$recomputed_dir/decision-fingerprint.txt"
+          cmp .promotion/candidate-identity.json \
+            "$recomputed_dir/candidate-identity.json"
+          cmp .promotion/candidate-decision.json \
+            "$recomputed_dir/candidate-decision.json"
+          cmp .promotion/decision-fingerprint.txt \
+            "$recomputed_dir/decision-fingerprint.txt"
+
+          test "$(jq -r '.source_head_advanced_after_lock' .promotion/candidate-manifest.json)" = "false"
+          test "$(jq '.budget_exceeded | length' .promotion/candidate-manifest.json)" = "0"
+          test "$(jq -r '.fallback_cache_count' .promotion/candidate-manifest.json)" = "0"
+          test "$(jq '.cache_blocked_source_ids | length' .promotion/candidate-manifest.json)" = "0"
+          test "$(jq -r '.status' .promotion/source-health.json)" = "healthy"
+          test "$(jq -r '.fallback_cache_count' .promotion/source-health.json)" = "0"
+          test "$(jq '.cache_blocked_source_ids | length' .promotion/source-health.json)" = "0"
+          test "$(jq -r '.promotion_blocked' .promotion/source-radar-decision.json)" = "false"
+
           git fetch --no-tags origin main
           remote_sha="$(git rev-parse origin/main)"
           checkout_sha="$(git rev-parse HEAD)"
           if [ "$candidate_source_sha" != "$remote_sha" ] || [ "$checkout_sha" != "$remote_sha" ]; then
-            echo "Source moved after candidate validation; refusing stale promotion."
-            echo "candidate=$candidate_source_sha remote=$remote_sha checkout=$checkout_sha"
-            exit 1
+            close_as_superseded \
+              "Source moved after candidate validation; the newer main chain owns publication."
           fi
-          if [ "$PROMOTION_MODE" = "auto-low-risk" ]; then
-            test "$manifest_risk" = "low"
-            test "$(jq -r '.auto_promotion_eligible' .promotion/candidate-manifest.json)" = "true"
-          fi
+          case "$PROMOTION_MODE:$manifest_risk" in
+            auto-low-risk:low)
+              test "$(jq -r '.auto_promotion_eligible' \
+                .promotion/candidate-manifest.json)" = "true"
+              ;;
+            auto-high-risk:high) ;;
+            *) echo "Promotion mode does not match candidate risk."; exit 1 ;;
+          esac
           test "$(jq -r '.changed' .promotion/candidate-manifest.json)" = "true"
 
       - name: Apply candidate archive safely
+        if: ${{ steps.reservation.outputs.continue == 'true' }}
         run: |
           set -euo pipefail
           cp -a ruleset/dist .promotion/baseline-dist
@@ -331,14 +747,52 @@ jobs:
           PY
           tar -xzf .promotion/ruleset-dist.tar.gz -C "$extract_dir"
           cmp .promotion/candidate-manifest.json "$extract_dir/dist/candidate_manifest.json"
+          cmp .promotion/automated-review.json "$extract_dir/dist/automated_review.json"
+          python3 ruleset/scripts/check_automated_review.py \
+            --manifest "$extract_dir/dist/candidate_manifest.json" \
+            --rule-delta "$extract_dir/dist/rule_delta.json" \
+            --contracts "$extract_dir/dist/category_contracts_resolved.json" \
+            --canonical-contracts ruleset/config/category_contracts.json \
+            --source-config ruleset/config/sources.json \
+            --baseline-dist ruleset/dist \
+            --current-dist "$extract_dir/dist" \
+            --protected-domain-roots ruleset/config/protected_domain_roots.json \
+            --repository-root . \
+            --provenance "$extract_dir/dist/source_provenance.json" \
+            --source-registry ruleset/config/source_registry.json \
+            --radar-decision "$extract_dir/dist/source_radar_decision.json" \
+            --radar-snapshot "$extract_dir/dist/candidate_sources.json" \
+            --output "${RUNNER_TEMP}/extracted-automated-review.json" \
+            --require-eligible
+          cmp .promotion/automated-review.json \
+            "${RUNNER_TEMP}/extracted-automated-review.json"
           rsync -a --delete "$extract_dir/dist/" ruleset/dist/
 
       - name: Revalidate exact candidate without rebuilding
+        if: ${{ steps.reservation.outputs.continue == 'true' }}
         run: |
           set -euo pipefail
           python3 ruleset/scripts/validate_rulesets.py
           python3 ruleset/scripts/check_smoke_probes.py
           python3 ruleset/scripts/check_allowlist_effective.py
+          python3 ruleset/scripts/check_automated_review.py \
+            --manifest ruleset/dist/candidate_manifest.json \
+            --rule-delta ruleset/dist/rule_delta.json \
+            --contracts ruleset/dist/category_contracts_resolved.json \
+            --canonical-contracts ruleset/config/category_contracts.json \
+            --source-config ruleset/config/sources.json \
+            --baseline-dist .promotion/baseline-dist \
+            --current-dist ruleset/dist \
+            --protected-domain-roots ruleset/config/protected_domain_roots.json \
+            --repository-root . \
+            --provenance ruleset/dist/source_provenance.json \
+            --source-registry ruleset/config/source_registry.json \
+            --radar-decision ruleset/dist/source_radar_decision.json \
+            --radar-snapshot ruleset/dist/candidate_sources.json \
+            --output "${RUNNER_TEMP}/revalidated-automated-review.json" \
+            --require-eligible
+          cmp ruleset/dist/automated_review.json \
+            "${RUNNER_TEMP}/revalidated-automated-review.json"
           auto_args=()
           if [ "$PROMOTION_MODE" = "auto-low-risk" ]; then
             auto_args=(--require-auto-promotion-eligible)
@@ -360,6 +814,7 @@ jobs:
             "${auto_args[@]}"
 
       - name: Scan final publish tree for secrets
+        if: ${{ steps.reservation.outputs.continue == 'true' }}
         run: |
           set -euo pipefail
           report_dir="${RUNNER_TEMP}/gitleaks-promotion"
@@ -377,6 +832,7 @@ jobs:
             --report-path /reports/gitleaks.sarif
 
       - name: Prepare candidate commit and snapshot tag
+        if: ${{ steps.reservation.outputs.continue == 'true' }}
         id: prepare_snapshot
         run: |
           set -euo pipefail
@@ -417,10 +873,12 @@ jobs:
             exit 1
           fi
           echo "published_sha=$published_sha" >> "$GITHUB_OUTPUT"
+          echo "semantic_digest=$semantic_digest" >> "$GITHUB_OUTPUT"
           echo "previous_sha=$previous_sha" >> "$GITHUB_OUTPUT"
           echo "tag=$tag" >> "$GITHUB_OUTPUT"
 
       - name: Generate tag-pinned release notes
+        if: ${{ steps.reservation.outputs.continue == 'true' }}
         env:
           SNAPSHOT_TAG: ${{ steps.prepare_snapshot.outputs.tag }}
         run: |
@@ -434,6 +892,7 @@ jobs:
             --output .promotion/release-notes.md
 
       - name: Publish snapshot tag
+        if: ${{ steps.reservation.outputs.continue == 'true' }}
         env:
           SNAPSHOT_TAG: ${{ steps.prepare_snapshot.outputs.tag }}
         run: |
@@ -445,6 +904,7 @@ jobs:
           test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.sha')" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
 
       - name: Create immutable snapshot release
+        if: ${{ steps.reservation.outputs.continue == 'true' }}
         env:
           SNAPSHOT_TAG: ${{ steps.prepare_snapshot.outputs.tag }}
         run: |
@@ -465,6 +925,7 @@ jobs:
           test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.sha')" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
 
       - name: Verify tag, release, assets, tree, and discovery attestation
+        if: ${{ steps.reservation.outputs.continue == 'true' }}
         env:
           PUBLISHED_SHA: ${{ steps.prepare_snapshot.outputs.published_sha }}
           SNAPSHOT_TAG: ${{ steps.prepare_snapshot.outputs.tag }}
@@ -492,6 +953,7 @@ jobs:
             --source-digest "$EXPECTED_SOURCE_SHA"
 
       - name: Authorize the verified main transition
+        if: ${{ steps.reservation.outputs.continue == 'true' }}
         env:
           PUBLISHED_SHA: ${{ steps.prepare_snapshot.outputs.published_sha }}
           SNAPSHOT_TAG: ${{ steps.prepare_snapshot.outputs.tag }}
@@ -510,6 +972,7 @@ jobs:
           test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.sha')" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
 
       - name: Publish verified snapshot to main
+        if: ${{ steps.reservation.outputs.continue == 'true' }}
         env:
           PREVIOUS_SHA: ${{ steps.prepare_snapshot.outputs.previous_sha }}
           PUBLISHED_SHA: ${{ steps.prepare_snapshot.outputs.published_sha }}
@@ -529,6 +992,7 @@ jobs:
           test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.sha')" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
 
       - name: Verify published main and immutable snapshot
+        if: ${{ steps.reservation.outputs.continue == 'true' }}
         env:
           PUBLISHED_SHA: ${{ steps.prepare_snapshot.outputs.published_sha }}
           SNAPSHOT_TAG: ${{ steps.prepare_snapshot.outputs.tag }}
@@ -555,6 +1019,7 @@ jobs:
             --source-digest "$EXPECTED_SOURCE_SHA"
 
       - name: Record final generated SHA status
+        if: ${{ steps.reservation.outputs.continue == 'true' }}
         env:
           PUBLISHED_SHA: ${{ steps.prepare_snapshot.outputs.published_sha }}
           SNAPSHOT_TAG: ${{ steps.prepare_snapshot.outputs.tag }}
@@ -581,8 +1046,89 @@ jobs:
             echo "- Root README: \`0 bytes\`"
           } >> "$GITHUB_STEP_SUMMARY"
 
+      - name: Build exact publication receipt
+        if: ${{ steps.reservation.outputs.continue == 'true' }}
+        id: receipt
+        env:
+          PREVIOUS_SHA: ${{ steps.prepare_snapshot.outputs.previous_sha }}
+          PUBLISHED_SHA: ${{ steps.prepare_snapshot.outputs.published_sha }}
+          SEMANTIC_DIGEST: ${{ steps.prepare_snapshot.outputs.semantic_digest }}
+          SNAPSHOT_TAG: ${{ steps.prepare_snapshot.outputs.tag }}
+        run: |
+          set -euo pipefail
+          archive_sha256="$(sha256sum .promotion/ruleset-dist.tar.gz | awk '{print $1}')"
+          checksum_sha256="$(awk 'NR == 1 {print $1}' .promotion/ruleset-dist.sha256)"
+          test "$archive_sha256" = "$checksum_sha256"
+          automated_review_sha256="$(
+            sha256sum .promotion/automated-review.json | awk '{print $1}'
+          )"
+          identity_sha256="$(
+            sha256sum .promotion/candidate-identity.json | awk '{print $1}'
+          )"
+          source_lock_sha256="$(
+            jq -r '.source_lock_sha256' .promotion/candidate-manifest.json
+          )"
+          jq -n \
+            --arg schema "project-g-publication-receipt-v1" \
+            --arg repository "$REPOSITORY" \
+            --arg promotion_run_id "$GITHUB_RUN_ID" \
+            --arg candidate_run_id "$CANDIDATE_RUN_ID" \
+            --arg candidate_artifact_name "$CANDIDATE_ARTIFACT_NAME" \
+            --arg candidate_source_sha "$EXPECTED_SOURCE_SHA" \
+            --arg decision_fingerprint "$EXPECTED_DECISION_FINGERPRINT" \
+            --arg previous_sha "$PREVIOUS_SHA" \
+            --arg published_sha "$PUBLISHED_SHA" \
+            --arg snapshot_tag "$SNAPSHOT_TAG" \
+            --arg semantic_digest "$SEMANTIC_DIGEST" \
+            --arg source_lock_sha256 "$source_lock_sha256" \
+            --arg archive_sha256 "$archive_sha256" \
+            --arg automated_review_sha256 "$automated_review_sha256" \
+            --arg identity_sha256 "$identity_sha256" \
+            '{
+              schema: $schema,
+              repository: $repository,
+              promotion_run_id: $promotion_run_id,
+              candidate_run_id: $candidate_run_id,
+              candidate_artifact_name: $candidate_artifact_name,
+              candidate_source_sha: $candidate_source_sha,
+              decision_fingerprint: $decision_fingerprint,
+              previous_sha: $previous_sha,
+              published_sha: $published_sha,
+              snapshot_tag: $snapshot_tag,
+              semantic_digest: $semantic_digest,
+              source_lock_sha256: $source_lock_sha256,
+              candidate_archive_sha256: $archive_sha256,
+              automated_review_sha256: $automated_review_sha256,
+              candidate_identity_sha256: $identity_sha256
+            }' > .promotion/publication-receipt.json
+          jq -e \
+            '
+              .schema == "project-g-publication-receipt-v1"
+              and (.promotion_run_id | test("^[0-9]+$"))
+              and (.candidate_run_id | test("^[0-9]+$"))
+              and (.published_sha | test("^[0-9a-f]{40}$"))
+              and (.semantic_digest | test("^[0-9a-f]{64}$"))
+              and (.candidate_archive_sha256 | test("^[0-9a-f]{64}$"))
+            ' .promotion/publication-receipt.json >/dev/null
+          test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.size')" = "0"
+          echo "artifact_name=ruleset-publication-receipt-${PUBLISHED_SHA}" \
+            >> "$GITHUB_OUTPUT"
+
+      - name: Upload immutable publication receipt
+        if: ${{ steps.reservation.outputs.continue == 'true' }}
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: ${{ steps.receipt.outputs.artifact_name }}
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 30
+          path: .promotion/publication-receipt.json
+
       - name: Forward-rollback an incompletely verified main publication
-        if: ${{ (failure() || cancelled()) && steps.prepare_snapshot.outcome == 'success' }}
+        if: >-
+          steps.reservation.outputs.continue == 'true' &&
+          (failure() || cancelled()) &&
+          steps.prepare_snapshot.outcome == 'success'
         env:
           PUBLISHED_SHA: ${{ steps.prepare_snapshot.outputs.published_sha }}
           PREVIOUS_SHA: ${{ steps.prepare_snapshot.outputs.previous_sha }}

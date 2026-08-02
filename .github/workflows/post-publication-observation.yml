@@ -1,0 +1,574 @@
+name: Post-Publication Observation
+
+on:
+  workflow_run:
+    workflows:
+      - Ruleset Promotion
+    types:
+      - completed
+
+permissions:
+  actions: write
+  attestations: read
+  contents: read
+  statuses: read
+
+concurrency:
+  group: ruleset-post-publication-observation-main
+  cancel-in-progress: false
+  queue: max
+
+jobs:
+  observe:
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_branch == 'main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      REPOSITORY: ${{ github.repository }}
+      PROMOTION_RUN_ID: ${{ github.event.workflow_run.id }}
+    steps:
+      - name: Select exact publication receipt
+        id: receipt
+        run: |
+          set -euo pipefail
+          echo "has_receipt=false" >> "$GITHUB_OUTPUT"
+          run_json="$(gh api "repos/${REPOSITORY}/actions/runs/${PROMOTION_RUN_ID}")"
+          test "$(jq -r '.status' <<<"$run_json")" = "completed"
+          test "$(jq -r '.conclusion' <<<"$run_json")" = "success"
+          test "$(jq -r '.head_branch' <<<"$run_json")" = "main"
+          test "$(jq -r '.repository.full_name' <<<"$run_json")" = "$REPOSITORY"
+          test "$(jq -r '.path' <<<"$run_json")" = \
+            ".github/workflows/ruleset-update.yml"
+          event="$(jq -r '.event' <<<"$run_json")"
+          case "$event" in
+            workflow_run|workflow_dispatch) ;;
+            *) echo "Promotion run has an unexpected event: $event"; exit 1 ;;
+          esac
+          artifacts="$(
+            gh api \
+              "repos/${REPOSITORY}/actions/runs/${PROMOTION_RUN_ID}/artifacts?per_page=100"
+          )"
+          receipts="$(
+            jq -c '[.artifacts[]
+              | select(.expired == false)
+              | select(.name | test("^ruleset-publication-receipt-[0-9a-f]{40}$"))
+              | {id, name}]' <<<"$artifacts"
+          )"
+          receipt_count="$(jq 'length' <<<"$receipts")"
+          if [ "$receipt_count" = "0" ]; then
+            {
+              echo "## No publication to observe"
+              echo
+              echo "Promotion run \`${PROMOTION_RUN_ID}\` produced no publication receipt."
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          if [ "$receipt_count" != "1" ]; then
+            echo "Promotion must contain at most one exact publication receipt."
+            exit 1
+          fi
+          receipt_name="$(jq -r '.[0].name' <<<"$receipts")"
+          echo "has_receipt=true" >> "$GITHUB_OUTPUT"
+          echo "artifact_name=$receipt_name" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout current main verifier
+        if: ${{ steps.receipt.outputs.has_receipt == 'true' }}
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Download exact publication receipt
+        if: ${{ steps.receipt.outputs.has_receipt == 'true' }}
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: ${{ steps.receipt.outputs.artifact_name }}
+          path: .publication-receipt
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          run-id: ${{ github.event.workflow_run.id }}
+          digest-mismatch: error
+
+      - name: Validate receipt identity
+        if: ${{ steps.receipt.outputs.has_receipt == 'true' }}
+        id: receipt_data
+        run: |
+          set -euo pipefail
+          receipt=.publication-receipt/publication-receipt.json
+          test -f "$receipt"
+          jq -e \
+            --arg repository "$REPOSITORY" \
+            --arg promotion_run_id "$PROMOTION_RUN_ID" \
+            '
+              .schema == "project-g-publication-receipt-v1"
+              and .repository == $repository
+              and .promotion_run_id == $promotion_run_id
+              and (.candidate_run_id | test("^[0-9]+$"))
+              and (.candidate_artifact_name | test("^ruleset-candidate-(low|high)-[0-9a-f]{64}-[0-9a-f]{64}-[0-9a-f]{64}$"))
+              and (.candidate_source_sha | test("^[0-9a-f]{40}$"))
+              and (.decision_fingerprint | test("^[0-9a-f]{64}$"))
+              and (.previous_sha | test("^[0-9a-f]{40}$"))
+              and (.published_sha | test("^[0-9a-f]{40}$"))
+              and (.snapshot_tag | test("^ruleset-[A-Za-z0-9._-]+$"))
+              and (.semantic_digest | test("^[0-9a-f]{64}$"))
+              and (.source_lock_sha256 | test("^[0-9a-f]{64}$"))
+              and (.candidate_archive_sha256 | test("^[0-9a-f]{64}$"))
+              and (.automated_review_sha256 | test("^[0-9a-f]{64}$"))
+              and (.candidate_identity_sha256 | test("^[0-9a-f]{64}$"))
+            ' "$receipt" >/dev/null
+          published_sha="$(jq -r '.published_sha' "$receipt")"
+          test "${{ steps.receipt.outputs.artifact_name }}" = \
+            "ruleset-publication-receipt-${published_sha}"
+          for field in \
+            candidate_run_id \
+            candidate_artifact_name \
+            candidate_source_sha \
+            published_sha \
+            snapshot_tag \
+            semantic_digest; do
+            echo "${field}=$(jq -r ".${field}" "$receipt")" >> "$GITHUB_OUTPUT"
+          done
+
+      - name: Download exact published candidate
+        if: ${{ steps.receipt.outputs.has_receipt == 'true' }}
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: ${{ steps.receipt_data.outputs.candidate_artifact_name }}
+          path: .snapshot-candidate
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          run-id: ${{ steps.receipt_data.outputs.candidate_run_id }}
+          digest-mismatch: error
+
+      - name: Setup Python
+        if: ${{ steps.receipt.outputs.has_receipt == 'true' }}
+        uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.11"
+
+      - name: Verify frozen snapshot convergence
+        if: ${{ steps.receipt.outputs.has_receipt == 'true' }}
+        id: snapshot
+        env:
+          CANDIDATE_SOURCE_SHA: ${{ steps.receipt_data.outputs.candidate_source_sha }}
+          PUBLISHED_SHA: ${{ steps.receipt_data.outputs.published_sha }}
+          SEMANTIC_DIGEST: ${{ steps.receipt_data.outputs.semantic_digest }}
+          SNAPSHOT_TAG: ${{ steps.receipt_data.outputs.snapshot_tag }}
+        run: |
+          set -euo pipefail
+          receipt=.publication-receipt/publication-receipt.json
+          test "$(tr -d '[:space:]' < .snapshot-candidate/source-sha.txt)" = \
+            "$CANDIDATE_SOURCE_SHA"
+          test "$(jq -r '.semantic_digest' .snapshot-candidate/candidate-manifest.json)" = \
+            "$SEMANTIC_DIGEST"
+          test "$(jq -r '.source_lock_sha256' .snapshot-candidate/candidate-manifest.json)" = \
+            "$(jq -r '.source_lock_sha256' "$receipt")"
+          test "$(tr -d '[:space:]' < .snapshot-candidate/decision-fingerprint.txt)" = \
+            "$(jq -r '.decision_fingerprint' "$receipt")"
+          test "$(sha256sum .snapshot-candidate/automated-review.json | awk '{print $1}')" = \
+            "$(jq -r '.automated_review_sha256' "$receipt")"
+          test "$(sha256sum .snapshot-candidate/candidate-identity.json | awk '{print $1}')" = \
+            "$(jq -r '.candidate_identity_sha256' "$receipt")"
+          (
+            cd .snapshot-candidate
+            sha256sum -c ruleset-dist.sha256
+          )
+          candidate_archive_sha256="$(
+            sha256sum .snapshot-candidate/ruleset-dist.tar.gz | awk '{print $1}'
+          )"
+          test "$candidate_archive_sha256" = \
+            "$(jq -r '.candidate_archive_sha256' "$receipt")"
+          gh attestation verify .snapshot-candidate/ruleset-dist.tar.gz \
+            --repo "$REPOSITORY" \
+            --signer-workflow \
+              "${REPOSITORY}/.github/workflows/source-discovery.yml" \
+            --source-digest "$CANDIDATE_SOURCE_SHA"
+
+          mkdir -p .snapshot-release
+          gh release download "$SNAPSHOT_TAG" \
+            --repo "$REPOSITORY" \
+            --pattern ruleset-dist.tar.gz \
+            --pattern ruleset-dist.sha256 \
+            --dir .snapshot-release
+          test "$(sha256sum .snapshot-release/ruleset-dist.tar.gz | awk '{print $1}')" = \
+            "$candidate_archive_sha256"
+          current_main_sha="$(gh api "repos/${REPOSITORY}/commits/main" --jq '.sha')"
+          test "$current_main_sha" = "$(git rev-parse HEAD)"
+          test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.size')" = "0"
+          test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.sha')" = \
+            "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+          git merge-base --is-ancestor "$PUBLISHED_SHA" "$current_main_sha"
+          python3 ruleset/scripts/verify_published.py \
+            --repository "$REPOSITORY" \
+            --sha "$PUBLISHED_SHA" \
+            --tag "$SNAPSHOT_TAG" \
+            --archive .snapshot-release/ruleset-dist.tar.gz \
+            --checksum .snapshot-release/ruleset-dist.sha256 \
+            --skip-main \
+            --require-published-status
+          if ! git diff --quiet "$PUBLISHED_SHA" "$current_main_sha" -- ruleset/dist; then
+            echo "superseded=true" >> "$GITHUB_OUTPUT"
+            {
+              echo "## Snapshot superseded"
+              echo
+              echo "A newer publication changed \`ruleset/dist\`; this older receipt is closed without a duplicate live observation."
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          python3 ruleset/scripts/verify_published.py \
+            --repository "$REPOSITORY" \
+            --sha "$PUBLISHED_SHA" \
+            --main-sha "$current_main_sha" \
+            --tag "$SNAPSHOT_TAG" \
+            --archive .snapshot-release/ruleset-dist.tar.gz \
+            --checksum .snapshot-release/ruleset-dist.sha256 \
+            --require-published-status
+          echo "superseded=false" >> "$GITHUB_OUTPUT"
+          echo "observation_sha=$current_main_sha" >> "$GITHUB_OUTPUT"
+
+      - name: Dispatch and select exact live observation
+        if: >-
+          steps.receipt.outputs.has_receipt == 'true' &&
+          steps.snapshot.outputs.superseded == 'false'
+        id: observation
+        env:
+          OBSERVATION_SHA: ${{ steps.snapshot.outputs.observation_sha }}
+        run: |
+          set -euo pipefail
+          close_as_superseded() {
+            echo "superseded=true" >> "$GITHUB_OUTPUT"
+            {
+              echo "## Live observation superseded"
+              echo
+              echo "Main advanced after the publication snapshot was fixed; the newer main automation chain owns live convergence."
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          }
+          current_main_sha="$(gh api "repos/${REPOSITORY}/commits/main" --jq '.sha')"
+          if [ "$current_main_sha" != "$OBSERVATION_SHA" ]; then
+            close_as_superseded
+          fi
+          observation_id="$(
+            printf '%s\0%s\0%s' \
+              "$PROMOTION_RUN_ID" "$OBSERVATION_SHA" "$GITHUB_RUN_ID" \
+              | sha256sum | awk '{print $1}'
+          )"
+          observation_attempt=1
+          dispatch_observation() {
+            dispatched_at="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+            expected_title="Source Discovery ${observation_id} attempt-${observation_attempt}"
+            gh workflow run source-discovery.yml \
+              --repo "$REPOSITORY" \
+              --ref main \
+              -f expected_source_sha="$OBSERVATION_SHA" \
+              -f observation_id="$observation_id" \
+              -f observation_attempt="$observation_attempt"
+          }
+          dispatch_observation
+          deadline_epoch=$(( $(date -u +%s) + 19800 ))
+          observation_run_id=""
+          artifact_name=""
+          while [ "$(date -u +%s)" -lt "$deadline_epoch" ]; do
+            if [ "$(gh api "repos/${REPOSITORY}/commits/main" --jq '.sha')" != \
+              "$OBSERVATION_SHA" ]; then
+              close_as_superseded
+            fi
+            runs="$(
+              gh api \
+                "repos/${REPOSITORY}/actions/workflows/source-discovery.yml/runs?branch=main&per_page=100"
+            )"
+            observation_run_id="$(
+              jq -r \
+                --arg sha "$OBSERVATION_SHA" \
+                --arg created "$dispatched_at" \
+                --arg title "$expected_title" \
+                '.workflow_runs[]
+                 | select(.head_sha == $sha)
+                 | select(.created_at >= $created)
+                 | select(.display_title == $title)
+                 | select(.event == "workflow_dispatch")
+                 | select(.path == ".github/workflows/source-discovery.yml")
+                 | select(.head_repository.full_name == env.REPOSITORY)
+                 | .id' <<<"$runs" \
+                | sort -nr | head -n 1 || true
+            )"
+            if ! [[ "$observation_run_id" =~ ^[0-9]+$ ]]; then
+              sleep 15
+              continue
+            fi
+            run_json="$(
+              gh api "repos/${REPOSITORY}/actions/runs/${observation_run_id}"
+            )"
+            status="$(jq -r '.status' <<<"$run_json")"
+            if [ "$status" != "completed" ]; then
+              sleep 15
+              continue
+            fi
+            conclusion="$(jq -r '.conclusion' <<<"$run_json")"
+            if [ "$conclusion" != "success" ]; then
+              if [ "$observation_attempt" = "2" ]; then
+                echo "Exact live observation failed after one automatic retry."
+                exit 1
+              fi
+              observation_attempt=2
+              observation_run_id=""
+              dispatch_observation
+              sleep 15
+              continue
+            fi
+            test "$(jq -r '.head_sha' <<<"$run_json")" = "$OBSERVATION_SHA"
+            test "$(jq -r '.head_repository.full_name' <<<"$run_json")" = \
+              "$REPOSITORY"
+            test "$(jq -r '.display_title' <<<"$run_json")" = "$expected_title"
+            artifacts="$(
+              gh api \
+                "repos/${REPOSITORY}/actions/runs/${observation_run_id}/artifacts?per_page=100"
+            )"
+            candidates="$(
+              jq -c '[.artifacts[]
+                | select(.expired == false)
+                | select(.name | test("^ruleset-candidate-(none|low|high)-[0-9a-f]{64}-[0-9a-f]{64}-[0-9a-f]{64}$"))
+                | {id, name}]' <<<"$artifacts"
+            )"
+            test "$(jq 'length' <<<"$candidates")" = "1"
+            artifact_name="$(jq -r '.[0].name' <<<"$candidates")"
+            break
+          done
+          if ! [[ "$observation_run_id" =~ ^[0-9]+$ ]] || \
+             [ -z "$artifact_name" ]; then
+            echo "Exact live observation did not complete within 330 minutes."
+            exit 1
+          fi
+          echo "superseded=false" >> "$GITHUB_OUTPUT"
+          echo "run_id=$observation_run_id" >> "$GITHUB_OUTPUT"
+          echo "artifact_name=$artifact_name" >> "$GITHUB_OUTPUT"
+          echo "observation_id=$observation_id" >> "$GITHUB_OUTPUT"
+          echo "observation_attempt=$observation_attempt" >> "$GITHUB_OUTPUT"
+
+      - name: Download exact live candidate
+        if: >-
+          steps.receipt.outputs.has_receipt == 'true' &&
+          steps.snapshot.outputs.superseded == 'false' &&
+          steps.observation.outputs.superseded == 'false'
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: ${{ steps.observation.outputs.artifact_name }}
+          path: .live-candidate
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ github.repository }}
+          run-id: ${{ steps.observation.outputs.run_id }}
+          digest-mismatch: error
+
+      - name: Verify and classify live observation
+        if: >-
+          steps.receipt.outputs.has_receipt == 'true' &&
+          steps.snapshot.outputs.superseded == 'false' &&
+          steps.observation.outputs.superseded == 'false'
+        env:
+          LIVE_ARTIFACT_NAME: ${{ steps.observation.outputs.artifact_name }}
+          LIVE_RUN_ID: ${{ steps.observation.outputs.run_id }}
+          OBSERVATION_ATTEMPT: ${{ steps.observation.outputs.observation_attempt }}
+          OBSERVATION_ID: ${{ steps.observation.outputs.observation_id }}
+          OBSERVATION_SHA: ${{ steps.snapshot.outputs.observation_sha }}
+        run: |
+          set -euo pipefail
+          live_superseded=false
+          verify_remote_main_boundary() {
+            current_main_sha="$(
+              gh api "repos/${REPOSITORY}/commits/main" --jq '.sha'
+            )"
+            test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.size')" = "0"
+            test "$(gh api "repos/${REPOSITORY}/contents/README.md?ref=main" --jq '.sha')" = \
+              "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+            if [ "$current_main_sha" != "$OBSERVATION_SHA" ]; then
+              git fetch --no-tags origin main
+              test "$(git rev-parse origin/main)" = "$current_main_sha"
+              git merge-base --is-ancestor "$OBSERVATION_SHA" "$current_main_sha"
+              live_superseded=true
+            fi
+          }
+          test "$(git rev-parse HEAD)" = "$OBSERVATION_SHA"
+          test -f README.md
+          test ! -s README.md
+          test "$(git hash-object README.md)" = \
+            "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+          verify_remote_main_boundary
+          candidate_pattern='^ruleset-candidate-(none|low|high)-([0-9a-f]{64})-([0-9a-f]{64})-([0-9a-f]{64})$'
+          [[ "$LIVE_ARTIFACT_NAME" =~ $candidate_pattern ]]
+          artifact_risk="${BASH_REMATCH[1]}"
+          artifact_semantic_digest="${BASH_REMATCH[2]}"
+          artifact_decision_fingerprint="${BASH_REMATCH[3]}"
+          artifact_identity_digest="${BASH_REMATCH[4]}"
+          test "$(tr -d '[:space:]' < .live-candidate/observation-id.txt)" = \
+            "${OBSERVATION_ID}:${OBSERVATION_ATTEMPT}"
+          test "$(tr -d '[:space:]' < .live-candidate/source-sha.txt)" = \
+            "$OBSERVATION_SHA"
+          test "$(jq -r '.source_commit_sha' .live-candidate/candidate-manifest.json)" = \
+            "$OBSERVATION_SHA"
+          test "$(jq -r '.risk_level' .live-candidate/candidate-manifest.json)" = \
+            "$artifact_risk"
+          test "$(jq -r '.semantic_digest' .live-candidate/candidate-manifest.json)" = \
+            "$artifact_semantic_digest"
+          test "$(tr -d '[:space:]' < .live-candidate/decision-fingerprint.txt)" = \
+            "$artifact_decision_fingerprint"
+          test "$(sha256sum .live-candidate/candidate-identity.json | awk '{print $1}')" = \
+            "$artifact_identity_digest"
+          jq -e \
+            '
+              .source_head_advanced_after_lock == false
+              and .fallback_cache_count == 0
+              and (.cache_blocked_source_ids | length) == 0
+            ' .live-candidate/candidate-manifest.json >/dev/null
+          jq -e \
+            '
+              .status == "healthy"
+              and .network_success_count > 0
+              and .fallback_cache_count == 0
+              and (.cache_blocked_source_ids | length) == 0
+            ' .live-candidate/source-health.json >/dev/null
+          jq -e \
+            '
+              .candidate_only == true
+              and .promotion_blocked == false
+              and (.advanced_active_repositories | length) == 0
+            ' .live-candidate/source-radar-decision.json >/dev/null
+          (
+            cd .live-candidate
+            sha256sum -c ruleset-dist.sha256
+          )
+          extract_dir="${RUNNER_TEMP}/live-observation-candidate"
+          python3 - .live-candidate/ruleset-dist.tar.gz "$extract_dir" <<'PY'
+          import pathlib
+          import sys
+          import tarfile
+
+          archive = pathlib.Path(sys.argv[1])
+          destination = pathlib.Path(sys.argv[2])
+          destination.mkdir(parents=True, exist_ok=True)
+          with tarfile.open(archive, "r:gz") as bundle:
+              members = bundle.getmembers()
+              seen = set()
+              for member in members:
+                  path = pathlib.PurePosixPath(member.name)
+                  if (
+                      path.is_absolute()
+                      or ".." in path.parts
+                      or not path.parts
+                      or path.parts[0] != "dist"
+                      or member.issym()
+                      or member.islnk()
+                      or not (member.isfile() or member.isdir())
+                  ):
+                      raise SystemExit(
+                          f"unsafe live observation archive member: {member.name}"
+                      )
+                  if member.isfile() and member.name in seen:
+                      raise SystemExit(
+                          f"duplicate live observation archive member: {member.name}"
+                      )
+                  seen.add(member.name)
+              bundle.extractall(destination, members=members)
+          PY
+          current_dist="$extract_dir/dist"
+          cmp .live-candidate/candidate-manifest.json \
+            "$current_dist/candidate_manifest.json"
+          cmp .live-candidate/automated-review.json \
+            "$current_dist/automated_review.json"
+          python3 ruleset/scripts/check_automated_review.py \
+            --manifest "$current_dist/candidate_manifest.json" \
+            --rule-delta "$current_dist/rule_delta.json" \
+            --contracts "$current_dist/category_contracts_resolved.json" \
+            --canonical-contracts ruleset/config/category_contracts.json \
+            --source-config ruleset/config/sources.json \
+            --baseline-dist ruleset/dist \
+            --current-dist "$current_dist" \
+            --protected-domain-roots ruleset/config/protected_domain_roots.json \
+            --repository-root . \
+            --provenance "$current_dist/source_provenance.json" \
+            --source-registry ruleset/config/source_registry.json \
+            --radar-decision "$current_dist/source_radar_decision.json" \
+            --radar-snapshot "$current_dist/candidate_sources.json" \
+            --output "${RUNNER_TEMP}/live-automated-review.json"
+          cmp .live-candidate/automated-review.json \
+            "${RUNNER_TEMP}/live-automated-review.json"
+          identity_dir="${RUNNER_TEMP}/live-candidate-identity"
+          mkdir -p "$identity_dir"
+          python3 ruleset/scripts/build_candidate_identity.py \
+            --manifest .live-candidate/candidate-manifest.json \
+            --radar-decision .live-candidate/source-radar-decision.json \
+            --automated-review .live-candidate/automated-review.json \
+            --source-sha "$OBSERVATION_SHA" \
+            --workflow .github/workflows/source-discovery.yml \
+            --identity-output "$identity_dir/candidate-identity.json" \
+            --decision-output "$identity_dir/candidate-decision.json" \
+            --fingerprint-output "$identity_dir/decision-fingerprint.txt"
+          cmp .live-candidate/candidate-identity.json \
+            "$identity_dir/candidate-identity.json"
+          cmp .live-candidate/candidate-decision.json \
+            "$identity_dir/candidate-decision.json"
+          cmp .live-candidate/decision-fingerprint.txt \
+            "$identity_dir/decision-fingerprint.txt"
+          gh attestation verify .live-candidate/ruleset-dist.tar.gz \
+            --repo "$REPOSITORY" \
+            --signer-workflow \
+              "${REPOSITORY}/.github/workflows/source-discovery.yml" \
+            --source-digest "$OBSERVATION_SHA"
+
+          if [ "$artifact_risk" = "none" ]; then
+            jq -e \
+              '
+                .changed == false
+                and .risk_level == "none"
+              ' .live-candidate/candidate-manifest.json >/dev/null
+            jq -e \
+              '
+                .schema == "project-g-automated-review-v2"
+                and .eligible == false
+                and .blockers == ["candidate has no semantic changes"]
+              ' .live-candidate/automated-review.json >/dev/null
+            test "$artifact_semantic_digest" = \
+              "$(jq -r '.semantic_digest' ruleset/dist/candidate_manifest.json)"
+            observation_state="live-clean"
+          else
+            jq -e '.changed == true' \
+              .live-candidate/candidate-manifest.json >/dev/null
+            jq -e \
+              '
+                .schema == "project-g-automated-review-v2"
+                and (.eligible | type == "boolean")
+                and (.blockers | type == "array")
+                and (.eligible == ((.blockers | length) == 0))
+              ' .live-candidate/automated-review.json >/dev/null
+            automated_eligible="$(
+              jq -r '.eligible' .live-candidate/automated-review.json
+            )"
+            if [ "$automated_eligible" = "true" ]; then
+              observation_state="next-candidate-${artifact_risk}-eligible"
+              echo "::warning title=Eligible ruleset candidate::Live sources changed after publication; the evidence-gated next candidate was captured automatically."
+            else
+              observation_state="candidate-${artifact_risk}-held-by-policy"
+              echo "::warning title=Ruleset candidate held::Live sources changed, but automated evidence policy froze the candidate without user action."
+            fi
+          fi
+          verify_remote_main_boundary
+          if [ "$live_superseded" = "true" ]; then
+            observation_state="superseded/${observation_state}"
+          fi
+          automated_eligible="$(
+            jq -r '.eligible' .live-candidate/automated-review.json
+          )"
+          {
+            echo "## Post-publication live observation"
+            echo
+            echo "- Snapshot convergence: \`verified\`"
+            echo "- Live run: \`${LIVE_RUN_ID}\`"
+            echo "- Exact main SHA: \`${OBSERVATION_SHA}\`"
+            echo "- Observation: \`${observation_state}\`"
+            echo "- Candidate risk: \`${artifact_risk}\`"
+            echo "- Automated eligibility: \`${automated_eligible}\`"
+            echo "- Attestation: \`verified\`"
+            echo "- User action for this observation: \`none\`"
+          } >> "$GITHUB_STEP_SUMMARY"

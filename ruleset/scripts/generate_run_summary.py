@@ -165,7 +165,8 @@ def main() -> int:
             "- Candidate Decision: "
             f"`risk={candidate_manifest.get('risk_level', 'unknown')}, "
             f"auto_eligible={candidate_manifest.get('auto_promotion_eligible', False)}, "
-            f"review_required={candidate_manifest.get('requires_review', False)}, "
+            "automated_elevated_evidence="
+            f"{candidate_manifest.get('requires_review', False)}, "
             f"digest={candidate_manifest.get('semantic_digest', 'unknown')}`"
         )
         risk_markers = [

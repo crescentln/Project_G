@@ -21,6 +21,70 @@ sys.modules[SPEC.name] = build_rulesets
 SPEC.loader.exec_module(build_rulesets)
 
 
+class DomainTopologyRiskTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.previous_suffixes = set(build_rulesets.PROTECTED_PUBLIC_SUFFIXES)
+        self.previous_multi_tenant = set(
+            build_rulesets.PROTECTED_MULTI_TENANT_ROOTS
+        )
+        self.previous_database = build_rulesets.PUBLIC_SUFFIX_DATABASE
+        build_rulesets.PROTECTED_PUBLIC_SUFFIXES = {"co.uk"}
+        build_rulesets.PROTECTED_MULTI_TENANT_ROOTS = {
+            "github.io",
+            "pages.dev",
+        }
+        config_path = (
+            pathlib.Path(__file__).resolve().parents[1]
+            / "config"
+            / "protected_domain_roots.json"
+        )
+        _, _, build_rulesets.PUBLIC_SUFFIX_DATABASE = (
+            build_rulesets.load_protected_domain_roots(
+                config_path, pathlib.Path(__file__).resolve().parents[2]
+            )
+        )
+
+    def tearDown(self) -> None:
+        build_rulesets.PROTECTED_PUBLIC_SUFFIXES = self.previous_suffixes
+        build_rulesets.PROTECTED_MULTI_TENANT_ROOTS = self.previous_multi_tenant
+        build_rulesets.PUBLIC_SUFFIX_DATABASE = self.previous_database
+
+    def test_public_suffix_apex_is_counted_as_an_apex(self) -> None:
+        markers = build_rulesets.rule_risk_markers(
+            "DOMAIN-SUFFIX,example.co.uk", "PROXY", added=True
+        )
+        self.assertIn("new-apex", markers)
+        self.assertNotIn("protected-domain-root", markers)
+        self.assertEqual(
+            build_rulesets.count_budget_dimensions(
+                ["DOMAIN-SUFFIX,example.co.uk"]
+            )["new_apex"],
+            1,
+        )
+
+    def test_multi_tenant_root_and_descendant_are_protected(self) -> None:
+        for domain in (
+            "github.io",
+            "tenant.github.io",
+            "tenant.pages.dev",
+            "tenant.duckdns.org",
+            "project.githubusercontent.com",
+            "foo.uk.com",
+        ):
+            with self.subTest(domain=domain):
+                markers = build_rulesets.rule_risk_markers(
+                    f"DOMAIN-SUFFIX,{domain}", "PROXY", added=True
+                )
+                self.assertIn("protected-domain-root", markers)
+
+    def test_icann_public_suffix_apex_is_recomputed(self) -> None:
+        markers = build_rulesets.rule_risk_markers(
+            "DOMAIN-SUFFIX,foo.blog.br", "PROXY", added=True
+        )
+        self.assertIn("new-apex", markers)
+        self.assertNotIn("protected-domain-root", markers)
+
+
 class AdblockParserTests(unittest.TestCase):
     def test_keeps_only_dns_safe_whole_domain_rules(self) -> None:
         text = """

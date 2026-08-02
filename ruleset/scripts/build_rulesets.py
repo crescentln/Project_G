@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import bisect
 import csv
 import datetime as dt
 import hashlib
@@ -22,11 +23,29 @@ from collections import defaultdict
 from dataclasses import dataclass, field
 from typing import Any
 
+try:
+    from ruleset.scripts.public_suffix_policy import (
+        PublicSuffixDatabase,
+        PublicSuffixPolicyError,
+        domain_topology_markers as psl_domain_topology_markers,
+        load_public_suffix_database,
+    )
+except ModuleNotFoundError:
+    from public_suffix_policy import (  # type: ignore[no-redef]
+        PublicSuffixDatabase,
+        PublicSuffixPolicyError,
+        domain_topology_markers as psl_domain_topology_markers,
+        load_public_suffix_database,
+    )
+
 ROOT_DIR = pathlib.Path(__file__).resolve().parents[1]
 DEFAULT_CONFIG_PATH = ROOT_DIR / "config" / "sources.json"
 DEFAULT_POLICY_PATH = ROOT_DIR / "config" / "policy_map.json"
 DEFAULT_SOURCE_REGISTRY_PATH = ROOT_DIR / "config" / "source_registry.json"
 DEFAULT_CATEGORY_CONTRACTS_PATH = ROOT_DIR / "config" / "category_contracts.json"
+DEFAULT_PROTECTED_DOMAIN_ROOTS_PATH = (
+    ROOT_DIR / "config" / "protected_domain_roots.json"
+)
 DEFAULT_DIST_DIR = ROOT_DIR / "dist"
 DEFAULT_CACHE_DIR = ROOT_DIR / ".cache"
 
@@ -44,9 +63,14 @@ FETCH_MODE_PRIORITY = {
 SOURCE_REGISTRY: dict[str, Any] = {}
 SOURCE_LOCK: dict[str, Any] = {}
 SOURCE_PROVENANCE: list[dict[str, Any]] = []
+SOURCE_RULE_SETS: dict[str, tuple[str, ...]] = {}
+SOURCE_RULE_MERKLE_CACHE: dict[str, tuple[list[str], list[list[bytes]]]] = {}
 V2FLY_ARCHIVE_MEMO: dict[str, tuple[dict[str, bytes], bool, dict[str, Any]]] = {}
 V2FLY_PARSE_PROVENANCE: dict[str, dict[str, Any]] = {}
 BUILD_GENERATED_AT = ""
+PROTECTED_PUBLIC_SUFFIXES: set[str] = set()
+PROTECTED_MULTI_TENANT_ROOTS: set[str] = set()
+PUBLIC_SUFFIX_DATABASE: PublicSuffixDatabase | None = None
 
 RULE_ORDER = {
     "DOMAIN": 0,
@@ -68,6 +92,10 @@ ALLOWED_ACTIONS = {
 }
 REJECT_ACTIONS = {"REJECT", "REJECT-DROP", "REJECT-NO-DROP"}
 
+RULE_LEAF_DOMAIN = b"project-g-rule-v1\0"
+RULE_NODE_DOMAIN = b"project-g-rule-node-v1\0"
+EMPTY_RULE_SET_ROOT = hashlib.sha256(b"project-g-empty-rule-set-v1").hexdigest()
+
 HOST_LINE_RE = re.compile(r"^(?:0\.0\.0\.0|127\.0\.0\.1|::1|::)\s+([^\s#;]+)")
 FOOTNOTE_RE = re.compile(r"\s*\[[0-9]+\]\s*$")
 DOMAIN_RE = re.compile(
@@ -78,6 +106,119 @@ DUPLICATE_ARTIFACT_RE = re.compile(r"^.+ [0-9]+(?:\.[A-Za-z0-9_-]+)?$")
 
 class BuildError(RuntimeError):
     pass
+
+
+def rule_leaf_digest(rule: str) -> bytes:
+    return hashlib.sha256(RULE_LEAF_DOMAIN + rule.encode("utf-8")).digest()
+
+
+def build_rule_merkle_levels(rules: set[str] | tuple[str, ...]) -> tuple[list[str], list[list[bytes]]]:
+    ordered = sorted(rules)
+    if not ordered:
+        return ordered, []
+    levels = [[rule_leaf_digest(rule) for rule in ordered]]
+    while len(levels[-1]) > 1:
+        current = levels[-1]
+        next_level: list[bytes] = []
+        for index in range(0, len(current), 2):
+            left = current[index]
+            right = current[index + 1] if index + 1 < len(current) else left
+            next_level.append(hashlib.sha256(RULE_NODE_DOMAIN + left + right).digest())
+        levels.append(next_level)
+    return ordered, levels
+
+
+def rule_set_merkle_root(rules: set[str]) -> str:
+    _ordered, levels = build_rule_merkle_levels(rules)
+    return levels[-1][0].hex() if levels else EMPTY_RULE_SET_ROOT
+
+
+def configured_source_digest(source: dict[str, Any]) -> str:
+    payload = (
+        json.dumps(
+            source,
+            ensure_ascii=False,
+            sort_keys=True,
+            separators=(",", ":"),
+        )
+        + "\n"
+    ).encode("utf-8")
+    return hashlib.sha256(payload).hexdigest()
+
+
+def load_protected_domain_roots(
+    path: pathlib.Path, repository_root: pathlib.Path
+) -> tuple[set[str], set[str], PublicSuffixDatabase]:
+    payload = read_json(path)
+    if payload.get("schema") != "project-g-protected-domain-roots-v1":
+        raise BuildError("protected domain root schema is invalid")
+    collections: list[set[str]] = []
+    for field_name in ("public_suffixes", "multi_tenant_roots"):
+        raw = payload.get(field_name)
+        if not isinstance(raw, list) or any(
+            not isinstance(item, str) for item in raw
+        ):
+            raise BuildError(f"protected domain roots {field_name} must be an array")
+        normalized = [item.lower().strip(".") for item in raw]
+        if (
+            normalized != sorted(normalized)
+            or len(normalized) != len(set(normalized))
+            or any(not DOMAIN_RE.fullmatch(item) for item in normalized)
+        ):
+            raise BuildError(
+                f"protected domain roots {field_name} must contain sorted unique domains"
+            )
+        collections.append(set(normalized))
+    if collections[0] & collections[1]:
+        raise BuildError("protected domain root classes must not overlap")
+    try:
+        database = load_public_suffix_database(
+            payload.get("public_suffix_list"), repository_root
+        )
+    except PublicSuffixPolicyError as exc:
+        raise BuildError(str(exc)) from exc
+    return collections[0], collections[1], database
+
+
+def register_source_rule_set(source_id: str, rules: set[str]) -> str:
+    ordered, levels = build_rule_merkle_levels(rules)
+    SOURCE_RULE_SETS[source_id] = tuple(ordered)
+    return levels[-1][0].hex() if levels else EMPTY_RULE_SET_ROOT
+
+
+def rule_membership_witness(source_id: str, rule: str) -> dict[str, Any]:
+    rules = SOURCE_RULE_SETS.get(source_id)
+    if rules is None:
+        raise BuildError(
+            f"rule attribution lacks accepted-source membership: {source_id}: {rule}"
+        )
+    cached = SOURCE_RULE_MERKLE_CACHE.get(source_id)
+    if cached is None:
+        cached = build_rule_merkle_levels(rules)
+        SOURCE_RULE_MERKLE_CACHE[source_id] = cached
+    ordered, levels = cached
+    index = bisect.bisect_left(ordered, rule)
+    if index >= len(ordered) or ordered[index] != rule:
+        raise BuildError(
+            f"rule attribution witness lookup failed: {source_id}: {rule}"
+        )
+    cursor = index
+    proof: list[dict[str, str]] = []
+    for level in levels[:-1]:
+        if cursor % 2:
+            sibling_index = cursor - 1
+            side = "left"
+        else:
+            sibling_index = cursor + 1 if cursor + 1 < len(level) else cursor
+            side = "right"
+        proof.append({"side": side, "sha256": level[sibling_index].hex()})
+        cursor //= 2
+    return {
+        "source_id": source_id,
+        "leaf_index": index,
+        "leaf_count": len(ordered),
+        "proof": proof,
+    }
 
 
 @dataclass
@@ -1815,6 +1956,7 @@ def finalize_source_result(
     provenance: dict[str, Any] = {
         "source_id": source_id,
         "type": str(source.get("type", "")),
+        "configured_source_sha256": configured_source_digest(source),
         "authority": str(source.get("authority", "unspecified")),
         "trust_tier": str(controls["trust_tier"]),
         "license": str(controls["license"]),
@@ -1837,6 +1979,8 @@ def finalize_source_result(
             "accepted_line_ratio": round(accepted_ratio, 8),
             "rule_type_counts": rule_type_counts(rules),
         },
+        "accepted_rules_merkle_root": register_source_rule_set(source_id, rules),
+        "accepted_rules_merkle_leaf_count": len(rules),
         "limits": {
             "allowed_hosts": list(controls["allowed_hosts"]),
             "max_bytes": int(controls["max_bytes"]),
@@ -2867,6 +3011,13 @@ def build_aggregate_category(
         {
             "source_id": f"{category_id}:aggregate",
             "type": "aggregate",
+            "configured_source_sha256": configured_source_digest(
+                {
+                    "type": "aggregate",
+                    "category": category_id,
+                    "aggregate_of": components,
+                }
+            ),
             "authority": "owner-controlled",
             "trust_tier": "derived",
             "license": "inherits-components",
@@ -2884,6 +3035,10 @@ def build_aggregate_category(
                 "accepted_rule_count": len(sorted_rules),
                 "rule_type_counts": rule_type_counts(set(sorted_rules)),
             },
+            "accepted_rules_merkle_root": register_source_rule_set(
+                f"{category_id}:aggregate", set(sorted_rules)
+            ),
+            "accepted_rules_merkle_leaf_count": len(sorted_rules),
             "components": components,
             "critical": True,
             "no_cache_publish": True,
@@ -3198,6 +3353,15 @@ def validate_disjoint_category_contracts(
                         )
 
 
+def domain_topology_risk_markers(value: str) -> set[str]:
+    return psl_domain_topology_markers(
+        value,
+        PUBLIC_SUFFIX_DATABASE,
+        PROTECTED_PUBLIC_SUFFIXES,
+        PROTECTED_MULTI_TENANT_ROOTS,
+    )
+
+
 def rule_risk_markers(rule: str, action: str, *, added: bool) -> list[str]:
     markers: list[str] = []
     rule_type, _, value = rule.partition(",")
@@ -3209,11 +3373,7 @@ def rule_risk_markers(rule: str, action: str, *, added: bool) -> list[str]:
     if rule_type in {"DOMAIN-REGEX", "DOMAIN-WILDCARD", "DOMAIN-KEYWORD"}:
         markers.append(f"new-{rule_type.lower()}")
     if rule_type in {"DOMAIN", "DOMAIN-SUFFIX"}:
-        labels = [item for item in value.strip(".").split(".") if item]
-        if len(labels) == 1:
-            markers.append("new-tld")
-        elif len(labels) == 2:
-            markers.append("new-apex")
+        markers.extend(domain_topology_risk_markers(value))
     if rule_type in {"IP-CIDR", "IP-CIDR6"}:
         try:
             network = ipaddress.ip_network(value, strict=False)
@@ -3252,7 +3412,8 @@ def count_budget_dimensions(rules: list[str]) -> dict[str, int]:
             1
             for rule in rules
             if rule.startswith(("DOMAIN,", "DOMAIN-SUFFIX,"))
-            and len(rule.split(",", 1)[1].strip(".").split(".")) <= 2
+            and "new-apex"
+            in domain_topology_risk_markers(rule.split(",", 1)[1])
         ),
         "new_regex": sum(
             1
@@ -3676,6 +3837,10 @@ def write_intelligence_outputs(
                         "rule": rule,
                         "sources": source_ids,
                         "source_tiers": tiers,
+                        "source_membership": [
+                            rule_membership_witness(source_id, rule)
+                            for source_id in source_ids
+                        ],
                         "first_seen_utc": BUILD_GENERATED_AT,
                         "old_effective_action": effective_action_for_rule(
                             rule,
@@ -3906,6 +4071,9 @@ def build_all(
     fail_on_cross_action_conflicts: bool,
 ) -> int:
     global BUILD_GENERATED_AT
+    global PROTECTED_MULTI_TENANT_ROOTS
+    global PROTECTED_PUBLIC_SUFFIXES
+    global PUBLIC_SUFFIX_DATABASE
     global SOURCE_LOCK
     global SOURCE_REGISTRY
 
@@ -3914,9 +4082,18 @@ def build_all(
     FETCH_EVENTS.clear()
     FETCH_ATTEMPTS.clear()
     SOURCE_PROVENANCE.clear()
+    SOURCE_RULE_SETS.clear()
+    SOURCE_RULE_MERKLE_CACHE.clear()
     V2FLY_ARCHIVE_MEMO.clear()
     V2FLY_PARSE_PROVENANCE.clear()
     SOURCE_REGISTRY = read_json(source_registry_path)
+    (
+        PROTECTED_PUBLIC_SUFFIXES,
+        PROTECTED_MULTI_TENANT_ROOTS,
+        PUBLIC_SUFFIX_DATABASE,
+    ) = load_protected_domain_roots(
+        DEFAULT_PROTECTED_DOMAIN_ROOTS_PATH, ROOT_DIR.parent
+    )
     if source_lock_path is None:
         SOURCE_LOCK = {}
     else:

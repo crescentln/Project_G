@@ -132,7 +132,8 @@ def main() -> int:
             "- Candidate Decision: "
             f"`risk={candidate_payload.get('risk_level', 'unknown')}, "
             f"semantic_digest={candidate_payload.get('semantic_digest', 'unknown')}, "
-            f"reviewed={bool(candidate_payload.get('requires_review', False))}`"
+            "automated_elevated_evidence="
+            f"{bool(candidate_payload.get('requires_review', False))}`"
         )
         budget_exceeded = [
             str(item) for item in candidate_payload.get("budget_exceeded", [])
