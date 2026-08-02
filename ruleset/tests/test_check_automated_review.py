@@ -313,6 +313,47 @@ class AutomatedReviewTests(unittest.TestCase):
             report["category_evidence"][0]["added_rule_evidence_sha256"],
             r"^[0-9a-f]{64}$",
         )
+        self.assertTrue(
+            report["isolation_evidence"]["complete_blocker_mapping"]
+        )
+        self.assertEqual(report["isolation_evidence"]["findings"], [])
+
+        automated_review, isolation_artifact = REVIEW.separate_isolation_artifact(
+            report
+        )
+        self.assertNotIn("isolation_evidence", automated_review)
+        self.assertEqual(
+            isolation_artifact["automated_review_sha256"],
+            REVIEW.digest_payload(automated_review),
+        )
+        artifact_without_digest = dict(isolation_artifact)
+        artifact_without_digest.pop("artifact_sha256")
+        self.assertEqual(
+            isolation_artifact["artifact_sha256"],
+            REVIEW.digest_payload(artifact_without_digest),
+        )
+
+    def test_binding_identity_is_stable_across_source_reordering(self) -> None:
+        first_source = {
+            "type": "remote_domain",
+            "url": "https://one.example/rules",
+            "authority": "official",
+        }
+        second_source = {
+            "type": "remote_domain",
+            "url": "https://two.example/rules",
+            "authority": "official",
+        }
+        first = REVIEW.canonical_source_bindings(
+            {"categories": [{"id": "global", "sources": [first_source, second_source]}]}
+        )
+        second = REVIEW.canonical_source_bindings(
+            {"categories": [{"id": "global", "sources": [second_source, first_source]}]}
+        )
+        self.assertEqual(
+            {row["binding_id"] for row in first["bindings"].values()},
+            {row["binding_id"] for row in second["bindings"].values()},
+        )
 
     def test_report_is_deterministic_for_unordered_evidence(self) -> None:
         first = base_inputs()
@@ -447,6 +488,13 @@ class AutomatedReviewTests(unittest.TestCase):
             "category global automated removal lacks current-source absence proof: DOMAIN-SUFFIX,old.example",
             report["blockers"],
         )
+        finding = next(
+            item
+            for item in report["isolation_evidence"]["findings"]
+            if item["code"] == "removal-current-source-absence-proof"
+        )
+        self.assertEqual(finding["category"], "global")
+        self.assertTrue(finding["isolatable"])
 
     def test_membership_tamper_and_https_host_drift_fail_closed(self) -> None:
         inputs = base_inputs()
