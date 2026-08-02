@@ -189,6 +189,63 @@ jobs:
             --radar-snapshot ruleset/dist/candidate_sources.json \
             --output ruleset/dist/automated_review.json
 
+      - name: Build non-authoritative upstream isolation shadow plan
+        id: isolation_shadow
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          shadow_dir="${RUNNER_TEMP}/upstream-isolation-shadow"
+          python3 ruleset/scripts/check_automated_review.py \
+            --manifest ruleset/dist/candidate_manifest.json \
+            --rule-delta ruleset/dist/rule_delta.json \
+            --contracts ruleset/dist/category_contracts_resolved.json \
+            --canonical-contracts ruleset/config/category_contracts.json \
+            --source-config ruleset/config/sources.json \
+            --baseline-dist "${RUNNER_TEMP}/baseline-dist" \
+            --current-dist ruleset/dist \
+            --protected-domain-roots ruleset/config/protected_domain_roots.json \
+            --repository-root . \
+            --provenance ruleset/dist/source_provenance.json \
+            --source-registry ruleset/config/source_registry.json \
+            --radar-decision ruleset/dist/source_radar_decision.json \
+            --radar-snapshot ruleset/dist/candidate_sources.json \
+            --output "$shadow_dir/replayed-automated-review.json" \
+            --isolation-output "$shadow_dir/isolation-evidence.json"
+          cmp \
+            ruleset/dist/automated_review.json \
+            "$shadow_dir/replayed-automated-review.json"
+          python3 ruleset/scripts/plan_upstream_isolation.py \
+            --automated-review ruleset/dist/automated_review.json \
+            --isolation-evidence "$shadow_dir/isolation-evidence.json" \
+            --source-config ruleset/config/sources.json \
+            --baseline-dist "${RUNNER_TEMP}/baseline-dist" \
+            --candidate-dist ruleset/dist \
+            --output "$shadow_dir/upstream-isolation-plan.json"
+          fingerprint="$(
+            jq -r '.plan_fingerprint' "$shadow_dir/upstream-isolation-plan.json"
+          )"
+          source_sha="$(tr -d '[:space:]' < .candidate/source-sha.txt)"
+          if ! [[ "$fingerprint" =~ ^[0-9a-f]{64}$ ]]; then
+            echo "Invalid upstream isolation shadow fingerprint."
+            exit 1
+          fi
+          if ! [[ "$source_sha" =~ ^[0-9a-f]{40}$ ]]; then
+            echo "Invalid source SHA for upstream isolation shadow evidence."
+            exit 1
+          fi
+          mkdir -p "$shadow_dir/payload"
+          mv "$shadow_dir/isolation-evidence.json" "$shadow_dir/payload/"
+          mv "$shadow_dir/upstream-isolation-plan.json" "$shadow_dir/payload/"
+          echo "fingerprint=$fingerprint" >> "$GITHUB_OUTPUT"
+          echo "source_sha=$source_sha" >> "$GITHUB_OUTPUT"
+          {
+            echo
+            echo "## Upstream isolation shadow"
+            echo
+            jq -r '"- Mode: `" + .mode + "`\n- Enforcement ready: `" + (.enforcement_ready|tostring) + "`\n- Accepted candidate categories: `" + ((.accepted_candidate_categories // []) | join(", ")) + "`\n- Quarantined categories: `" + ((.quarantined_categories // []) | join(", ")) + "`\n- Safe slice changed: `" + (.safe_slice_changed|tostring) + "`\n- Planned safe delta count: `" + (.planned_safe_delta_count|tostring) + "`\n- Publishable safe delta count: `" + (.publishable_safe_delta_count|tostring) + "`\n- Plan fingerprint: `" + .plan_fingerprint + "`"' \
+              "$shadow_dir/payload/upstream-isolation-plan.json"
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Update candidate changelog
         run: |
           python3 ruleset/scripts/update_dist_changelog.py \
@@ -215,6 +272,133 @@ jobs:
             --report-format sarif \
             --report-path /reports/gitleaks.sarif
           cp "$report_dir/gitleaks.sarif" .candidate/gitleaks-source-discovery.sarif
+
+      - name: Scan upstream isolation shadow evidence for secrets
+        id: isolation_scan
+        if: steps.isolation_shadow.outcome == 'success'
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          shadow_dir="${RUNNER_TEMP}/upstream-isolation-shadow"
+          report_dir="$shadow_dir/gitleaks-report"
+          mkdir -p "$report_dir"
+          docker run --rm \
+            -v "$PWD/.gitleaks.toml:/gitleaks.toml:ro" \
+            -v "$shadow_dir/payload:/shadow:ro" \
+            -v "$report_dir:/reports" \
+            ghcr.io/gitleaks/gitleaks@sha256:b5918eb91b8d2473cec722f066abb4352e4ffdc4ec9f4283ec143aba9ec9ebc4 \
+            detect \
+            --source /shadow \
+            --no-git \
+            --config /gitleaks.toml \
+            --redact \
+            --report-format sarif \
+            --report-path /reports/gitleaks-shadow.sarif
+          cp \
+            "$report_dir/gitleaks-shadow.sarif" \
+            "$shadow_dir/payload/gitleaks-shadow.sarif"
+
+      - name: Package scanned upstream isolation shadow evidence
+        id: isolation_package
+        if: >-
+          steps.isolation_shadow.outcome == 'success' &&
+          steps.isolation_scan.outcome == 'success'
+        continue-on-error: true
+        run: |
+          set -euo pipefail
+          shadow_dir="${RUNNER_TEMP}/upstream-isolation-shadow"
+          (
+            cd "$shadow_dir/payload"
+            sha256sum \
+              gitleaks-shadow.sarif \
+              isolation-evidence.json \
+              upstream-isolation-plan.json \
+              > checksums.sha256
+          )
+          tar \
+            --sort=name \
+            --mtime='UTC 1970-01-01' \
+            --owner=0 \
+            --group=0 \
+            --numeric-owner \
+            -cf "$shadow_dir/upstream-isolation-shadow.tar" \
+            -C "$shadow_dir/payload" .
+          (
+            cd "$shadow_dir"
+            sha256sum upstream-isolation-shadow.tar \
+              > upstream-isolation-shadow.sha256
+          )
+          artifact_name="ruleset-isolation-shadow-${{ steps.isolation_shadow.outputs.source_sha }}-${{ steps.isolation_shadow.outputs.fingerprint }}"
+          echo "artifact_name=$artifact_name" >> "$GITHUB_OUTPUT"
+
+      - name: Verify remote README before shadow attestation
+        id: isolation_readme_before
+        if: steps.isolation_package.outcome == 'success'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          test "$(gh api "repos/${{ github.repository }}/contents/README.md?ref=main" --jq '.size')" = "0"
+          test "$(gh api "repos/${{ github.repository }}/contents/README.md?ref=main" --jq '.sha')" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+
+      - name: Attest upstream isolation shadow evidence
+        id: isolation_attest
+        if: >-
+          steps.isolation_package.outcome == 'success' &&
+          steps.isolation_readme_before.outcome == 'success'
+        continue-on-error: true
+        uses: actions/attest-build-provenance@0f67c3f4856b2e3261c31976d6725780e5e4c373 # v4.1.1
+        with:
+          subject-path: ${{ runner.temp }}/upstream-isolation-shadow/upstream-isolation-shadow.tar
+
+      - name: Recheck README after shadow attestation
+        id: isolation_readme_after
+        if: steps.isolation_attest.outcome == 'success'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          test "$(gh api "repos/${{ github.repository }}/contents/README.md?ref=main" --jq '.size')" = "0"
+          test "$(gh api "repos/${{ github.repository }}/contents/README.md?ref=main" --jq '.sha')" = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
+
+      - name: Upload attested upstream isolation shadow archive
+        id: isolation_upload
+        if: >-
+          steps.isolation_attest.outcome == 'success' &&
+          steps.isolation_readme_after.outcome == 'success'
+        continue-on-error: true
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: ${{ steps.isolation_package.outputs.artifact_name }}
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 30
+          path: |
+            ${{ runner.temp }}/upstream-isolation-shadow/upstream-isolation-shadow.tar
+            ${{ runner.temp }}/upstream-isolation-shadow/upstream-isolation-shadow.sha256
+
+      - name: Record non-authoritative shadow outcome
+        if: always()
+        env:
+          PLAN_OUTCOME: ${{ steps.isolation_shadow.outcome }}
+          SCAN_OUTCOME: ${{ steps.isolation_scan.outcome }}
+          PACKAGE_OUTCOME: ${{ steps.isolation_package.outcome }}
+          ATTEST_OUTCOME: ${{ steps.isolation_attest.outcome }}
+          UPLOAD_OUTCOME: ${{ steps.isolation_upload.outcome }}
+        run: |
+          {
+            echo
+            echo "- Shadow plan outcome: \`${PLAN_OUTCOME:-skipped}\`"
+            echo "- Shadow secret scan outcome: \`${SCAN_OUTCOME:-skipped}\`"
+            echo "- Shadow package outcome: \`${PACKAGE_OUTCOME:-skipped}\`"
+            echo "- Shadow attestation outcome: \`${ATTEST_OUTCOME:-skipped}\`"
+            echo "- Shadow upload outcome: \`${UPLOAD_OUTCOME:-skipped}\`"
+            if [ "${UPLOAD_OUTCOME:-skipped}" != "success" ]; then
+              echo "- Shadow evidence unavailable; candidate decision and packaging continue unchanged."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Generate discovery summary
         if: always()

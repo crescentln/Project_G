@@ -28,6 +28,8 @@ except ModuleNotFoundError:
 
 REPORT_SCHEMA = "project-g-automated-review-v2"
 REVIEW_POLICY = "unattended-evidence-gated-v2"
+ISOLATION_EVIDENCE_SCHEMA = "project-g-isolation-evidence-v1"
+ISOLATION_ARTIFACT_SCHEMA = "project-g-isolation-evidence-artifact-v1"
 REQUIRED_STABLE_CYCLES = 2
 MINIMUM_CYCLE_SEPARATION_SECONDS = 300
 AUTOMATABLE_POLICIES = {"low-risk", "review"}
@@ -73,6 +75,61 @@ def canonical_bytes(payload: Any) -> bytes:
 
 def digest_payload(payload: Any) -> str:
     return hashlib.sha256(canonical_bytes(payload)).hexdigest()
+
+
+def isolation_finding(
+    *,
+    code: str,
+    scope: str,
+    isolatable: bool,
+    message: str,
+    category: str = "",
+    rule: str = "",
+    source_ids: list[str] | None = None,
+    repository_bindings: list[str] | None = None,
+    dependency_closure: list[str] | None = None,
+    blocker_sha256: str = "",
+) -> dict[str, Any]:
+    payload = {
+        "code": code,
+        "scope": scope,
+        "isolatable": isolatable,
+        "category": category,
+        "rule": rule,
+        "source_ids": sorted(set(source_ids or [])),
+        "repository_bindings": sorted(set(repository_bindings or [])),
+        "dependency_closure": sorted(set(dependency_closure or [])),
+        "blocker_sha256": blocker_sha256,
+        "message": message,
+    }
+    payload["evidence_digest"] = digest_payload(payload)
+    return payload
+
+
+def separate_isolation_artifact(
+    report: dict[str, Any],
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    automated_review = dict(report)
+    isolation_evidence = automated_review.pop("isolation_evidence", None)
+    if not isinstance(isolation_evidence, dict):
+        raise AutomatedReviewError("automated review lacks isolation evidence")
+    artifact = {
+        "schema": ISOLATION_ARTIFACT_SCHEMA,
+        "mode": "shadow-only",
+        "automated_review_sha256": digest_payload(automated_review),
+        "baseline_index_sha256": str(
+            automated_review.get("baseline_index_sha256", "")
+        ),
+        "candidate_index_sha256": str(
+            automated_review.get("current_index_sha256", "")
+        ),
+        "source_config_sha256": str(
+            automated_review.get("source_config_sha256", "")
+        ),
+        "isolation_evidence": isolation_evidence,
+    }
+    artifact["artifact_sha256"] = digest_payload(artifact)
+    return automated_review, artifact
 
 
 def source_lock_identity(payload: dict[str, Any], label: str) -> tuple[str, dict[str, Any]]:
@@ -387,6 +444,12 @@ def configured_source_id(category: str, index: int, source: dict[str, Any]) -> s
     return f"{category}:{index:02d}:{str(source.get('type', 'unknown'))}:{digest}"
 
 
+def configured_binding_id(category: str, source: dict[str, Any]) -> str:
+    """Return an order-independent identity for an exact configured source."""
+    source_type = str(source.get("type", "unknown")).strip() or "unknown"
+    return f"{category}:{source_type}:{digest_payload(source)}"
+
+
 def canonical_source_bindings(source_config: dict[str, Any]) -> dict[str, Any]:
     categories = source_config.get("categories")
     if not isinstance(categories, list):
@@ -411,6 +474,7 @@ def canonical_source_bindings(source_config: dict[str, Any]) -> dict[str, Any]:
             source_id = configured_source_id(category, index, source)
             binding = {
                 "source_id": source_id,
+                "binding_id": configured_binding_id(category, source),
                 "category": category,
                 "type": str(source.get("type", "")),
                 "authority": str(source.get("authority", "unspecified")),
@@ -459,6 +523,7 @@ def canonical_source_bindings(source_config: dict[str, Any]) -> dict[str, Any]:
                 source_id = f"{category}:manual-overlay"
                 bindings[source_id] = {
                     "source_id": source_id,
+                    "binding_id": configured_binding_id(category, source),
                     "category": category,
                     "type": "local_domain",
                     "authority": "owner-controlled",
@@ -969,8 +1034,49 @@ def build_report(
     radar: dict[str, Any],
     radar_snapshot: dict[str, Any],
     repository_root: pathlib.Path,
+    collect_isolation: bool = True,
 ) -> dict[str, Any]:
     blockers: list[str] = []
+    isolation_findings: list[dict[str, Any]] = []
+    mapped_isolation_blockers: set[str] = set()
+    derived_isolation_blockers: set[str] = set()
+
+    def record_isolation_finding(
+        *,
+        code: str,
+        scope: str,
+        isolatable: bool,
+        message: str,
+        category: str = "",
+        rule: str = "",
+        source_ids: list[str] | None = None,
+        repository_bindings: list[str] | None = None,
+        dependency_closure: list[str] | None = None,
+        maps_blocker: bool = False,
+    ) -> None:
+        if not collect_isolation:
+            return
+        isolation_findings.append(
+            isolation_finding(
+                code=code,
+                scope=scope,
+                isolatable=isolatable,
+                message=message,
+                category=category,
+                rule=rule,
+                source_ids=source_ids,
+                repository_bindings=repository_bindings,
+                dependency_closure=dependency_closure,
+                blocker_sha256=(
+                    hashlib.sha256(message.encode("utf-8")).hexdigest()
+                    if maps_blocker
+                    else ""
+                ),
+            )
+        )
+        if maps_blocker:
+            mapped_isolation_blockers.add(message)
+
     protected_roots = protected_domain_roots(
         protected_roots_payload, repository_root
     )
@@ -1332,6 +1438,9 @@ def build_report(
             )
             if actual_tiers == ["community"]:
                 expected_rule_risks.add("single-community-tier")
+            unsupported_rule_risks = sorted(
+                expected_rule_risks - AUTOMATABLE_ELEVATED_MARKERS
+            )
             declared_rule_risks = string_list(
                 raw_rule.get("risk"), f"category {category} addition risk", blockers
             )
@@ -1376,6 +1485,8 @@ def build_report(
 
             owners: set[str] = set()
             bindings: set[str] = set()
+            stable_binding_ids: set[str] = set()
+            repository_bindings: set[str] = set()
             privileged_tier = False
             for source_id in sources:
                 source_counts[source_id] += 1
@@ -1388,6 +1499,13 @@ def build_report(
                 if not isinstance(source, dict):
                     blockers.append(f"category {category} cites unknown source {source_id}")
                     continue
+                canonical_binding = canonical_bindings.get(source_id)
+                if isinstance(canonical_binding, dict):
+                    stable_binding_id = str(
+                        canonical_binding.get("binding_id", "")
+                    )
+                    if stable_binding_id:
+                        stable_binding_ids.add(stable_binding_id)
                 profile = profiles.get(str(source.get("authority", "")))
                 profile_rule_types = {
                     str(value)
@@ -1410,13 +1528,63 @@ def build_report(
                 )
                 if binding:
                     bindings.add(binding)
+                    repository_bindings.add(binding)
+            for marker in unsupported_rule_risks:
+                record_isolation_finding(
+                    code="unsupported-rule-risk-marker",
+                    scope="rule",
+                    isolatable=True,
+                    category=category,
+                    rule=rule,
+                    source_ids=sources,
+                    repository_bindings=sorted(repository_bindings),
+                    dependency_closure=(
+                        [f"category:{category}"]
+                        + [
+                            f"source-binding:{binding_id}"
+                            for binding_id in sorted(stable_binding_ids)
+                        ]
+                        + [
+                            f"repository:{binding}"
+                            for binding in sorted(repository_bindings)
+                        ]
+                    ),
+                    message=(
+                        f"category {category} rule has unsupported risk marker "
+                        f"{marker}: {rule}"
+                    ),
+                )
             elevated = policy != "low-risk" or bool(expected_rule_risks)
             if elevated and not privileged_tier and not (
                 len(owners) >= high_impact_quorum
                 and len(bindings) >= high_impact_quorum
             ):
-                blockers.append(
-                    f"category {category} elevated addition lacks rule-level independent authority: {rule}"
+                message = (
+                    f"category {category} elevated addition lacks rule-level "
+                    f"independent authority: {rule}"
+                )
+                blockers.append(message)
+                record_isolation_finding(
+                    code="addition-independent-authority",
+                    scope="rule",
+                    isolatable=True,
+                    category=category,
+                    rule=rule,
+                    source_ids=sources,
+                    repository_bindings=sorted(repository_bindings),
+                    dependency_closure=(
+                        [f"category:{category}"]
+                        + [
+                            f"source-binding:{binding_id}"
+                            for binding_id in sorted(stable_binding_ids)
+                        ]
+                        + [
+                            f"repository:{binding}"
+                            for binding in sorted(repository_bindings)
+                        ]
+                    ),
+                    message=message,
+                    maps_blocker=True,
                 )
 
         for raw_rule in removals:
@@ -1449,8 +1617,21 @@ def build_report(
                 blockers.append(
                     f"category {category} removal effective action was not independently recomputed: {rule}"
                 )
-            blockers.append(
-                f"category {category} automated removal lacks current-source absence proof: {rule}"
+            message = (
+                f"category {category} automated removal lacks current-source "
+                f"absence proof: {rule}"
+            )
+            blockers.append(message)
+            record_isolation_finding(
+                code="removal-current-source-absence-proof",
+                scope="rule",
+                isolatable=True,
+                category=category,
+                rule=rule,
+                source_ids=["previous_snapshot"],
+                dependency_closure=[f"category:{category}"],
+                message=message,
+                maps_blocker=True,
             )
 
         category_evidence.append(
@@ -1500,7 +1681,11 @@ def build_report(
         manifest_risks - AUTOMATABLE_ELEVATED_MARKERS
     )
     if unsupported_elevated:
-        blockers.append("unsupported elevated risk markers: " + ", ".join(unsupported_elevated))
+        message = "unsupported elevated risk markers: " + ", ".join(
+            unsupported_elevated
+        )
+        blockers.append(message)
+        derived_isolation_blockers.add(message)
 
     expected_quorum_review = changed and "single-community-tier" in manifest_risks
     if radar.get("quorum_review_required") is not expected_quorum_review:
@@ -1509,18 +1694,66 @@ def build_report(
     if radar.get("auto_promotion_blocked") is not expected_auto_blocked:
         blockers.append("source radar auto-promotion state is inconsistent")
 
-    source_evidence = [
-        validate_source(
-            source_id,
-            source_by_id[source_id],
-            canonical_bindings.get(source_id),
-            profiles,
-            repository_root,
-            blockers,
+    source_evidence: list[dict[str, Any]] = []
+    for source_id in sorted(used_source_ids):
+        if source_id not in source_by_id:
+            continue
+        source = source_by_id[source_id]
+        binding = canonical_bindings.get(source_id)
+        prior_blocker_count = len(blockers)
+        source_evidence.append(
+            validate_source(
+                source_id,
+                source,
+                binding,
+                profiles,
+                repository_root,
+                blockers,
+            )
         )
-        for source_id in sorted(used_source_ids)
-        if source_id in source_by_id
-    ]
+        new_source_blockers = blockers[prior_blocker_count:]
+        binding_id = (
+            str(binding.get("binding_id", ""))
+            if isinstance(binding, dict)
+            else ""
+        )
+        category = (
+            str(binding.get("category", ""))
+            if isinstance(binding, dict)
+            else ""
+        )
+        repository = str(source.get("repository", "")) or (
+            urllib.parse.urlparse(str(source.get("resolved_ref", ""))).hostname
+            or ""
+        )
+        expected_network_message = (
+            f"source {source_id} was not fetched from the network"
+        )
+        for message in new_source_blockers:
+            network_freshness = message == expected_network_message
+            record_isolation_finding(
+                code=(
+                    "source-network-freshness"
+                    if network_freshness
+                    else "source-integrity-failure"
+                ),
+                scope="source-binding" if binding_id else "global",
+                isolatable=bool(binding_id) and network_freshness,
+                category=category,
+                source_ids=[source_id],
+                repository_bindings=[repository] if repository else [],
+                dependency_closure=(
+                    ([f"category:{category}"] if category else [])
+                    + (
+                        [f"source-binding:{binding_id}"]
+                        if binding_id
+                        else []
+                    )
+                    + ([f"repository:{repository}"] if repository else [])
+                ),
+                message=message,
+                maps_blocker=True,
+            )
     risk_level = str(manifest.get("risk_level", ""))
     expected_risk = (
         "high"
@@ -1545,6 +1778,46 @@ def build_report(
         blockers.append("legacy auto promotion eligibility does not match candidate evidence")
     if manifest.get("requires_review") is not (changed and not expected_legacy_auto):
         blockers.append("legacy review-required state does not match candidate evidence")
+
+    unique_blockers = sorted(set(blockers))
+    unscoped_isolation_blockers = sorted(
+        set(unique_blockers)
+        - mapped_isolation_blockers
+        - derived_isolation_blockers
+    )
+    ordered_isolation_findings = sorted(
+        isolation_findings,
+        key=lambda item: (
+            str(item["scope"]),
+            str(item["category"]),
+            str(item["rule"]),
+            str(item["code"]),
+            str(item["evidence_digest"]),
+        ),
+    )
+    isolation_evidence = {
+        "schema": ISOLATION_EVIDENCE_SCHEMA,
+        "mode": "shadow-only",
+        "source_provenance_sha256": str(
+            dist_evidence.get("current_provenance_sha256", "")
+        ),
+        "complete_blocker_mapping": not unscoped_isolation_blockers,
+        "blocker_count": len(unique_blockers),
+        "mapped_blocker_count": len(
+            set(unique_blockers) & mapped_isolation_blockers
+        ),
+        "derived_blocker_count": len(
+            set(unique_blockers) & derived_isolation_blockers
+        ),
+        "derived_blocker_sha256s": sorted(
+            hashlib.sha256(message.encode("utf-8")).hexdigest()
+            for message in set(unique_blockers) & derived_isolation_blockers
+        ),
+        "unscoped_blockers": unscoped_isolation_blockers,
+        "findings": ordered_isolation_findings,
+        "findings_sha256": digest_payload(ordered_isolation_findings),
+    }
+    isolation_evidence["evidence_sha256"] = digest_payload(isolation_evidence)
 
     return {
         "schema": REPORT_SCHEMA,
@@ -1580,7 +1853,8 @@ def build_report(
             source_evidence, key=lambda item: str(item["source_id"])
         ),
         "radar_evidence": radar_rows,
-        "blockers": sorted(set(blockers)),
+        "isolation_evidence": isolation_evidence,
+        "blockers": unique_blockers,
     }
 
 
@@ -1602,6 +1876,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--radar-decision", type=pathlib.Path, required=True)
     parser.add_argument("--radar-snapshot", type=pathlib.Path, required=True)
     parser.add_argument("--output", type=pathlib.Path, required=True)
+    parser.add_argument("--isolation-output", type=pathlib.Path)
     parser.add_argument("--require-eligible", action="store_true")
     return parser.parse_args()
 
@@ -1623,16 +1898,21 @@ def main() -> int:
             read_json(args.radar_decision),
             read_json(args.radar_snapshot),
             args.repository_root.resolve(),
+            args.isolation_output is not None,
         )
+        automated_review, isolation_artifact = separate_isolation_artifact(report)
         args.output.parent.mkdir(parents=True, exist_ok=True)
-        args.output.write_bytes(canonical_bytes(report))
+        args.output.write_bytes(canonical_bytes(automated_review))
+        if args.isolation_output is not None:
+            args.isolation_output.parent.mkdir(parents=True, exist_ok=True)
+            args.isolation_output.write_bytes(canonical_bytes(isolation_artifact))
         print(
             "[automated-review] "
-            f"eligible={str(report['eligible']).lower()} "
-            f"blockers={len(report['blockers'])}"
+            f"eligible={str(automated_review['eligible']).lower()} "
+            f"blockers={len(automated_review['blockers'])}"
         )
-        if args.require_eligible and report["eligible"] is not True:
-            for blocker in report["blockers"]:
+        if args.require_eligible and automated_review["eligible"] is not True:
+            for blocker in automated_review["blockers"]:
                 print(f"[automated-review] blocker: {blocker}")
             return 1
         return 0

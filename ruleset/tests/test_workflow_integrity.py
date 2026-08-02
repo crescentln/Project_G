@@ -77,6 +77,40 @@ class WorkflowIntegrityTests(unittest.TestCase):
             r"      cancel-in-progress: false",
         )
 
+    def test_upstream_isolation_is_attested_shadow_only_evidence(self) -> None:
+        discovery = (WORKFLOW_ROOT / "source-discovery.yml").read_text(
+            encoding="utf-8"
+        )
+        promotion = (WORKFLOW_ROOT / "ruleset-update.yml").read_text(
+            encoding="utf-8"
+        )
+        self.assertIn("plan_upstream_isolation.py", discovery)
+        self.assertIn("--isolation-output", discovery)
+        self.assertIn("--isolation-evidence", discovery)
+        self.assertIn("ruleset-isolation-shadow-", discovery)
+        self.assertIn("upstream-isolation-shadow.tar", discovery)
+        self.assertIn("Attest upstream isolation shadow evidence", discovery)
+        self.assertIn("Scan upstream isolation shadow evidence for secrets", discovery)
+        self.assertIn("Record non-authoritative shadow outcome", discovery)
+        self.assertIn("continue-on-error: true", discovery)
+        self.assertIn("candidate decision and packaging continue unchanged", discovery)
+        self.assertIn("cmp \\", discovery)
+        self.assertIn('${RUNNER_TEMP}/upstream-isolation-shadow', discovery)
+        self.assertNotIn(".candidate/upstream-isolation", discovery)
+        self.assertNotIn(".candidate/isolation-evidence", discovery)
+        upload_block = discovery.split(
+            "Upload attested upstream isolation shadow archive", maxsplit=1
+        )[1].split("Record non-authoritative shadow outcome", maxsplit=1)[0]
+        self.assertIn("upstream-isolation-shadow.tar", upload_block)
+        self.assertIn("upstream-isolation-shadow.sha256", upload_block)
+        self.assertNotIn("/payload", upload_block)
+        self.assertLess(
+            discovery.index("Build non-authoritative upstream isolation shadow plan"),
+            discovery.index("Package immutable candidate"),
+        )
+        self.assertNotIn("plan_upstream_isolation.py", promotion)
+        self.assertNotIn("ruleset-isolation-shadow-", promotion)
+
     def test_promotion_consumes_exact_candidate_and_attests_it(self) -> None:
         workflow = (WORKFLOW_ROOT / "ruleset-update.yml").read_text(encoding="utf-8")
         self.assertIn("run-id:", workflow)
