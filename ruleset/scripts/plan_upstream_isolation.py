@@ -17,6 +17,7 @@ try:
         BINDING_SCHEMA,
         CATEGORY_OUTPUT_PATH_FIELDS,
         CATEGORY_OUTPUT_PATH_TEMPLATES,
+        PUBLICATION_STATUS_DESCRIPTIONS,
         CategoryLkgBindingError,
         category_output_identities,
         directory_manifest,
@@ -39,6 +40,7 @@ except ModuleNotFoundError:
         BINDING_SCHEMA,
         CATEGORY_OUTPUT_PATH_FIELDS,
         CATEGORY_OUTPUT_PATH_TEMPLATES,
+        PUBLICATION_STATUS_DESCRIPTIONS,
         CategoryLkgBindingError,
         category_output_identities,
         directory_manifest,
@@ -390,6 +392,8 @@ def validate_category_lkg_binding(
     exact_main_sha: str,
     baseline_dist: pathlib.Path,
     baseline_index: dict[str, Any],
+    source_config: dict[str, Any],
+    source_registry: dict[str, Any],
 ) -> tuple[dict[str, dict[str, Any]], dict[str, Any]]:
     if binding.get("schema") != BINDING_SCHEMA:
         raise IsolationPlannerError("category LKG binding schema is invalid")
@@ -403,6 +407,18 @@ def validate_category_lkg_binding(
         or binding.get("single_source_snapshot") is not False
         or binding.get("normalized_source_payloads_included") is not False
         or binding.get("licensing_assertions_added") is not False
+        or binding.get("source_config_unchanged_since_release") is not True
+        or binding.get("source_config_candidate_release_main_bound") is not True
+        or not re.fullmatch(
+            r"[0-9a-f]{40}", str(binding.get("source_config_blob_oid", ""))
+        )
+        or binding.get("source_config_sha256") != digest_payload(source_config)
+        or binding.get("source_registry_unchanged_since_release") is not True
+        or binding.get("source_registry_candidate_release_main_bound") is not True
+        or not re.fullmatch(
+            r"[0-9a-f]{40}", str(binding.get("source_registry_blob_oid", ""))
+        )
+        or binding.get("source_registry_sha256") != digest_payload(source_registry)
     ):
         raise IsolationPlannerError("category LKG binding safety mode is invalid")
     verify_digest(binding, "binding_sha256", "category LKG binding")
@@ -434,6 +450,49 @@ def validate_category_lkg_binding(
         raise IsolationPlannerError(
             "category LKG source provenance binding is invalid"
         )
+    legacy_exception = binding.get("legacy_provenance_exception")
+    if not isinstance(legacy_exception, dict):
+        raise IsolationPlannerError("category LKG legacy provenance binding is absent")
+    verify_digest(
+        legacy_exception,
+        "exception_sha256",
+        "category LKG legacy provenance binding",
+    )
+    derived_sources = legacy_exception.get("derived_sources")
+    if (
+        legacy_exception.get("schema")
+        != "project-g-legacy-provenance-derivation-v1"
+        or legacy_exception.get("policy")
+        != "exact-immutable-archive-allowlist-v1"
+        or not isinstance(derived_sources, list)
+        or any(not isinstance(item, dict) for item in derived_sources)
+        or legacy_exception.get("derived_source_count") != len(derived_sources)
+        or legacy_exception.get("active") is not bool(derived_sources)
+    ):
+        raise IsolationPlannerError("category LKG legacy provenance binding is invalid")
+    try:
+        configured_bindings = canonical_source_bindings(source_config).get(
+            "bindings"
+        )
+    except AutomatedReviewError as exc:
+        raise IsolationPlannerError(str(exc)) from exc
+    if not isinstance(configured_bindings, dict):
+        raise IsolationPlannerError("category LKG configured bindings are invalid")
+    seen_legacy_sources: set[str] = set()
+    for row in derived_sources:
+        source_id = str(row.get("source_id", ""))
+        configured = configured_bindings.get(source_id)
+        if (
+            not source_id
+            or source_id in seen_legacy_sources
+            or not isinstance(configured, dict)
+            or row.get("derived_configured_source_sha256")
+            != configured.get("configured_source_sha256")
+        ):
+            raise IsolationPlannerError(
+                "category LKG legacy provenance derivation is invalid"
+            )
+        seen_legacy_sources.add(source_id)
 
     anchor = binding.get("lkg_anchor")
     if not isinstance(anchor, dict):
@@ -442,7 +501,8 @@ def validate_category_lkg_binding(
     repository = str(anchor.get("repository", ""))
     archive_asset = anchor.get("archive_asset")
     checksum_asset = anchor.get("checksum_asset")
-    status = anchor.get("published_status")
+    statuses = anchor.get("publication_statuses")
+    publication_receipt = anchor.get("publication_receipt")
     attestation = anchor.get("source_attestation")
     if (
         not re.fullmatch(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", repository)
@@ -460,10 +520,16 @@ def validate_category_lkg_binding(
         or not isinstance(checksum_asset, dict)
         or checksum_asset.get("name") != "ruleset-dist.sha256"
         or not SHA256_RE.fullmatch(str(checksum_asset.get("sha256", "")))
-        or not isinstance(status, dict)
-        or status.get("context") != "ruleset/published"
-        or status.get("state") != "success"
-        or status.get("github_actions_app_id") != 15368
+        or legacy_exception.get("release_archive_sha256")
+        != archive_asset.get("sha256")
+        or not isinstance(statuses, dict)
+        or not isinstance(publication_receipt, dict)
+        or not SHA256_RE.fullmatch(
+            str(publication_receipt.get("receipt_sha256", ""))
+        )
+        or publication_receipt.get("release_parent_sha")
+        != baseline_candidate_manifest.get("source_commit_sha")
+        or not isinstance(publication_receipt.get("publication_statuses"), dict)
         or not isinstance(attestation, dict)
         or attestation.get("workflow")
         != f"{repository}/.github/workflows/source-discovery.yml"
@@ -473,6 +539,31 @@ def validate_category_lkg_binding(
         or attestation.get("subject_sha256") != archive_asset.get("sha256")
     ):
         raise IsolationPlannerError("category LKG release tree binding is invalid")
+    receipt_statuses = publication_receipt["publication_statuses"]
+    run_ids: set[int] = set()
+    for context in ("ruleset/gate", "ruleset/published"):
+        status = statuses.get(context)
+        receipt_status = receipt_statuses.get(context)
+        if (
+            not isinstance(status, dict)
+            or status.get("context") != context
+            or status.get("state") != "success"
+            or status.get("description")
+            != PUBLICATION_STATUS_DESCRIPTIONS[context]
+            or status.get("github_actions_app_id") != 15368
+            or not isinstance(receipt_status, dict)
+            or receipt_status.get("status_id") != status.get("id")
+            or receipt_status.get("run_id") != status.get("run_id")
+            or not isinstance(receipt_status.get("run_attempt"), int)
+        ):
+            raise IsolationPlannerError(
+                "category LKG publication status binding is invalid"
+            )
+        run_ids.add(int(status["run_id"]))
+    if len(run_ids) != 1:
+        raise IsolationPlannerError(
+            "category LKG publication statuses resolve to different runs"
+        )
 
     baseline_lock = read_json(baseline_dist / "sources.lock.json")
     try:
@@ -701,6 +792,7 @@ def build_plan(
     candidate_index: dict[str, Any],
     provenance: dict[str, Any],
     *,
+    source_registry: dict[str, Any],
     exact_main_sha: str,
     baseline_dist: pathlib.Path,
     candidate_dist: pathlib.Path,
@@ -726,6 +818,8 @@ def build_plan(
         exact_main_sha=exact_main_sha,
         baseline_dist=baseline_dist,
         baseline_index=baseline_index,
+        source_config=source_config,
+        source_registry=source_registry,
     )
     try:
         candidate_categories = category_output_identities(
@@ -1190,6 +1284,7 @@ def build_plan(
         "exact_main_sha": exact_main_sha,
         "lkg_anchor_sha256": lkg_anchor["anchor_sha256"],
         "source_config_sha256": digest_payload(source_config),
+        "source_registry_sha256": digest_payload(source_registry),
         "selected_repository_lock_sha256": digest_payload(
             repository_selections
         ),
@@ -1219,6 +1314,7 @@ def build_plan(
         "baseline_index_sha256": digest_payload(baseline_index),
         "candidate_index_sha256": digest_payload(candidate_index),
         "source_config_sha256": digest_payload(source_config),
+        "source_registry_sha256": digest_payload(source_registry),
         "source_provenance_sha256": digest_payload(provenance),
         "baseline_source_lock_sha256": baseline_lock_sha256,
         "observed_candidate_source_lock_sha256": candidate_lock_sha256,
@@ -1234,7 +1330,7 @@ def build_plan(
         "accepted_candidate_categories": accepted,
         "quarantined_categories": quarantined_categories,
         "held_categories": sorted(held),
-        "safe_slice_changed": bool(accepted),
+        "safe_slice_changed": bool(planned_categories),
         "planned_safe_delta_count": sum(
             delta_counts.get(category, 0) for category in planned_categories
         ),
@@ -1270,6 +1366,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--automated-review", type=pathlib.Path, required=True)
     parser.add_argument("--isolation-evidence", type=pathlib.Path, required=True)
     parser.add_argument("--source-config", type=pathlib.Path, required=True)
+    parser.add_argument("--source-registry", type=pathlib.Path, required=True)
     parser.add_argument("--baseline-dist", type=pathlib.Path, required=True)
     parser.add_argument("--candidate-dist", type=pathlib.Path, required=True)
     parser.add_argument("--published-lkg-binding", type=pathlib.Path, required=True)
@@ -1288,6 +1385,7 @@ def main() -> int:
             read_json(args.isolation_evidence),
         )
         source_config = read_json(args.source_config)
+        source_registry = read_json(args.source_registry)
         baseline_index = read_json(args.baseline_dist / "index.json")
         candidate_index = read_json(args.candidate_dist / "index.json")
         provenance = read_json(args.candidate_dist / "source_provenance.json")
@@ -1298,6 +1396,7 @@ def main() -> int:
             baseline_index,
             candidate_index,
             provenance,
+            source_registry=source_registry,
             exact_main_sha=args.exact_main_sha,
             baseline_dist=args.baseline_dist,
             candidate_dist=args.candidate_dist,

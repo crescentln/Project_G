@@ -15,6 +15,13 @@ from typing import Any
 
 EMPTY_BLOB_SHA = "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391"
 SHA_RE = re.compile(r"^[0-9a-f]{40}$")
+RECEIPT_SCHEMA = "project-g-published-verification-receipt-v2"
+PUBLICATION_STATUS_DESCRIPTIONS = {
+    "ruleset/gate": "Immutable snapshot, tree, and attestation verified",
+    "ruleset/published": (
+        "Candidate, tag, release, attestation, raw index, and README verified"
+    ),
+}
 
 
 class VerifyError(RuntimeError):
@@ -89,6 +96,24 @@ def archive_dist_tree(path: pathlib.Path) -> dict[str, str]:
     return files
 
 
+def archive_json(path: pathlib.Path, relative: str) -> dict[str, Any]:
+    member_name = f"dist/{relative}"
+    try:
+        with tarfile.open(path, "r:gz") as archive:
+            members = [item for item in archive.getmembers() if item.name == member_name]
+            if len(members) != 1 or not members[0].isfile():
+                raise VerifyError(f"release archive lacks exactly one {relative}")
+            extracted = archive.extractfile(members[0])
+            if extracted is None:
+                raise VerifyError(f"release archive {relative} cannot be read")
+            payload = json.loads(extracted.read().decode("utf-8", errors="strict"))
+    except (tarfile.TarError, OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise VerifyError(f"release archive {relative} is invalid: {exc}") from exc
+    if not isinstance(payload, dict):
+        raise VerifyError(f"release archive {relative} root must be an object")
+    return payload
+
+
 def remote_dist_tree(repository: str, sha: str) -> dict[str, str]:
     commit = gh_json(f"repos/{repository}/git/commits/{sha}")
     tree_sha = str(commit.get("tree", {}).get("sha", "")).lower()
@@ -148,52 +173,97 @@ def verified_category_count(repository: str, sha: str, *, label: str) -> int:
     return category_count
 
 
-def require_published_status(repository: str, sha: str) -> int:
+def status_sort_key(item: dict[str, Any]) -> tuple[str, int]:
+    raw_id = item.get("id")
+    status_id = (
+        raw_id
+        if isinstance(raw_id, int) and not isinstance(raw_id, bool)
+        else -1
+    )
+    return (
+        str(item.get("updated_at") or item.get("created_at") or ""),
+        status_id,
+    )
+
+
+def require_publication_statuses(
+    repository: str, sha: str, expected_run_head_sha: str
+) -> dict[str, dict[str, Any]]:
     combined = gh_json(f"repos/{repository}/commits/{sha}/status")
     statuses = combined.get("statuses", [])
     if not isinstance(statuses, list):
         raise VerifyError("published commit status response is malformed")
-    latest = max(
-        (
-            item
-            for item in statuses
-            if isinstance(item, dict)
-            and str(item.get("context", "")) == "ruleset/published"
-        ),
-        key=lambda item: (
-            str(item.get("updated_at") or item.get("created_at") or ""),
-            int(item.get("id", 0)),
-        ),
-        default=None,
-    )
-    if not isinstance(latest, dict) or latest.get("state") != "success":
-        raise VerifyError("published commit lacks a latest successful ruleset/published status")
-    avatar_url = str(latest.get("avatar_url", ""))
-    if not re.fullmatch(
-        r"https://avatars\.githubusercontent\.com/in/15368(?:\?.*)?",
-        avatar_url,
-    ):
-        raise VerifyError("ruleset/published status is not bound to GitHub Actions App 15368")
-    target_url = str(latest.get("target_url", ""))
-    match = re.fullmatch(
-        rf"https://github\.com/{re.escape(repository)}/actions/runs/([0-9]+)",
-        target_url,
-    )
-    if match is None:
-        raise VerifyError("ruleset/published status target is not a repository Actions run")
-    run_id = int(match.group(1))
+
+    selected: dict[str, dict[str, Any]] = {}
+    run_ids: set[int] = set()
+    for context, description in PUBLICATION_STATUS_DESCRIPTIONS.items():
+        latest = max(
+            (
+                item
+                for item in statuses
+                if isinstance(item, dict)
+                and str(item.get("context", "")) == context
+            ),
+            key=status_sort_key,
+            default=None,
+        )
+        if not isinstance(latest, dict) or latest.get("state") != "success":
+            raise VerifyError(f"published commit lacks a latest successful {context} status")
+        status_id = latest.get("id")
+        avatar_url = str(latest.get("avatar_url", ""))
+        target_url = str(latest.get("target_url", ""))
+        match = re.fullmatch(
+            rf"https://github\.com/{re.escape(repository)}/actions/runs/([0-9]+)(?:/attempts/([0-9]+))?",
+            target_url,
+        )
+        if (
+            isinstance(status_id, bool)
+            or not isinstance(status_id, int)
+            or status_id <= 0
+            or latest.get("description") != description
+            or not re.fullmatch(
+                r"https://avatars\.githubusercontent\.com/in/15368(?:\?.*)?",
+                avatar_url,
+            )
+            or match is None
+        ):
+            raise VerifyError(f"latest {context} status identity is invalid")
+        run_id = int(match.group(1))
+        run_ids.add(run_id)
+        selected[context] = {
+            "status_id": status_id,
+            "context": context,
+            "state": "success",
+            "description": description,
+            "github_actions_app_id": 15368,
+            "target_url": target_url,
+            "run_id": run_id,
+            "updated_at": str(latest.get("updated_at", "")),
+        }
+    if len(run_ids) != 1:
+        raise VerifyError(
+            "publication gate and published statuses resolve to different runs"
+        )
+
+    run_id = next(iter(run_ids))
     run = gh_json(f"repos/{repository}/actions/runs/{run_id}")
     if (
         run.get("status") != "completed"
         or run.get("conclusion") != "success"
         or run.get("path") != ".github/workflows/ruleset-update.yml"
+        or run.get("head_sha") != expected_run_head_sha
         or run.get("repository", {}).get("full_name") != repository
     ):
-        raise VerifyError("ruleset/published status does not resolve to a successful promotion run")
-    return run_id
+        raise VerifyError(
+            "publication statuses do not resolve to a successful promotion run"
+        )
+    for status in selected.values():
+        status["run_attempt"] = int(run.get("run_attempt", 1))
+        status["run_head_sha"] = str(run.get("head_sha", ""))
+    return selected
 
 
-def verify(args: argparse.Namespace) -> None:
+def verify(args: argparse.Namespace) -> dict[str, Any]:
     if not SHA_RE.fullmatch(args.sha):
         raise VerifyError("--sha must be a 40-character lowercase commit SHA")
     archive_digest = sha256_file(args.archive)
@@ -268,6 +338,21 @@ def verify(args: argparse.Namespace) -> None:
         )
 
     archive_tree = archive_dist_tree(args.archive)
+    candidate_manifest = archive_json(args.archive, "candidate_manifest.json")
+    candidate_source_sha = str(candidate_manifest.get("source_commit_sha", ""))
+    if not SHA_RE.fullmatch(candidate_source_sha):
+        raise VerifyError("release candidate manifest source commit is invalid")
+    release_commit = gh_json(f"repos/{args.repository}/git/commits/{args.sha}")
+    release_parents = release_commit.get("parents")
+    if (
+        not isinstance(release_parents, list)
+        or len(release_parents) != 1
+        or not isinstance(release_parents[0], dict)
+        or release_parents[0].get("sha") != candidate_source_sha
+    ):
+        raise VerifyError(
+            "release commit must have the candidate source commit as its unique parent"
+        )
     published_tree = remote_dist_tree(args.repository, args.sha)
     if archive_tree != published_tree:
         missing = sorted(set(archive_tree) - set(published_tree))
@@ -297,17 +382,72 @@ def verify(args: argparse.Namespace) -> None:
         )
         if main_category_count != category_count:
             raise VerifyError("release and main category counts differ")
-    promotion_run_id = None
+    publication_statuses = None
     if args.require_published_status:
-        promotion_run_id = require_published_status(args.repository, args.sha)
+        publication_statuses = require_publication_statuses(
+            args.repository, args.sha, candidate_source_sha
+        )
+
+    receipt: dict[str, Any] = {
+        "schema": RECEIPT_SCHEMA,
+        "repository": args.repository,
+        "release_commit_sha": args.sha,
+        "main_sha": main_sha,
+        "release_id": int(release.get("id", 0)),
+        "release_tag": args.tag,
+        "candidate_source_sha": candidate_source_sha,
+        "release_parent_sha": candidate_source_sha,
+        "archive_sha256": archive_digest,
+        "checksum_sha256": checksum_digest,
+        "dist_tree_sha256": hashlib.sha256(
+            (
+                json.dumps(
+                    archive_tree,
+                    ensure_ascii=False,
+                    sort_keys=True,
+                    separators=(",", ":"),
+                )
+                + "\n"
+            ).encode("utf-8")
+        ).hexdigest(),
+        "dist_file_count": len(archive_tree),
+        "category_count": category_count,
+        "publication_statuses": publication_statuses,
+    }
+    receipt["receipt_sha256"] = hashlib.sha256(
+        (
+            json.dumps(
+                receipt,
+                ensure_ascii=False,
+                sort_keys=True,
+                separators=(",", ":"),
+            )
+            + "\n"
+        ).encode("utf-8")
+    ).hexdigest()
+    output_receipt = getattr(args, "output_receipt", None)
+    if output_receipt is not None:
+        output_receipt.parent.mkdir(parents=True, exist_ok=True)
+        output_receipt.write_text(
+            json.dumps(
+                receipt,
+                ensure_ascii=False,
+                sort_keys=True,
+                separators=(",", ":"),
+            )
+            + "\n",
+            encoding="utf-8",
+        )
 
     log(
         f"verified main={'skipped' if args.skip_main else main_sha} "
         f"tag={args.tag} release-assets=2+ dist_files={len(archive_tree)} "
         f"archive_sha256={archive_digest} categories={category_count} "
-        f"promotion_run={promotion_run_id or 'not-required'} "
+        "promotion_run="
+        f"{publication_statuses['ruleset/published']['run_id'] if publication_statuses else 'not-required'} "
         "root_readme_bytes=0"
     )
+    return receipt
 
 
 def parse_args() -> argparse.Namespace:
@@ -332,8 +472,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--require-published-status",
         action="store_true",
-        help="Require the latest ruleset/published status to resolve to a successful promotion run.",
+        help=(
+            "Require the latest ruleset/gate and ruleset/published statuses "
+            "to resolve to the same successful promotion run."
+        ),
     )
+    parser.add_argument("--output-receipt", type=pathlib.Path)
     return parser.parse_args()
 
 

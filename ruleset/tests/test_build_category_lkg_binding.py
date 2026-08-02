@@ -10,6 +10,7 @@ import tarfile
 import tempfile
 import types
 import unittest
+from unittest import mock
 
 
 SCRIPT = (
@@ -198,12 +199,23 @@ class CategoryLkgBindingTests(unittest.TestCase):
             "sha": RELEASE_SHA,
             "statuses": [
                 {
+                    "id": 998,
+                    "context": "ruleset/gate",
+                    "state": "success",
+                    "description": BINDING.PUBLICATION_STATUS_DESCRIPTIONS[
+                        "ruleset/gate"
+                    ],
+                    "avatar_url": "https://avatars.githubusercontent.com/in/15368?v=4",
+                    "target_url": f"{repository_url}/actions/runs/987",
+                    "updated_at": "2026-07-30T16:49:40Z",
+                },
+                {
                     "id": 999,
                     "context": "ruleset/published",
                     "state": "success",
-                    "description": (
-                        "Candidate, tag, release, attestation, raw index, and README verified"
-                    ),
+                    "description": BINDING.PUBLICATION_STATUS_DESCRIPTIONS[
+                        "ruleset/published"
+                    ],
                     "avatar_url": "https://avatars.githubusercontent.com/in/15368?v=4",
                     "target_url": f"{repository_url}/actions/runs/987",
                     "updated_at": "2026-07-30T16:49:47Z",
@@ -212,6 +224,67 @@ class CategoryLkgBindingTests(unittest.TestCase):
         }
         self.status_path = self.root / "status.json"
         write_json(self.status_path, self.status)
+        self.publication_receipt = {
+            "schema": BINDING.PUBLISHED_RECEIPT_SCHEMA,
+            "repository": REPOSITORY,
+            "release_commit_sha": RELEASE_SHA,
+            "main_sha": MAIN_SHA,
+            "release_id": 123,
+            "release_tag": TAG,
+            "candidate_source_sha": SOURCE_SHA,
+            "release_parent_sha": SOURCE_SHA,
+            "archive_sha256": self.archive_sha256,
+            "checksum_sha256": checksum_sha256,
+            "dist_tree_sha256": "4" * 64,
+            "dist_file_count": len(BINDING.directory_manifest(self.dist)),
+            "category_count": 2,
+            "publication_statuses": {
+                "ruleset/gate": {
+                    "status_id": 998,
+                    "context": "ruleset/gate",
+                    "state": "success",
+                    "description": BINDING.PUBLICATION_STATUS_DESCRIPTIONS[
+                        "ruleset/gate"
+                    ],
+                    "github_actions_app_id": 15368,
+                    "target_url": f"{repository_url}/actions/runs/987",
+                    "run_id": 987,
+                    "run_attempt": 1,
+                    "run_head_sha": SOURCE_SHA,
+                    "updated_at": "2026-07-30T16:49:40Z",
+                },
+                "ruleset/published": {
+                    "status_id": 999,
+                    "context": "ruleset/published",
+                    "state": "success",
+                    "description": BINDING.PUBLICATION_STATUS_DESCRIPTIONS[
+                        "ruleset/published"
+                    ],
+                    "github_actions_app_id": 15368,
+                    "target_url": f"{repository_url}/actions/runs/987",
+                    "run_id": 987,
+                    "run_attempt": 1,
+                    "run_head_sha": SOURCE_SHA,
+                    "updated_at": "2026-07-30T16:49:47Z",
+                },
+            },
+        }
+        self.publication_receipt["receipt_sha256"] = BINDING.digest_payload(
+            self.publication_receipt
+        )
+        self.publication_receipt_path = self.root / "published-receipt.json"
+        write_json(self.publication_receipt_path, self.publication_receipt)
+        self.source_config = self.root / "sources.json"
+        write_json(
+            self.source_config,
+            {"categories": [{"id": "a"}, {"id": "b"}]},
+        )
+        self.source_config_blob_oid = BINDING.git_blob_oid(self.source_config)
+        self.source_registry = self.root / "source-registry.json"
+        write_json(self.source_registry, {"schema": "test-source-registry-v1"})
+        self.source_registry_blob_oid = BINDING.git_blob_oid(
+            self.source_registry
+        )
 
     def tearDown(self) -> None:
         self.temp_dir.cleanup()
@@ -224,11 +297,24 @@ class CategoryLkgBindingTests(unittest.TestCase):
             "release_commit_sha": RELEASE_SHA,
             "release_dist_tree_oid": TREE_OID,
             "main_dist_tree_oid": TREE_OID,
+            "candidate_source_config": self.source_config,
+            "candidate_source_config_blob_oid": self.source_config_blob_oid,
+            "release_source_config": self.source_config,
+            "release_source_config_blob_oid": self.source_config_blob_oid,
+            "main_source_config": self.source_config,
+            "main_source_config_blob_oid": self.source_config_blob_oid,
+            "candidate_source_registry": self.source_registry,
+            "candidate_source_registry_blob_oid": self.source_registry_blob_oid,
+            "release_source_registry": self.source_registry,
+            "release_source_registry_blob_oid": self.source_registry_blob_oid,
+            "main_source_registry": self.source_registry,
+            "main_source_registry_blob_oid": self.source_registry_blob_oid,
             "archive": self.archive,
             "checksum": self.checksum,
             "baseline_dist": self.dist,
             "attestation_json": self.attestation_path,
             "published_status_json": self.status_path,
+            "published_receipt_json": self.publication_receipt_path,
         }
         values.update(overrides)
         return types.SimpleNamespace(**values)
@@ -240,6 +326,13 @@ class CategoryLkgBindingTests(unittest.TestCase):
         self.assertEqual(first["schema"], BINDING.BINDING_SCHEMA)
         self.assertFalse(first["enforcement_ready"])
         self.assertFalse(first["per_source_lkg_available"])
+        self.assertTrue(first["source_config_unchanged_since_release"])
+        self.assertTrue(first["source_config_candidate_release_main_bound"])
+        self.assertTrue(first["source_registry_candidate_release_main_bound"])
+        self.assertFalse(first["legacy_provenance_exception"]["active"])
+        self.assertEqual(
+            first["source_config_blob_oid"], self.source_config_blob_oid
+        )
         self.assertEqual(first["category_count"], 2)
         self.assertEqual(
             [item["category"] for item in first["categories"]], ["a", "b"]
@@ -248,12 +341,98 @@ class CategoryLkgBindingTests(unittest.TestCase):
             first["lkg_anchor"]["source_attestation"]["source_sha"],
             SOURCE_SHA,
         )
+        self.assertEqual(
+            first["lkg_anchor"]["publication_receipt"][
+                "publication_statuses"
+            ]["ruleset/published"]["status_id"],
+            999,
+        )
 
     def test_rejects_release_and_main_dist_tree_drift(self) -> None:
         with self.assertRaisesRegex(
             BINDING.CategoryLkgBindingError, "does not match"
         ):
             BINDING.build_binding(self.args(main_dist_tree_oid="1" * 40))
+
+    def test_rejects_release_and_main_source_config_drift(self) -> None:
+        changed = self.root / "changed-sources.json"
+        write_json(changed, {"categories": [{"id": "changed"}]})
+        with self.assertRaisesRegex(
+            BINDING.CategoryLkgBindingError, "do not match"
+        ):
+            BINDING.build_binding(
+                self.args(
+                    main_source_config=changed,
+                    main_source_config_blob_oid=BINDING.git_blob_oid(changed),
+                )
+            )
+
+    def test_rejects_release_and_main_source_registry_drift(self) -> None:
+        changed = self.root / "changed-source-registry.json"
+        write_json(changed, {"schema": "changed-source-registry-v1"})
+        with self.assertRaisesRegex(
+            BINDING.CategoryLkgBindingError, "do not match"
+        ):
+            BINDING.build_binding(
+                self.args(
+                    main_source_registry=changed,
+                    main_source_registry_blob_oid=BINDING.git_blob_oid(changed),
+                )
+            )
+
+    def test_legacy_provenance_derivation_is_exact_archive_allowlisted(self) -> None:
+        source_config = {
+            "categories": [
+                {
+                    "id": "a",
+                    "sources": [
+                        {
+                            "type": "local_domain",
+                            "path": "manual/categories/a.txt",
+                            "authority": "owner-controlled",
+                        }
+                    ],
+                }
+            ]
+        }
+        bindings = BINDING.canonical_source_bindings(source_config)["bindings"]
+        source_id = next(iter(bindings))
+        provenance = {"sources": [{"source_id": source_id}]}
+        archive_sha256 = "1" * 64
+        with self.assertRaisesRegex(
+            BINDING.CategoryLkgBindingError, "exact legacy allowlist"
+        ):
+            BINDING.legacy_provenance_derivations(
+                source_config=source_config,
+                provenance=provenance,
+                archive_sha256=archive_sha256,
+            )
+        with mock.patch.object(
+            BINDING,
+            "LEGACY_PROVENANCE_ARCHIVE_ALLOWLIST",
+            {archive_sha256},
+        ):
+            exception = BINDING.legacy_provenance_derivations(
+                source_config=source_config,
+                provenance=provenance,
+                archive_sha256=archive_sha256,
+            )
+        self.assertTrue(exception["active"])
+        self.assertEqual(exception["derived_source_count"], 1)
+        self.assertEqual(exception["derived_sources"][0]["source_id"], source_id)
+
+    def test_rejects_published_status_changed_after_verification(self) -> None:
+        changed = copy.deepcopy(self.status)
+        changed["statuses"][1]["id"] = 1000
+        changed_path = self.root / "changed-status.json"
+        write_json(changed_path, changed)
+        with self.assertRaisesRegex(
+            BINDING.CategoryLkgBindingError,
+            "receipt differs from current status evidence",
+        ):
+            BINDING.build_binding(
+                self.args(published_status_json=changed_path)
+            )
 
     def test_rejects_archive_path_escape(self) -> None:
         unsafe = self.root / "unsafe.tar.gz"

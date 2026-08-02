@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import ast
 import pathlib
 import re
 import unittest
@@ -97,6 +98,22 @@ class WorkflowIntegrityTests(unittest.TestCase):
         self.assertIn("continue-on-error: true", lkg_step)
         self.assertIn("timeout-minutes: 15", lkg_step)
         self.assertIn("--require-published-status", discovery)
+        self.assertIn("--output-receipt", discovery)
+        self.assertIn("--published-receipt-json", discovery)
+        self.assertIn("--release-source-config-blob-oid", discovery)
+        self.assertIn("--main-source-config-blob-oid", discovery)
+        self.assertIn("--candidate-source-config-blob-oid", discovery)
+        self.assertIn("--candidate-source-registry-blob-oid", discovery)
+        self.assertIn("--release-source-registry-blob-oid", discovery)
+        self.assertIn("--main-source-registry-blob-oid", discovery)
+        self.assertIn("final-published-status.json", discovery)
+        self.assertIn(
+            "Immutable snapshot, tree, and attestation verified", discovery
+        )
+        self.assertIn(
+            "no canonical immutable release with successful publication evidence",
+            discovery,
+        )
         self.assertIn("--published-lkg-binding", discovery)
         self.assertIn("category-lkg-binding.json", discovery)
         self.assertIn("stable_selection_fingerprint", discovery)
@@ -104,11 +121,47 @@ class WorkflowIntegrityTests(unittest.TestCase):
         self.assertIn("gh attestation verify", discovery)
         self.assertIn("--isolation-output", discovery)
         self.assertIn("--isolation-evidence", discovery)
+        self.assertIn("--source-registry ruleset/config/source_registry.json", discovery)
         self.assertIn("ruleset-isolation-shadow-", discovery)
         self.assertIn("upstream-isolation-shadow.tar", discovery)
         self.assertIn("Attest upstream isolation shadow evidence", discovery)
         self.assertIn("Scan upstream isolation shadow evidence for secrets", discovery)
         self.assertIn("Record non-authoritative shadow outcome", discovery)
+        self.assertIn("materialize_upstream_composite.py", discovery)
+        self.assertIn(
+            "Materialize non-authoritative upstream isolation composite",
+            discovery,
+        )
+        self.assertIn(
+            "Scan upstream isolation composite for secrets", discovery
+        )
+        self.assertIn(
+            "Attest upstream isolation composite evidence", discovery
+        )
+        self.assertIn("ruleset-isolation-composite-shadow-", discovery)
+        self.assertIn("ruleset-composite-dist.tar.gz", discovery)
+        self.assertIn("upstream-isolation-composite-evidence.tar", discovery)
+        self.assertIn("composite-gate-receipt.json", discovery)
+        self.assertIn("gzip -n", discovery)
+        self.assertIn(".publishable == false", discovery)
+        self.assertIn('--isolation-evidence "$shadow_payload/isolation-evidence.json"', discovery)
+        self.assertIn("validate_rulesets.py", discovery)
+        self.assertIn('--dist-dir "$composite_dir/dist"', discovery)
+        self.assertIn('--surge-dir "$composite_dir/dist/surge"', discovery)
+        self.assertIn('--stash-dir "$composite_dir/dist/stash"', discovery)
+        self.assertIn('--openclash-dir "$composite_dir/dist/openclash"', discovery)
+        composite_scan = discovery.split(
+            "Scan upstream isolation composite for secrets", maxsplit=1
+        )[1].split(
+            "Package scanned upstream isolation composite", maxsplit=1
+        )[0]
+        self.assertIn(
+            "ghcr.io/gitleaks/gitleaks@sha256:"
+            "b5918eb91b8d2473cec722f066abb4352e4ffdc4ec9f4283ec143aba9ec9ebc4",
+            composite_scan,
+        )
+        self.assertIn('${RUNNER_TEMP}/gitleaks-composite', composite_scan)
+        self.assertNotIn('${COMPOSITE_DIR}/gitleaks-report', composite_scan)
         self.assertIn("continue-on-error: true", discovery)
         self.assertIn("candidate decision and packaging continue unchanged", discovery)
         self.assertIn("cmp \\", discovery)
@@ -122,12 +175,68 @@ class WorkflowIntegrityTests(unittest.TestCase):
         self.assertIn("upstream-isolation-shadow.tar", upload_block)
         self.assertIn("upstream-isolation-shadow.sha256", upload_block)
         self.assertNotIn("/payload", upload_block)
+        composite_upload_block = discovery.split(
+            "Upload attested upstream isolation composite", maxsplit=1
+        )[1].split("Update candidate changelog", maxsplit=1)[0]
+        self.assertIn(
+            "upstream-isolation-composite-evidence.tar", composite_upload_block
+        )
+        self.assertIn(
+            "upstream-isolation-composite-evidence.sha256", composite_upload_block
+        )
+        self.assertNotIn("composite-identity.json", composite_upload_block)
+        self.assertNotIn("composite-review.json", composite_upload_block)
+        self.assertNotIn("ruleset-composite-dist.tar.gz", composite_upload_block)
         self.assertLess(
             discovery.index("Build non-authoritative upstream isolation shadow plan"),
             discovery.index("Package immutable candidate"),
         )
         self.assertNotIn("plan_upstream_isolation.py", promotion)
         self.assertNotIn("ruleset-isolation-shadow-", promotion)
+        self.assertNotIn("ruleset-isolation-composite-shadow-", promotion)
+        self.assertNotIn("ruleset-composite-dist.tar.gz", promotion)
+        self.assertNotIn("upstream-isolation-composite-evidence.tar", promotion)
+
+    def test_materializer_required_flags_match_the_workflow_call(self) -> None:
+        script_path = (
+            REPO_ROOT
+            / "ruleset"
+            / "scripts"
+            / "materialize_upstream_composite.py"
+        )
+        tree = ast.parse(script_path.read_text(encoding="utf-8"))
+        required_flags = {
+            str(call.args[0].value)
+            for call in ast.walk(tree)
+            if isinstance(call, ast.Call)
+            and isinstance(call.func, ast.Attribute)
+            and call.func.attr == "add_argument"
+            and call.args
+            and isinstance(call.args[0], ast.Constant)
+            and isinstance(call.args[0].value, str)
+            and call.args[0].value.startswith("--")
+            and any(
+                keyword.arg == "required"
+                and isinstance(keyword.value, ast.Constant)
+                and keyword.value.value is True
+                for keyword in call.keywords
+            )
+        }
+        workflow = (WORKFLOW_ROOT / "source-discovery.yml").read_text(
+            encoding="utf-8"
+        )
+        command_start = workflow.index(
+            "python3 ruleset/scripts/materialize_upstream_composite.py"
+        )
+        command_lines: list[str] = []
+        for line in workflow[command_start:].splitlines():
+            command_lines.append(line)
+            if not line.rstrip().endswith("\\"):
+                break
+        workflow_flags = set(
+            re.findall(r"--[a-z0-9-]+", "\n".join(command_lines))
+        )
+        self.assertEqual(workflow_flags, required_flags)
 
     def test_promotion_consumes_exact_candidate_and_attests_it(self) -> None:
         workflow = (WORKFLOW_ROOT / "ruleset-update.yml").read_text(encoding="utf-8")

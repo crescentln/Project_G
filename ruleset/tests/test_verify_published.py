@@ -49,13 +49,22 @@ class VerifyPublishedTests(unittest.TestCase):
         main_sha = "b" * 40
         release_tree_sha = "c" * 40
         main_tree_sha = "d" * 40
+        source_sha = "e" * 40
         index_bytes = b'{"category_count":55}\n'
         index_blob = VERIFY.git_blob_sha(index_bytes)
+        manifest_bytes = json.dumps(
+            {"source_commit_sha": source_sha}, sort_keys=True
+        ).encode("utf-8") + b"\n"
+        manifest_blob = VERIFY.git_blob_sha(manifest_bytes)
         archive = temp / "ruleset-dist.tar.gz"
         with tarfile.open(archive, "w:gz") as bundle:
-            member = tarfile.TarInfo("dist/index.json")
-            member.size = len(index_bytes)
-            bundle.addfile(member, io.BytesIO(index_bytes))
+            for name, payload in (
+                ("dist/index.json", index_bytes),
+                ("dist/candidate_manifest.json", manifest_bytes),
+            ):
+                member = tarfile.TarInfo(name)
+                member.size = len(payload)
+                bundle.addfile(member, io.BytesIO(payload))
         checksum = temp / "ruleset-dist.sha256"
         archive_digest = VERIFY.sha256_file(archive)
         checksum.write_text(
@@ -69,11 +78,25 @@ class VerifyPublishedTests(unittest.TestCase):
             "content": base64.b64encode(index_bytes).decode("ascii")
         }
         status = {
+            "id": 5678,
             "context": "ruleset/published",
             "state": "success",
+            "description": VERIFY.PUBLICATION_STATUS_DESCRIPTIONS[
+                "ruleset/published"
+            ],
             "creator": {"login": "github-actions[bot]"},
             "avatar_url": "https://avatars.githubusercontent.com/in/15368?v=4",
             "target_url": f"https://github.com/{repository}/actions/runs/1234",
+            "updated_at": "2026-08-01T00:00:00Z",
+        }
+        gate_status = {
+            **status,
+            "id": 5677,
+            "context": "ruleset/gate",
+            "description": VERIFY.PUBLICATION_STATUS_DESCRIPTIONS[
+                "ruleset/gate"
+            ],
+            "updated_at": "2026-08-01T00:00:00Z",
         }
         data = {
             f"repos/{repository}/commits/main": {"sha": main_sha},
@@ -84,6 +107,7 @@ class VerifyPublishedTests(unittest.TestCase):
                 "object": {"type": "commit", "sha": release_sha}
             },
             f"repos/{repository}/releases/tags/{tag}": {
+                "id": 9876,
                 "tag_name": tag,
                 "draft": False,
                 "prerelease": False,
@@ -100,7 +124,8 @@ class VerifyPublishedTests(unittest.TestCase):
                 ],
             },
             f"repos/{repository}/git/commits/{release_sha}": {
-                "tree": {"sha": release_tree_sha}
+                "tree": {"sha": release_tree_sha},
+                "parents": [{"sha": source_sha}],
             },
             f"repos/{repository}/git/trees/{release_tree_sha}?recursive=1": {
                 "truncated": False,
@@ -109,7 +134,12 @@ class VerifyPublishedTests(unittest.TestCase):
                         "path": "ruleset/dist/index.json",
                         "type": "blob",
                         "sha": index_blob,
-                    }
+                    },
+                    {
+                        "path": "ruleset/dist/candidate_manifest.json",
+                        "type": "blob",
+                        "sha": manifest_blob,
+                    },
                 ],
             },
             f"repos/{repository}/git/commits/{main_sha}": {
@@ -122,7 +152,12 @@ class VerifyPublishedTests(unittest.TestCase):
                         "path": "ruleset/dist/index.json",
                         "type": "blob",
                         "sha": index_blob,
-                    }
+                    },
+                    {
+                        "path": "ruleset/dist/candidate_manifest.json",
+                        "type": "blob",
+                        "sha": manifest_blob,
+                    },
                 ],
             },
             f"repos/{repository}/contents/README.md?ref={release_sha}": readme,
@@ -130,12 +165,14 @@ class VerifyPublishedTests(unittest.TestCase):
             f"repos/{repository}/contents/ruleset/dist/index.json?ref={release_sha}": raw_index,
             f"repos/{repository}/contents/ruleset/dist/index.json?ref={main_sha}": raw_index,
             f"repos/{repository}/commits/{release_sha}/status": {
-                "statuses": [status]
+                "statuses": [gate_status, status]
             },
             f"repos/{repository}/actions/runs/1234": {
                 "status": "completed",
                 "conclusion": "success",
                 "path": ".github/workflows/ruleset-update.yml",
+                "head_sha": source_sha,
+                "run_attempt": 1,
                 "repository": {"full_name": repository},
             },
         }
@@ -155,7 +192,61 @@ class VerifyPublishedTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as raw_temp:
             args, data = self.verification_fixture(pathlib.Path(raw_temp))
             with mock.patch.object(VERIFY, "gh_json", side_effect=lambda path: data[path]):
-                VERIFY.verify(args)
+                receipt = VERIFY.verify(args)
+            self.assertEqual(receipt["schema"], VERIFY.RECEIPT_SCHEMA)
+            self.assertEqual(
+                receipt["publication_statuses"]["ruleset/published"]["run_id"],
+                1234,
+            )
+            self.assertEqual(
+                receipt["publication_statuses"]["ruleset/gate"]["run_head_sha"],
+                receipt["candidate_source_sha"],
+            )
+            self.assertEqual(
+                receipt["release_parent_sha"], receipt["candidate_source_sha"]
+            )
+
+    def test_publication_run_must_target_the_candidate_source(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_temp:
+            args, data = self.verification_fixture(pathlib.Path(raw_temp))
+            data[f"repos/{args.repository}/actions/runs/1234"]["head_sha"] = "9" * 40
+            with mock.patch.object(VERIFY, "gh_json", side_effect=lambda path: data[path]):
+                with self.assertRaisesRegex(VERIFY.VerifyError, "successful promotion"):
+                    VERIFY.verify(args)
+
+    def test_publication_statuses_must_resolve_to_the_same_run(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_temp:
+            args, data = self.verification_fixture(pathlib.Path(raw_temp))
+            status_path = f"repos/{args.repository}/commits/{args.sha}/status"
+            data[status_path]["statuses"][1]["target_url"] = (
+                f"https://github.com/{args.repository}/actions/runs/9999"
+            )
+            with mock.patch.object(
+                VERIFY, "gh_json", side_effect=lambda path: data[path]
+            ):
+                with self.assertRaisesRegex(VERIFY.VerifyError, "different runs"):
+                    VERIFY.verify(args)
+
+    def test_malformed_latest_status_id_fails_closed(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_temp:
+            args, data = self.verification_fixture(pathlib.Path(raw_temp))
+            status_path = f"repos/{args.repository}/commits/{args.sha}/status"
+            data[status_path]["statuses"][1]["id"] = "not-an-integer"
+            with mock.patch.object(
+                VERIFY, "gh_json", side_effect=lambda path: data[path]
+            ):
+                with self.assertRaisesRegex(VERIFY.VerifyError, "identity is invalid"):
+                    VERIFY.verify(args)
+
+    def test_release_commit_must_directly_descend_from_candidate_source(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_temp:
+            args, data = self.verification_fixture(pathlib.Path(raw_temp))
+            data[f"repos/{args.repository}/git/commits/{args.sha}"]["parents"] = [
+                {"sha": "9" * 40}
+            ]
+            with mock.patch.object(VERIFY, "gh_json", side_effect=lambda path: data[path]):
+                with self.assertRaisesRegex(VERIFY.VerifyError, "unique parent"):
+                    VERIFY.verify(args)
 
     def test_diverged_release_or_changed_main_dist_fails_closed(self) -> None:
         with tempfile.TemporaryDirectory() as raw_temp:
@@ -181,12 +272,28 @@ class VerifyPublishedTests(unittest.TestCase):
             args, data = self.verification_fixture(pathlib.Path(raw_temp))
             status_path = f"repos/{args.repository}/commits/{args.sha}/status"
             old_success = data[status_path]["statuses"][0]
+            published = data[status_path]["statuses"][1]
             data[status_path]["statuses"] = [
-                {**old_success, "state": "failure"},
                 old_success,
+                published,
+                {**published, "id": published["id"] + 1, "state": "failure"},
             ]
             with mock.patch.object(VERIFY, "gh_json", side_effect=lambda path: data[path]):
                 with self.assertRaisesRegex(VERIFY.VerifyError, "latest successful"):
+                    VERIFY.verify(args)
+
+    def test_latest_failed_gate_status_invalidates_published_success(self) -> None:
+        with tempfile.TemporaryDirectory() as raw_temp:
+            args, data = self.verification_fixture(pathlib.Path(raw_temp))
+            status_path = f"repos/{args.repository}/commits/{args.sha}/status"
+            gate, published = data[status_path]["statuses"]
+            data[status_path]["statuses"] = [
+                gate,
+                published,
+                {**gate, "id": gate["id"] + 1, "state": "failure"},
+            ]
+            with mock.patch.object(VERIFY, "gh_json", side_effect=lambda path: data[path]):
+                with self.assertRaisesRegex(VERIFY.VerifyError, "ruleset/gate"):
                     VERIFY.verify(args)
 
 

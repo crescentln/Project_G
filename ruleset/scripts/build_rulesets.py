@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import bisect
+import copy
 import csv
 import datetime as dt
 import hashlib
@@ -65,6 +66,7 @@ SOURCE_LOCK: dict[str, Any] = {}
 SOURCE_PROVENANCE: list[dict[str, Any]] = []
 SOURCE_RULE_SETS: dict[str, tuple[str, ...]] = {}
 SOURCE_RULE_MERKLE_CACHE: dict[str, tuple[list[str], list[list[bytes]]]] = {}
+SOURCE_MEMBERSHIP_WITNESSES: dict[tuple[str, str], dict[str, Any]] = {}
 V2FLY_ARCHIVE_MEMO: dict[str, tuple[dict[str, bytes], bool, dict[str, Any]]] = {}
 V2FLY_PARSE_PROVENANCE: dict[str, dict[str, Any]] = {}
 BUILD_GENERATED_AT = ""
@@ -187,6 +189,9 @@ def register_source_rule_set(source_id: str, rules: set[str]) -> str:
 
 
 def rule_membership_witness(source_id: str, rule: str) -> dict[str, Any]:
+    precomputed = SOURCE_MEMBERSHIP_WITNESSES.get((source_id, rule))
+    if precomputed is not None:
+        return copy.deepcopy(precomputed)
     rules = SOURCE_RULE_SETS.get(source_id)
     if rules is None:
         raise BuildError(
@@ -227,6 +232,20 @@ class SourceBuildResult:
     used_cache: bool
     source_ref: str
     provenance: dict[str, Any] = field(default_factory=dict)
+
+
+@dataclass
+class PreselectedBuildContext:
+    """Frozen category snapshots for a coherent upstream-isolation build."""
+
+    generated_at_utc: str
+    source_lock: dict[str, Any]
+    source_provenance: list[dict[str, Any]]
+    rules_by_category: dict[str, list[str]]
+    source_meta_by_category: dict[str, list[dict[str, Any]]]
+    attribution_by_category: dict[str, dict[str, set[str]]]
+    membership_witnesses: dict[tuple[str, str], dict[str, Any]]
+    fetch_report: dict[str, Any]
 
 
 def log(message: str) -> None:
@@ -2730,6 +2749,14 @@ def detect_rule_conflicts(
             len(item["categories"]) * -1,
             str(item.get("covering_rule", "")),
             item["rule"],
+            tuple(str(value) for value in item.get("categories", [])),
+            str(item.get("type", "")),
+            json.dumps(
+                item.get("waiver", {}),
+                ensure_ascii=False,
+                sort_keys=True,
+                separators=(",", ":"),
+            ),
         )
     )
     return conflicts
@@ -3581,9 +3608,21 @@ def write_intelligence_outputs(
     health_status = "healthy"
     if fetch_report.get("fallback_cache_count", 0) or cache_blocked_sources:
         health_status = "degraded"
+    health_override = fetch_report.get("source_health_status")
+    if health_override is not None:
+        if health_override not in {"healthy", "degraded", "unknown"}:
+            raise BuildError("fetch report source health status is invalid")
+        health_status = str(health_override)
+    health_complete = fetch_report.get("source_health_complete", True)
+    if not isinstance(health_complete, bool):
+        raise BuildError("fetch report source health completeness is invalid")
     source_health = {
         "generated_at_utc": BUILD_GENERATED_AT,
         "status": health_status,
+        "health_complete": health_complete,
+        "health_basis": str(
+            fetch_report.get("source_health_basis", "current-build-fetch-evidence")
+        ),
         "source_count": len(SOURCE_PROVENANCE),
         "network_success_count": int(fetch_report.get("network_success_count", 0)),
         "primary_success_count": int(fetch_report.get("primary_success_count", 0)),
@@ -3597,6 +3636,11 @@ def write_intelligence_outputs(
             "published_snapshot_max_age_hours": 192,
         },
     }
+    observation = fetch_report.get("upstream_observation")
+    if observation is not None:
+        if not isinstance(observation, dict):
+            raise BuildError("fetch report upstream observation is invalid")
+        source_health["upstream_observation"] = copy.deepcopy(observation)
     (dist_dir / "source_health.json").write_text(
         json.dumps(source_health, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
@@ -4069,6 +4113,7 @@ def build_all(
     offline: bool,
     fail_on_conflicts: bool,
     fail_on_cross_action_conflicts: bool,
+    preselected_context: PreselectedBuildContext | None = None,
 ) -> int:
     global BUILD_GENERATED_AT
     global PROTECTED_MULTI_TENANT_ROOTS
@@ -4077,13 +4122,18 @@ def build_all(
     global SOURCE_LOCK
     global SOURCE_REGISTRY
 
-    BUILD_GENERATED_AT = dt.datetime.now(dt.timezone.utc).isoformat()
+    BUILD_GENERATED_AT = (
+        preselected_context.generated_at_utc
+        if preselected_context is not None
+        else dt.datetime.now(dt.timezone.utc).isoformat()
+    )
     FETCH_MEMO.clear()
     FETCH_EVENTS.clear()
     FETCH_ATTEMPTS.clear()
     SOURCE_PROVENANCE.clear()
     SOURCE_RULE_SETS.clear()
     SOURCE_RULE_MERKLE_CACHE.clear()
+    SOURCE_MEMBERSHIP_WITNESSES.clear()
     V2FLY_ARCHIVE_MEMO.clear()
     V2FLY_PARSE_PROVENANCE.clear()
     SOURCE_REGISTRY = read_json(source_registry_path)
@@ -4094,7 +4144,15 @@ def build_all(
     ) = load_protected_domain_roots(
         DEFAULT_PROTECTED_DOMAIN_ROOTS_PATH, ROOT_DIR.parent
     )
-    if source_lock_path is None:
+    if preselected_context is not None:
+        SOURCE_LOCK = copy.deepcopy(preselected_context.source_lock)
+        SOURCE_PROVENANCE.extend(
+            copy.deepcopy(preselected_context.source_provenance)
+        )
+        SOURCE_MEMBERSHIP_WITNESSES.update(
+            copy.deepcopy(preselected_context.membership_witnesses)
+        )
+    elif source_lock_path is None:
         SOURCE_LOCK = {}
     else:
         if not source_lock_path.is_file():
@@ -4113,6 +4171,28 @@ def build_all(
         for item in categories
         if isinstance(item, dict) and str(item.get("id", "")).strip()
     }
+    if preselected_context is not None:
+        expected_categories = set(category_ids)
+        for label, observed_categories in (
+            ("rules", set(preselected_context.rules_by_category)),
+            ("source metadata", set(preselected_context.source_meta_by_category)),
+            ("attribution", set(preselected_context.attribution_by_category)),
+        ):
+            if observed_categories != expected_categories:
+                raise BuildError(
+                    f"preselected {label} category coverage is not exact"
+                )
+        provenance_ids = [
+            str(item.get("source_id", "")).strip()
+            for item in SOURCE_PROVENANCE
+            if isinstance(item, dict)
+        ]
+        if (
+            len(provenance_ids) != len(SOURCE_PROVENANCE)
+            or any(not item for item in provenance_ids)
+            or len(provenance_ids) != len(set(provenance_ids))
+        ):
+            raise BuildError("preselected source provenance IDs are invalid")
     contract_overrides = category_contracts_config.get("categories", {})
     if not isinstance(contract_overrides, dict):
         raise BuildError("category contracts: categories must be an object")
@@ -4166,7 +4246,26 @@ def build_all(
             raise BuildError("category missing id")
         log(f"building category: {category_id}")
 
-        if category.get("aggregate_of"):
+        if preselected_context is not None:
+            rules = list(preselected_context.rules_by_category[category_id])
+            if rules != sorted(set(rules), key=rule_sort_key):
+                raise BuildError(
+                    f"preselected rules are not sorted and unique: {category_id}"
+                )
+            source_meta = copy.deepcopy(
+                preselected_context.source_meta_by_category[category_id]
+            )
+            attribution = {
+                str(rule): set(source_ids)
+                for rule, source_ids in preselected_context.attribution_by_category[
+                    category_id
+                ].items()
+            }
+            if set(attribution) - set(rules):
+                raise BuildError(
+                    f"preselected attribution contains unknown rules: {category_id}"
+                )
+        elif category.get("aggregate_of"):
             rules, source_meta, attribution = build_aggregate_category(
                 category,
                 ROOT_DIR,
@@ -4399,7 +4498,13 @@ def build_all(
     )
 
     fetch_report_file = dist_dir / "fetch_report.json"
-    fetch_report = build_fetch_report()
+    fetch_report = (
+        copy.deepcopy(preselected_context.fetch_report)
+        if preselected_context is not None
+        else build_fetch_report()
+    )
+    if preselected_context is not None:
+        fetch_report["generated_at_utc"] = BUILD_GENERATED_AT
     fetch_report_file.write_text(
         json.dumps(fetch_report, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
@@ -4515,6 +4620,7 @@ def build_all_staged(
     offline: bool,
     fail_on_conflicts: bool,
     fail_on_cross_action_conflicts: bool,
+    preselected_context: PreselectedBuildContext | None = None,
 ) -> int:
     """
     Build into a fresh staging directory and atomically replace dist_dir.
@@ -4541,7 +4647,14 @@ def build_all_staged(
             offline=offline,
             fail_on_conflicts=fail_on_conflicts,
             fail_on_cross_action_conflicts=fail_on_cross_action_conflicts,
+            preselected_context=preselected_context,
         )
+
+        if code != 0:
+            log(
+                "staged build failed quality gates; preserving the existing dist target"
+            )
+            return code
 
         # A final duplicate sweep in staging prevents sync-generated conflict copies.
         removed_duplicates = purge_duplicate_artifacts(staging_dir)
