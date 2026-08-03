@@ -1,5 +1,0 @@
-# Owner-controlled Taiwan stream domains.
-bahamut.com.tw
-hamivideo.hinet.net
-catchplay.com
-line.me

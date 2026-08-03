@@ -1,6 +1,0 @@
-# Mainland China CIDR/IP overrides (DIRECT).
-# This file is IP-focused.
-# Prefer IP-CIDR / IP-CIDR6 entries here.
-# Supported examples:
-# IP-CIDR,1.2.3.0/24,no-resolve
-# IP-CIDR6,2408:4000::/32,no-resolve

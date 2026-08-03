@@ -1,6 +1,0 @@
-# Owner-controlled Japan stream domains.
-abema.tv
-dmm.com
-niconico.jp
-unext.jp
-hulu.jp

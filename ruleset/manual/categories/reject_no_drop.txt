@@ -1,8 +1,0 @@
-# reject_no_drop: optional explicit reject (faster fail than drop)
-
-DOMAIN-SUFFIX,adservice.google.com
-DOMAIN-SUFFIX,adservice.google.com.hk
-DOMAIN-SUFFIX,adservice.google.com.sg
-DOMAIN-SUFFIX,ads.youtube.com
-DOMAIN-SUFFIX,googleadservices.com
-DOMAIN,pagead2.googlesyndication.com

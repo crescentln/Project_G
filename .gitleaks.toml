@@ -1,9 +1,0 @@
-title = "Project_G gitleaks config"
-
-[allowlist]
-description = "Ignore local fetch caches, Git internals, and validated workflow bundles"
-paths = [
-  '''ruleset/.cache/.*''',
-  '''\.git/.*''',
-  '''\.workflow-artifacts/.*''',
-]

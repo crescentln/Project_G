@@ -1,7 +1,0 @@
-# Add rules to remove from the final reject category.
-# Example:
-# DOMAIN-SUFFIX,example.com
-
-# Keep this file for one-off emergency excludes.
-# Regular false-positive maintenance should go to:
-# - manual/allow/reject.txt

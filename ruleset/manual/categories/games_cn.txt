@@ -1,4 +1,0 @@
-DOMAIN-SUFFIX,wegame.com
-DOMAIN-SUFFIX,mihoyo.com
-DOMAIN-SUFFIX,biligame.com
-DOMAIN-SUFFIX,xboxlive.cn

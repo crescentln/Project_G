@@ -1,8 +1,0 @@
-# DMCA / copyright notice related portals
-# Action is DIRECT in policy_map (kept as your preference).
-
-DOMAIN-SUFFIX,dmca.com
-DOMAIN-SUFFIX,lumendatabase.org
-DOMAIN-SUFFIX,copyright.gov
-DOMAIN,reportcontent.google.com
-DOMAIN,webforms.copyright.google.com

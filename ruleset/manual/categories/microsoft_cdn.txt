@@ -1,3 +1,0 @@
-DOMAIN-SUFFIX,windowsupdate.com
-DOMAIN-SUFFIX,download.microsoft.com
-DOMAIN-SUFFIX,msftconnecttest.com

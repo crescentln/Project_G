@@ -1,2 +1,0 @@
-DOMAIN-SUFFIX,primevideo.com
-DOMAIN-SUFFIX,aiv-cdn.net
