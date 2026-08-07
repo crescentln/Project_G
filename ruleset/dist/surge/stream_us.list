@@ -1,18 +1,22 @@
+DOMAIN,disneyplus.com.ssl.sc.omtrdc.net
 DOMAIN,espn.api.edge.bamgrid.com
 DOMAIN,espn.hb.omtrdc.net
 DOMAIN,espndotcom.tt.omtrdc.net
 DOMAIN,hulu.playback.edge.bamgrid.com
 DOMAIN,netflix.com.edgesuite.net
 DOMAIN-SUFFIX,112263.com
+DOMAIN-SUFFIX,20thcenturystudios.com
 DOMAIN-SUFFIX,20thcenturystudios.com.au
 DOMAIN-SUFFIX,20thcenturystudios.com.br
 DOMAIN-SUFFIX,20thcenturystudios.jp
 DOMAIN-SUFFIX,abc-studios.com
 DOMAIN-SUFFIX,abc.com
+DOMAIN-SUFFIX,abcnews.com
 DOMAIN-SUFFIX,adventuresbydisney.com
 DOMAIN-SUFFIX,babble.com
 DOMAIN-SUFFIX,babyzone.com
 DOMAIN-SUFFIX,bamgrid.com
+DOMAIN-SUFFIX,bamtech.net
 DOMAIN-SUFFIX,beautyandthebeastmusical.co.uk
 DOMAIN-SUFFIX,beforeigners.com
 DOMAIN-SUFFIX,brightline.tv
@@ -22,6 +26,7 @@ DOMAIN-SUFFIX,cnbc.com
 DOMAIN-SUFFIX,cnbcfm.com
 DOMAIN-SUFFIX,content-ause1-ur-discovery1.uplynk.com
 DOMAIN-SUFFIX,crunchyroll.com
+DOMAIN-SUFFIX,detpress.com
 DOMAIN-SUFFIX,dilcdn.com
 DOMAIN-SUFFIX,disco-api.com
 DOMAIN-SUFFIX,discomax.com
@@ -71,7 +76,9 @@ DOMAIN-SUFFIX,disney.ro
 DOMAIN-SUFFIX,disney.ru
 DOMAIN-SUFFIX,disney.se
 DOMAIN-SUFFIX,disney.sg
+DOMAIN-SUFFIX,disneyaccount.com
 DOMAIN-SUFFIX,disneyadsales.com
+DOMAIN-SUFFIX,disneyanimation.com
 DOMAIN-SUFFIX,disneyarena.com
 DOMAIN-SUFFIX,disneyaulani.com
 DOMAIN-SUFFIX,disneybaby.com
@@ -86,6 +93,7 @@ DOMAIN-SUFFIX,disneyinternational.com
 DOMAIN-SUFFIX,disneyinternationalhd.com
 DOMAIN-SUFFIX,disneyjunior.com
 DOMAIN-SUFFIX,disneyjuniortreataday.com
+DOMAIN-SUFFIX,disneylandparis.com
 DOMAIN-SUFFIX,disneylatino.com
 DOMAIN-SUFFIX,disneymagicmoments.co.il
 DOMAIN-SUFFIX,disneymagicmoments.co.uk
@@ -107,12 +115,13 @@ DOMAIN-SUFFIX,disneynow.com
 DOMAIN-SUFFIX,disneypeoplesurveys.com
 DOMAIN-SUFFIX,disneyplus.bn5x.net
 DOMAIN-SUFFIX,disneyplus.com
-DOMAIN-SUFFIX,disneyplus.com.ssl.sc.omtrdc.net
+DOMAIN-SUFFIX,disneyprivacycenter.com
 DOMAIN-SUFFIX,disneyredirects.com
 DOMAIN-SUFFIX,disneysrivieraresort.com
 DOMAIN-SUFFIX,disneystore.com
 DOMAIN-SUFFIX,disneystreaming.com
 DOMAIN-SUFFIX,disneysubscription.com
+DOMAIN-SUFFIX,disneytermsofuse.com
 DOMAIN-SUFFIX,disneytickets.co.uk
 DOMAIN-SUFFIX,disneyturkiye.com.tr
 DOMAIN-SUFFIX,disneytvajobs.com
@@ -133,7 +142,10 @@ DOMAIN-SUFFIX,fandango.com
 DOMAIN-SUFFIX,fast.com
 DOMAIN-SUFFIX,findyourlimits.com
 DOMAIN-SUFFIX,forthethrone.com
+DOMAIN-SUFFIX,freeform.com
 DOMAIN-SUFFIX,freehulu.com
+DOMAIN-SUFFIX,fxnetwork.com
+DOMAIN-SUFFIX,fxnetworks.com
 DOMAIN-SUFFIX,go-disneyworldgo.com
 DOMAIN-SUFFIX,go.com
 DOMAIN-SUFFIX,hbo-europe.com
@@ -190,6 +202,7 @@ DOMAIN-SUFFIX,hbospain.com
 DOMAIN-SUFFIX,hbotvsales.com
 DOMAIN-SUFFIX,homebox.com
 DOMAIN-SUFFIX,homeboxoffice.com
+DOMAIN-SUFFIX,hongkongdisneyland.com
 DOMAIN-SUFFIX,hooloo.tv
 DOMAIN-SUFFIX,hoolu.com
 DOMAIN-SUFFIX,hoolu.tv
@@ -231,6 +244,7 @@ DOMAIN-SUFFIX,huluteam.com
 DOMAIN-SUFFIX,hulutv.com
 DOMAIN-SUFFIX,huluusa.com
 DOMAIN-SUFFIX,joinmaidez.com
+DOMAIN-SUFFIX,lucasfilm.com
 DOMAIN-SUFFIX,marvel.com
 DOMAIN-SUFFIX,marvel10thanniversary.com
 DOMAIN-SUFFIX,marveldimensionofheroes.com
@@ -289,6 +303,7 @@ DOMAIN-SUFFIX,originalhulu.com
 DOMAIN-SUFFIX,paramountplus.com
 DOMAIN-SUFFIX,payhulu.com
 DOMAIN-SUFFIX,peacocktv.com
+DOMAIN-SUFFIX,pixar.com
 DOMAIN-SUFFIX,playmation.com
 DOMAIN-SUFFIX,pluto.tv
 DOMAIN-SUFFIX,plutotv.net
@@ -298,6 +313,8 @@ DOMAIN-SUFFIX,registerhulu.com
 DOMAIN-SUFFIX,roku.com
 DOMAIN-SUFFIX,rokutime.com
 DOMAIN-SUFFIX,s-nbcnews.com
+DOMAIN-SUFFIX,searchlightpictures.com
+DOMAIN-SUFFIX,shanghaidisneyresort.com
 DOMAIN-SUFFIX,shopdisney.com
 DOMAIN-SUFFIX,shops-disney.com
 DOMAIN-SUFFIX,showtime.com
@@ -321,7 +338,9 @@ DOMAIN-SUFFIX,streamingdisney.net
 DOMAIN-SUFFIX,thehulubraintrust.com
 DOMAIN-SUFFIX,themarvelexperiencetour.com
 DOMAIN-SUFFIX,thestationbymaker.com
+DOMAIN-SUFFIX,thewaltdisneycompany.com
 DOMAIN-SUFFIX,thisispolaris.com
+DOMAIN-SUFFIX,tokyodisneyresort.jp
 DOMAIN-SUFFIX,tubi.io
 DOMAIN-SUFFIX,tubi.tv
 DOMAIN-SUFFIX,tubi.video
@@ -330,6 +349,7 @@ DOMAIN-SUFFIX,universalorlando.com
 DOMAIN-SUFFIX,universalpictures.com
 DOMAIN-SUFFIX,universalpicturesinternational.com
 DOMAIN-SUFFIX,universalstudioshollywood.com
+DOMAIN-SUFFIX,waltdisneystudios.com
 DOMAIN-SUFFIX,watchdisneyfe.com
 DOMAIN-SUFFIX,watchespn.com
 DOMAIN-SUFFIX,wwwhuluplus.com

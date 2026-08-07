@@ -4527,6 +4527,7 @@ IP-CIDR,160.22.58.0/23,no-resolve
 IP-CIDR,160.22.82.0/23,no-resolve
 IP-CIDR,160.236.148.0/23,no-resolve
 IP-CIDR,160.236.162.0/23,no-resolve
+IP-CIDR,160.236.234.0/23,no-resolve
 IP-CIDR,160.236.78.0/23,no-resolve
 IP-CIDR,160.25.10.0/23,no-resolve
 IP-CIDR,160.25.12.0/23,no-resolve

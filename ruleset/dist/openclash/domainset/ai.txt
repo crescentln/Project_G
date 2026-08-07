@@ -78,6 +78,8 @@ webchannel-alkalimakersuite-pa.clients6.google.com
 +.cursorapi.com
 +.deepmind.com
 +.deepmind.google
++.deepwiki.com
++.deepwiki.org
 +.devin.ai
 +.diabrowser.com
 +.diabrowser.engineering
@@ -98,6 +100,8 @@ webchannel-alkalimakersuite-pa.clients6.google.com
 +.generativeai.google
 +.generativelanguage.googleapis.com
 +.githubcopilot.com
++.grazie.ai
++.grazie.aws.intellij.net
 +.grok.com
 +.grok.x.com
 +.grokipedia.com
@@ -109,6 +113,7 @@ webchannel-alkalimakersuite-pa.clients6.google.com
 +.host.livekit.cloud
 +.huggingface.co
 +.jasper.ai
++.jetbrains.ai
 +.jules.google
 +.jules.google.com
 +.kiro.dev
@@ -128,6 +133,7 @@ webchannel-alkalimakersuite-pa.clients6.google.com
 +.minimax.io
 +.mistral.ai
 +.mozilla.ai
++.notebook.google.com
 +.notebooklm.google
 +.notebooklm.google.com
 +.oaistatic.com
