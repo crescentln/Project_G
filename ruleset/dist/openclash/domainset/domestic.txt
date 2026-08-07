@@ -590,8 +590,14 @@ ykimg.alicdn.com
 +.aiqicha.com
 +.air-matters.com
 +.airchangan.com
++.airchina.cn
++.airchina.com
 +.airchina.com.cn
 +.airchinacargo.com
++.airchinagroup.com
++.airchinalimited.cn
++.airchinalimited.com
++.airchinalimited.com.cn
 +.aireads.cn
 +.airguilin.com
 +.airitilibrary.cn
@@ -2696,6 +2702,7 @@ ykimg.alicdn.com
 +.flowus.cn
 +.flxdns.cn
 +.flxdns.com
++.fly-airchina.com
 +.flycua.com
 +.flyme.cn
 +.flyme.com
@@ -5093,6 +5100,9 @@ ykimg.alicdn.com
 +.philanthropy.xin
 +.phira.cn
 +.phoenixcenter.cn
++.phoenixmiles.cn
++.phoenixmiles.com
++.phoenixmiles.com.cn
 +.php.cn
 +.phpcomposer.com
 +.phpweblog.net
