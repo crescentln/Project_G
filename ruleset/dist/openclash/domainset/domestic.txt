@@ -3264,6 +3264,7 @@ ykimg.alicdn.com
 +.hoopchina.com.cn
 +.hophing.cn
 +.hophing.com.cn
++.hotfix-api.aliyuncs.com
 +.hotread.com
 +.houdao.com
 +.houyicaiji.com
@@ -4867,6 +4868,7 @@ ykimg.alicdn.com
 +.nextvid.net
 +.nextworkshop.net
 +.neyetwatcher.com
++.nfcos.cn
 +.nffund.com
 +.nfpeople.com
 +.nga.cn
@@ -5452,6 +5454,7 @@ ykimg.alicdn.com
 +.runningcheese.com
 +.runoob.com
 +.ruseer.com
++.ruubypay.com
 +.rwkv.cn
 +.rwkv.com
 +.rzrc114.com
@@ -5498,6 +5501,7 @@ ykimg.alicdn.com
 +.scratch5.com
 +.scsentry.cn
 +.scsjb.cn
++.sctcd.com
 +.sctv-tf.com
 +.sctv.com
 +.scyol.com
@@ -5581,6 +5585,7 @@ ykimg.alicdn.com
 +.shenjing.com
 +.shenmayouxi.com
 +.shenzhenair.com
++.shenzhentong.com
 +.sheui.com
 +.shfft.com
 +.shgsec.com
@@ -5690,6 +5695,7 @@ ykimg.alicdn.com
 +.snodehome.cn
 +.snodehome.com
 +.snowballsecurities.com
++.snowballtech.com
 +.snssdk.com
 +.snxw.com
 +.so-quick.cn
@@ -5745,6 +5751,7 @@ ykimg.alicdn.com
 +.speiyou.com
 +.springairlines.com
 +.springtour.com
++.sptcc.com
 +.sq.cc
 +.sqqnh.cn
 +.sqqnh.org
