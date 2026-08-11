@@ -4681,6 +4681,7 @@ ykimg.alicdn.com
 +.mmarket6.com
 +.mmbang.com
 +.mmbang.info
++.mmbizurl.cn
 +.mmstat.com
 +.mndqlib.net
 +.mnw.cn
@@ -6427,6 +6428,7 @@ ykimg.alicdn.com
 +.upe.net
 +.upfos.cn
 +.upfos.com
++.url.cn
 +.urlqh.cn
 +.urselect.com
 +.urtc.com.cn
