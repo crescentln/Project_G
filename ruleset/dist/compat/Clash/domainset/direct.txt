@@ -1250,6 +1250,7 @@ ykimg.alicdn.com
 +.applestore.com.cn
 +.appletv4.cn
 +.appletv4.com.cn
++.applogcdn.com
 +.applysquare.com
 +.applysquare.net
 +.apps.evozi.com
@@ -6218,6 +6219,7 @@ ykimg.alicdn.com
 +.sdo.com
 +.sealsuite.com
 +.sealsuite.net
++.searchpstatp.com
 +.searchstatic.com
 +.searchtoutiaolive.com
 +.seasungames.cn
