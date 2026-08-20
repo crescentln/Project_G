@@ -104,7 +104,6 @@ DOMAIN,download.visualstudio.microsoft.com
 DOMAIN,downloaddispatch.itunes.apple.com
 DOMAIN,dreamspark.download.prss.microsoft.com
 DOMAIN,dreamsparkuat.download.prss.microsoft.com
-DOMAIN,emoi-cncdn.bing.com
 DOMAIN,end-api.shallow.ink
 DOMAIN,end.shallow.ink
 DOMAIN,entitlements-edge.itunes.apple.com
@@ -5371,7 +5370,6 @@ DOMAIN-SUFFIX,moliranran.com
 DOMAIN-SUFFIX,monika.love
 DOMAIN-SUFFIX,mooc.cn
 DOMAIN-SUFFIX,moocollege.com
-DOMAIN-SUFFIX,moonshot.ai
 DOMAIN-SUFFIX,moonshot.cn
 DOMAIN-SUFFIX,moonvy.com
 DOMAIN-SUFFIX,moonvy.cool

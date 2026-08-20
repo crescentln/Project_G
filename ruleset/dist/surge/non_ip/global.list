@@ -38,7 +38,6 @@ DOMAIN,adobe-dns.adobe.com
 DOMAIN,adobeereg.com
 DOMAIN,adservice.google.com
 DOMAIN,afa7f374f51cc8991.awsglobalaccelerator.com
-DOMAIN,afcs.dell.com
 DOMAIN,agb9r0ad.qllfkl.com
 DOMAIN,ai.google.dev
 DOMAIN,alibaba.cdn.steampipe.steamcontent.com
@@ -189,7 +188,6 @@ DOMAIN,client-api.itunes.apple.com
 DOMAIN,client-teamviewer-com.trafficmanager.net
 DOMAIN,clientflow.apple.com
 DOMAIN,clientflow.apple.com.akadns.net
-DOMAIN,clientperipherals.dell.com
 DOMAIN,clients1.google.com
 DOMAIN,clientservices.googleapis.com
 DOMAIN,cloudaicompanion.googleapis.com
@@ -225,7 +223,6 @@ DOMAIN,csis-prod.s3.amazonaws.com
 DOMAIN,cstat.apple.com
 DOMAIN,cstat.cdn-apple.com
 DOMAIN,ctldl.windowsupdate.com
-DOMAIN,customization-cdn.dell.com
 DOMAIN,d1d0w7op819ely.cloudfront.net
 DOMAIN,d1fijc56o1fzod.cloudfront.net
 DOMAIN,d1g1f25tn8m2e6.cloudfront.net
@@ -287,7 +284,6 @@ DOMAIN,dcb0z5ovq92mz.cloudfront.net
 DOMAIN,dd-cdn.origin-apple.com.akadns.net
 DOMAIN,ddacn6pr5v0tl.cloudfront.net
 DOMAIN,ddpjwstwtpszg.cloudfront.net
-DOMAIN,dds.dell.com
 DOMAIN,default.exp-tas.com
 DOMAIN,dejavu.apple.com
 DOMAIN,dell.my.site.com
@@ -304,7 +300,6 @@ DOMAIN,discord-attachments-uploads-prd.storage.googleapis.com
 DOMAIN,discussionschinese.apple.com
 DOMAIN,disneyplus.com.ssl.sc.omtrdc.net
 DOMAIN,dl.begellhouse.com
-DOMAIN,dl.dell.com
 DOMAIN,dl.google.com
 DOMAIN,dl.l.google.com
 DOMAIN,dlgarenanow-a.akamaihd.net
@@ -352,9 +347,6 @@ DOMAIN,dtlgalleryint.cloudapp.net
 DOMAIN,dykkng5hnh52u.cloudfront.net
 DOMAIN,e122475.dscg.akamaiedge.net
 DOMAIN,ea.tt.omtrdc.net
-DOMAIN,ea2cn-dev-outlet.dell.com
-DOMAIN,ea2cn-prod-outlet.dell.com
-DOMAIN,ea2cn-staging-outlet.dell.com
 DOMAIN,eaassets-a.akamaihd.net
 DOMAIN,ebay-25-assets.s3-us-west-1.amazonaws.com
 DOMAIN,ecapi-pchome.cdn.hinet.net
@@ -363,7 +355,6 @@ DOMAIN,edu.tinkoff.ru
 DOMAIN,education.tbank.ru
 DOMAIN,efe8f8a4-abd5-44c9-bf5c-cd217442c52f.t.ssp.hinet.net
 DOMAIN,elib.maruzen.co.jp
-DOMAIN,emoi-cncdn.bing.com
 DOMAIN,entitlements-edge.itunes.apple.com
 DOMAIN,epc-de-agent-proxy.germanywestcentral.cloudapp.azure.com
 DOMAIN,ereg.adobe.com
@@ -383,7 +374,6 @@ DOMAIN,fandom.zendesk.com
 DOMAIN,faronics.kayako.com
 DOMAIN,favoritescc-hamivideo2.cdn.hinet.net
 DOMAIN,fbcdn-a.akamaihd.net
-DOMAIN,fcs.dell.com
 DOMAIN,fides-pol.apple.com
 DOMAIN,firebase-settings.crashlytics.com
 DOMAIN,firebase.google.com
@@ -406,10 +396,6 @@ DOMAIN,fonts.gstatic.com
 DOMAIN,fontshop-prod-responsive-images.s3.amazonaws.com
 DOMAIN,foxnewsplayer-a.akamaihd.net
 DOMAIN,fpinit.itunes.apple.com
-DOMAIN,fta.dell.com
-DOMAIN,ftaapj.dell.com
-DOMAIN,ftaemea.dell.com
-DOMAIN,ftasitapj.dell.com
 DOMAIN,g0.gstatic.com
 DOMAIN,g1.gstatic.com
 DOMAIN,g2.gstatic.com
@@ -417,8 +403,6 @@ DOMAIN,g3.gstatic.com
 DOMAIN,gamedownloads-rockstargames-com.akamaized.net
 DOMAIN,gamer-cds.cdn.hinet.net
 DOMAIN,gamer2-cds.cdn.hinet.net
-DOMAIN,gbxgateway-dev.dell.com
-DOMAIN,gbxgateway.dell.com
 DOMAIN,gigabyte2.azureedge.net
 DOMAIN,github-api.arkoselabs.com
 DOMAIN,github-cloud.s3.amazonaws.com
@@ -498,7 +482,6 @@ DOMAIN,hpefonts.s3.amazonaws.com
 DOMAIN,hpstore.corpmerchandise.com
 DOMAIN,hub.slarker.me
 DOMAIN,hulu.playback.edge.bamgrid.com
-DOMAIN,i.dell.com
 DOMAIN,i.jeded.com
 DOMAIN,i.pki.goog
 DOMAIN,images-cn-8.ssl-images-amazon.com
@@ -631,7 +614,6 @@ DOMAIN,myvs.download.prss.microsoft.com
 DOMAIN,na1r.services.adobe.com
 DOMAIN,nbbb1bb7.pmhcjk.com
 DOMAIN,netflix.com.edgesuite.net
-DOMAIN,nexus.dell.com
 DOMAIN,nix-community.github.io
 DOMAIN,notary-submissions-prod.s3-accelerate.amazonaws.com
 DOMAIN,notary-submissions-prod.s3.us-west-2.amazonaws.com
@@ -710,7 +692,6 @@ DOMAIN,osu.ppy.sh
 DOMAIN,osxapps.itunes.apple.com
 DOMAIN,osxapps.itunes.g.aaplimg.com
 DOMAIN,p-events-delivery.akamaized.net
-DOMAIN,p.cdn.persaas.dell.com
 DOMAIN,p00.upd.kaspersky.com
 DOMAIN,p01.upd.kaspersky.com
 DOMAIN,p02.upd.kaspersky.com
@@ -866,7 +847,6 @@ DOMAIN,safebrowsing.googleapis.com
 DOMAIN,sberpro.vedomosti.ru
 DOMAIN,scc-hamivideo.cdn.hinet.net
 DOMAIN,scc.ott.hinet.net
-DOMAIN,scene7-cdn.dell.com
 DOMAIN,scholar.google.ae
 DOMAIN,scholar.google.at
 DOMAIN,scholar.google.be
@@ -958,12 +938,8 @@ DOMAIN,sf-api-token-service.itunes.apple.com
 DOMAIN,sh-pod2-smp-device.apple.com
 DOMAIN,shazam-insights.cdn-apple.com
 DOMAIN,shell.cdn.office.net
-DOMAIN,si.cdn.dell.com
-DOMAIN,sm.dell.com
 DOMAIN,smp-device-content.apple.com
 DOMAIN,sni1dcb6gl.wpc.edgecastcdn.net
-DOMAIN,snp.cdn.dell.com
-DOMAIN,snpi.dell.com
 DOMAIN,software.download.prss.microsoft.com
 DOMAIN,sp.itunes.apple.com
 DOMAIN,spectator.ppy.sh
@@ -1020,7 +996,6 @@ DOMAIN,supercell.helpshift.com
 DOMAIN,supercell.zendesk.com
 DOMAIN,support-china.apple-support.akadns.net
 DOMAIN,support.apple.com
-DOMAIN,supportassist.dell.com
 DOMAIN,surface.download.prss.microsoft.com
 DOMAIN,surface.downloads.prss.microsoft.com
 DOMAIN,swallow-apple-com.v.aaplimg.com
@@ -1086,7 +1061,6 @@ DOMAIN,tlmr-hamivideo2.cdn.hinet.net
 DOMAIN,tmdb-image-prod.b-cdn.net
 DOMAIN,tmdb-web-image-prod.b-cdn.net
 DOMAIN,tools.google.com
-DOMAIN,tp.louisvuitton.com
 DOMAIN,trojan-gfw.github.io
 DOMAIN,tv.applemusic.com
 DOMAIN,tvcastlive-hamivideo.cdn.hinet.net
@@ -1124,7 +1098,6 @@ DOMAIN,update.googleapis.com
 DOMAIN,updates-http.cdn-apple.com
 DOMAIN,updates-http.cdn-apple.com.akadns.net
 DOMAIN,updates.cdn-apple.com
-DOMAIN,uplaypc-s-ubisoft.cdn.ubi.com
 DOMAIN,upp.itunes.apple.com
 DOMAIN,ut1-time.colorado.edu
 DOMAIN,ut1-wwv.nist.gov
@@ -1276,13 +1249,10 @@ DOMAIN,wwis-dubc1-vip97.adobe.com
 DOMAIN,wwis-dubc1-vip98.adobe.com
 DOMAIN,wwis-dubc1-vip99.adobe.com
 DOMAIN,www-cdn.icloud.com.akadns.net
-DOMAIN,www-csb.dell.com
 DOMAIN,www-google-analytics.l.google.com
 DOMAIN,www-googletagmanager.l.google.com
-DOMAIN,www.amd.com
 DOMAIN,www.apple.com
 DOMAIN,www.apple.com.edgekey.net.globalredir.akadns.net
-DOMAIN,www.dell.com
 DOMAIN,www.destinationurl.com
 DOMAIN,www.entrust.cn
 DOMAIN,www.gstatic.com
@@ -7959,6 +7929,7 @@ DOMAIN-SUFFIX,drdreprobeatssale.com
 DOMAIN-SUFFIX,dreamamateurs.com
 DOMAIN-SUFFIX,dreambmw.ca
 DOMAIN-SUFFIX,dreamforce.com
+DOMAIN-SUFFIX,dreamgen.com
 DOMAIN-SUFFIX,dreammovies.com
 DOMAIN-SUFFIX,dreamorder.com
 DOMAIN-SUFFIX,dreamteamfc.com
@@ -13850,6 +13821,7 @@ DOMAIN-SUFFIX,kikdirty.com
 DOMAIN-SUFFIX,killercb.ru
 DOMAIN-SUFFIX,kilmeadeandfriends.com
 DOMAIN-SUFFIX,kimchi.tv
+DOMAIN-SUFFIX,kimi.ai
 DOMAIN-SUFFIX,kimogirl.cc
 DOMAIN-SUFFIX,kimosex.com
 DOMAIN-SUFFIX,kindgirls.com
@@ -15783,6 +15755,7 @@ DOMAIN-SUFFIX,moodstocks.com
 DOMAIN-SUFFIX,moomoo.com
 DOMAIN-SUFFIX,moomooequity.com
 DOMAIN-SUFFIX,moomootrustee.com
+DOMAIN-SUFFIX,moonshot.ai
 DOMAIN-SUFFIX,moov.hk
 DOMAIN-SUFFIX,moozporn.com
 DOMAIN-SUFFIX,morazzia.com
@@ -16872,6 +16845,7 @@ DOMAIN-SUFFIX,norton.com
 DOMAIN-SUFFIX,notebook.google.com
 DOMAIN-SUFFIX,notebooklm.google
 DOMAIN-SUFFIX,notebooklm.google.com
+DOMAIN-SUFFIX,notegpt.io
 DOMAIN-SUFFIX,notepad-plus-plus.org
 DOMAIN-SUFFIX,noticias-rt.com
 DOMAIN-SUFFIX,notimundo.press
@@ -16882,6 +16856,7 @@ DOMAIN-SUFFIX,notion.new
 DOMAIN-SUFFIX,notion.site
 DOMAIN-SUFFIX,notion.so
 DOMAIN-SUFFIX,notionusercontent.com
+DOMAIN-SUFFIX,novelai.net
 DOMAIN-SUFFIX,noveltrove.com
 DOMAIN-SUFFIX,novids.com
 DOMAIN-SUFFIX,novinhabucetuda.com
@@ -21419,6 +21394,7 @@ DOMAIN-SUFFIX,takporn.com
 DOMAIN-SUFFIX,talantix.ru
 DOMAIN-SUFFIX,talentlens.com
 DOMAIN-SUFFIX,taleofthenight.com
+DOMAIN-SUFFIX,talkai.info
 DOMAIN-SUFFIX,talkingkotlin.com
 DOMAIN-SUFFIX,talksport.com
 DOMAIN-SUFFIX,tamilsexvideos.cc

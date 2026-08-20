@@ -104,7 +104,6 @@ DOMAIN,download.visualstudio.microsoft.com
 DOMAIN,downloaddispatch.itunes.apple.com
 DOMAIN,dreamspark.download.prss.microsoft.com
 DOMAIN,dreamsparkuat.download.prss.microsoft.com
-DOMAIN,emoi-cncdn.bing.com
 DOMAIN,end-api.shallow.ink
 DOMAIN,end.shallow.ink
 DOMAIN,entitlements-edge.itunes.apple.com
@@ -5371,7 +5370,6 @@ DOMAIN-SUFFIX,moliranran.com
 DOMAIN-SUFFIX,monika.love
 DOMAIN-SUFFIX,mooc.cn
 DOMAIN-SUFFIX,moocollege.com
-DOMAIN-SUFFIX,moonshot.ai
 DOMAIN-SUFFIX,moonshot.cn
 DOMAIN-SUFFIX,moonvy.com
 DOMAIN-SUFFIX,moonvy.cool
@@ -12991,6 +12989,7 @@ IP-CIDR,163.227.78.0/23,no-resolve
 IP-CIDR,163.227.80.0/23,no-resolve
 IP-CIDR,163.228.0.0/16,no-resolve
 IP-CIDR,163.47.4.0/22,no-resolve
+IP-CIDR,163.52.28.0/23,no-resolve
 IP-CIDR,163.53.0.0/22,no-resolve
 IP-CIDR,163.53.100.0/22,no-resolve
 IP-CIDR,163.53.104.0/22,no-resolve
@@ -17978,6 +17977,7 @@ IP-CIDR6,2402:6e80::/32,no-resolve
 IP-CIDR6,2402:6f40::/32,no-resolve
 IP-CIDR6,2402:6fc0::/32,no-resolve
 IP-CIDR6,2402:7040::/32,no-resolve
+IP-CIDR6,2402:7060::/32,no-resolve
 IP-CIDR6,2402:7080::/32,no-resolve
 IP-CIDR6,2402:70c0::/32,no-resolve
 IP-CIDR6,2402:7140::/32,no-resolve
