@@ -1973,6 +1973,7 @@ DOMAIN-SUFFIX,adguard.info
 DOMAIN-SUFFIX,adguard.io
 DOMAIN-SUFFIX,adguard.org
 DOMAIN-SUFFIX,adguardaccount.com
+DOMAIN-SUFFIX,adguardaccount.net
 DOMAIN-SUFFIX,adguardcdn.com
 DOMAIN-SUFFIX,adguardvpn.com
 DOMAIN-SUFFIX,adhelpnews.com
@@ -2976,6 +2977,7 @@ DOMAIN-SUFFIX,aoaou.iillii.net
 DOMAIN-SUFFIX,aoc.cat
 DOMAIN-SUFFIX,aodahl.com
 DOMAIN-SUFFIX,aokwholesale.net
+DOMAIN-SUFFIX,aolcdn.com
 DOMAIN-SUFFIX,aomedia.org
 DOMAIN-SUFFIX,aorus.com
 DOMAIN-SUFFIX,aoruszone.cn
@@ -4832,6 +4834,7 @@ DOMAIN-SUFFIX,blackamateursvideos.com
 DOMAIN-SUFFIX,blackandstacked.com
 DOMAIN-SUFFIX,blackboxgames.com
 DOMAIN-SUFFIX,blacked.com
+DOMAIN-SUFFIX,blackedraw.com
 DOMAIN-SUFFIX,blackfridaydrebeatsnew.com
 DOMAIN-SUFFIX,blackfridaydrebeatsshop.com
 DOMAIN-SUFFIX,blackhomeporn.com
@@ -10223,7 +10226,10 @@ DOMAIN-SUFFIX,garenanow.com
 DOMAIN-SUFFIX,garotaporno.com
 DOMAIN-SUFFIX,gastrointestinalexam.com
 DOMAIN-SUFFIX,gate.cc
+DOMAIN-SUFFIX,gate.com
 DOMAIN-SUFFIX,gate.io
+DOMAIN-SUFFIX,gate.tv
+DOMAIN-SUFFIX,gateapi.io
 DOMAIN-SUFFIX,gatedata.org
 DOMAIN-SUFFIX,gateimg.com
 DOMAIN-SUFFIX,gateio.live
@@ -11126,6 +11132,7 @@ DOMAIN-SUFFIX,h-top.supertop-100.com
 DOMAIN-SUFFIX,h-webtoon.com
 DOMAIN-SUFFIX,h0930.com
 DOMAIN-SUFFIX,h18ani1.vip
+DOMAIN-SUFFIX,h264.io
 DOMAIN-SUFFIX,h2o.ai
 DOMAIN-SUFFIX,h2porn.com
 DOMAIN-SUFFIX,h528.com
@@ -15235,6 +15242,7 @@ DOMAIN-SUFFIX,milfthreesomes.com
 DOMAIN-SUFFIX,milftube.pro
 DOMAIN-SUFFIX,milftugs.com
 DOMAIN-SUFFIX,milfvr.com
+DOMAIN-SUFFIX,milfy.com
 DOMAIN-SUFFIX,milfzr.com
 DOMAIN-SUFFIX,miliav.com
 DOMAIN-SUFFIX,milkmanbook.com
@@ -16510,6 +16518,7 @@ DOMAIN-SUFFIX,nftables.org
 DOMAIN-SUFFIX,nftstatic.com
 DOMAIN-SUFFIX,nftstorage.link
 DOMAIN-SUFFIX,ngeo.com
+DOMAIN-SUFFIX,ngfiles.com
 DOMAIN-SUFFIX,nginx.com
 DOMAIN-SUFFIX,nginx.org
 DOMAIN-SUFFIX,nginxconfig.io
@@ -17477,6 +17486,7 @@ DOMAIN-SUFFIX,ouroath.com
 DOMAIN-SUFFIX,oursexgames.com
 DOMAIN-SUFFIX,ourshdtv.com
 DOMAIN-SUFFIX,ourshemales.com
+DOMAIN-SUFFIX,ouryahoo.com
 DOMAIN-SUFFIX,out-app-purchase.com
 DOMAIN-SUFFIX,outbound.io
 DOMAIN-SUFFIX,outdoorpublicsex.com
@@ -19263,6 +19273,7 @@ DOMAIN-SUFFIX,registry.k8s.io
 DOMAIN-SUFFIX,reiporno.com
 DOMAIN-SUFFIX,relateiq.com
 DOMAIN-SUFFIX,remirepo.net
+DOMAIN-SUFFIX,remna.st
 DOMAIN-SUFFIX,rencapbank.ru
 DOMAIN-SUFFIX,renchead.com
 DOMAIN-SUFFIX,rencredit.ru
@@ -20473,6 +20484,7 @@ DOMAIN-SUFFIX,slackhq.com
 DOMAIN-SUFFIX,slashdot.org
 DOMAIN-SUFFIX,slavbank.ru
 DOMAIN-SUFFIX,slavicstar.com
+DOMAIN-SUFFIX,slayed.com
 DOMAIN-SUFFIX,slc.tl
 DOMAIN-SUFFIX,sldolls.com
 DOMAIN-SUFFIX,sleazyneasy.com
@@ -22227,6 +22239,7 @@ DOMAIN-SUFFIX,turkeyblocks.org
 DOMAIN-SUFFIX,turn.livekit.cloud
 DOMAIN-SUFFIX,tusco.ru
 DOMAIN-SUFFIX,tushy.com
+DOMAIN-SUFFIX,tushyraw.com
 DOMAIN-SUFFIX,tuta.com
 DOMAIN-SUFFIX,tuta.io
 DOMAIN-SUFFIX,tutamail.com
@@ -23072,6 +23085,7 @@ DOMAIN-SUFFIX,viu.tv
 DOMAIN-SUFFIX,vivaldi.com
 DOMAIN-SUFFIX,vivaxnxx.com
 DOMAIN-SUFFIX,vixen.com
+DOMAIN-SUFFIX,vixengroup.com
 DOMAIN-SUFFIX,vixvids.to
 DOMAIN-SUFFIX,vjav.com
 DOMAIN-SUFFIX,vjmedia.com.hk
@@ -24746,6 +24760,7 @@ DOMAIN-SUFFIX,yahooapis.com
 DOMAIN-SUFFIX,yahoodns.net
 DOMAIN-SUFFIX,yahoofinance.com
 DOMAIN-SUFFIX,yahoohealth.com
+DOMAIN-SUFFIX,yahooinc.com
 DOMAIN-SUFFIX,yahoomusic.com
 DOMAIN-SUFFIX,yahoosandbox.com
 DOMAIN-SUFFIX,yahoosportsbook.com

@@ -102,6 +102,8 @@ upos-hz-mirrorakam.akamaized.net
 +.tieba.baidu.com
 +.tieba.com
 +.tw.weibo.com
++.uneed.com
++.uneedx.com
 +.updream.cn
 +.us.weibo.com
 +.videoself.cn

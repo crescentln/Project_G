@@ -105,6 +105,7 @@ xtls.github.io
 +.psiphon.ca
 +.psiphon3.com
 +.pwnedpasswords.com
++.remna.st
 +.sagernet.org
 +.shadowlaunch.com
 +.shadowsocks.org
