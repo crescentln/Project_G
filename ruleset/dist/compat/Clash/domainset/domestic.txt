@@ -7431,6 +7431,7 @@ ykimg.alicdn.com
 +.yuanbei.biz
 +.yuanfudao.com
 +.yuanqi.tencent.com
++.yuanqidesk.com
 +.yuanshen.com
 +.yuansouti.com
 +.yuantiku.com
@@ -7581,6 +7582,7 @@ ykimg.alicdn.com
 +.zhcw.com
 +.zhenai.com
 +.zhfund.com
++.zhhainiao.com
 +.zhi10.com
 +.zhibo8.cc
 +.zhibo8.com
