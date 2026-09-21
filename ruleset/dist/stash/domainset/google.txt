@@ -8,9 +8,10 @@ clients1.google.com
 cloudaicompanion.googleapis.com
 cloudcode-pa.googleapis.com
 daily-cloudcode-pa.googleapis.com
-firebase.google.com
 firebase.googleapis.com
 firebaseappcheck.googleapis.com
+firebaseappdistribution.googleapis.com
+firebaseapptesters.googleapis.com
 firebasedynamiclinks-ipv4.googleapis.com
 firebasedynamiclinks-ipv6.googleapis.com
 firebasedynamiclinks.googleapis.com
@@ -272,11 +273,14 @@ webchannel-alkalimakersuite-pa.clients6.google.com
 +.fflick.com
 +.financeleadsonline.com
 +.firebase.com
++.firebase.dev
++.firebase.google.com
 +.firebase.io
 +.firebaseapp.com
 +.firebaseio.com
 +.fitbit.com
 +.flow.google
++.flow.google.com
 +.flutter.dev
 +.flutterapp.com
 +.foofle.com
@@ -607,6 +611,7 @@ webchannel-alkalimakersuite-pa.clients6.google.com
 +.nest.com
 +.new.day
 +.nomulus.foo
++.notebook.google
 +.notebook.google.com
 +.notebooklm.google
 +.notebooklm.google.com
