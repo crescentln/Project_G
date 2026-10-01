@@ -21,6 +21,8 @@ DOMAIN,firebaselogging-pa.googleapis.com
 DOMAIN,firebaselogging.googleapis.com
 DOMAIN,firebaseperusertopics-pa.googleapis.com
 DOMAIN,firebaseremoteconfig.googleapis.com
+DOMAIN,geminiweb-pa.clients.google.com
+DOMAIN,geminiweb-pa.clients6.google.com
 DOMAIN,google-ohttp-relay-safebrowsing.fastly-edge.com
 DOMAIN,notebooklm-pa.googleapis.com
 DOMAIN,notebooklm.googleapis.com
@@ -597,6 +599,7 @@ DOMAIN-SUFFIX,keytransparency.foo
 DOMAIN-SUFFIX,keytransparency.org
 DOMAIN-SUFFIX,labs.google
 DOMAIN-SUFFIX,labs.google.com
+DOMAIN-SUFFIX,labstailwind.pa.googleapis.com
 DOMAIN-SUFFIX,lanternal.com
 DOMAIN-SUFFIX,like.com
 DOMAIN-SUFFIX,madewithcode.com

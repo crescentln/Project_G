@@ -339,6 +339,7 @@ DOMAIN,dqd0jw5gvbchn.cloudfront.net
 DOMAIN,dqrpb9wgowsf5.cloudfront.net
 DOMAIN,dreamspark.download.prss.microsoft.com
 DOMAIN,dreamsparkuat.download.prss.microsoft.com
+DOMAIN,drivers.amd.com
 DOMAIN,ds-linear-abematv.akamaized.net
 DOMAIN,ds-vod-abematv.akamaized.net
 DOMAIN,ds0h3roq6wcgc.cloudfront.net
@@ -404,6 +405,8 @@ DOMAIN,g3.gstatic.com
 DOMAIN,gamedownloads-rockstargames-com.akamaized.net
 DOMAIN,gamer-cds.cdn.hinet.net
 DOMAIN,gamer2-cds.cdn.hinet.net
+DOMAIN,geminiweb-pa.clients.google.com
+DOMAIN,geminiweb-pa.clients6.google.com
 DOMAIN,gigabyte2.azureedge.net
 DOMAIN,github-api.arkoselabs.com
 DOMAIN,github-cloud.s3.amazonaws.com
@@ -12044,6 +12047,7 @@ DOMAIN-SUFFIX,huangse.love
 DOMAIN-SUFFIX,huanyuju.com
 DOMAIN-SUFFIX,huarenav.com
 DOMAIN-SUFFIX,huarenporn.com
+DOMAIN-SUFFIX,huarun.win
 DOMAIN-SUFFIX,huashundg.com
 DOMAIN-SUFFIX,huati.cc
 DOMAIN-SUFFIX,huaxin-lls.xyz
@@ -14016,6 +14020,7 @@ DOMAIN-SUFFIX,la-mama.ru
 DOMAIN-SUFFIX,labo.wovs.tk
 DOMAIN-SUFFIX,labs.google
 DOMAIN-SUFFIX,labs.google.com
+DOMAIN-SUFFIX,labstailwind.pa.googleapis.com
 DOMAIN-SUFFIX,lacomics.org
 DOMAIN-SUFFIX,ladies.com
 DOMAIN-SUFFIX,ladybaba.net
@@ -15041,6 +15046,7 @@ DOMAIN-SUFFIX,mesu.apple.com
 DOMAIN-SUFFIX,met-nude.com
 DOMAIN-SUFFIX,meta.ai
 DOMAIN-SUFFIX,meta.com
+DOMAIN-SUFFIX,metaaivm.com
 DOMAIN-SUFFIX,metabora.io
 DOMAIN-SUFFIX,metabrainz.org
 DOMAIN-SUFFIX,metacloud.com
@@ -16004,6 +16010,7 @@ DOMAIN-SUFFIX,musashinobank.co.jp
 DOMAIN-SUFFIX,muscache.com
 DOMAIN-SUFFIX,muscdn.com
 DOMAIN-SUFFIX,musclegirlflix.com
+DOMAIN-SUFFIX,muse.ai
 DOMAIN-SUFFIX,mushroomtrack.com
 DOMAIN-SUFFIX,mushymush.tv
 DOMAIN-SUFFIX,music.apple.com
@@ -17386,6 +17393,7 @@ DOMAIN-SUFFIX,openart.ai
 DOMAIN-SUFFIX,openbook.org.tw
 DOMAIN-SUFFIX,opencas.io
 DOMAIN-SUFFIX,openclaw.ai
+DOMAIN-SUFFIX,opencode.ai
 DOMAIN-SUFFIX,opencollective.com
 DOMAIN-SUFFIX,opencreate.org
 DOMAIN-SUFFIX,opendns.com
