@@ -1,5 +1,7 @@
 api.github.com
 copilot-proxy.githubusercontent.com
+copilot-telemetry-service.githubusercontent.com
+copilot-telemetry.githubusercontent.com
 copilot-workspace.githubnext.com
 copilotprodattachments.blob.core.windows.net
 gist.github.com
@@ -34,8 +36,10 @@ productionresultssa9.blob.core.windows.net
 +.atom.io
 +.bitbucket.io
 +.bitbucket.org
++.cafe.github.com
 +.codeberg.org
 +.codeberg.page
++.collector.github.com
 +.dependabot.com
 +.gh.io
 +.ghcr.io
