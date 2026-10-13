@@ -610,13 +610,11 @@ IP-CIDR,104.28.137.4/30,no-resolve
 IP-CIDR,104.28.137.64/26,no-resolve
 IP-CIDR,104.28.137.8/29,no-resolve
 IP-CIDR,104.28.138.1/32,no-resolve
-IP-CIDR,104.28.138.128/27,no-resolve
+IP-CIDR,104.28.138.128/26,no-resolve
 IP-CIDR,104.28.138.16/28,no-resolve
-IP-CIDR,104.28.138.160/28,no-resolve
-IP-CIDR,104.28.138.176/29,no-resolve
-IP-CIDR,104.28.138.184/30,no-resolve
-IP-CIDR,104.28.138.188/31,no-resolve
+IP-CIDR,104.28.138.192/28,no-resolve
 IP-CIDR,104.28.138.2/31,no-resolve
+IP-CIDR,104.28.138.208/30,no-resolve
 IP-CIDR,104.28.138.32/27,no-resolve
 IP-CIDR,104.28.138.4/30,no-resolve
 IP-CIDR,104.28.138.64/26,no-resolve
