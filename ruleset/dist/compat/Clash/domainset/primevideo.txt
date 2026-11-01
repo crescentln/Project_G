@@ -21,3 +21,4 @@ static.siege-amazon.com
 +.primevideo.org
 +.primevideo.tv
 +.prod.service.minerva.devices.a2z.com
++.pv-cdn.net

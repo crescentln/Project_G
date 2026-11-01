@@ -19,7 +19,6 @@ DOMAIN,images-fe.ssl-images-amazon.com
 DOMAIN,images-na.ssl-images-amazon.com
 DOMAIN,linear-abematv.akamaized.net
 DOMAIN,msh.amazon.co.uk
-DOMAIN,netflix.com.edgesuite.net
 DOMAIN,static.siege-amazon.com
 DOMAIN,tv.applemusic.com
 DOMAIN,uts-api.itunes.apple.com
@@ -235,6 +234,7 @@ DOMAIN-SUFFIX,nationalgeographic.com
 DOMAIN-SUFFIX,nationalgeographicpartners.com
 DOMAIN-SUFFIX,netflix.ca
 DOMAIN-SUFFIX,netflix.com
+DOMAIN-SUFFIX,netflix.com.edgesuite.net
 DOMAIN-SUFFIX,netflix.net
 DOMAIN-SUFFIX,netflixdnstest0.com
 DOMAIN-SUFFIX,netflixdnstest1.com
@@ -268,6 +268,7 @@ DOMAIN-SUFFIX,primevideo.info
 DOMAIN-SUFFIX,primevideo.org
 DOMAIN-SUFFIX,primevideo.tv
 DOMAIN-SUFFIX,prod.service.minerva.devices.a2z.com
+DOMAIN-SUFFIX,pv-cdn.net
 DOMAIN-SUFFIX,registerhulu.com
 DOMAIN-SUFFIX,searchlightpictures.com
 DOMAIN-SUFFIX,shanghaidisneyresort.com

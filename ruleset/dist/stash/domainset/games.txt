@@ -16,13 +16,15 @@ c.ppy.sh
 cdngarenanow-a.akamaihd.net
 cloudsync-prod.s3.amazonaws.com
 d1unuk07s6td74.cloudfront.net
+d348twzf7a8p5.cloudfront.net
 datarouter.apps.netherrealm.com
+devforum-uploads.s3.dualstack.us-east-2.amazonaws.com
 dlgarenanow-a.akamaihd.net
 dlmobilegarena-a.akamaihd.net
+doy2mn9upadnk.cloudfront.net
 ea.tt.omtrdc.net
 eaassets-a.akamaihd.net
 f3b7q2p3.ssl.hwcdn.net
-flightsimulator.azureedge.net
 gamedownloads-rockstargames-com.akamaized.net
 gog-cdn-lumen.secure2.footprint.net
 gog-cdn.akamaized.net
@@ -108,6 +110,7 @@ xz.pphimalayanrt.com
 +.activision.com
 +.activisionblizzard.com
 +.activisionblizzardmedia.com
++.amdgaming.com
 +.amiibo.com
 +.anthemgame.com
 +.anthemthegame.com
@@ -119,7 +122,6 @@ xz.pphimalayanrt.com
 +.artstation.com
 +.artstationmedia.com
 +.artstorm.com
-+.asobostudio.com
 +.awayoutgame.com
 +.ayudanintendo.com
 +.battle.net
@@ -170,6 +172,10 @@ xz.pphimalayanrt.com
 +.candycrush.com
 +.capitalgames.com
 +.capturingreality.com
++.cdpred.services
++.cdprojekt.com
++.cdprojekt.red
++.cdprojektred.com
 +.championshipseriesleague.com
 +.chillingo.com
 +.chunkbase.com
@@ -191,6 +197,7 @@ xz.pphimalayanrt.com
 +.cubicmotion.com
 +.cubicodyssey.game
 +.curseforge.com
++.cyberpunk.net
 +.cygames.co.jp
 +.cygames.jp
 +.daoc.net
@@ -279,7 +286,6 @@ xz.pphimalayanrt.com
 +.fireemblemawakening.com
 +.firesidegatherings.com
 +.fitgirl-repacks.site
-+.flightsimulator.com
 +.flipnotestudio.com
 +.forgecdn.net
 +.fortnite-vod.akamaized.net
@@ -294,6 +300,7 @@ xz.pphimalayanrt.com
 +.gaijin.net
 +.gaijinent.com
 +.game-repack.site
++.gamebanana.com
 +.gamepass.com
 +.gamesfirsthelsinki.com
 +.gamesplanet.com
@@ -534,6 +541,7 @@ xz.pphimalayanrt.com
 +.playapex.com
 +.playartifact.com
 +.playbattlegrounds.com
++.playgwent.com
 +.playhearthstone.com
 +.playnintendo.com
 +.playoverwatch.com
@@ -581,6 +589,7 @@ xz.pphimalayanrt.com
 +.quiltmc.org
 +.quixel.com
 +.quixel.se
++.r2modman.com
 +.radgametools.com
 +.ravensoftware.com
 +.rayark.download
@@ -714,6 +723,8 @@ xz.pphimalayanrt.com
 +.steamdeck.com
 +.steamgames.com
 +.steaminventoryhelper.com
++.steamos.cloud
++.steampeek.hu
 +.steampowered.com
 +.steamserver.net
 +.steamstatic.com
@@ -752,7 +763,10 @@ xz.pphimalayanrt.com
 +.thesims3.com
 +.thesims4.com
 +.thesimssocial.com
++.thewitcher.com
 +.thewonderful101.com
++.thunderstore.io
++.thunderstore.org
 +.tiberiumalliances.com
 +.tiburon.com
 +.titanfall.com
@@ -809,10 +823,12 @@ xz.pphimalayanrt.com
 +.worldoftanks.eu
 +.worldofwarcraft.com
 +.worldofwarplanes.com
++.worldofwarships.asia
 +.worldofwarships.com
 +.worldseriesofwarzone.com
 +.wotblitz.com
 +.wowsblitz.com
++.wplace.live
 +.wtmobile.com
 +.xbox.co
 +.xbox.com

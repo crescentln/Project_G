@@ -33,7 +33,6 @@ lgcscc-hamivideo2.cdn.hinet.net
 linear-abematv.akamaized.net
 mobilelive-hamivideo.cdn.hinet.net
 msh.amazon.co.uk
-netflix.com.edgesuite.net
 ntdfreemobile-tgc.cdn.hinet.net
 ntdfreepc-tgc.cdn.hinet.net
 ntdfreetv-tgc.cdn.hinet.net
@@ -360,6 +359,7 @@ webvodad-hamivideo.cdn.hinet.net
 +.nbcuniversal.com
 +.netflix.ca
 +.netflix.com
++.netflix.com.edgesuite.net
 +.netflix.net
 +.netflixdnstest0.com
 +.netflixdnstest1.com
@@ -404,6 +404,7 @@ webvodad-hamivideo.cdn.hinet.net
 +.primevideo.org
 +.primevideo.tv
 +.prod.service.minerva.devices.a2z.com
++.pv-cdn.net
 +.ravm.tv
 +.redbyhbo.com
 +.registerhulu.com

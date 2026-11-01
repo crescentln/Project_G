@@ -19,7 +19,6 @@ images-fe.ssl-images-amazon.com
 images-na.ssl-images-amazon.com
 linear-abematv.akamaized.net
 msh.amazon.co.uk
-netflix.com.edgesuite.net
 static.siege-amazon.com
 tv.applemusic.com
 uts-api.itunes.apple.com
@@ -235,6 +234,7 @@ vod-abematv.akamaized.net
 +.nationalgeographicpartners.com
 +.netflix.ca
 +.netflix.com
++.netflix.com.edgesuite.net
 +.netflix.net
 +.netflixdnstest0.com
 +.netflixdnstest1.com
@@ -268,6 +268,7 @@ vod-abematv.akamaized.net
 +.primevideo.org
 +.primevideo.tv
 +.prod.service.minerva.devices.a2z.com
++.pv-cdn.net
 +.registerhulu.com
 +.searchlightpictures.com
 +.shanghaidisneyresort.com

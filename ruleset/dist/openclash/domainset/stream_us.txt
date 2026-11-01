@@ -3,7 +3,6 @@ espn.api.edge.bamgrid.com
 espn.hb.omtrdc.net
 espndotcom.tt.omtrdc.net
 hulu.playback.edge.bamgrid.com
-netflix.com.edgesuite.net
 +.112263.com
 +.20thcenturystudios.com
 +.20thcenturystudios.com.au
@@ -278,6 +277,7 @@ netflix.com.edgesuite.net
 +.nbcuniversal.com
 +.netflix.ca
 +.netflix.com
++.netflix.com.edgesuite.net
 +.netflix.net
 +.netflixdnstest0.com
 +.netflixdnstest1.com

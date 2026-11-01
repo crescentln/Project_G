@@ -2,6 +2,7 @@ account-cn.alibabacloud.com
 ai.zhaomi.cn
 api.alibabacloud.com
 api.blipsandchitz.me
+app.moegirl.org.cn
 cn.alibabacloud.com
 ctdsb.clouddiffuse.xyz
 cueme-api.quark.cn
@@ -41,6 +42,7 @@ p8-juejin.byteimg.com
 p9-juejin.byteimg.com
 ss.bjmu.edu.cn
 status.alibabacloud.com
+storage.moegirl.org.cn
 study.163.com
 time.amazonaws.cn
 time.izatcloud.net
@@ -519,6 +521,7 @@ ykimg.alicdn.com
 +.a9vg.com
 +.aadcloud.cn
 +.aadcloud.com
++.aaej.cn
 +.aaic.com.cn
 +.aamgame.com
 +.aamgame.mobi
@@ -703,6 +706,7 @@ ykimg.alicdn.com
 +.alitrip.com
 +.alittle-tea.com
 +.aliunicorn.com
++.alivecdn.com
 +.aliway.com
 +.aliwork.com
 +.aliwx.com.cn
@@ -727,6 +731,7 @@ ykimg.alicdn.com
 +.allflow.cn
 +.allhistory.com
 +.alloyteam.com
++.allwinnertech.com
 +.allyes.com
 +.alookweb.com
 +.aloys233.top
@@ -1061,6 +1066,7 @@ ykimg.alicdn.com
 +.bibaodao.com
 +.bidchance.com
 +.biddingx.com
++.bigdatacq.com
 +.bigfun.cn
 +.bigfunapp.cn
 +.bigmodel.cn
@@ -1140,6 +1146,7 @@ ykimg.alicdn.com
 +.bocaviation.com
 +.boccfc.cc
 +.boccfc.cn
++.bocd.com.cn
 +.boce.com
 +.bocfullertonbank.com
 +.bocgi.com
@@ -1199,6 +1206,7 @@ ykimg.alicdn.com
 +.buke999.com
 +.burningvocabulary.cn
 +.burningvocabulary.com
++.busyming.com
 +.butterfly-static.cn
 +.butterflyai.cn
 +.buydouke.com
@@ -1357,6 +1365,7 @@ ykimg.alicdn.com
 +.caiyunapp.com
 +.caiyuncdn.com
 +.calorietech.com
++.cambricon.com
 +.camcard.com
 +.camscanner.com
 +.cang.com
@@ -1552,6 +1561,8 @@ ykimg.alicdn.com
 +.cdnv1.cn
 +.cdnv2.cn
 +.cdnv3.cn
++.cdrcb.com
++.cdrcbank.com
 +.cdut.top
 +.ce.cn
 +.ceair.com
@@ -1783,6 +1794,7 @@ ykimg.alicdn.com
 +.clawhub-mirror.com
 +.clawhubmirror.com
 +.clawsentry.cn
++.cldisk.com
 +.cleargrass.com
 +.clewm.net
 +.cli.im
@@ -2037,13 +2049,17 @@ ykimg.alicdn.com
 +.cqcb.com
 +.cqccn.com
 +.cqctyiptv.cn
++.cqdcg.com
++.cqge.com.cn
 +.cqhlw.cn
 +.cqliving.com
 +.cqn.com.cn
 +.cqnews.net
++.cqsdlys.cn
 +.cqsjb.com
 +.cqtk.com.cn
 +.cqvip.com
++.cqyyxc.com
 +.cr-cts.com
 +.cr173.com
 +.cravatar.cn
@@ -2316,6 +2332,7 @@ ykimg.alicdn.com
 +.didichuxing.com
 +.didistatic.com
 +.diditaxi.com.cn
++.digitalcnzz.com
 +.digitaling.com
 +.diiing.cn
 +.dili360.com
@@ -2416,6 +2433,7 @@ ykimg.alicdn.com
 +.doubanio.com
 +.doubao-dev.com
 +.doubao.com
++.doubaoapps.com
 +.doubaocdn.com
 +.doubo03.com
 +.doucang.cn
@@ -2534,6 +2552,7 @@ ykimg.alicdn.com
 +.e0n.cn
 +.eagsen.com
 +.easec.com.cn
++.easemob.com
 +.easesale.com
 +.easiu.com
 +.eastday.com
@@ -2573,6 +2592,7 @@ ykimg.alicdn.com
 +.ectencent.com.cn
 +.ecukwai.com
 +.eda.cn
++.edge-byted.com
 +.edgeceler.com
 +.edgecloudx.cn
 +.edgemonix.top
@@ -2688,6 +2708,9 @@ ykimg.alicdn.com
 +.fastcdn.com
 +.fastcdn.com.cn
 +.fastcom.com.cn
++.favonis.cloud
++.favonis.com
++.favonis.space
 +.faxingbao.com
 +.fbank.com
 +.fbstatic.cn
@@ -2766,6 +2789,7 @@ ykimg.alicdn.com
 +.fhldns.com
 +.fhyx.com
 +.filez.com
++.filmorigin.com
 +.fimmu.com
 +.finchina.com
 +.finclip.com
@@ -2972,7 +2996,6 @@ ykimg.alicdn.com
 +.gdjdxy.com
 +.gdliontech.com
 +.gdrc.com
-+.gdtimg.com
 +.geekbang.org
 +.geekpark.net
 +.geektool.top
@@ -3092,6 +3115,7 @@ ykimg.alicdn.com
 +.gowinamc.com
 +.gpall.cn
 +.gpall.net
++.gpzshq.cn
 +.gracg.com
 +.greatwallwine.com.cn
 +.gree.cn
@@ -3193,6 +3217,7 @@ ykimg.alicdn.com
 +.haier.net
 +.haiersmarthomes.com
 +.hailuoai.com
++.haimian.com
 +.hainanairlines.com
 +.haishun.com
 +.halvie.com
@@ -3335,12 +3360,14 @@ ykimg.alicdn.com
 +.hktheone.com
 +.hlgdata.com
 +.hlzqgs.com
++.hmxs.cn
 +.hn-cbec.com
 +.hnacargo.com
 +.hnair.com
 +.hnbntv.com
 +.hnchasing.com
 +.hndt.com
++.hnlshm.com
 +.hnol.net
 +.hnr.cn
 +.hnrcsc.com
@@ -3547,6 +3574,7 @@ ykimg.alicdn.com
 +.iachina.cn
 +.ialicdn.com
 +.iask.com
++.ibangbank.com
 +.ibaotu.com
 +.ibcet.org
 +.ibdxiguaimg.com
@@ -3701,6 +3729,7 @@ ykimg.alicdn.com
 +.ioppo.net
 +.iot-tencent.com
 +.iotronic.tech
++.ip.cn
 +.ip138.com
 +.ipanda.cn
 +.ipanda.com
@@ -3733,6 +3762,8 @@ ykimg.alicdn.com
 +.ishijue.com
 +.ishumei.com
 +.ishuqi.com
++.isigning.cn
++.isigning.com
 +.ispqcloud.com
 +.istoreos.com
 +.istv.cn
@@ -3926,7 +3957,6 @@ ykimg.alicdn.com
 +.jikecdn.com
 +.jikeiot.cloud
 +.jikexueyuan.com
-+.jikipedia.com
 +.jimeng.com
 +.jin10.com
 +.jinantimes.com.cn
@@ -4119,6 +4149,7 @@ ykimg.alicdn.com
 +.kaipuyun.net
 +.kaixin001.com
 +.kajicam.com
++.kakaxing.com
 +.kameng98.com
 +.kanbox.com
 +.kancloud.cn
@@ -4666,6 +4697,7 @@ ykimg.alicdn.com
 +.maxjia.com
 +.maxonesoft.com
 +.mayi.com
++.mayibao.cn
 +.mayihr.com
 +.mayshijia.com
 +.mbalib.com
@@ -4818,6 +4850,12 @@ ykimg.alicdn.com
 +.mmbang.info
 +.mmbizurl.cn
 +.mmstat.com
++.mnc000.mcc460.pub.3gppnetwork.org
++.mnc002.mcc460.pub.3gppnetwork.org
++.mnc004.mcc460.pub.3gppnetwork.org
++.mnc007.mcc460.pub.3gppnetwork.org
++.mnc011.mcc460.pub.3gppnetwork.org
++.mnc015.mcc460.pub.3gppnetwork.org
 +.mndqlib.net
 +.mnw.cn
 +.mob.com
@@ -4832,8 +4870,6 @@ ykimg.alicdn.com
 +.modernjs.cn
 +.modex.com.cn
 +.moedu.com
-+.moegirl.org
-+.moegirl.org.cn
 +.moer.cn
 +.mofang.com
 +.mofazhu.com
@@ -4883,6 +4919,7 @@ ykimg.alicdn.com
 +.mszdld.com
 +.mszdld.net
 +.mszq.com
++.mthreads.com
 +.mti100.com
 +.mtime.cn
 +.mtime.com
@@ -4964,6 +5001,7 @@ ykimg.alicdn.com
 +.nalrer.cn
 +.namiso.com
 +.nanhaicorp.com
++.nanocorechip.com
 +.nanyuenews.com
 +.narwal.com
 +.narwaltech.com
@@ -5426,6 +5464,7 @@ ykimg.alicdn.com
 +.qianyierp.com
 +.qianzhan.com
 +.qiaobutang.com
++.qiaqiafood.com
 +.qichacha.com
 +.qichamao.com
 +.qidian.com
@@ -5924,6 +5963,7 @@ ykimg.alicdn.com
 +.soulteary.com
 +.soundcore.com.cn
 +.souqian.com
++.southchip.com
 +.southcn.com
 +.southmoney.com
 +.sparenode.com
@@ -6046,7 +6086,10 @@ ykimg.alicdn.com
 +.sznews.com
 +.szpgm.com
 +.szse.cn
++.szu.app
++.szu.moe
 +.szzfgjj.com
++.t-head.cn
 +.t.cn
 +.t00ls.cc
 +.t00ls.net
@@ -6251,6 +6294,7 @@ ykimg.alicdn.com
 +.tendis.net
 +.tengmed.com
 +.tenpay.com
++.tenpayglobal.com
 +.tenxcloud.com
 +.tesoon.com
 +.test-cignacmb.com
@@ -6978,6 +7022,8 @@ ykimg.alicdn.com
 +.werepository.com.cn
 +.west.cn
 +.west95582.com
++.wesure.cn
++.wesure100.com
 +.weui.io
 +.wework-studio.com
 +.wf.pub
@@ -7190,6 +7236,7 @@ ykimg.alicdn.com
 +.xiaoluyouxuan.com
 +.xiaoluzhidian.com
 +.xiaomaicn.com
++.xiaomaigui.com
 +.xiaomengai.com
 +.xiaomi.cn
 +.xiaomi.com
@@ -7317,6 +7364,7 @@ ykimg.alicdn.com
 +.xuexi365.com.cn
 +.xuexi365.net
 +.xuexicha.com
++.xuexitong.com
 +.xundupdf.com
 +.xunfei.cn
 +.xunfeixxj.com
@@ -7844,6 +7892,7 @@ ykimg.alicdn.com
 +.zygbdszt.net.cn
 +.zyh365.com
 +.zyhe.com.cn
++.zymls.com
 +.zysn.net
 +.zysou.com
 +.zyyct.com
